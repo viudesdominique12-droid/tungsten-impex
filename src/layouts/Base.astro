@@ -1,8 +1,11 @@
 ---
 import '../styles/tokens.css';
-import company from '../data/company.json';
+import site from '../data/site.json';
 
-const { title, description, state = 'out' } = Astro.props;
+const { title, description, flow = 'out' } = Astro.props;
+const c = site.company;
+const here = Astro.url.pathname;
+const cur = (h) => (here === h ? 'page' : undefined);
 ---
 
 <!doctype html>
@@ -13,100 +16,239 @@ const { title, description, state = 'out' } = Astro.props;
   <title>{title}</title>
   <meta name="description" content={description} />
 
-  {/* §5 — auto-hébergées et préchargées. Sans la variable chargée, l'axe wdth
-      n'existe pas et la hiérarchie s'effondre. */}
+  {/* §2 — auto-hébergée et préchargée. Sans la variable, l'axe wdth disparaît
+      et toute la hiérarchie s'effondre en Helvetica. */}
   <link rel="preload" href="/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin />
 
-  <meta name="theme-color" content="#f4f2ed" />
+  <meta name="theme-color" content={flow === 'in' ? '#1a1d18' : '#f7f5f0'} />
 </head>
 
-<body data-state={state}>
+<body data-flow={flow}>
   <a class="skip" href="#main">Skip to content</a>
 
-  <header class="hdr">
+  {/* §4 — bandeau utilitaire. Fait entrer dans une entreprise qui opère. */}
+  <div class="util">
+    <div class="shell util__in t-label">
+      <span>Addis Ababa &middot; Established {c.founded} &middot; EFDA licensed</span>
+      <a href={`tel:${c.phoneHref}`}>{c.phone}</a>
+    </div>
+  </div>
+
+  {/* §4 — transparent, posé sur le fond de la page. Filet au scroll, pas d'ombre. */}
+  <header class="hdr" id="hdr">
     <div class="shell hdr__in">
-      <a class="hdr__id" href="/">
+      <a class="mark" href="/">
         <strong>Tungsten</strong>
-        <span class="data">Import Export</span>
+        <span class="t-label t-quiet">Import Export</span>
       </a>
-      <div class="hdr__r">
-        <a class="data hdr__tel" href={`tel:${company.phoneHref}`}>{company.phone}</a>
-        <a class="btn btn--quiet" href="/quote/">Request a quotation</a>
-      </div>
+      <button class="menu" id="nav-open" type="button" aria-expanded="false" aria-controls="nav">
+        <i aria-hidden="true"></i> Menu
+      </button>
     </div>
   </header>
 
-  <main id="main">
-    <slot />
-  </main>
+  <div class="nav" id="nav" data-open="false" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="shell nav__bar">
+      <a class="mark" href="/"><strong>Tungsten</strong><span class="t-label t-quiet">Import Export</span></a>
+      <button class="nav__x" id="nav-close" type="button" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="nav__body">
+      <div class="shell nav__grid">
+        <nav class="nav__main" aria-label="Main">
+          <a href="/" aria-current={cur('/')}>Home</a>
+          <a href="/about/" aria-current={cur('/about/')}>About us</a>
+          <a href="/training/" aria-current={cur('/training/')}>Book to train with us</a>
+          <a href="/contact/" aria-current={cur('/contact/')}>Contact us</a>
+        </nav>
 
-  <footer class="ftr">
+        <div class="nav__grp">
+          <a class="nav__head" href="/?flow=out"><b>Out</b><span class="t-label t-quiet">{site.exports.length} products</span></a>
+          <ul>
+            {site.exports.map((p) => (
+              <li><a href={`/export/${p.slug}/`} aria-current={cur(`/export/${p.slug}/`)}>{p.name}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="nav__grp">
+          <a class="nav__head" href="/?flow=in"><b>In</b><span class="t-label t-quiet">{site.imports.length} categories</span></a>
+          <ul>
+            {site.imports.map((p) => (
+              <li><a href={`/import/${p.slug}/`} aria-current={cur(`/import/${p.slug}/`)}>{p.name}</a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div class="shell nav__foot t-label t-quiet">
+        <a href={`tel:${c.phoneHref}`}>{c.phone}</a>
+        <a href={`mailto:${c.email}`}>{c.email}</a>
+        <span>{c.address.line1}, {c.address.city}</span>
+      </div>
+    </div>
+  </div>
+
+  <main id="main"><slot /></main>
+
+  {/* §4 — le pied de page est un bandeau pleine largeur sur l'encre. */}
+  <footer class="ftr" data-flow="in">
     <div class="shell ftr__in">
       <div>
-        <p class="ftr__name">{company.name}</p>
-        <p class="data ftr__addr">
-          {company.address.line1}<br />
-          {company.address.line2}<br />
-          {company.address.city}, {company.address.country}
+        <p class="ftr__name">{c.name}</p>
+        <p class="t-label t-quiet ftr__addr">
+          {c.address.line1}<br />{c.address.line2}<br />{c.address.city}, {c.address.country}
         </p>
       </div>
-      <div class="ftr__contact">
-        <a href={`tel:${company.phoneHref}`}>{company.phone}</a>
-        <a href={`mailto:${company.email}`}>{company.email}</a>
+      <div>
+        <p class="t-label t-quiet ftr__h">Out</p>
+        <ul>{site.exports.map((p) => <li><a href={`/export/${p.slug}/`}>{p.name}</a></li>)}</ul>
       </div>
+      <div>
+        <p class="t-label t-quiet ftr__h">In</p>
+        <ul>{site.imports.slice(0, 5).map((p) => <li><a href={`/import/${p.slug}/`}>{p.name}</a></li>)}</ul>
+        <p class="ftr__more"><a href="/?flow=in">All {site.imports.length} categories</a></p>
+      </div>
+      <div>
+        <p class="t-label t-quiet ftr__h">Company</p>
+        <ul>
+          <li><a href="/about/">About us</a></li>
+          <li><a href="/training/">Training</a></li>
+          <li><a href="/contact/">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="shell ftr__end t-label t-quiet">
+      <span>&copy; {new Date().getFullYear()} {c.name}</span>
+      <a href={`tel:${c.phoneHref}`}>{c.phone}</a>
     </div>
   </footer>
 
-  <style>
-    .hdr { border-bottom: 1px solid var(--rule); }
-    .hdr__in {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 20px; min-height: 62px;
-    }
-    .hdr__id { display: inline-flex; align-items: baseline; gap: 9px; text-decoration: none; }
-    .hdr__id strong {
-      font-family: var(--sans); font-stretch: 125%; font-weight: 700;
-      font-size: 1.05rem; letter-spacing: -.01em;
-    }
-    .hdr__id span { font-size: var(--t-micro); color: var(--fg-quiet); }
-    .hdr__r { display: flex; align-items: center; gap: 18px; }
-    .hdr__tel { font-size: var(--t-small); color: var(--fg-quiet); text-decoration: none; }
-    .hdr__tel:hover { color: var(--fg); }
-    @media (max-width: 620px) { .hdr__tel { display: none; } }
-    /* Sous 560px, le logo et le bouton depassent les 335px utiles et font
-       defiler toute la page horizontalement — mesure a 375px. Le corridor
-       porte deja son propre bouton de devis : celui de l'entete disparait. */
-    @media (max-width: 560px) { .hdr__r .btn { display: none; } }
+  <script>
+    const nav = document.getElementById('nav');
+    const openBtn = document.getElementById('nav-open');
+    const shutBtn = document.getElementById('nav-close');
+    let last = null;
+    const reachable = () =>
+      [...nav.querySelectorAll('a[href], button')].filter((el) => el.offsetParent !== null);
 
-    .ftr { border-top: 1px solid var(--rule); margin-top: clamp(48px, 7vw, 90px); }
-    .ftr__in {
-      display: flex; flex-wrap: wrap; gap: 26px 48px;
-      justify-content: space-between; padding-block: clamp(28px, 4vw, 48px);
+    function open() {
+      last = document.activeElement;
+      nav.dataset.open = 'true';
+      nav.removeAttribute('aria-hidden');
+      openBtn.setAttribute('aria-expanded', 'true');
+      document.body.dataset.nav = 'open';
+      setTimeout(() => { const f = reachable(); if (f.length) f[0].focus(); }, 280);
     }
-    .ftr__name {
-      font-family: var(--sans); font-stretch: 125%; font-weight: 600;
-      font-size: 1.05rem; margin-bottom: 8px;
+    function shut() {
+      nav.dataset.open = 'false';
+      nav.setAttribute('aria-hidden', 'true');
+      openBtn.setAttribute('aria-expanded', 'false');
+      delete document.body.dataset.nav;
+      if (last) last.focus();
     }
-    .ftr__addr { font-size: var(--t-small); color: var(--fg-quiet); line-height: 1.7; margin: 0; }
-    .ftr__contact { display: grid; gap: 5px; align-content: start; font-size: var(--t-small); }
-    .ftr__contact a { text-decoration: none; border-bottom: 1px solid var(--rule); width: fit-content; }
-    .ftr__contact a:hover { border-color: var(--fg); }
-  </style>
+    openBtn.addEventListener('click', open);
+    shutBtn.addEventListener('click', shut);
+    document.addEventListener('keydown', (e) => {
+      if (nav.dataset.open !== 'true') return;
+      if (e.key === 'Escape') return shut();
+      if (e.key !== 'Tab') return;
+      const f = reachable(); if (!f.length) return;
+      const a = f[0], z = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+      else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+    });
+
+    // §4 — au scroll, un simple filet apparaît sous l'en-tête. Pas d'ombre.
+    const hdr = document.getElementById('hdr');
+    const onScroll = () => hdr.classList.toggle('is-stuck', window.scrollY > 4);
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
 
   <style is:global>
-    /* Boutons — pas de flèche collée au texte (§6). */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      font-family: var(--sans); font-stretch: 87%; font-weight: 600;
-      font-size: var(--t-small); letter-spacing: .005em;
-      padding: 12px 20px; text-decoration: none; cursor: pointer;
-      border: 1px solid var(--fg); background: var(--fg); color: var(--bg);
-      transition: background-color .25s var(--swing), color .25s var(--swing);
-    }
-    .btn:hover { background: transparent; color: var(--fg); }
-    .btn--quiet { background: transparent; color: var(--fg); border-color: var(--rule); }
-    .btn--quiet:hover { border-color: var(--fg); background: transparent; }
+    /* --------------------------------------------- bandeau utilitaire §4 - */
+    .util { background: var(--ink); color: var(--paper); }
+    .util__in { display: flex; align-items: center; justify-content: space-between;
+                gap: 16px; min-height: 34px; }
+    .util__in a { text-decoration: none; }
+    .util__in a:hover { color: var(--noug); }   /* noug sur encre : 7,85 — ok */
+    @media (max-width: 560px) { .util__in span { display: none; } }
+
+    /* -------------------------------------------------------- en-tête §4 - */
+    .hdr { position: sticky; top: 0; z-index: 60; background: var(--bg);
+           border-bottom: 1px solid transparent; }
+    .hdr.is-stuck { border-bottom-color: var(--rule); }
+    .hdr__in { display: flex; align-items: center; justify-content: space-between;
+               gap: 20px; min-height: 66px; }
+
+    .mark { display: inline-flex; flex-direction: column; gap: 1px;
+            text-decoration: none; line-height: 1.05; }
+    .mark strong { font-stretch: 106%; font-weight: 780; font-size: 1.15rem;
+                   letter-spacing: -.015em; }
+    .mark span { font-size: .72rem; }
+
+    .menu { display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
+            font-family: var(--sans); font-stretch: 88%; font-weight: 700; font-size: .9rem;
+            background: none; border: 0; color: var(--fg); padding: 6px 1px;
+            border-bottom: 2px solid var(--noug); }   /* §3 — noug en filet */
+    .menu i { display: block; width: 16px; height: 1.5px; background: currentColor;
+              position: relative; }
+    .menu i::before, .menu i::after { content: ''; position: absolute; left: 0;
+      width: 16px; height: 1.5px; background: currentColor; }
+    .menu i::before { top: -5px; } .menu i::after { top: 5px; }
+
+    /* ------------------------------------------------------ menu pop-up -- */
+    .nav { position: fixed; inset: 0; z-index: 200; background: var(--bg); color: var(--fg);
+           display: grid; grid-template-rows: auto 1fr;
+           opacity: 0; visibility: hidden;
+           transition: opacity .25s var(--swing), visibility .25s; }
+    .nav[data-open='true'] { opacity: 1; visibility: visible; }
+    body[data-nav='open'] { overflow: hidden; }
+    .nav__bar { display: flex; align-items: center; justify-content: space-between;
+                min-height: 66px; border-bottom: 1px solid var(--rule); }
+    .nav__x { width: 36px; height: 36px; border: 1px solid var(--rule); background: none;
+              color: var(--fg); cursor: pointer; display: grid; place-items: center;
+              font-size: 18px; line-height: 1; border-radius: 999px; }
+    .nav__x:hover { background: var(--noug); border-color: var(--noug); color: var(--ink); }
+    .nav__body { overflow-y: auto; padding-block: clamp(22px, 4vh, 40px) 40px; }
+    .nav__grid { display: grid; gap: 28px; }
+    @media (min-width: 900px) { .nav__grid { grid-template-columns: 1.1fr 1fr 1fr; gap: 24px 44px; } }
+
+    .nav__main { display: grid; align-content: start; border-top: 1px solid var(--rule); }
+    .nav__main a { display: block; padding: 12px 0; text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      font-stretch: 106%; font-weight: 720;
+      font-size: clamp(1.4rem, 2.8vw, 1.95rem); letter-spacing: -.02em;
+      transition: font-stretch .3s var(--swing), padding-left .3s var(--swing); }
+    .nav__main a:hover, .nav__main a[aria-current='page'] { font-stretch: 118%; padding-left: 8px; }
+
+    .nav__head { display: flex; align-items: baseline; justify-content: space-between;
+      gap: 12px; text-decoration: none; padding-bottom: 8px; border-bottom: 2px solid var(--fg); }
+    .nav__head b { font-stretch: 116%; font-weight: 800; font-size: 1.5rem; }
+    .nav__grp ul { list-style: none; margin: 0; padding: 0; }
+    .nav__grp li a { display: block; padding: 9px 0; text-decoration: none;
+      border-bottom: 1px solid var(--rule); font-size: .95rem;
+      transition: padding-left .2s var(--swing); }
+    .nav__grp li a:hover, .nav__grp li a[aria-current='page'] { padding-left: 8px; }
+    .nav__grp li a[aria-current='page'] { font-weight: 700; }
+
+    .nav__foot { margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--rule);
+      display: flex; flex-wrap: wrap; gap: 6px 26px; }
+    .nav__foot a { text-decoration: none; }
+
+    /* ------------------------------------------------------------ pied -- */
+    .ftr { background: var(--ink); color: var(--paper); margin-top: clamp(52px, 7vw, 96px); }
+    .ftr__in { display: grid; gap: 28px 40px; padding-block: clamp(34px, 4.5vw, 60px); }
+    @media (min-width: 760px) { .ftr__in { grid-template-columns: 1.5fr 1fr 1fr 1fr; } }
+    .ftr__name { font-stretch: 112%; font-weight: 760; font-size: 1.15rem; margin: 0 0 10px; }
+    .ftr__addr { margin: 0; line-height: 1.7; }
+    .ftr__h { margin: 0 0 12px; }
+    .ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: .95rem; }
+    .ftr a { text-decoration: none; }
+    .ftr a:hover { color: var(--noug); }        /* 7,85 sur encre — ok */
+    .ftr__more { margin: 10px 0 0; font-size: .88rem; }
+    .ftr__end { display: flex; flex-wrap: wrap; gap: 6px 22px; justify-content: space-between;
+                padding-bottom: 30px; }
+    .ftr__end a { text-decoration: none; }
   </style>
 </body>
 </html>

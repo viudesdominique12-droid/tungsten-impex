@@ -1,0 +1,163 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+import copy from '../data/copy.json';
+
+const { product, siblings } = Astro.props;
+const c = copy[product.slug] ?? { lead: '', facts: [], blocks: [], cta: '' };
+
+/* §3 — le sens de circulation se lit à la valeur du fond. */
+const flow = product.direction === 'out' ? 'out' : 'in';
+const dark = flow === 'in';
+const folder = flow === 'out' ? 'export' : 'import';
+const label = flow === 'out' ? 'Out' : 'In';
+
+const i = siblings.findIndex((s) => s.slug === product.slug);
+const prev = siblings[(i - 1 + siblings.length) % siblings.length];
+const next = siblings[(i + 1) % siblings.length];
+
+/* §5 — deux tailles, aucune intermédiaire. Une source large prend la bande
+   pleine largeur ; une source étroite prend la pleine colonne, pour ne pas
+   l'étirer au-delà de ce qu'elle contient. */
+const size = product.wide ? 'band' : 'col';
+---
+
+<Base title={`${product.name} — Tungsten Import Export`} description={c.lead} flow={flow}>
+  <article>
+    {/* §5 règle 5 — le nom se pose sur l'image, en bas à gauche. Le dégradé
+        est cantonné au tiers inférieur : c'est un voile de lisibilité, pas
+        un décor. */}
+    <figure class:list={['media', 'head', `head--${size}`, dark && 'media--dark']}>
+      <img src={`/${product.photo}`} alt="" />
+      <figcaption class="head__cap">
+        <span class="shell head__shell">
+          <nav class="crumb t-label" aria-label="Breadcrumb">
+            <a href="/">Tungsten</a>
+            <span aria-hidden="true">&middot;</span>
+            <a href={`/?flow=${flow}`}>{label}</a>
+          </nav>
+          <h1 class="t-cat head__h">{product.name}</h1>
+        </span>
+      </figcaption>
+    </figure>
+
+    <div class="shell">
+      <div class="intro">
+        <p class="intro__lead">{c.lead}</p>
+
+        {c.facts.length > 0 && (
+          <dl class="facts">
+            {c.facts.map((f) => (
+              <div>
+                <dt class="t-label t-quiet">{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+      </div>
+
+      {c.blocks.length > 0 && (
+        <div class="prose">
+          {c.blocks.map((b) => (
+            <section>
+              <h2 class="prose__h">{b.title}</h2>
+              <p>{b.body}</p>
+            </section>
+          ))}
+        </div>
+      )}
+
+      <section class="ask">
+        <p class="t-section ask__line">{c.cta}</p>
+        <div class="ask__act">
+          <a class="pill" href="/contact/">Contact us</a>
+          <a class="pill pill--line" href={`tel:${site.company.phoneHref}`}>{site.company.phone}</a>
+        </div>
+      </section>
+
+      <nav class="onward" aria-label={`Other ${label} lines`}>
+        <a href={`/${folder}/${prev.slug}/`}>
+          <span class="t-label t-quiet">Previous</span>
+          <span class="onward__n">{prev.name}</span>
+        </a>
+        <a href={`/${folder}/${next.slug}/`}>
+          <span class="t-label t-quiet">Next</span>
+          <span class="onward__n">{next.name}</span>
+        </a>
+        <a href={`/?flow=${flow}`}>
+          <span class="t-label t-quiet">All</span>
+          <span class="onward__n">{label}</span>
+        </a>
+      </nav>
+    </div>
+  </article>
+</Base>
+
+<style>
+  /* ------------------------------------------------------- image de tête */
+  .head { margin: 0; }
+  .head--band img { width: 100%; height: clamp(280px, 42vh, 520px); aspect-ratio: auto; }
+  .head--col { max-width: var(--shell); margin-inline: auto;
+               padding-inline: var(--gutter); }
+  .head--col img { width: 100%; aspect-ratio: 16 / 10; }
+
+  /* Le voile doit couvrir la legende ENTIERE, sinon le titre flotte sur la
+     partie claire de la photo et devient illisible — constate au rendu. Il
+     reste cantonne au tiers inferieur parce que la legende y tient (§5). */
+  .head__cap { position: absolute; inset: auto 0 0 0;
+               padding-block: clamp(46px, 8vw, 96px) clamp(16px, 2.5vw, 28px);
+               background: linear-gradient(to top,
+                 rgba(26,29,24,.90) 0%, rgba(26,29,24,.78) 45%,
+                 rgba(26,29,24,.45) 75%, transparent 100%); }
+  .head--col .head__cap { inset: auto 0 0 0; }
+  .head__shell { display: block; color: var(--paper); }
+  .head__h { color: var(--paper); margin: 5px 0 0; }
+
+  .crumb { display: flex; gap: 8px; color: rgba(247,245,240,.82); }
+  .crumb a { text-decoration: none; }
+  .crumb a:hover { color: var(--noug); }   /* noug sur voile sombre — ok */
+
+  /* ------------------------------------------------------------- intro -- */
+  .intro { display: grid; gap: clamp(24px, 3.5vw, 48px);
+           padding-top: clamp(30px, 4vw, 56px); align-items: start; }
+  @media (min-width: 880px) { .intro { grid-template-columns: 1.1fr 1fr; } }
+  .intro__lead { font-size: clamp(1.15rem, 1.9vw, 1.5rem); line-height: 1.45; margin: 0; }
+
+  .facts { margin: 0; }
+  .facts > div { display: flex; flex-wrap: wrap; gap: 4px 24px;
+                 justify-content: space-between; align-items: baseline;
+                 padding-block: 12px; border-top: 1px solid var(--rule); }
+  .facts > div:last-child { border-bottom: 1px solid var(--rule); }
+  .facts dt { margin: 0; }
+  .facts dd { margin: 0; text-align: right; font-weight: 500; }
+
+  /* ------------------------------------------------------------ prose -- */
+  .prose { display: grid; gap: 26px 44px; padding-top: clamp(34px, 4.5vw, 62px); }
+  @media (min-width: 900px) { .prose { grid-template-columns: 1fr 1fr; } }
+  .prose__h { font-stretch: 106%; font-weight: 720; font-size: 1.1rem;
+              letter-spacing: -.012em; margin-bottom: 6px; }
+  .prose p { color: var(--muted); }
+
+  /* -------------------------------------------------------------- ask -- */
+  .ask { margin-top: clamp(38px, 5vw, 72px); padding-top: 24px;
+         border-top: 2px solid var(--fg);
+         display: flex; flex-wrap: wrap; gap: 20px 44px;
+         align-items: end; justify-content: space-between; }
+  .ask__line { margin: 0; max-width: 26ch; }
+  .ask__act { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  /* ----------------------------------------------------------- onward -- */
+  .onward { display: grid; margin-top: clamp(38px, 5vw, 68px);
+            border-top: 1px solid var(--rule); }
+  @media (min-width: 700px) { .onward { grid-template-columns: repeat(3, 1fr); } }
+  .onward a { display: grid; gap: 5px; padding: 18px 20px 22px 0;
+              text-decoration: none; border-bottom: 1px solid var(--rule); }
+  @media (min-width: 700px) {
+    .onward a + a { border-left: 1px solid var(--rule); padding-left: 20px; }
+  }
+  .onward__n { font-stretch: 106%; font-weight: 720; font-size: 1.1rem;
+               border-bottom: 2px solid transparent; justify-self: start;
+               transition: border-color .2s var(--swing); }
+  .onward a:hover .onward__n { border-bottom-color: var(--noug); }
+</style>

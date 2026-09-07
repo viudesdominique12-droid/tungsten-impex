@@ -3,9 +3,9 @@ import ProductSheet from '../../components/ProductSheet.astro';
 import site from '../../data/site.json';
 
 export function getStaticPaths() {
-  return site.exports.map((p) => ({
+  return site.imports.map((p) => ({
     params: { slug: p.slug },
-    props: { product: p, siblings: site.exports },
+    props: { product: p, siblings: site.imports },
   }));
 }
 ---

@@ -1,0 +1,174 @@
+{
+  "company": {
+    "name": "Tungsten Import Export",
+    "founded": 2007,
+    "address": {
+      "line1": "Africa Avenue, Dembel City Center",
+      "line2": "4th Floor — FF-002",
+      "city": "Addis Ababa",
+      "country": "Ethiopia"
+    },
+    "phone": "+251 91 261 0248",
+    "phoneHref": "+251912610248",
+    "email": "info@tungstenimpex.com",
+    "mapQuery": "Dembel City Center, Africa Avenue, Addis Ababa, Ethiopia",
+    "mapBbox": "38.7820,9.0060,38.7940,9.0160",
+    "mapMarker": "9.0110,38.7880",
+    "socials": [
+      {
+        "id": "whatsapp",
+        "label": "WhatsApp",
+        "url": "https://wa.me/251912610248"
+      },
+      {
+        "id": "linkedin",
+        "label": "LinkedIn",
+        "url": ""
+      },
+      {
+        "id": "facebook",
+        "label": "Facebook",
+        "url": ""
+      },
+      {
+        "id": "telegram",
+        "label": "Telegram",
+        "url": ""
+      },
+      {
+        "id": "instagram",
+        "label": "Instagram",
+        "url": ""
+      }
+    ]
+  },
+  "founder": {
+    "name": "",
+    "role": "Founder & General Manager",
+    "paragraphs": [
+      "With over 30 years in the Ethiopian oilseed and pulse trade, I’ve learned that real resilience isn’t just about weathering storms — it’s about stability when it matters most. That’s the spirit behind our name: like Tungsten, we are naturally strong and built to endure.",
+      "I started this company in 2007 to bridge local potential with global markets. My background in international business taught me that trust is the real currency of trade. Today, that means putting your needs first, sourcing only the best products, and showing up with integrity every single day.",
+      "Welcome to our home online. We’re here to connect you to the world — reliably, honestly, and personally."
+    ]
+  },
+  "training": {
+    "intro": "We run practical import and export training in Addis Ababa, for people who want to work in Ethiopian foreign trade or to trade on their own account. Leave us your details and roughly when you would like to begin — we will contact you as soon as a place opens.",
+    "tracks": [
+      {
+        "name": "Import track",
+        "body": "How an import is put together end to end — finding and checking suppliers, the paperwork and permits, clearing goods and getting them delivered."
+      },
+      {
+        "name": "Export track",
+        "body": "Ethiopian oilseeds and pulses in practice — quality and grading, buyers and contracts, documentation, inspection and shipping."
+      },
+      {
+        "name": "Both tracks",
+        "body": "The full programme, taken back to back. The usual choice for people setting up their own import–export company."
+      }
+    ],
+    "note": "No payment and no commitment at this stage. Sending this form only puts you on the list for the next intake."
+  },
+  "imports": [
+    {
+      "slug": "electric-vehicles",
+      "name": "Electric Vehicles",
+      "direction": "in",
+      "photo": "img/products/electric-vehicles.jpg",
+      "wide": true
+    },
+    {
+      "slug": "medical-equipment",
+      "name": "Medical Equipment",
+      "direction": "in",
+      "photo": "img/products/medical-equipment.jpg",
+      "wide": true
+    },
+    {
+      "slug": "human-medicine",
+      "name": "Human Medicine",
+      "direction": "in",
+      "photo": "img/products/human-medicine.jpg",
+      "wide": true
+    },
+    {
+      "slug": "building-glass",
+      "name": "Building Glass",
+      "direction": "in",
+      "photo": "img/products/building-glass.jpg",
+      "wide": true
+    },
+    {
+      "slug": "elevator-and-escalator",
+      "name": "Elevator & Escalator",
+      "direction": "in",
+      "photo": "img/products/elevator-and-escalator.jpg",
+      "wide": true
+    },
+    {
+      "slug": "calcium-hypochlorite",
+      "name": "Calcium Hypochlorite",
+      "direction": "in",
+      "photo": "img/products/calcium-hypochlorite.jpg",
+      "wide": false
+    },
+    {
+      "slug": "plastic-raw-materials",
+      "name": "Plastic Raw Materials",
+      "direction": "in",
+      "photo": "img/products/plastic-raw-materials.jpg",
+      "wide": true
+    },
+    {
+      "slug": "solar-lanterns",
+      "name": "Solar Lanterns",
+      "direction": "in",
+      "photo": "img/products/solar-lanterns.jpg",
+      "wide": false
+    },
+    {
+      "slug": "stationery-materials",
+      "name": "Stationery Materials",
+      "direction": "in",
+      "photo": "img/products/stationery-materials.jpg",
+      "wide": false
+    },
+    {
+      "slug": "ceramics",
+      "name": "Ceramics",
+      "direction": "in",
+      "photo": "img/products/ceramics.jpg",
+      "wide": true
+    }
+  ],
+  "exports": [
+    {
+      "slug": "niger-seed-noug",
+      "name": "Niger Seed (Noug)",
+      "direction": "out",
+      "photo": "img/products/niger-seed-noug.jpg",
+      "wide": true
+    },
+    {
+      "slug": "sesame-seed",
+      "name": "Sesame Seed",
+      "direction": "out",
+      "photo": "img/products/sesame-seed.jpg",
+      "wide": true
+    },
+    {
+      "slug": "red-kidney-beans",
+      "name": "Red Kidney Beans",
+      "direction": "out",
+      "photo": "img/products/red-kidney-beans.jpg",
+      "wide": false
+    },
+    {
+      "slug": "soya-bean",
+      "name": "Soya Bean",
+      "direction": "out",
+      "photo": "img/products/soya-bean.jpg",
+      "wide": false
+    }
+  ]
+}
