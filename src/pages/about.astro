@@ -11,7 +11,7 @@ const c = site.company;
   <section class="top">
     <div class="shell">
       <p class="t-label t-quiet">About us</p>
-      <h1 class="t-hero top__h">Naturally strong. Built to endure.</h1>
+      <h1 class="t-h1 top__h">Naturally strong. Built to endure.</h1>
     </div>
   </section>
 
@@ -37,7 +37,7 @@ const c = site.company;
 
   <section class="premises">
     <div class="shell">
-      <h2 class="t-section">Africa Avenue, Addis Ababa</h2>
+      <h2 class="t-h2">Africa Avenue, Addis Ababa</h2>
       <p class="premises__p">Offices, a licensed pharmaceutical store and a quarantine area, on the 4th floor of Dembel City Center.</p>
     </div>
   </section>
@@ -48,7 +48,7 @@ const c = site.company;
 
   <section class="memb">
     <div class="shell">
-      <h2 class="t-section memb__h">Registered with</h2>
+      <h2 class="t-h2 memb__h">Registered with</h2>
       <ul class="memb__list">
         {["EPOSPEA","Ethiopian Chamber of Commerce","Ministry of Revenue","National Bank of Ethiopia","Ministry of Trade"].map((m) => (
           <li class="t-label">{m}</li>
@@ -64,7 +64,9 @@ const c = site.company;
 
   .letter { padding-top: clamp(36px, 5vw, 72px); }
   .letter__in { display: grid; gap: clamp(24px, 3.5vw, 48px); align-items: start; }
-  @media (min-width: 860px) { .letter__in { grid-template-columns: 340px 1fr; } }
+    /* 340px faisait une vignette : la charte n'admet que deux tailles d'image,
+     la bande et la pleine colonne. Le portrait prend sa colonne. */
+  @media (min-width: 860px) { .letter__in { grid-template-columns: 5fr 7fr; } }
   .letter__img { margin: 0; }
   .letter__first { font-size: clamp(1.15rem, 1.8vw, 1.4rem); line-height: 1.45; margin: 12px 0 .8em; }
   .letter__p { color: var(--muted); }

@@ -3,99 +3,52 @@ import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
 import copy from '../data/copy.json';
 
-/* §6 — la colonne de droite reprend un fait DÉJÀ présent dans la copie.
-   On retient le plus court : c'est celui qui se compose en grand sans
-   déformer la ligne. Rien n'est inventé, rien n'est reformulé. */
+/* Le fait porte en colonne de droite est designe nommement dans copy.json
+   (cle "mark"). L'heuristique precedente — le plus court qui contient un
+   chiffre — remontait le numero de telephone pour trois lignes et repetait
+   "More than 20 years" a l'identique sur deux autres. Un registre dont la
+   colonne de droite melange des specifications et un numero de standard se
+   lit comme une sortie de machine. Le choix est editorial. */
 const pick = (slug) => {
-  const f = copy[slug]?.facts;
-  if (!f?.length) return null;
-  const withNum = f.filter((x) => /\d/.test(x.value));
-  const pool = withNum.length ? withNum : f;
-  return [...pool].sort((a, b) => a.value.length - b.value.length)[0];
+  const e = copy[slug];
+  return e?.facts?.find((f) => f.label === e.mark) ?? null;
 };
+const row = (p, folder) => ({ ...p, folder, lead: copy[p.slug]?.lead ?? '', fact: pick(p.slug) });
 
-const rows = (list, folder) =>
-  list.map((p) => ({ ...p, folder, lead: copy[p.slug]?.lead ?? '', fact: pick(p.slug) }));
-
-const outRows = rows(site.exports, 'export');
-const inRows = rows(site.imports, 'import');
-
-/* §5 — une bande pleine largeur par page, deux au maximum. */
-const band = site.exports.find((p) => p.wide) ?? site.exports[0];
+const out = site.exports.map((p) => row(p, 'export'));
+const inn = site.imports.map((p) => row(p, 'import'));
+const c = site.company;
 ---
 
 <Base
   title="Tungsten Import Export — Addis Ababa"
   description="Ethiopian oilseeds and pulses to international buyers; equipment and materials into Ethiopia, cleared and delivered. Trading from Addis Ababa since 2007."
 >
-  {/* -------------------------------------------------------- héros §7 --- */}
+  {/* 1 — PREMIER ECRAN. Le titre, et rien dessous : ni bouton, ni chapeau.
+        La premiere ligne du registre affleure, ce qui dit qu'il y a un
+        document sous le titre. */}
   <section class="hero">
     <div class="shell">
-      <p class="hero__meta t-label t-quiet reveal" style="--i:0">
-        Tungsten Import Export &middot; Addis Ababa, Ethiopia &middot; Established {site.company.founded}
-      </p>
-
-      {/* Deux temps : la sortie affirmée, l'entrée en gris. La hiérarchie se
-          fait par la valeur, pas par la taille. */}
-      <h1 class="t-hero hero__title">
-        <span class="reveal" style="--i:1">Ethiopian oilseeds and pulses out.</span>
-        <span class="reveal t-quiet" style="--i:2">Medicines, vehicles and materials in.</span>
+      <h1 class="t-display hero__h">
+        <span class="line"><span>Ethiopian oilseeds and pulses out.</span></span>
+        <span class="line hero__in"><span>Medicines, vehicles and materials in.</span></span>
       </h1>
-
-      <div class="hero__act reveal" style="--i:3">
-        <button type="button" class="pill" id="go-out" data-go="out">What we export</button>
-        <button type="button" class="pill pill--line" id="go-in" data-go="in">What we import</button>
-      </div>
     </div>
   </section>
 
-  {/* ------------------------------------------- bande de chiffres §8 ---- */}
-  <section class="figures" data-flow="in">
-    <div class="shell figures__in">
-      <div>
-        <p class="t-num">{site.imports.length}</p>
-        <p class="t-label t-quiet">Lines brought into Ethiopia</p>
-      </div>
-      <div>
-        <p class="t-num">{site.company.founded}</p>
-        <p class="t-label t-quiet">Trading from Addis Ababa</p>
-      </div>
-      <div>
-        <p class="t-num">30</p>
-        <p class="t-label t-quiet">Founder&rsquo;s years in the export trade</p>
-      </div>
-    </div>
-  </section>
-
-  {/* ------------------------------------------------ liste §6 ----------- */}
-  <section class="list">
+  {/* 2 — REGISTRE SORTANT, sur le papier. */}
+  <section class="reg-out" id="out">
     <div class="shell">
-      <h2 class="t-section list__h" data-when="out">What we export</h2>
-      <h2 class="t-section list__h" data-when="in">What we import</h2>
-
-      <div class="rows" data-when="out">
-        {outRows.map((p) => (
+      <span class="tick" aria-hidden="true"></span>
+      <h2 class="t-label reg__h">Out &middot; {out.length} lines</h2>
+      <div class="reg">
+        {out.map((p) => (
           <a class="row" href={`/${p.folder}/${p.slug}/`}>
-            <span class="t-cat row__n">{p.name}</span>
-            <span class="row__d t-quiet">{p.lead}</span>
+            <span class="t-h3 row__n">{p.name}</span>
+            <span class="t-body row__d">{p.lead}</span>
             {p.fact && (
               <span class="row__f">
-                <span class={p.fact.value.length > 16 ? 'row__v row__v--long' : 'row__v'}>{p.fact.value}</span>
-                <span class="t-label t-quiet">{p.fact.label}</span>
-              </span>
-            )}
-          </a>
-        ))}
-      </div>
-
-      <div class="rows" data-when="in">
-        {inRows.map((p) => (
-          <a class="row" href={`/${p.folder}/${p.slug}/`}>
-            <span class="t-cat row__n">{p.name}</span>
-            <span class="row__d t-quiet">{p.lead}</span>
-            {p.fact && (
-              <span class="row__f">
-                <span class={p.fact.value.length > 16 ? 'row__v row__v--long' : 'row__v'}>{p.fact.value}</span>
+                <span class="t-body row__v">{p.fact.value}</span>
                 <span class="t-label t-quiet">{p.fact.label}</span>
               </span>
             )}
@@ -105,115 +58,114 @@ const band = site.exports.find((p) => p.wide) ?? site.exports[0];
     </div>
   </section>
 
-  {/* §5 — bande pleine largeur, bord à bord. Respiration entre deux blocs. */}
-  <figure class="media media--band band">
-    <img src={`/${band.photo}`} alt="" loading="lazy" />
+  {/* La charniere. Une seule image sur l'accueil, et c'est la marchandise :
+        les legumineuses triees par variete, vues de dessus. Sa grille rime
+        avec le registre qu'elle referme. Quatorze vignettes de produits
+        auraient fait une grille de cartes — ce qu'on cherche a eviter. */}
+  <figure class="media media--band hinge">
+    <img src="/img/company/contact.jpg" alt="Pulses and oilseeds sorted by variety" loading="lazy" />
   </figure>
 
-  {/* ------------------------------------------------------- fondateur --- */}
-  <section class="founder">
-    <div class="shell founder__in">
+  {/* 3 — REGISTRE ENTRANT, meme composant, sur la nuit. La page descend du
+        papier vers la nuit : c'est le sens de circulation, litteralement. */}
+  <section class="reg-in" id="in" data-flow="in">
+    <div class="shell">
+      <span class="tick" aria-hidden="true"></span>
+      <h2 class="t-label reg__h">In &middot; {inn.length} lines</h2>
+      <div class="reg">
+        {inn.map((p) => (
+          <a class="row" href={`/${p.folder}/${p.slug}/`}>
+            <span class="t-h3 row__n">{p.name}</span>
+            <span class="t-body row__d">{p.lead}</span>
+            {p.fact && (
+              <span class="row__f">
+                <span class="t-body row__v">{p.fact.value}</span>
+                <span class="t-label t-quiet">{p.fact.label}</span>
+              </span>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 4 — DEUX DUREES. Il y en avait quatre : deux se contentaient de
+        recompter les lignes que les deux registres viennent de titrer. Un
+        chiffre qui repete ce qu'on lit au-dessus n'est pas un chiffre, c'est
+        du remplissage. Restent les deux anciennetes, qui ne sont pas la meme
+        chose et que le client a lui-meme distinguees. */}
+  <section class="fig">
+    <div class="shell fig__in">
+      <div class="fig__one">
+        <p class="t-display fig__n">{c.founded}</p>
+        <p class="t-lead">Trading from Addis Ababa, at Dembel City Center.</p>
+      </div>
+      <div class="fig__one">
+        <p class="t-display fig__n">30</p>
+        <p class="t-lead">Years the founder has spent in the export trade.</p>
+      </div>
+    </div>
+  </section>
+
+  {/* 5 — ORIENTATION. Pas de bande d'appel, pas de bouton repete. */}
+  <section class="orient">
+    <div class="shell g g--d">
       <div>
-        <p class="t-label t-quiet">From the founder</p>
-        <p class="founder__q">{site.founder.paragraphs[0]}</p>
-        <a class="pill pill--line" href="/about/">Read the full letter</a>
+        <h2 class="t-label t-quiet">Where we are</h2>
+        <p class="t-lead orient__addr">
+          {c.address.line1}<br />{c.address.line2}<br />{c.address.city}, {c.address.country}
+        </p>
+        <p class="t-body t-quiet orient__h">{c.hours.weekdays}</p>
+      </div>
+      <div class="orient__links">
+        <a class="t-h2" href="/about/">Read the founder&rsquo;s letter</a>
+        <a class="t-h2" href="/contact/">Contact us</a>
+        <a class="t-h2" href="/training/">Book to train with us</a>
       </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .hero { padding-block: clamp(36px, 6vw, 82px) clamp(28px, 4vw, 52px); }
-  .hero__meta { margin: 0 0 clamp(18px, 2.5vw, 30px); max-width: none; }
-  .hero__title { display: grid; gap: .06em; }
-  .hero__act { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(24px, 3.5vw, 40px); }
-
-  /* §8 — bande pleine largeur sur l'encre, filet fin au-dessus de chaque colonne. */
-  .figures { background: #0a1b3c; color: var(--paper); }
-  .figures__in { display: grid; gap: 26px 40px; padding-block: clamp(30px, 4vw, 54px); }
-  @media (min-width: 700px) { .figures__in { grid-template-columns: repeat(3, 1fr); } }
-  .figures__in > div { border-top: 1px solid var(--rule); padding-top: 14px; }
-  .figures__in p { margin: 0; max-width: none; }
-  .figures__in .t-label { margin-top: 8px; }
-
-  /* §6 — rythme de liste. Filet seul, aucun fond, aucun rayon, aucune ombre. */
-  .list { padding-top: clamp(40px, 5.5vw, 78px); }
-  .list__h { margin-bottom: clamp(20px, 3vw, 34px); }
-  .rows { border-top: 1px solid var(--rule); }
-
-  .row {
-    display: grid; gap: 8px 32px; align-items: baseline;
-    padding-block: clamp(28px, 4vw, 52px);
-    border-bottom: 1px solid var(--rule);
-    text-decoration: none;
+  /* --- 1. premier ecran --- */
+  .hero { padding-block: var(--s-section) var(--s-section); }
+  .hero__h { display: grid; gap: 0; }
+  /* Le sortant sur l'encre, l'entrant sur le bleu : le titre porte deja la
+     bichromie que le reste de la page deploie. */
+  .hero__in { color: var(--accent); }
+  /* Revelation par masque, jamais de fondu : l'opacite fabrique un gris qui
+     n'est dans aucune charte. */
+  .line { display: block; overflow: hidden; padding-bottom: .04em; }
+  .line > span { display: block; transform: translateY(100%);
+                 animation: rise var(--in) var(--ease-out) forwards; }
+  .line:nth-child(2) > span { animation-delay: 30ms; }
+  @keyframes rise { to { transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .line > span { transform: none; animation: none; }
   }
-  @media (min-width: 760px) { .row { grid-template-columns: 1.1fr 1.6fr auto; } }
 
-  .row__n { margin: 0; }
-  .row__d { margin: 0; font-size: 1rem; line-height: 1.5; max-width: 62ch; }
+  /* --- 2 et 3. les deux registres, un seul gabarit --- */
+  .reg-out { padding-block: 0 var(--s-section); }
+  .hinge { display: block; }
+  .reg-in  { padding-block: var(--s-section); }
+  .reg__h { margin: 20px 0 var(--s-block); }
 
-  .row__f { display: grid; gap: 4px; justify-items: start; }
-  @media (min-width: 760px) { .row__f { justify-items: end; text-align: right; } }
-  .row__v {
-    font-stretch: 116%; font-weight: 800; font-variant-numeric: tabular-nums;
-    font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1; letter-spacing: -.025em;
-    border-bottom: 2px solid transparent; transition: border-color .2s var(--swing);
-  }
-  /* Un fait long ne peut pas se composer au corps d'un chiffre : on le réduit
-     plutôt que de le tronquer ou de le reformuler (§0 — textes intouchables). */
-  .row__v--long { font-stretch: 100%; font-weight: 720; font-size: 1.05rem;
-                  line-height: 1.35; max-width: 22ch; }
+  /* --- 4. les deux durees --- */
+  .fig { padding-block: var(--s-section); }
+  .fig__in { display: grid; gap: var(--s-block) var(--col-gap); }
+  @media (min-width: 900px) { .fig__in { grid-template-columns: 1fr 1fr; } }
+  .fig__one { border-top: 2px solid var(--fg); padding-top: 16px; }
+  .fig__one .t-lead { max-width: 34ch; margin-top: 12px; }
+  .fig__n { color: var(--accent); }
 
-  /* §6 — au survol, le fait passe en noug. Sur fond CLAIR noug ne donne que
-     1,99 en texte : il devient donc un soulignement, ce que le §3 autorise.
-     Sur fond sombre (7,85) il colore le texte. */
-  .row:hover .row__v { border-bottom-color: var(--accent); }
-  [data-flow='in'] .row:hover .row__v { color: var(--accent); border-bottom-color: transparent; }
 
-  /* §5 — bande pleine largeur, bord à bord. */
-  .band { margin: clamp(40px, 5.5vw, 78px) 0 0; }
-
-  .founder { padding-top: clamp(40px, 5.5vw, 78px); }
-  .founder__q { font-size: clamp(1.15rem, 1.9vw, 1.5rem); line-height: 1.45;
-                margin: 12px 0 24px; max-width: 60ch; }
-
-  /* --------------------------------------------------------- bascule --- */
-  [data-when] { display: none; }
-  :global(body[data-flow='out']) [data-when='out'],
-  :global(body[data-flow='in']) [data-when='in'] { display: block; }
-
-  /* §9 — une seule séquence, au chargement : les lignes montent sous masque. */
-  .reveal { display: block; animation: rise 700ms var(--swing) both;
-            animation-delay: calc(var(--i) * 80ms); }
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(.5em); }
-    to   { opacity: 1; transform: none; }
-  }
-  @media (prefers-reduced-motion: reduce) { .reveal { animation: none; } }
+  /* --- 5. orientation --- */
+  .orient { padding-bottom: var(--s-section); }
+  .orient__addr { margin-top: 16px; }
+  .orient__h { margin-top: 16px; }
+  .orient__links { display: grid; gap: 16px; align-content: start; }
+  .orient__links a { text-decoration: none; border-bottom: 1px solid var(--rule);
+                     padding-bottom: 8px; width: fit-content;
+                     transition: border-color var(--hover) linear; }
+  .orient__links a:hover { border-bottom-color: var(--corridor); }
 </style>
-
-<script>
-  // La bascule est une classe sur <body> : le fond change de valeur, la liste
-  // suit. §8 du brief precedent, §3 de celui-ci.
-  const body = document.body;
-  const pills = document.querySelectorAll('.pill[data-go]');
-
-  const apply = (go) => {
-    body.dataset.flow = go;
-    pills.forEach((p) => {
-      const on = p.dataset.go === go;
-      p.classList.toggle('pill--line', !on);
-    });
-    const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', go === 'in' ? '#1a1d18' : '#f7f5f0');
-  };
-
-  const wanted = new URLSearchParams(location.search).get('flow');
-  if (wanted === 'in' || wanted === 'out') apply(wanted);
-
-  pills.forEach((p) =>
-    p.addEventListener('click', () => {
-      if (body.dataset.flow !== p.dataset.go) apply(p.dataset.go);
-    })
-  );
-</script>

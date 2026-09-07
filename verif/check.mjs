@@ -63,7 +63,7 @@ const browser = await chromium.launch();
 
   const t = await page.evaluate(() => {
     const cs = (el) => getComputedStyle(el);
-    const hero = document.querySelector('.t-hero span');
+    const hero = document.querySelector('.t-display span, .t-h1');
     const label = document.querySelector('.t-label');
     return {
       archivo: document.fonts.check('800 60px Archivo'),
@@ -102,7 +102,8 @@ const browser = await chromium.launch();
   const families = new Set(palette.map(([v]) => {
     const [r, g, b] = parse(v);
     if (r > 200 && g > 200 && b > 190) return 'paper';
-    if (r > 190 && g > 130 && b < 90) return 'noug';
+    // le bleu d'accent : bleu franc ou bleu clair, b nettement au-dessus de r
+    if (b - r > 60) return 'bleu';
     return 'ink';
   }));
   check('trois familles de couleur au plus', families.size <= 3,
@@ -137,15 +138,32 @@ const browser = await chromium.launch();
   const mLight = ratio(flat(parse(con.muted), parse(con.bg)), parse(con.bg));
   check('AA muted / fond clair', mLight >= 4.5, mLight.toFixed(2));
 
-  await page.screenshot({ path: `${OUT}/home.png` });
+  await page.screenshot({ path: `${OUT}/home.png`, fullPage: true });
 
-  /* La bascule change-t-elle réellement la valeur du fond ? */
-  const before = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  await page.click('#go-in');
-  await page.waitForTimeout(500);
-  const after = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  check('la bascule change la valeur du fond', before !== after, `${before} -> ${after}`);
-  await page.screenshot({ path: `${OUT}/home-in.png` });
+  /* La bascule a disparu : le corridor entrant est une bande permanente.
+     On verifie que la bande peint bien la nuit et qu'elle tient AA dessus. */
+  const band = await page.evaluate(() => {
+    const el = document.querySelector('[data-flow="in"].reg-in');
+    if (!el) return null;
+    const s = getComputedStyle(el);
+    const q = el.querySelector('.t-quiet');
+    return { bg: s.backgroundColor, fg: s.color,
+             muted: q ? getComputedStyle(q).color : s.color,
+             top: Math.round(el.getBoundingClientRect().top + scrollY),
+             h: Math.round(el.getBoundingClientRect().height) };
+  });
+  check('la bande entrante existe', !!band);
+  if (band) {
+    check('la bande peint la nuit', parse(band.bg)[0] < 40 && parse(band.bg)[2] > 40, band.bg);
+    const cIn = ratio(flat(parse(band.fg), parse(band.bg)), parse(band.bg));
+    const mIn = ratio(flat(parse(band.muted), parse(band.bg)), parse(band.bg));
+    check('AA papier / nuit', cIn >= 4.5, cIn.toFixed(2));
+    check('AA muted / nuit', mIn >= 4.5, mIn.toFixed(2));
+    check('la bande fait sa hauteur', band.h > 400, `${band.h}px`);
+    await page.evaluate((y) => scrollTo(0, y - 40), band.top);
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: `${OUT}/home-in.png` });
+  }
   await ctx.close();
 }
 
@@ -162,7 +180,7 @@ const browser = await chromium.launch();
   }));
   check('largeur de rendu', m.vw <= 400, `${m.vw}px`);
   check('aucun débordement horizontal', m.over === 0, `${m.over}px`);
-  await page.screenshot({ path: `${OUT}/home-mobile.png` });
+  await page.screenshot({ path: `${OUT}/home-mobile.png`, fullPage: true });
   await ctx.close();
 }
 
@@ -196,6 +214,16 @@ const browser = await chromium.launch();
   check('AA muted / fond sombre', mDark >= 4.5, mDark.toFixed(2));
   check('image de tête pleine largeur', r.imgW >= r.vw * 0.9, `${r.imgW}px / ${r.vw}px`);
   check('aucun débordement horizontal', r.over === 0, `${r.over}px`);
+  const geo = await page.evaluate(() => {
+    const f = document.querySelector('.head'), i = f.querySelector('img'),
+          c = f.querySelector('.head__cap');
+    const a = i.getBoundingClientRect(), b = c.getBoundingClientRect();
+    return { in: b.top >= a.top - 1 && b.bottom <= a.bottom + 1,
+             pos: getComputedStyle(f).position,
+             d: `legende ${Math.round(b.top)}-${Math.round(b.bottom)}, image ${Math.round(a.top)}-${Math.round(a.bottom)}` };
+  });
+  check('la legende est DANS l image', geo.in, `${geo.pos} — ${geo.d}`);
+
   check('aucune monospace', !r.mono);
 
   /* Le titre est posé SUR une photo : aucun contraste calculé sur le fond de
@@ -260,14 +288,22 @@ const browser = await chromium.launch();
 BALAYAGE — ${routes.length} pages`);
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
-  const over = [];
+  const over = [], vign = [];
   for (const r of routes) {
-    await page.goto(new URL(r, TARGET).href, { waitUntil: 'domcontentloaded' });
-    const o = await page.evaluate(() =>
-      document.documentElement.scrollWidth - document.documentElement.clientWidth);
-    if (o !== 0) over.push(`${r} (${o}px)`);
+    await page.goto(new URL(r, TARGET).href, { waitUntil: 'networkidle' });
+    const m = await page.evaluate(() => ({
+      o: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      // §5 — deux tailles d'image seulement : la bande et la pleine colonne.
+      // Sous 360px sur un ecran de 1440, c'est une vignette.
+      p: [...document.querySelectorAll('img')]
+           .filter((i) => i.getBoundingClientRect().width < 360)
+           .map((i) => i.getAttribute('src')),
+    }));
+    if (m.o !== 0) over.push(`${r} (${m.o}px)`);
+    if (m.p.length) vign.push(`${r} ${m.p.join(' ')}`);
   }
   check('aucun debordement sur aucune page', over.length === 0, over.join(', '));
+  check('aucune vignette sur aucune page', vign.length === 0, vign.join(' | '));
   await ctx.close();
 }
 

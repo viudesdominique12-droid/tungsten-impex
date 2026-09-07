@@ -1,0 +1,12 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch();
+const p = await (await b.newContext({ viewport:{width:1440,height:900} })).newPage();
+await p.goto('http://localhost:4321/', { waitUntil:'networkidle' });
+await p.evaluate(() => document.fonts.ready);
+const y = await p.evaluate(() => document.querySelector('.fig').getBoundingClientRect().top + scrollY);
+await p.evaluate((v) => scrollTo(0, v - 30), y);
+await p.waitForTimeout(400);
+await p.screenshot({ path: 'verif/bas.png' });
+await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(400);
+await p.screenshot({ path: 'verif/haut.png' });
+await b.close();

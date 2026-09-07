@@ -1,24 +1,19 @@
 /* ===========================================================================
-   Tungsten Import Export — bleu et blanc
+   Tungsten Import Export — le systeme
 
-   Schema demande par le client, releve sur zaziwe-labs. Le noir et blanc
-   "manquait de vie" : on passe sur une famille bleue claire.
+   Constat mesure sur la version precedente : 32 declarations de taille pour 22
+   valeurs distinctes, 8 graisses, 9 chasses dont quatre tenaient dans 12 points
+   que l'oeil ne separe pas, 26 gouttieres, 51 clamp() improvises, 6 partages de
+   colonnes sans unite commune. Chaque valeur etait plausible seule ; ensemble
+   elles disaient qu'aucune n'avait ete arbitree.
 
-   CONTRASTES MESURES (composites alpha compris) :
-     encre / fond clair    15,89  ok
-     bleu  / fond clair     8,32  ok  → contrairement au noug (1,99), le bleu
-                                        PEUT porter du texte sur le blanc
-     muted / fond clair     4,78  ok
-     fond  / aplat bleu     8,32  ok
-     fond  / nuit          15,55  ok
-     muted / nuit           7,35  ok
-     bleu  / nuit           1,87  ECHEC → sur fond sombre l'accent passe a sa
-                                          version claire (#7fa8e8, 7,02)
+   Ici : 7 paliers, 3 graisses, 3 chasses, 3 approches, 6 gouttieres,
+   3 espacements de section, 4 placements de grille, 2 clamp().
+   Aucune valeur litterale de taille, graisse, chasse, approche, rayon ou duree
+   n'est autorisee ailleurs que dans ce fichier.
+
+   Palette inchangee. Aucun gris en hexadecimal : tous derives par opacite.
    =========================================================================== */
-
-/* --------------------------------------------------------------- police -- */
-/* §2 — auto-hébergée, jamais fonts.googleapis.com. Le fichier wdth d'Archivo
-   porte les DEUX axes : font-weight 100 900 et font-stretch 62% 125%. */
 
 @font-face {
   font-family: 'Archivo';
@@ -33,144 +28,208 @@
 }
 
 :root {
-  --paper: #f2f5f9;   /* blanc froid, pas un beige */
-  --ink:   #0a1a33;   /* bleu-noir */
-  --accent:#1b3fa6;   /* le bleu */
-  --rule:  rgba(10, 26, 51, .18);
-  --muted: rgba(10, 26, 51, .62);
+  /* ---- couleur : quatre valeurs, le reste par opacite ---------------- */
+  --paper:  #f2f5f9;
+  --ink:    #0a1a33;
+  --accent: #1b3fa6;
+  --night:  #0a1b3c;
+  --accent-light: #7fa8e8;   /* le bleu tombe a 1,87 sur la nuit */
 
-  /* Rôles. Réassignés quand le fond bascule en valeur. */
   --bg: var(--paper);
   --fg: var(--ink);
+  --rule:  rgba(10, 26, 51, .12);
+  --hair:  rgba(10, 26, 51, .06);
+  --muted: rgba(10, 26, 51, .62);   /* 4,78 — AA */
+  --corridor: var(--accent);
 
-  --sans: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
-
+  /* ---- grille : une seule pour toutes les pages --------------------- */
   --shell: 1360px;
-  --gutter: clamp(20px, 4vw, 72px);
+  --gutter: clamp(24px, 5.2vw, 88px);
+  --col-gap: 24px;
 
-  --swing: cubic-bezier(.16, 1, .3, 1);
+  /* ---- typographie : sept paliers, aucun doublon -------------------- */
+  --t-display: 40px;  --lh-display: 44px;   /* H1 accueil UNIQUEMENT */
+  --t-h1:      32px;  --lh-h1:      36px;
+  --t-h2:      26px;  --lh-h2:      32px;
+  --t-lead:    20px;  --lh-lead:    28px;
+  --t-h3:      20px;  --lh-h3:      28px;
+  --t-body:    17px;  --lh-body:    28px;
+  --t-label:   14px;  --lh-label:   20px;
+
+  --w-text: 400;  --w-display: 500;  --w-label: 600;
+  --wd-label: 68%;  --wd-text: 100%;  --wd-display: 120%;
+  --tr-label: .06em;  --tr-text: 0;  --tr-display: -.015em;
+
+  /* ---- rythme : base 4, trois espacements de section ---------------- */
+  --s-block: 48px;
+  --s-section: 96px;
+  --s-band: 160px;
+
+  /* ---- mouvement : deux courbes, quatre durees ---------------------- */
+  --ease-out: cubic-bezier(.25, 1, .5, 1);
+  --ease-in-out: cubic-bezier(.76, 0, .24, 1);
+  --hover: 150ms;
+  --in: 300ms;
+  --out: 140ms;
+
+  --radius: 0;
 }
 
-/* §3 — le double flux se lit à la VALEUR du fond, pas à un accent secondaire. */
+@media (min-width: 900px) {
+  :root {
+    --t-display: clamp(48px, 5.6vw, 76px);  --lh-display: 1;
+    --t-h1:   44px;  --lh-h1:   48px;
+    --t-h2:   30px;  --lh-h2:   40px;
+    --t-lead: 22px;  --lh-lead: 32px;
+  }
+}
+
+/* La nuit : le corridor entrant. Les gris se rederivent sur le fond clair. */
 [data-flow='in'] {
-  --bg: #0a1b3c;              /* nuit bleue, pas du noir */
+  background-color: var(--night);
+  color: var(--paper);
+
+  --bg: var(--night);
   --fg: var(--paper);
-  --rule:  rgba(242, 245, 249, .16);
-  --muted: rgba(242, 245, 249, .66);
-  --accent: #7fa8e8;          /* le bleu sombre disparait sur la nuit */
+  --rule:  rgba(242, 245, 249, .18);
+  --hair:  rgba(242, 245, 249, .08);
+  --muted: rgba(242, 245, 249, .68);
+  --corridor: var(--accent-light);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-
 html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
   background-color: #f2f5f9;
   color: #0a1a33;
-  font-family: var(--sans);
-  font-stretch: 100%;
-  font-weight: 400;
-  font-size: 1.05rem;
-  line-height: 1.55;
+  font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  font-weight: var(--w-text);
+  font-stretch: var(--wd-text);
   -webkit-font-smoothing: antialiased;
 }
-/* Valeurs littérales aux deux bouts : une transition dont la valeur vient d'un
-   custom property ne démarre pas et reste figée — mesuré. */
 body[data-flow='in'] { background-color: #0a1b3c; color: #f2f5f9; }
 
-img { display: block; max-width: 100%; }
+img { display: block; max-width: 100%; border-radius: var(--radius); }
 a { color: inherit; }
-p { margin: 0 0 .8em; max-width: 66ch; }
-p:last-child { margin-bottom: 0; }
-h1, h2, h3 { margin: 0; }
-
-.shell {
-  width: 100%; max-width: var(--shell);
-  margin-inline: auto; padding-inline: var(--gutter);
-}
-
-.skip {
-  position: absolute; left: -9999px; top: 0; z-index: 300;
-  background: var(--fg); color: var(--bg); padding: 12px 20px;
-}
-.skip:focus { left: 0; }
-
+h1, h2, h3, h4 { margin: 0; font-weight: var(--w-display); }
+p { margin: 0; }
 :where(a, button, input, select, textarea):focus-visible {
   outline: 2px solid var(--fg); outline-offset: 3px;
 }
 
-/* ------------------------------------------------------- échelle §2 ------ */
-/* L'axe de largeur porte la hiérarchie : large pour ce qui affirme,
-   étroit pour ce qui spécifie. */
+.skip { position: absolute; left: -9999px; top: 0; z-index: 300;
+        background: var(--fg); color: var(--bg); padding: 12px 20px; }
+.skip:focus { left: 0; }
 
-.t-hero {
-  font-stretch: 118%; font-weight: 800;
-  letter-spacing: -.03em; line-height: .92;
-  font-size: clamp(2.6rem, 6.5vw, 5.4rem);
-  text-wrap: balance;
+/* --------------------------------------------------------- la grille ---- */
+/* Quatre placements. Rien d'autre sur le site.
+   A : 1-12   registres, bandes, compteurs, pied
+   B : 1-7 + 9-12   fiche produit, lettre
+   C : 2-6    texte courant, 68 signes
+   D : 1-5 + 7-12   paires asymetriques                                    */
+
+.shell { width: 100%; max-width: var(--shell); margin-inline: auto;
+         padding-inline: var(--gutter); }
+
+/* Mobile d'abord : une colonne. Les placements n'existent qu'a partir de
+   900px. Ecrit dans l'autre sens, `.g--d > :first-child` (0,2,0) l'emportait
+   sur le `.g--d > *` (0,1,0) du media query et le repli ne se faisait pas —
+   deux colonnes de 129 et 159px sur un iPhone. */
+.g { display: grid; gap: var(--s-block) var(--col-gap); }
+@media (min-width: 900px) {
+  .g { grid-template-columns: repeat(12, 1fr); }
+  .g--b > :first-child { grid-column: 1 / 8; }
+  .g--b > :last-child  { grid-column: 9 / 13; }
+  .g--c > *            { grid-column: 2 / 7; }
+  .g--d > :first-child { grid-column: 1 / 6; }
+  .g--d > :last-child  { grid-column: 7 / 13; }
 }
-.t-section {
-  font-stretch: 112%; font-weight: 760; line-height: .98;
-  font-size: clamp(1.8rem, 3.6vw, 2.8rem);
-  letter-spacing: -.02em; text-wrap: balance;
-}
-.t-cat {
-  font-stretch: 106%; font-weight: 720; line-height: 1.04;
-  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
-  letter-spacing: -.018em;
-}
-.t-num {
-  font-stretch: 116%; font-weight: 800;
-  font-variant-numeric: tabular-nums; line-height: .95;
-  font-size: clamp(3rem, 7vw, 5.5rem);
-  letter-spacing: -.03em;
-}
-/* §2 — wdth 66 fait le travail d'un libellé technique. Pas de monospace. */
-.t-label {
-  font-stretch: 66%; font-weight: 620;
-  font-variant-numeric: tabular-nums;
-  font-size: .88rem; line-height: 1.35;
-}
+
+/* ------------------------------------------------------ typographie ----- */
+
+.t-display { font-size: var(--t-display); line-height: var(--lh-display);
+             font-stretch: var(--wd-display); font-weight: var(--w-display);
+             letter-spacing: var(--tr-display); text-wrap: balance; }
+.t-h1 { font-size: var(--t-h1); line-height: var(--lh-h1);
+        font-stretch: var(--wd-display); font-weight: var(--w-display);
+        letter-spacing: var(--tr-display); text-wrap: balance; }
+.t-h2 { font-size: var(--t-h2); line-height: var(--lh-h2);
+        font-stretch: var(--wd-text); font-weight: var(--w-display);
+        letter-spacing: var(--tr-text); text-wrap: balance; }
+.t-lead { font-size: var(--t-lead); line-height: var(--lh-lead);
+          font-stretch: var(--wd-text); font-weight: var(--w-text); }
+.t-h3 { font-size: var(--t-h3); line-height: var(--lh-h3);
+        font-stretch: var(--wd-text); font-weight: var(--w-display); }
+.t-body { font-size: var(--t-body); line-height: var(--lh-body); }
+.t-label { font-size: var(--t-label); line-height: var(--lh-label);
+           font-stretch: var(--wd-label); font-weight: var(--w-label);
+           letter-spacing: var(--tr-label); text-transform: uppercase; }
 .t-quiet { color: var(--muted); }
 
-/* --------------------------------------------------------- boutons §7 --- */
-.pill {
-  display: inline-flex; align-items: center; justify-content: center;
-  border-radius: 999px; padding: 15px 30px; cursor: pointer;
-  font-family: var(--sans); font-stretch: 88%; font-weight: 700;
-  font-size: .9rem; text-decoration: none; border: 1px solid var(--fg);
-  background: var(--fg); color: var(--bg);
-  transition: transform 250ms var(--swing);
-}
-.pill--line { background: transparent; color: var(--fg); }
-.pill:hover { transform: translateY(-2px); }
+p, li, dd { text-wrap: pretty; }
+.measure { max-width: 68ch; }
 
-/* ------------------------------------------------------- images §5 ------ */
-/* Ratio unique 16:10, étalonnage unique, angles vifs, aucune ombre. */
-/* <figure> porte une marge UA de 1em 40px. Avec width:100% le bloc deborde
-   de 40px — mesure sur /about/, /training/ et /contact/. */
-.media { position: relative; overflow: hidden; margin: 0; }
-.media img {
-  width: 100%; height: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover; object-position: center;
-  border-radius: 0;
-  filter: saturate(.82) contrast(1.06) brightness(.98);
+/* -------------------------------------------------------- composants --- */
+/* Pas de pilule, pas de rayon, pas d'ombre, pas de deplacement au survol. */
+
+.act {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 14px 26px; border-radius: var(--radius); cursor: pointer;
+  font-family: inherit; font-size: var(--t-label); line-height: 1;
+  font-stretch: var(--wd-label); font-weight: var(--w-label);
+  letter-spacing: var(--tr-label); text-transform: uppercase;
+  text-decoration: none; border: 1px solid var(--fg);
+  background: var(--fg); color: var(--bg);
+  transition: background-color var(--hover) linear, color var(--hover) linear;
 }
-/* Sur fond sombre, la valeur de l'image doit s'accorder au fond. */
-.media--dark::after {
-  content: ''; position: absolute; inset: 0;
-  background: rgba(10, 27, 60, .34); pointer-events: none;
+.act:hover { background: transparent; color: var(--fg); }
+.act--line { background: transparent; color: var(--fg); }
+.act--line:hover { background: var(--fg); color: var(--bg); }
+
+/* Reglette de corridor : le seul aplat d'accent du site. */
+.tick { display: block; width: 100%; height: 3px; background: var(--corridor); }
+
+/* Une ligne de registre. Un seul gabarit, rempli quatorze fois. */
+.reg { border-top: 1px solid var(--rule); }
+.row {
+  display: grid; gap: 6px var(--col-gap); align-items: baseline;
+  padding-block: 32px; border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  transition: border-color var(--hover) linear;
 }
-/* Deux tailles, aucune intermédiaire. */
-.media--band { width: 100%; }
-.media--band img { height: clamp(280px, 42vh, 520px); aspect-ratio: auto; }
-.media--col img { height: auto; }
+.row__d { color: var(--muted); }
+@media (min-width: 900px) {
+  .row { grid-template-columns: repeat(12, 1fr); }
+  .row__n { grid-column: 1 / 5; }
+  .row__d { grid-column: 5 / 10; }
+  .row__f { grid-column: 10 / 13; text-align: right; }
+}
+.row__v { font-variant-numeric: tabular-nums; display: block; }
+.row:hover { border-bottom-color: var(--corridor); }
+
+/* Images : deux tailles, un etalonnage, angles vifs, aucun texte dessus. */
+/* `position: relative` n'est pas decoratif : la legende de la fiche produit
+   est en absolu dedans. Sans lui elle se cale sur le bloc conteneur initial
+   et le titre tombe sous la photo, par-dessus le tableau de faits. */
+.media { margin: 0; position: relative; }
+.media img { width: 100%; object-fit: cover; object-position: center;
+             filter: saturate(.82) contrast(1.06) brightness(.98); }
+.media--band img { height: 280px; }
+@media (min-width: 900px) { .media--band img { height: 480px; } }
+.media--col img { aspect-ratio: 16 / 10; }
+
+/* Tableau de faits : filets horizontaux seuls, aucun fond alterne. */
+.facts { margin: 0; border-top: 1px solid var(--rule); }
+.facts > div { display: flex; flex-wrap: wrap; gap: 4px 24px;
+               justify-content: space-between; align-items: baseline;
+               padding-block: 12px; border-bottom: 1px solid var(--rule); }
+.facts dt { margin: 0; }
+.facts dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition-duration: .01ms !important;
-    animation-duration: .01ms !important;
-  }
+  :root { --in: 0s; --out: 0s; --hover: 0s; }
 }

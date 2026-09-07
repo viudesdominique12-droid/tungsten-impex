@@ -34,7 +34,7 @@
       },
       {
         "title": "Battery and charging",
-        "body": "Every trim uses BYD's Blade Battery, 32 kWh on the 301 km trim and 45.12 kWh on the two 401 km trims. A 400-volt architecture supports AC and DC fast charging, taking the battery from 30 to 80 per cent in 30 minutes."
+        "body": "Every trim uses BYD’s Blade Battery, 32 kWh on the 301 km trim and 45.12 kWh on the two 401 km trims. A 400-volt architecture supports AC and DC fast charging, taking the battery from 30 to 80 per cent in 30 minutes."
       },
       {
         "title": "Performance",
@@ -45,7 +45,8 @@
         "body": "BYD works across electronics, automotives, renewable energy and rail transit, with more than 30 industrial parks across six continents and a focus on energy generation and storage. Vehicles are imported through Tungsten."
       }
     ],
-    "cta": "Call +251 91 261 02 48 to enquire about availability."
+    "cta": "Call +251 91 261 02 48 to enquire about availability.",
+    "mark": "Combined range"
   },
   "medical-equipment": {
     "lead": "An EFDA-licensed importer that supplies, installs and maintains hospital equipment across Ethiopia, with a dedicated regulatory team handling clearance and in-house biomedical engineers handling commissioning and long-term service.",
@@ -93,7 +94,8 @@
         "body": "Incoterm-based sourcing from OEMs and authorised distributors, with marine or air insurance, secure packaging, customs clearance and inland transport to any hospital site in Ethiopia. Turnkey project management covers complete hospital outfitting, backed by a record of equipping public and private hospitals."
       }
     ],
-    "cta": "Request a quotation, technical specification or feasibility consultation."
+    "cta": "Request a quotation, technical specification or feasibility consultation.",
+    "mark": "Delivery"
   },
   "human-medicine": {
     "lead": "Licensed by the Ethiopian Food and Drug Authority as an importer and wholesale distributor supplying hospitals, pharmacies and health programmes across Ethiopia with medicines from WHO-GMP-certified manufacturers.",
@@ -141,7 +143,8 @@
         "body": "Central warehousing and partner logistics providers serve registered hospitals, clinics, pharmacies and government health programmes. Delivery runs within 24 hours in Addis Ababa and 48-72 hours to major regional centres, in volumes from a single carton to full-container loads."
       }
     ],
-    "cta": "Contact us about specific therapeutic categories"
+    "cta": "Contact us about specific therapeutic categories",
+    "mark": "Manufacturers"
   },
   "building-glass": {
     "lead": "Tungsten supplies building and housing glass — float, sheet, figured, mirror, safety and specialty — and the machines to cut, temper and finish it, from one import source.",
@@ -185,7 +188,8 @@
         "body": "Individual machines and complete sets for glass cutting, bending, tempering, edging, laminating and tinting. A processor can source the raw glass and the equipment to work it through the same supplier rather than splitting the order."
       }
     ],
-    "cta": "Send an enquiry for glass or processing machinery."
+    "cta": "Send an enquiry for glass or processing machinery.",
+    "mark": "Safety glass"
   },
   "elevator-and-escalator": {
     "lead": "Supply, installation, modernisation and maintenance of passenger lifts for residential and commercial buildings, with safety systems said to meet industry standards and regulations.",
@@ -229,7 +233,8 @@
         "body": "The page gives one contact number and no other detail. Worth confirming on the call: whether escalators are supplied at all, the makes available, delivery time and the safety certification your building requires."
       }
     ],
-    "cta": "Call +251 91 261 02 48 to enquire"
+    "cta": "Call +251 91 261 02 48 to enquire",
+    "mark": "Services"
   },
   "calcium-hypochlorite": {
     "lead": "Tungsten Import Export is currently importing calcium hypochlorite, the active ingredient in commercial bleaching powder, used for water treatment, drinking-water disinfection and swimming-pool sanitation.",
@@ -273,7 +278,8 @@
         "body": "This is an incoming line and is not yet available. To discuss your specific requirements or register interest, contact the sales team on +251 91 261 0248 or at info@tungstenimpex.com."
       }
     ],
-    "cta": "Contact the sales team to discuss your requirements."
+    "cta": "Contact the sales team to discuss your requirements.",
+    "mark": "Main uses"
   },
   "plastic-raw-materials": {
     "lead": "Tungsten Import Export imports plastic raw materials and master batch, and is looking for recycled and virgin HDPE from a reliable long-term source.",
@@ -317,7 +323,8 @@
         "body": "Tungsten is looking for a reliable source for a lasting supply relationship, and asks interested suppliers to reply promptly."
       }
     ],
-    "cta": "Send current HDPE availability, grades and colours."
+    "cta": "Send current HDPE availability, grades and colours.",
+    "mark": "Polymer"
   },
   "solar-lanterns": {
     "lead": "Tungsten imports and distributes quality-approved units for off-grid rural households, replacing kerosene lamps and candles with light that also charges phones and runs small electronics.",
@@ -361,7 +368,8 @@
         "body": "Tungsten imports the lanterns and distributes them itself, so import and local distribution sit with one company. The units imported are quality approved."
       }
     ],
-    "cta": "Send an inquiry for specifications, quantities and delivery terms."
+    "cta": "Send an inquiry for specifications, quantities and delivery terms.",
+    "mark": "Powers"
   },
   "stationery-materials": {
     "lead": "Tungsten imports stationery across writing, paper, filing and desk supplies, letting a buyer source a full home and office order from one importer.",
@@ -379,7 +387,7 @@
         "value": "Notebooks, notepads, textbooks"
       },
       {
-        "label": "Children's books",
+        "label": "Children’s books",
         "value": "Art and storybooks"
       },
       {
@@ -405,7 +413,8 @@
         "body": "The listed items are examples, not the limit — the page says \"including but not limited to\". Tungsten also imports other home and office stationery materials, so these categories come from a single importer."
       }
     ],
-    "cta": "Send your item list and quantities for a quotation."
+    "cta": "Send your item list and quantities for a quotation.",
+    "mark": "Books"
   },
   "ceramics": {
     "lead": "Imported ceramic products, sanitary ware, bath-related products and finishing materials, with importing capacity being increased to keep pace with demand from the marketplace.",
@@ -449,10 +458,11 @@
         "body": "Tiles for kitchen and bathroom, skirting, steam rooms and jacuzzis."
       }
     ],
-    "cta": "Send your item list and quantities for a quotation."
+    "cta": "Send your item list and quantities for a quotation.",
+    "mark": "Brands"
   },
   "niger-seed-noug": {
-    "lead": "Pressed in Ethiopia for edible cooking oil, this oilseed passed coffee among the country's US exports in 2002 and now accounts for a third of them.",
+    "lead": "Pressed in Ethiopia for edible cooking oil, this oilseed passed coffee among the country’s US exports in 2002 and now accounts for a third of them.",
     "facts": [
       {
         "label": "Origin",
@@ -468,7 +478,7 @@
       },
       {
         "label": "US export share",
-        "value": "One third of Ethiopia's to America"
+        "value": "One third of Ethiopia’s to America"
       },
       {
         "label": "Exporter",
@@ -486,18 +496,19 @@
       },
       {
         "title": "Position in the US trade",
-        "body": "Niger seed exports passed coffee exports to the United States in 2002 and account for a third of Ethiopia's exports to America. That marks an established export flow from origin rather than a thin or occasional trade."
+        "body": "Niger seed exports passed coffee exports to the United States in 2002 and account for a third of Ethiopia’s exports to America. That marks an established export flow from origin rather than a thin or occasional trade."
       },
       {
         "title": "The exporter",
-        "body": "Tungsten Import Export runs a parallel oilseed and pulse line: sesame seed, soya bean and red kidney beans. Its leading shareholder holds an MBA from Mekelle University and more than twenty years' export experience in international business and import and export supply-chain management."
+        "body": "Tungsten Import Export runs a parallel oilseed and pulse line: sesame seed, soya bean and red kidney beans. Its leading shareholder holds an MBA from Mekelle University and more than twenty years’ export experience in international business and import and export supply-chain management."
       },
       {
         "title": "Before you inquire",
         "body": "No grade, moisture, purity, packing or shipment specification is published here. Send your destination market and required volume, state any specification you work to, and ask for export documentation and trade references before you commit."
       }
     ],
-    "cta": "Send an inquiry with your destination, volume and specification."
+    "cta": "Send an inquiry with your destination, volume and specification.",
+    "mark": "US export share"
   },
   "sesame-seed": {
     "lead": "Buyers choose between three well-known Ethiopian sesame varieties: Humera and Gonder for bakery products, Wellega for its high oil content.",
@@ -541,7 +552,8 @@
         "body": "The three varieties are described differently, so name the one you want. Quantity and destination are worth stating in the same message."
       }
     ],
-    "cta": "Enquire, naming the variety, quantity and destination."
+    "cta": "Enquire, naming the variety, quantity and destination.",
+    "mark": "Product"
   },
   "red-kidney-beans": {
     "lead": "Grown in Ethiopia and known locally as Qey Boloqe, these red kidney beans are popular across Scandinavia, Germany and wider Europe, and in India and Pakistan.",
@@ -573,8 +585,8 @@
     ],
     "blocks": [
       {
-        "title": "Where it's popular",
-        "body": "The variety is popular in Scandinavian and wider European markets, Germany among them, and in South Asia, notably India and Pakistan. The source describes demand for the bean, not Tungsten's own shipments, so ask the company which of these markets it currently supplies."
+        "title": "Where it’s popular",
+        "body": "The variety is popular in Scandinavian and wider European markets, Germany among them, and in South Asia, notably India and Pakistan. The source describes demand for the bean, not Tungsten’s own shipments, so ask the company which of these markets it currently supplies."
       },
       {
         "title": "In the kitchen",
@@ -586,10 +598,11 @@
       },
       {
         "title": "Specification and terms",
-        "body": "Grade, moisture, packing and shipment terms are not stated here and are agreed with the company on enquiry. Request a current sample measured against your own market's requirements before committing."
+        "body": "Grade, moisture, packing and shipment terms are not stated here and are agreed with the company on enquiry. Request a current sample measured against your own market’s requirements before committing."
       }
     ],
-    "cta": "Contact Tungsten Import Export to request a sample and terms."
+    "cta": "Contact Tungsten Import Export to request a sample and terms.",
+    "mark": "Local name"
   },
   "soya-bean": {
     "lead": "A legume native to East Asia, grown for its edible bean and processed into soy milk, tofu and fermented foods — one of four Tungsten export lines.",
@@ -633,6 +646,7 @@
         "body": "Grade, packing, volume and delivery terms are not published here; they are settled enquiry by enquiry. Stating your destination market, required volume and specification lets the company respond against your actual requirement."
       }
     ],
-    "cta": "Send an enquiry with your market, volume and specification."
+    "cta": "Send an enquiry with your market, volume and specification.",
+    "mark": "Unfermented uses"
   }
 }

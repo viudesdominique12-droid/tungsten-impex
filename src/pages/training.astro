@@ -12,7 +12,7 @@ const t = site.training;
   <section class="top">
     <div class="shell">
       <p class="t-label t-quiet">Training</p>
-      <h1 class="t-hero top__h">Book to train with us</h1>
+      <h1 class="t-h1 top__h">Book to train with us</h1>
       <p class="top__p">{t.intro}</p>
     </div>
   </section>
@@ -24,7 +24,7 @@ const t = site.training;
   {/* Le programme reel, tel que fourni par l entreprise. */}
   <section class="syl">
     <div class="shell">
-      <h2 class="t-section syl__h">What the programme covers</h2>
+      <h2 class="t-h2 syl__h">What the programme covers</h2>
       <ol class="syl__list">
         {t.modules.map((m, n) => (
           <li>
@@ -38,7 +38,7 @@ const t = site.training;
 
   <section class="form-wrap">
     <div class="shell">
-      <h2 class="t-section form__h">Tell us how to reach you</h2>
+      <h2 class="t-h2 form__h">Tell us how to reach you</h2>
       <form class="form" id="enrol" data-email={c.email} novalidate>
         <div class="row">
           <p class="t-label t-quiet">Who you are</p>
@@ -79,7 +79,7 @@ const t = site.training;
         <div class="row">
           <p class="t-label t-quiet">Send</p>
           <div>
-            <button class="pill" type="submit">Send my enquiry</button>
+            <button class="act" type="submit">Send my enquiry</button>
             <p class="note">{t.note}</p>
             <p class="note">Office hours: {c.hours.weekdays}.</p>
             <p class="status" id="status" role="status" aria-live="polite"></p>
@@ -120,7 +120,7 @@ const t = site.training;
   .f label { font-stretch: 66%; font-weight: 620; font-size: .88rem; color: var(--muted); }
   .req { color: var(--fg); }
   .f input, .f select, .f textarea {
-    font-family: var(--sans); font-size: 1rem; color: var(--fg);
+    font-family: inherit; font-size: 1rem; color: var(--fg);
     background: transparent; border: 1px solid var(--rule); border-radius: 0;
     padding: 12px 14px; width: 100%; }
   .f textarea { resize: vertical; min-height: 110px; }
