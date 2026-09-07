@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+const c = site.company;
+const maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.mapQuery);
+const osm = `https://www.openstreetmap.org/export/embed.html?bbox=${c.mapBbox}&layer=mapnik&marker=${c.mapMarker}`;
+const socials = c.socials.filter((s) => s.url);
+---
+
+<Base
+  title="Contact us — Tungsten Import Export"
+  description={`Tungsten Import Export, ${c.address.line1}, ${c.address.line2}, ${c.address.city}. Phone ${c.phone}.`}
+>
+  <section class="top">
+    <div class="shell">
+      <p class="t-label t-quiet">Contact us</p>
+      <h1 class="t-hero top__h">Come and find us.</h1>
+    </div>
+  </section>
+
+  <section class="body">
+    <div class="shell body__in">
+      <dl class="fields">
+        <div>
+          <dt class="t-label t-quiet">Position</dt>
+          <dd>
+            {c.address.line1}<br />{c.address.line2}<br />{c.address.city}, {c.address.country}
+            <br /><a class="lnk" href={maps} rel="noopener">Open in Google Maps</a>
+          </dd>
+        </div>
+        <div>
+          <dt class="t-label t-quiet">Telephone</dt>
+          <dd><a class="lnk" href={`tel:${c.phoneHref}`}>{c.phone}</a></dd>
+        </div>
+        <div>
+          <dt class="t-label t-quiet">Email</dt>
+          <dd><a class="lnk" href={`mailto:${c.email}`}>{c.email}</a></dd>
+        </div>
+        {socials.length > 0 && (
+          <div>
+            <dt class="t-label t-quiet">Socials</dt>
+            <dd>{socials.map((s) => <a class="lnk" href={s.url} rel="noopener">{s.label}</a>)}</dd>
+          </div>
+        )}
+        <div>
+          <dt class="t-label t-quiet">Training</dt>
+          <dd><a class="lnk" href="/training/">Book a place on the next intake</a></dd>
+        </div>
+      </dl>
+
+      <iframe class="map" src={osm} title="Map showing Dembel City Center, Africa Avenue, Addis Ababa" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+
+  <figure class="media media--band">
+    <img src="/img/company/office-corridor.jpg" alt="Offices at Dembel City Center" loading="lazy" />
+  </figure>
+</Base>
+
+<style>
+  .top { padding-block: clamp(30px, 4.5vw, 62px) clamp(20px, 3vw, 36px); }
+  .top__h { margin-top: 12px; }
+  .body__in { display: grid; gap: clamp(26px, 4vw, 52px); align-items: start; }
+  @media (min-width: 900px) { .body__in { grid-template-columns: 1fr 1fr; } }
+
+  .fields { margin: 0; border-top: 1px solid var(--rule); }
+  .fields > div { display: grid; gap: 6px; padding-block: 18px; border-bottom: 1px solid var(--rule); }
+  @media (min-width: 620px) { .fields > div { grid-template-columns: 180px 1fr; gap: 0 28px; } }
+  .fields dt { margin: 0; }
+  .fields dd { margin: 0; line-height: 1.6; }
+  .lnk { text-decoration: none; border-bottom: 2px solid var(--noug); }
+  .fields dd .lnk + .lnk { margin-left: 18px; }
+
+  .map { width: 100%; height: 420px; border: 1px solid var(--rule); display: block; }
+  .media--band { margin-top: clamp(36px, 5vw, 70px); }
+</style>

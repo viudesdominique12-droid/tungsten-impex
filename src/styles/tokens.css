@@ -148,7 +148,9 @@ h1, h2, h3 { margin: 0; }
 
 /* ------------------------------------------------------- images §5 ------ */
 /* Ratio unique 16:10, étalonnage unique, angles vifs, aucune ombre. */
-.media { position: relative; overflow: hidden; }
+/* <figure> porte une marge UA de 1em 40px. Avec width:100% le bloc deborde
+   de 40px — mesure sur /about/, /training/ et /contact/. */
+.media { position: relative; overflow: hidden; margin: 0; }
 .media img {
   width: 100%; height: 100%;
   aspect-ratio: 16 / 10;

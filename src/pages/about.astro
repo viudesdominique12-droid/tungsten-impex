@@ -1,0 +1,82 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+const c = site.company;
+---
+
+<Base
+  title="About us — Tungsten Import Export"
+  description="Founded in 2007 in Addis Ababa to bridge local potential with global markets. Words from the founder, and the premises we work from."
+>
+  <section class="top">
+    <div class="shell">
+      <p class="t-label t-quiet">About us</p>
+      <h1 class="t-hero top__h">Naturally strong. Built to endure.</h1>
+    </div>
+  </section>
+
+  {/* §5 — une bande pleine largeur, bord a bord, comme respiration. */}
+  <figure class="media media--band">
+    <img src="/img/company/pharma-warehouse.jpg" alt="Palletised medicine cartons in the Tungsten store, Addis Ababa" />
+  </figure>
+
+  <section class="letter">
+    <div class="shell letter__in">
+      <figure class="media media--col letter__img">
+        <img src="/img/company/founder.jpg" alt="At the Tungsten office in Addis Ababa" loading="lazy" />
+      </figure>
+      <div>
+        <p class="t-label t-quiet">From the founder</p>
+        {site.founder.paragraphs.map((t, n) => (
+          <p class={n === 0 ? 'letter__first' : 'letter__p'}>{t}</p>
+        ))}
+        <p class="t-label t-quiet letter__sign">{site.founder.role} &middot; {c.name}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="premises">
+    <div class="shell">
+      <h2 class="t-section">Africa Avenue, Addis Ababa</h2>
+      <p class="premises__p">Offices, a licensed pharmaceutical store and a quarantine area, on the 4th floor of Dembel City Center.</p>
+    </div>
+  </section>
+
+  <figure class="media media--band">
+    <img src="/img/company/office-floor.jpg" alt="The Tungsten office floor" loading="lazy" />
+  </figure>
+
+  <section class="memb">
+    <div class="shell">
+      <h2 class="t-section memb__h">Registered with</h2>
+      <ul class="memb__list">
+        {["EPOSPEA","Ethiopian Chamber of Commerce","Ministry of Revenue","National Bank of Ethiopia","Ministry of Trade"].map((m) => (
+          <li class="t-label">{m}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .top { padding-block: clamp(30px, 4.5vw, 62px) clamp(24px, 3.5vw, 44px); }
+  .top__h { margin-top: 12px; max-width: 18ch; }
+
+  .letter { padding-top: clamp(36px, 5vw, 72px); }
+  .letter__in { display: grid; gap: clamp(24px, 3.5vw, 48px); align-items: start; }
+  @media (min-width: 860px) { .letter__in { grid-template-columns: 340px 1fr; } }
+  .letter__img { margin: 0; }
+  .letter__first { font-size: clamp(1.15rem, 1.8vw, 1.4rem); line-height: 1.45; margin: 12px 0 .8em; }
+  .letter__p { color: var(--muted); }
+  .letter__sign { margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--rule); max-width: none; }
+
+  .premises { padding-top: clamp(40px, 5.5vw, 78px); }
+  .premises__p { margin-top: 14px; color: var(--muted); }
+
+  .media--band { margin-top: clamp(34px, 4.5vw, 64px); }
+
+  .memb { padding-top: clamp(40px, 5.5vw, 78px); }
+  .memb__h { margin-bottom: 18px; }
+  .memb__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+  .memb__list li { padding-block: 14px; border-bottom: 1px solid var(--rule); }
+</style>

@@ -242,6 +242,35 @@ const browser = await chromium.launch();
   await ctx.close();
 }
 
+/* ------------------------------------------------ balayage de TOUTES les pages */
+/* Le debordement de 40px sur /about/, /training/ et /contact/ est passe parce que
+   ce fichier ne testait que deux pages sur dix-huit. Il les balaie toutes. */
+{
+  const { readdirSync } = await import('node:fs');
+  const { join } = await import('node:path');
+  const routes = [];
+  (function walk(d, base) {
+    for (const e of readdirSync(d, { withFileTypes: true })) {
+      if (e.isDirectory()) walk(join(d, e.name), base + e.name + '/');
+      else if (e.name === 'index.html') routes.push(base);
+    }
+  })('dist', '/');
+
+  console.log(`
+BALAYAGE — ${routes.length} pages`);
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await ctx.newPage();
+  const over = [];
+  for (const r of routes) {
+    await page.goto(new URL(r, TARGET).href, { waitUntil: 'domcontentloaded' });
+    const o = await page.evaluate(() =>
+      document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    if (o !== 0) over.push(`${r} (${o}px)`);
+  }
+  check('aucun debordement sur aucune page', over.length === 0, over.join(', '));
+  await ctx.close();
+}
+
 await browser.close();
 console.log(`\n${bad === 0 ? 'TOUT PASSE' : bad + ' ECHEC(S)'} — captures dans verif/\n`);
 process.exit(bad === 0 ? 0 : 1);
