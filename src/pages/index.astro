@@ -1,0 +1,252 @@
+---
+import Base from '../layouts/Base.astro';
+import company from '../data/company.json';
+import exportsData from '../data/exports.json';
+import importsData from '../data/imports.json';
+
+const ph = company.placeholders;
+const imports = importsData.categories;
+---
+
+<Base
+  title="Tungsten Import Export — Ethiopian oilseeds out, equipment in"
+  description="Addis Ababa trading house. Sesame, noug, red kidney beans and soya to international buyers; equipment and materials into Ethiopia, cleared and delivered."
+>
+  {/* ------------------------------------------------------ le corridor --- */}
+  <section class="corridor">
+    <div class="shell">
+      <div class="corridor__switch" role="group" aria-label="Direction of trade">
+        <button type="button" id="btn-out" class="word" data-go="out" aria-pressed="true">
+          Out
+        </button>
+        <span class="corridor__slash" aria-hidden="true"></span>
+        <button type="button" id="btn-in" class="word" data-go="in" aria-pressed="false">
+          In
+        </button>
+      </div>
+
+      <div class="corridor__say">
+        <p class="lead" data-when="out">
+          Ethiopian oilseeds and pulses, sourced by variety and region, shipped to
+          international buyers.
+        </p>
+        <p class="lead" data-when="in">
+          Equipment and materials brought into Ethiopia — purchase, letter of credit,
+          customs clearance and inland delivery handled as one job.
+        </p>
+        <a class="btn corridor__cta" href="/quote/">Request a quotation</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ------------------------- le catalogue de l'état actif, avant le scroll */}
+  <section class="catalogue" aria-label="Catalogue">
+    <div class="shell">
+      <ul class="cards" data-when="out">
+        {exportsData.map((p) => (
+          <li class="card">
+            <a href={`/export/${p.slug}/`}>
+              <span class="card__name">{p.name}</span>
+              <span class="data card__bot">{p.botanical}</span>
+              <span class="card__am" lang="am">{p.amharic}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <ul class="cards cards--in" data-when="in">
+        {imports.map((c) => (
+          <li class="card">
+            <a href={`/import/${c.slug}/`}>
+              <span class="card__name card__name--sm">{c.name}</span>
+              <span class="card__handles">{c.handles}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* ------------------------------------------------------------ chiffres */}
+  <section class="figures" aria-label="Key figures">
+    <div class="shell figures__grid">
+      <div class="fig" data-when="out">
+        <p class="fig__n">{exportsData.length}</p>
+        <p class="data fig__l">Export products</p>
+      </div>
+      <div class="fig" data-when="out">
+        <p class="fig__n">{company.growingRegions.length}</p>
+        <p class="data fig__l">Growing regions sourced</p>
+      </div>
+      <div class="fig" data-when="out">
+        <p class="fig__n dash">&mdash;</p>
+        <p class="data fig__l">Annual tonnage <span class="ph">&#123;&#123;TONNAGE_ANNUEL_PAR_PRODUIT&#125;&#125;</span></p>
+      </div>
+      <div class="fig" data-when="out">
+        <p class="fig__n dash">&mdash;</p>
+        <p class="data fig__l">Destination markets <span class="ph">&#123;&#123;PAYS_DE_DESTINATION_SERVIS&#125;&#125;</span></p>
+      </div>
+
+      <div class="fig" data-when="in">
+        <p class="fig__n">{imports.length}</p>
+        <p class="data fig__l">Import categories <span class="ph">provisional &mdash; §10.1</span></p>
+      </div>
+      <div class="fig" data-when="in">
+        <p class="fig__n dash">&mdash;</p>
+        <p class="data fig__l">Monthly capacity <span class="ph">&#123;&#123;CAPACITE_MENSUELLE_DE_CHARGEMENT&#125;&#125;</span></p>
+      </div>
+      <div class="fig" data-when="in">
+        <p class="fig__n dash">&mdash;</p>
+        <p class="data fig__l">Average lead time <span class="ph">&#123;&#123;DELAI_MOYEN_DE_CHARGEMENT&#125;&#125;</span></p>
+      </div>
+      <div class="fig" data-when="in">
+        <p class="fig__n dash">&mdash;</p>
+        <p class="data fig__l">Trading since <span class="ph">&#123;&#123;ANNEE_DE_CREATION&#125;&#125;</span></p>
+      </div>
+    </div>
+  </section>
+
+  {/* -------------------------------------------------------- appartenances */}
+  <section class="memb" aria-label="Memberships and registrations">
+    <div class="shell">
+      <h2 class="memb__h">Registered with</h2>
+      <ul class="memb__list">
+        {company.memberships.map((m) => <li class="data">{m}</li>)}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* --------------------------------------------------------- corridor --- */
+  .corridor { padding-top: clamp(26px, 4vw, 52px); }
+
+  .corridor__switch {
+    display: flex; align-items: baseline; gap: clamp(14px, 3vw, 40px);
+    min-width: 0;
+  }
+  .word { min-width: 0; }
+  .corridor__slash {
+    flex: 1 1 0; min-width: 0; height: 2px; background: var(--rule); align-self: center;
+    transition: background-color var(--swing-ms) var(--swing);
+  }
+
+  /* L'axe de largeur porte l'état. Ce n'est pas la couleur qui l'annonce —
+     elle ne suffirait pas (noug échoue en contraste), et l'état doit rester
+     lisible sans elle. */
+  .word {
+    font-family: var(--sans);
+    font-size: var(--t-corridor);
+    line-height: .9;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    background: none; border: 0; padding: 0 0 .06em;
+    color: var(--fg);
+    cursor: pointer;
+    font-stretch: 62%;
+    opacity: .38;
+    transition: font-stretch var(--swing-ms) var(--swing),
+                opacity var(--swing-ms) var(--swing),
+                color var(--swing-ms) var(--swing);
+  }
+  .word[aria-pressed='true'] { font-stretch: 125%; opacity: 1; }
+  .word:hover { opacity: .72; }
+  .word[aria-pressed='true']:hover { opacity: 1; }
+
+  .corridor__say {
+    display: flex; flex-wrap: wrap; align-items: end; gap: 20px 40px;
+    margin-top: clamp(18px, 2.5vw, 30px);
+  }
+  .lead { font-size: var(--t-lead); max-width: min(46ch, 100%); margin: 0; }
+  .corridor__cta { flex: none; }
+
+  /* -------------------------------------------------------- catalogue --- */
+  .catalogue { margin-top: clamp(30px, 4vw, 54px); }
+
+  .cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--rule); }
+  @media (min-width: 640px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 900px) { .cards { grid-template-columns: repeat(4, 1fr); } }
+  .cards--in { }
+  @media (min-width: 900px) { .cards--in { grid-template-columns: repeat(5, 1fr); } }
+
+  .card { background: var(--bg); transition: background-color var(--swing-ms) var(--swing); }
+  .card a {
+    display: grid; gap: 5px; align-content: start;
+    padding: 20px 18px 24px; min-height: 118px; text-decoration: none;
+    transition: background-color .22s var(--swing);
+  }
+  /* L'aplat d'accent porte le survol : noug ne peut pas être un trait fin,
+     mais de l'encre sur un aplat noug donne 7,15:1. */
+  .card a:hover { background: var(--accent); color: var(--accent-text); }
+  .card__name {
+    font-family: var(--sans); font-stretch: 112%; font-weight: 600;
+    font-size: var(--t-h3); line-height: 1.1; letter-spacing: -.015em;
+  }
+  .card__name--sm { font-size: 1.02rem; font-stretch: 100%; }
+  .card__handles {
+    font-size: var(--t-micro); color: var(--fg-quiet); line-height: 1.45; margin-top: 2px;
+  }
+  .card a:hover .card__handles { color: inherit; }
+  .card__bot { font-size: var(--t-micro); font-style: italic; color: var(--fg-quiet); }
+  .card a:hover .card__bot, .card a:hover .card__am { color: inherit; }
+  .card__am { font-size: 1.05rem; color: var(--fg-quiet); }
+
+  /* --------------------------------------------------------- chiffres --- */
+  .figures { margin-top: clamp(40px, 5.5vw, 78px); }
+  .figures__grid { display: grid; gap: 24px 30px; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 820px) { .figures__grid { grid-template-columns: repeat(4, 1fr); } }
+
+  .fig { border-top: 1px solid var(--rule); padding-top: 12px; }
+  .fig__n {
+    font-family: var(--sans); font-stretch: 125%; font-weight: 600;
+    font-size: var(--t-num); line-height: 1; letter-spacing: -.025em;
+    margin: 0 0 6px; font-variant-numeric: tabular-nums;
+  }
+  .fig__l { font-size: var(--t-micro); color: var(--fg-quiet); margin: 0; line-height: 1.5; }
+
+  /* --------------------------------------------------- appartenances --- */
+  .memb { margin-top: clamp(40px, 5.5vw, 76px); }
+  .memb__h {
+    font-size: var(--t-small); font-stretch: 62%; font-weight: 600;
+    color: var(--fg-quiet); margin-bottom: 12px;
+  }
+  .memb__list {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: var(--t-small);
+  }
+
+  /* ------------------------------------------------- bascule d'état ----- */
+  [data-when] { display: none; }
+  :global(body[data-state='out']) [data-when='out'] { display: revert; }
+  :global(body[data-state='in'])  [data-when='in']  { display: revert; }
+  :global(body[data-state='out']) ul[data-when='out'],
+  :global(body[data-state='in'])  ul[data-when='in'] { display: grid; }
+  :global(body[data-state='out']) .fig[data-when='out'],
+  :global(body[data-state='in'])  .fig[data-when='in'] { display: block; }
+</style>
+
+<script>
+  // §8 — la bascule est une classe sur <body>, pas un framework.
+  const body = document.body;
+
+  // ?state=in permet d'ouvrir directement un etat — utile pour la relecture
+  // et pour la verification du §9, qui ne peut pas cliquer.
+  const wanted = new URLSearchParams(location.search).get('state');
+  if (wanted === 'in' || wanted === 'out') {
+    body.dataset.state = wanted;
+    document.querySelectorAll('.word').forEach((o) =>
+      o.setAttribute('aria-pressed', String(o.getAttribute('data-go') === wanted)));
+  }
+  const buttons = document.querySelectorAll('.word');
+
+  buttons.forEach((b) => {
+    b.addEventListener('click', () => {
+      const go = b.getAttribute('data-go');
+      if (body.dataset.state === go) return;
+      body.dataset.state = go;
+      buttons.forEach((o) => o.setAttribute('aria-pressed', String(o.getAttribute('data-go') === go)));
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', go === 'in' ? '#23261f' : '#f4f2ed');
+    });
+  });
+</script>

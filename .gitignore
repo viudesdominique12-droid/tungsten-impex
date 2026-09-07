@@ -1,6 +1,9 @@
+node_modules/
+dist/
+.astro/
 .staging/
 .claude/
 photos-originaux/
-apercu-partageable.html
+_photos-recuperees/
 apercu-images/
-node_modules/
+verif/*.png

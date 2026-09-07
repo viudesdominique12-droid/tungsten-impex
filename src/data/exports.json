@@ -1,0 +1,47 @@
+[
+  {
+    "slug": "sesame",
+    "name": "Sesame",
+    "botanical": "Sesamum indicum",
+    "amharic": "ሰሊጥ",
+    "varieties": ["Humera", "Gonder", "Wellega"],
+    "regions": ["Humera", "Metema", "Gondar", "Wollega"],
+    "pitch": "Humera and Gonder whitish seed for the bakery and confectionery trade; Wellega for crushing. We source on variety, not on a blended average.",
+    "tonnage": "",
+    "note_specs": "Purete, humidite et teneur en huile: fourchettes standard du commerce, NON fournies par le client. A faire valider avant mise en ligne."
+  },
+  {
+    "slug": "noug",
+    "name": "Noug",
+    "botanical": "Guizotia abyssinica",
+    "amharic": "ኑግ",
+    "varieties": [],
+    "regions": ["Gondar", "Wollega"],
+    "pitch": "Ethiopia's own oilseed, grown almost nowhere else at scale. Pressed for edible oil, and taken as birdseed in European markets.",
+    "tonnage": "",
+    "note_specs": "Teneur en huile: a faire confirmer par le client."
+  },
+  {
+    "slug": "red-kidney-beans",
+    "name": "Red Kidney Beans",
+    "botanical": "Phaseolus vulgaris",
+    "amharic": "ቀይ ቦሎቄ",
+    "transliteration": "qey boloqe",
+    "varieties": [],
+    "regions": ["Bale", "Arsi"],
+    "pitch": "Bright red, even-sized bean with steady demand across Europe and South Asia. Sorted and bagged to buyer specification.",
+    "tonnage": "",
+    "note_specs": "Calibre et taux de defauts: a faire confirmer."
+  },
+  {
+    "slug": "soya-bean",
+    "name": "Soya Bean",
+    "botanical": "Glycine max",
+    "amharic": "አኩሪ አተር",
+    "varieties": [],
+    "regions": ["Wollega"],
+    "pitch": "Crushing-grade soya out of the western highlands, for oil mills and feed compounders.",
+    "tonnage": "",
+    "note_specs": "Proteine et humidite: a faire confirmer."
+  }
+]

@@ -1,0 +1,168 @@
+/* ===========================================================================
+   Tungsten Import Export — tokens
+   Brief HDM §5. Trois valeurs, jamais plus de trois visibles à la fois.
+
+   CONTRAINTE MESUREE, à ne pas contourner :
+     noug #E0A81C sur paper #F4F2ED = 1,92:1 — échoue AA texte ET AA composant.
+     ink  #23261F sur noug          = 7,15:1 — passe.
+   Donc dans l'état Out, noug est une couleur d'APLAT uniquement : jamais un
+   texte, jamais un filet fin. L'état actif se signale par l'aplat + l'axe wdth,
+   jamais par la couleur seule.
+     steel #7FA3B5 sur ink = 5,71:1 — passe, steel peut porter du texte.
+   =========================================================================== */
+
+/* --------------------------------------------------------- polices ------- */
+/* Auto-hébergées (§5, non négociable). Le fichier wdth d'Archivo porte les
+   DEUX axes — font-weight 100 900 et font-stretch 62% 125% — vérifié dans
+   node_modules/@fontsource-variable/archivo/wdth.css. */
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  src: url('/fonts/archivo-var.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('/fonts/newsreader-var.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --paper: #f4f2ed;
+  --ink:   #23261f;
+  --noug:  #e0a81c;
+  --steel: #7fa3b5;
+
+  /* Rôles. Réassignés par l'état du corridor, jamais utilisés en dur. */
+  --bg:        var(--paper);
+  --fg:        var(--ink);
+  --fg-quiet:  #5c6157;   /* encre éclaircie — 6,9:1 sur paper */
+  --rule:      #cfccc3;
+  --accent:      var(--noug);   /* APLAT seulement dans l'état Out */
+  --accent-text: var(--ink);    /* ce qui se lit SUR l'aplat */
+
+  --sans: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+
+  --shell: 1280px;
+  --gutter: clamp(20px, 4vw, 56px);
+
+  /* Échelle typographique. L'axe de largeur porte la hiérarchie, pas la taille
+     seule : wdth 125 pour l'actif et les titres, wdth 62 pour les données. */
+  --t-micro: .75rem;
+  --t-small: .875rem;
+  --t-body:  1.0625rem;
+  --t-lead:  clamp(1.15rem, 1.02rem + .55vw, 1.5rem);
+  --t-h3:    clamp(1.25rem, 1.1rem + .7vw, 1.65rem);
+  --t-h2:    clamp(1.6rem, 1.3rem + 1.4vw, 2.6rem);
+  --t-num:   clamp(2.2rem, 1.7rem + 2.4vw, 3.6rem);
+  --t-corridor: clamp(3.4rem, 1.6rem + 8vw, 9rem);
+
+  --swing: cubic-bezier(.16, 1, .3, 1);
+  --swing-ms: 850ms;
+}
+
+/* L'état In inverse la valeur du fond. C'est le geste du site (§4). */
+body[data-state='in'] {
+  --bg:        var(--ink);
+  --fg:        var(--paper);
+  --fg-quiet:  #a7ada1;   /* 7,4:1 sur ink */
+  --rule:      #3c4038;
+  --accent:      var(--steel);
+  --accent-text: var(--ink);
+}
+
+/* --------------------------------------------------------------- base --- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+/* Les deux extremites de la transition sont des couleurs LITTERALES.
+   Mesure : avec `background-color: var(--bg)`, le changement de custom property
+   ne declenche jamais l'interpolation et la valeur peinte reste figee — verifie
+   sur chargement neuf, y compris avec @property. Avec des litterales, la
+   transition part normalement. Les jetons restent la pour les descendants. */
+body {
+  margin: 0;
+  background-color: #f4f2ed;
+  color: #23261f;
+  font-family: var(--serif);
+  font-size: var(--t-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color var(--swing-ms) var(--swing),
+              color var(--swing-ms) var(--swing);
+}
+body[data-state='in'] {
+  background-color: #23261f;
+  color: #f4f2ed;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: var(--sans);
+  font-stretch: 125%;
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -.015em;
+  text-wrap: balance;
+}
+
+p { margin: 0 0 .85em; text-wrap: pretty; }
+p:last-child { margin-bottom: 0; }
+
+.shell { width: 100%; max-width: var(--shell); margin-inline: auto; padding-inline: var(--gutter); }
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--fg); color: var(--bg); padding: 12px 20px;
+}
+.skip:focus { left: 0; }
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 3px;
+}
+
+/* Données techniques : Archivo étroit, PAS une monospace (§6 interdit). */
+.data {
+  font-family: var(--sans);
+  font-stretch: 62%;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Un placeholder du §3 doit rester visible tant qu'il n'est pas rempli. */
+.ph {
+  font-family: var(--sans);
+  font-stretch: 62%;
+  font-size: .85em;
+  color: var(--fg-quiet);
+  border-bottom: 1px dashed var(--rule);
+  white-space: nowrap;
+}
+/* Un chiffre non fourni : tiret cadratin gris, jamais une valeur inventée. */
+.dash { color: var(--fg-quiet); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}

@@ -1,0 +1,112 @@
+---
+import '../styles/tokens.css';
+import company from '../data/company.json';
+
+const { title, description, state = 'out' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  {/* §5 — auto-hébergées et préchargées. Sans la variable chargée, l'axe wdth
+      n'existe pas et la hiérarchie s'effondre. */}
+  <link rel="preload" href="/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin />
+
+  <meta name="theme-color" content="#f4f2ed" />
+</head>
+
+<body data-state={state}>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="hdr">
+    <div class="shell hdr__in">
+      <a class="hdr__id" href="/">
+        <strong>Tungsten</strong>
+        <span class="data">Import Export</span>
+      </a>
+      <div class="hdr__r">
+        <a class="data hdr__tel" href={`tel:${company.phoneHref}`}>{company.phone}</a>
+        <a class="btn btn--quiet" href="/quote/">Request a quotation</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <slot />
+  </main>
+
+  <footer class="ftr">
+    <div class="shell ftr__in">
+      <div>
+        <p class="ftr__name">{company.name}</p>
+        <p class="data ftr__addr">
+          {company.address.line1}<br />
+          {company.address.line2}<br />
+          {company.address.city}, {company.address.country}
+        </p>
+      </div>
+      <div class="ftr__contact">
+        <a href={`tel:${company.phoneHref}`}>{company.phone}</a>
+        <a href={`mailto:${company.email}`}>{company.email}</a>
+      </div>
+    </div>
+  </footer>
+
+  <style>
+    .hdr { border-bottom: 1px solid var(--rule); }
+    .hdr__in {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; min-height: 62px;
+    }
+    .hdr__id { display: inline-flex; align-items: baseline; gap: 9px; text-decoration: none; }
+    .hdr__id strong {
+      font-family: var(--sans); font-stretch: 125%; font-weight: 700;
+      font-size: 1.05rem; letter-spacing: -.01em;
+    }
+    .hdr__id span { font-size: var(--t-micro); color: var(--fg-quiet); }
+    .hdr__r { display: flex; align-items: center; gap: 18px; }
+    .hdr__tel { font-size: var(--t-small); color: var(--fg-quiet); text-decoration: none; }
+    .hdr__tel:hover { color: var(--fg); }
+    @media (max-width: 620px) { .hdr__tel { display: none; } }
+    /* Sous 560px, le logo et le bouton depassent les 335px utiles et font
+       defiler toute la page horizontalement — mesure a 375px. Le corridor
+       porte deja son propre bouton de devis : celui de l'entete disparait. */
+    @media (max-width: 560px) { .hdr__r .btn { display: none; } }
+
+    .ftr { border-top: 1px solid var(--rule); margin-top: clamp(48px, 7vw, 90px); }
+    .ftr__in {
+      display: flex; flex-wrap: wrap; gap: 26px 48px;
+      justify-content: space-between; padding-block: clamp(28px, 4vw, 48px);
+    }
+    .ftr__name {
+      font-family: var(--sans); font-stretch: 125%; font-weight: 600;
+      font-size: 1.05rem; margin-bottom: 8px;
+    }
+    .ftr__addr { font-size: var(--t-small); color: var(--fg-quiet); line-height: 1.7; margin: 0; }
+    .ftr__contact { display: grid; gap: 5px; align-content: start; font-size: var(--t-small); }
+    .ftr__contact a { text-decoration: none; border-bottom: 1px solid var(--rule); width: fit-content; }
+    .ftr__contact a:hover { border-color: var(--fg); }
+  </style>
+
+  <style is:global>
+    /* Boutons — pas de flèche collée au texte (§6). */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--sans); font-stretch: 87%; font-weight: 600;
+      font-size: var(--t-small); letter-spacing: .005em;
+      padding: 12px 20px; text-decoration: none; cursor: pointer;
+      border: 1px solid var(--fg); background: var(--fg); color: var(--bg);
+      transition: background-color .25s var(--swing), color .25s var(--swing);
+    }
+    .btn:hover { background: transparent; color: var(--fg); }
+    .btn--quiet { background: transparent; color: var(--fg); border-color: var(--rule); }
+    .btn--quiet:hover { border-color: var(--fg); background: transparent; }
+  </style>
+</body>
+</html>
