@@ -108,15 +108,15 @@ const size = product.wide ? 'band' : 'col';
   .head__cap { position: absolute; inset: auto 0 0 0;
                padding-block: clamp(46px, 8vw, 96px) clamp(16px, 2.5vw, 28px);
                background: linear-gradient(to top,
-                 rgba(26,29,24,.90) 0%, rgba(26,29,24,.78) 45%,
-                 rgba(26,29,24,.45) 75%, transparent 100%); }
+                 rgba(10,27,60,.90) 0%, rgba(10,27,60,.78) 45%,
+                 rgba(10,27,60,.45) 75%, transparent 100%); }
   .head--col .head__cap { inset: auto 0 0 0; }
   .head__shell { display: block; color: var(--paper); }
   .head__h { color: var(--paper); margin: 5px 0 0; }
 
-  .crumb { display: flex; gap: 8px; color: rgba(247,245,240,.82); }
+  .crumb { display: flex; gap: 8px; color: rgba(242,245,249,.86); }
   .crumb a { text-decoration: none; }
-  .crumb a:hover { color: var(--noug); }   /* noug sur voile sombre — ok */
+  .crumb a:hover { color: var(--accent); }   /* noug sur voile sombre — ok */
 
   /* ------------------------------------------------------------- intro -- */
   .intro { display: grid; gap: clamp(24px, 3.5vw, 48px);
@@ -159,5 +159,5 @@ const size = product.wide ? 'band' : 'col';
   .onward__n { font-stretch: 106%; font-weight: 720; font-size: 1.1rem;
                border-bottom: 2px solid transparent; justify-self: start;
                transition: border-color .2s var(--swing); }
-  .onward a:hover .onward__n { border-bottom-color: var(--noug); }
+  .onward a:hover .onward__n { border-bottom-color: var(--accent); }
 </style>

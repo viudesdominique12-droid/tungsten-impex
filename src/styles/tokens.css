@@ -1,20 +1,19 @@
 /* ===========================================================================
-   Tungsten Import Export — charte HDM / United Carriers
+   Tungsten Import Export — bleu et blanc
 
-   §3 — TROIS valeurs, jamais davantage à l'écran.
+   Schema demande par le client, releve sur zaziwe-labs. Le noir et blanc
+   "manquait de vie" : on passe sur une famille bleue claire.
 
-   CONTRASTES MESURES (composites rgba compris) :
-     encre / papier      15,63  ok
-     muted / papier       4,65  ok, tout juste
-     noug  / papier       1,99  ECHEC texte ET composant
-     encre / noug         7,85  ok  → du texte sur un APLAT noug se lit
-     papier / encre      15,63  ok
-     muted-sombre/encre   7,44  ok
-     noug  / encre        7,85  ok  → noug PEUT porter du texte sur fond sombre
-
-   Conséquence tenue partout : sur fond CLAIR, noug ne sert qu'aux aplats,
-   filets, soulignements et marques — jamais au texte, conformément au §3.
-   Sur fond SOMBRE il peut porter du texte.
+   CONTRASTES MESURES (composites alpha compris) :
+     encre / fond clair    15,89  ok
+     bleu  / fond clair     8,32  ok  → contrairement au noug (1,99), le bleu
+                                        PEUT porter du texte sur le blanc
+     muted / fond clair     4,78  ok
+     fond  / aplat bleu     8,32  ok
+     fond  / nuit          15,55  ok
+     muted / nuit           7,35  ok
+     bleu  / nuit           1,87  ECHEC → sur fond sombre l'accent passe a sa
+                                          version claire (#7fa8e8, 7,02)
    =========================================================================== */
 
 /* --------------------------------------------------------------- police -- */
@@ -34,11 +33,11 @@
 }
 
 :root {
-  --paper: #f7f5f0;
-  --ink:   #1a1d18;
-  --noug:  #e8a317;
-  --rule:  rgba(26, 29, 24, .18);
-  --muted: rgba(26, 29, 24, .62);
+  --paper: #f2f5f9;   /* blanc froid, pas un beige */
+  --ink:   #0a1a33;   /* bleu-noir */
+  --accent:#1b3fa6;   /* le bleu */
+  --rule:  rgba(10, 26, 51, .18);
+  --muted: rgba(10, 26, 51, .62);
 
   /* Rôles. Réassignés quand le fond bascule en valeur. */
   --bg: var(--paper);
@@ -54,10 +53,11 @@
 
 /* §3 — le double flux se lit à la VALEUR du fond, pas à un accent secondaire. */
 [data-flow='in'] {
-  --bg: var(--ink);
+  --bg: #0a1b3c;              /* nuit bleue, pas du noir */
   --fg: var(--paper);
-  --rule:  rgba(247, 245, 240, .16);
-  --muted: rgba(247, 245, 240, .66);
+  --rule:  rgba(242, 245, 249, .16);
+  --muted: rgba(242, 245, 249, .66);
+  --accent: #7fa8e8;          /* le bleu sombre disparait sur la nuit */
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -66,8 +66,8 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  background-color: #f7f5f0;
-  color: #1a1d18;
+  background-color: #f2f5f9;
+  color: #0a1a33;
   font-family: var(--sans);
   font-stretch: 100%;
   font-weight: 400;
@@ -77,7 +77,7 @@ body {
 }
 /* Valeurs littérales aux deux bouts : une transition dont la valeur vient d'un
    custom property ne démarre pas et reste figée — mesuré. */
-body[data-flow='in'] { background-color: #1a1d18; color: #f7f5f0; }
+body[data-flow='in'] { background-color: #0a1b3c; color: #f2f5f9; }
 
 img { display: block; max-width: 100%; }
 a { color: inherit; }
@@ -161,7 +161,7 @@ h1, h2, h3 { margin: 0; }
 /* Sur fond sombre, la valeur de l'image doit s'accorder au fond. */
 .media--dark::after {
   content: ''; position: absolute; inset: 0;
-  background: rgba(26, 29, 24, .32); pointer-events: none;
+  background: rgba(10, 27, 60, .34); pointer-events: none;
 }
 /* Deux tailles, aucune intermédiaire. */
 .media--band { width: 100%; }

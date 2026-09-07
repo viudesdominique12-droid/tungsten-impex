@@ -129,7 +129,7 @@ const band = site.exports.find((p) => p.wide) ?? site.exports[0];
   .hero__act { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(24px, 3.5vw, 40px); }
 
   /* §8 — bande pleine largeur sur l'encre, filet fin au-dessus de chaque colonne. */
-  .figures { background: var(--ink); color: var(--paper); }
+  .figures { background: #0a1b3c; color: var(--paper); }
   .figures__in { display: grid; gap: 26px 40px; padding-block: clamp(30px, 4vw, 54px); }
   @media (min-width: 700px) { .figures__in { grid-template-columns: repeat(3, 1fr); } }
   .figures__in > div { border-top: 1px solid var(--rule); padding-top: 14px; }
@@ -167,8 +167,8 @@ const band = site.exports.find((p) => p.wide) ?? site.exports[0];
   /* §6 — au survol, le fait passe en noug. Sur fond CLAIR noug ne donne que
      1,99 en texte : il devient donc un soulignement, ce que le §3 autorise.
      Sur fond sombre (7,85) il colore le texte. */
-  .row:hover .row__v { border-bottom-color: var(--noug); }
-  [data-flow='in'] .row:hover .row__v { color: var(--noug); border-bottom-color: transparent; }
+  .row:hover .row__v { border-bottom-color: var(--accent); }
+  [data-flow='in'] .row:hover .row__v { color: var(--accent); border-bottom-color: transparent; }
 
   /* §5 — bande pleine largeur, bord à bord. */
   .band { margin: clamp(40px, 5.5vw, 78px) 0 0; }

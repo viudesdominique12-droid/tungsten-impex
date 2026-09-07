@@ -20,14 +20,14 @@ const cur = (h) => (here === h ? 'page' : undefined);
       et toute la hiérarchie s'effondre en Helvetica. */}
   <link rel="preload" href="/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin />
 
-  <meta name="theme-color" content={flow === 'in' ? '#1a1d18' : '#f7f5f0'} />
+  <meta name="theme-color" content={flow === 'in' ? '#0a1b3c' : '#f2f5f9'} />
 </head>
 
 <body data-flow={flow}>
   <a class="skip" href="#main">Skip to content</a>
 
   {/* §4 — bandeau utilitaire. Fait entrer dans une entreprise qui opère. */}
-  <div class="util">
+  <div class="util" data-flow="in">
     <div class="shell util__in t-label">
       <span>Addis Ababa &middot; Established {c.founded} &middot; EFDA licensed</span>
       <a href={`tel:${c.phoneHref}`}>{c.phone}</a>
@@ -166,11 +166,11 @@ const cur = (h) => (here === h ? 'page' : undefined);
 
   <style is:global>
     /* --------------------------------------------- bandeau utilitaire §4 - */
-    .util { background: var(--ink); color: var(--paper); }
+    .util { background: #0a1b3c; color: var(--paper); }
     .util__in { display: flex; align-items: center; justify-content: space-between;
                 gap: 16px; min-height: 34px; }
     .util__in a { text-decoration: none; }
-    .util__in a:hover { color: var(--noug); }   /* noug sur encre : 7,85 — ok */
+    .util__in a:hover { color: var(--accent); }   /* bleu clair sur nuit : 7,02 */
     @media (max-width: 560px) { .util__in span { display: none; } }
 
     /* -------------------------------------------------------- en-tête §4 - */
@@ -189,7 +189,7 @@ const cur = (h) => (here === h ? 'page' : undefined);
     .menu { display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
             font-family: var(--sans); font-stretch: 88%; font-weight: 700; font-size: .9rem;
             background: none; border: 0; color: var(--fg); padding: 6px 1px;
-            border-bottom: 2px solid var(--noug); }   /* §3 — noug en filet */
+            border-bottom: 2px solid var(--accent); }   /* §3 — noug en filet */
     .menu i { display: block; width: 16px; height: 1.5px; background: currentColor;
               position: relative; }
     .menu i::before, .menu i::after { content: ''; position: absolute; left: 0;
@@ -208,7 +208,7 @@ const cur = (h) => (here === h ? 'page' : undefined);
     .nav__x { width: 36px; height: 36px; border: 1px solid var(--rule); background: none;
               color: var(--fg); cursor: pointer; display: grid; place-items: center;
               font-size: 18px; line-height: 1; border-radius: 999px; }
-    .nav__x:hover { background: var(--noug); border-color: var(--noug); color: var(--ink); }
+    .nav__x:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
     .nav__body { overflow-y: auto; padding-block: clamp(22px, 4vh, 40px) 40px; }
     .nav__grid { display: grid; gap: 28px; }
     @media (min-width: 900px) { .nav__grid { grid-template-columns: 1.1fr 1fr 1fr; gap: 24px 44px; } }
@@ -236,7 +236,7 @@ const cur = (h) => (here === h ? 'page' : undefined);
     .nav__foot a { text-decoration: none; }
 
     /* ------------------------------------------------------------ pied -- */
-    .ftr { background: var(--ink); color: var(--paper); margin-top: clamp(52px, 7vw, 96px); }
+    .ftr { background: #0a1b3c; color: var(--paper); margin-top: clamp(52px, 7vw, 96px); }
     .ftr__in { display: grid; gap: 28px 40px; padding-block: clamp(34px, 4.5vw, 60px); }
     @media (min-width: 760px) { .ftr__in { grid-template-columns: 1.5fr 1fr 1fr 1fr; } }
     .ftr__name { font-stretch: 112%; font-weight: 760; font-size: 1.15rem; margin: 0 0 10px; }
@@ -244,7 +244,7 @@ const cur = (h) => (here === h ? 'page' : undefined);
     .ftr__h { margin: 0 0 12px; }
     .ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: .95rem; }
     .ftr a { text-decoration: none; }
-    .ftr a:hover { color: var(--noug); }        /* 7,85 sur encre — ok */
+    .ftr a:hover { color: var(--accent); }        /* bleu clair sur nuit : 7,02 */
     .ftr__more { margin: 10px 0 0; font-size: .88rem; }
     .ftr__end { display: flex; flex-wrap: wrap; gap: 6px 22px; justify-content: space-between;
                 padding-bottom: 30px; }
