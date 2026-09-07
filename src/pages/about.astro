@@ -30,7 +30,7 @@ const c = site.company;
         {site.founder.paragraphs.map((t, n) => (
           <p class={n === 0 ? 'letter__first' : 'letter__p'}>{t}</p>
         ))}
-        <p class="t-label t-quiet letter__sign">{site.founder.role} &middot; {c.name}</p>
+        <p class="letter__sign"><b>{site.founder.name}</b><span class="t-label t-quiet">{site.founder.role} &middot; {c.name}</span></p>
       </div>
     </div>
   </section>
@@ -68,7 +68,9 @@ const c = site.company;
   .letter__img { margin: 0; }
   .letter__first { font-size: clamp(1.15rem, 1.8vw, 1.4rem); line-height: 1.45; margin: 12px 0 .8em; }
   .letter__p { color: var(--muted); }
-  .letter__sign { margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--rule); max-width: none; }
+  .letter__sign { display: grid; gap: 3px; margin-top: 22px; padding-top: 14px;
+                  border-top: 1px solid var(--rule); max-width: none; }
+  .letter__sign b { font-stretch: 106%; font-weight: 720; font-size: 1.05rem; }
 
   .premises { padding-top: clamp(40px, 5.5vw, 78px); }
   .premises__p { margin-top: 14px; color: var(--muted); }

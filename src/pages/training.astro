@@ -7,7 +7,7 @@ const t = site.training;
 
 <Base
   title="Book to train with us — Tungsten Import Export"
-  description="Practical import and export training in Addis Ababa. Leave your details and when you would like to begin; we contact you when a place opens."
+  description="Practical import and export training in Addis Ababa: export procedure and documentation, quality assurance, negotiation, cross-border contracts, risk and foreign market access."
 >
   <section class="top">
     <div class="shell">
@@ -21,24 +21,25 @@ const t = site.training;
     <img src="/img/company/team-desk.jpg" alt="A member of the Tungsten team at work" loading="lazy" />
   </figure>
 
+  {/* Le programme reel, tel que fourni par l entreprise. */}
+  <section class="syl">
+    <div class="shell">
+      <h2 class="t-section syl__h">What the programme covers</h2>
+      <ol class="syl__list">
+        {t.modules.map((m, n) => (
+          <li>
+            <span class="t-label t-quiet syl__n">{String(n + 1).padStart(2, '0')}</span>
+            <span class="syl__m">{m}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
   <section class="form-wrap">
     <div class="shell">
+      <h2 class="t-section form__h">Tell us how to reach you</h2>
       <form class="form" id="enrol" data-email={c.email} novalidate>
-        <div class="row">
-          <p class="t-label t-quiet" id="tl">Programme</p>
-          <div class="picks" role="radiogroup" aria-labelledby="tl">
-            {t.tracks.map((k, n) => (
-              <label class="pick">
-                <input type="radio" name="track" value={k.name} checked={n === 0} />
-                <span>
-                  <b>{k.name}</b>
-                  <small>{k.body}</small>
-                </span>
-              </label>
-            ))}
-          </div>
-        </div>
-
         <div class="row">
           <p class="t-label t-quiet">Who you are</p>
           <div class="pair">
@@ -54,7 +55,7 @@ const t = site.training;
         </div>
 
         <div class="row">
-          <p class="t-label t-quiet">Timing</p>
+          <p class="t-label t-quiet">When you would like to begin</p>
           <div class="pair">
             <p class="f"><label for="s">Preferred start</label>
               <input id="s" name="start" type="month" />
@@ -80,6 +81,7 @@ const t = site.training;
           <div>
             <button class="pill" type="submit">Send my enquiry</button>
             <p class="note">{t.note}</p>
+            <p class="note">Office hours: {c.hours.weekdays}.</p>
             <p class="status" id="status" role="status" aria-live="polite"></p>
           </div>
         </div>
@@ -94,21 +96,23 @@ const t = site.training;
   .top__p { margin-top: 18px; font-size: clamp(1.1rem, 1.7vw, 1.35rem); line-height: 1.5; }
   .media--band { margin-bottom: clamp(34px, 4.5vw, 64px); }
 
+  .syl__h { margin-bottom: 20px; }
+  .syl__list { list-style: none; margin: 0 0 clamp(40px, 5.5vw, 76px); padding: 0;
+               border-top: 1px solid var(--rule); }
+  .syl__list li { display: grid; gap: 4px 28px; align-items: baseline;
+                  padding-block: clamp(16px, 2.2vw, 26px);
+                  border-bottom: 1px solid var(--rule); }
+  @media (min-width: 620px) { .syl__list li { grid-template-columns: 60px 1fr; } }
+  .syl__n { margin: 0; }
+  .syl__m { font-stretch: 106%; font-weight: 720; font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+            letter-spacing: -.012em; }
+
+  .form__h { margin-bottom: 18px; }
   .form { border-top: 1px solid var(--rule); }
   .row { display: grid; gap: 10px 32px; padding-block: clamp(20px, 3vw, 32px);
          border-bottom: 1px solid var(--rule); }
-  @media (min-width: 780px) { .row { grid-template-columns: 200px 1fr; } }
+  @media (min-width: 780px) { .row { grid-template-columns: 220px 1fr; } }
   .row > p:first-child { margin: 0; max-width: none; }
-
-  .picks { display: grid; gap: 10px; }
-  .pick { position: relative; }
-  .pick input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-  .pick span { display: block; padding: 16px 18px; cursor: pointer;
-               border: 1px solid var(--rule); }
-  .pick b { display: block; font-stretch: 106%; font-weight: 720; margin-bottom: 5px; }
-  .pick small { display: block; color: var(--muted); line-height: 1.5; }
-  .pick input:checked + span { border-color: var(--fg); box-shadow: inset 3px 0 0 var(--noug); }
-  .pick input:focus-visible + span { outline: 2px solid var(--fg); outline-offset: 2px; }
 
   .pair { display: grid; gap: 16px; }
   @media (min-width: 620px) { .pair { grid-template-columns: 1fr 1fr; } }
@@ -123,7 +127,7 @@ const t = site.training;
   .f input:focus, .f select:focus, .f textarea:focus { outline: 0; border-color: var(--fg); }
   .hint { font-size: .82rem; color: var(--muted); }
 
-  .note { margin-top: 14px; color: var(--muted); font-size: .92rem; }
+  .note { margin-top: 12px; color: var(--muted); font-size: .92rem; }
   .status { margin-top: 8px; font-weight: 500; }
 </style>
 
@@ -141,7 +145,6 @@ const t = site.training;
       'Email:           ' + g('email'),
       'Phone:           ' + g('phone'),
       'City / country:  ' + g('location'),
-      'Programme:       ' + (g('track') || 'not specified'),
       'Preferred start: ' + (g('start') || 'as soon as a place opens'),
       'Experience:      ' + (g('experience') || 'not specified'),
       '', 'Message:', g('message') || '—',

@@ -43,6 +43,10 @@ const socials = c.socials.filter((s) => s.url);
           </div>
         )}
         <div>
+          <dt class="t-label t-quiet">Opening hours</dt>
+          <dd>{c.hours.weekdays}<br /><span class="t-quiet">{c.hours.weekend}</span></dd>
+        </div>
+        <div>
           <dt class="t-label t-quiet">Training</dt>
           <dd><a class="lnk" href="/training/">Book a place on the next intake</a></dd>
         </div>

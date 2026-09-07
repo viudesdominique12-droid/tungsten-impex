@@ -16,35 +16,24 @@
     "mapMarker": "9.0110,38.7880",
     "socials": [
       {
-        "id": "whatsapp",
-        "label": "WhatsApp",
-        "url": "https://wa.me/251912610248"
-      },
-      {
-        "id": "linkedin",
-        "label": "LinkedIn",
-        "url": ""
-      },
-      {
         "id": "facebook",
         "label": "Facebook",
-        "url": ""
-      },
-      {
-        "id": "telegram",
-        "label": "Telegram",
-        "url": ""
-      },
-      {
-        "id": "instagram",
-        "label": "Instagram",
-        "url": ""
+        "url": "https://www.facebook.com/share/p/1RYNWA1SRW/"
       }
-    ]
+    ],
+    "hours": {
+      "weekdays": "Monday to Friday, 8:00 to 17:00",
+      "weekend": "Closed Saturday and Sunday. Saturday only for urgent shipments."
+    },
+    "tenure": {
+      "atThisAddress": "Five years at Dembel City Center",
+      "before": "More than twenty years at previous premises",
+      "founderTrade": "Thirty years in the export trade, across several companies"
+    }
   },
   "founder": {
-    "name": "",
-    "role": "Founder & General Manager",
+    "name": "Yeshwas Ademe",
+    "role": "Founder",
     "paragraphs": [
       "With over 30 years in the Ethiopian oilseed and pulse trade, I’ve learned that real resilience isn’t just about weathering storms — it’s about stability when it matters most. That’s the spirit behind our name: like Tungsten, we are naturally strong and built to endure.",
       "I started this company in 2007 to bridge local potential with global markets. My background in international business taught me that trust is the real currency of trade. Today, that means putting your needs first, sourcing only the best products, and showing up with integrity every single day.",
@@ -53,21 +42,16 @@
   },
   "training": {
     "intro": "We run practical import and export training in Addis Ababa, for people who want to work in Ethiopian foreign trade or to trade on their own account. Leave us your details and roughly when you would like to begin — we will contact you as soon as a place opens.",
-    "tracks": [
-      {
-        "name": "Import track",
-        "body": "How an import is put together end to end — finding and checking suppliers, the paperwork and permits, clearing goods and getting them delivered."
-      },
-      {
-        "name": "Export track",
-        "body": "Ethiopian oilseeds and pulses in practice — quality and grading, buyers and contracts, documentation, inspection and shipping."
-      },
-      {
-        "name": "Both tracks",
-        "body": "The full programme, taken back to back. The usual choice for people setting up their own import–export company."
-      }
-    ],
-    "note": "No payment and no commitment at this stage. Sending this form only puts you on the list for the next intake."
+    "note": "No payment and no commitment at this stage. Sending this form only puts you on the list for the next intake.",
+    "modules": [
+      "Oilseeds and pulses export procedure and documentation",
+      "Quality assurance",
+      "Negotiation skills",
+      "Cross-border contracts",
+      "Export risk and risk management",
+      "How to access foreign markets",
+      "Import procedures and documentation"
+    ]
   },
   "imports": [
     {
