@@ -1,0 +1,200 @@
+---
+import Base from '../../layouts/Base.astro';
+import company from '../../data/company.json';
+import exportsData from '../../data/exports.json';
+
+export function getStaticPaths() {
+  return exportsData.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+
+const { p } = Astro.props;
+const others = exportsData.filter((x) => x.slug !== p.slug);
+
+// Une valeur absente n'est jamais inventee : elle sort en placeholder visible.
+const filled = (v) => typeof v === 'string' && v.trim().length > 0;
+---
+
+<Base
+  title={`${p.name} (${p.botanical}) — Tungsten Import Export`}
+  description={`Ethiopian ${p.name.toLowerCase()} for export. ${p.pitch}`}
+>
+  <article class="sheet">
+    <div class="shell">
+      <nav class="crumb" aria-label="Breadcrumb">
+        <a href="/">Tungsten</a>
+        <span aria-hidden="true">/</span>
+        <a href="/?state=out">Out</a>
+      </nav>
+
+      <div class="top">
+        <header class="head">
+          <h1>{p.name}</h1>
+          <p class="head__names">
+            <em class="bot">{p.botanical}</em>
+            <span class="am" lang="am">{p.amharic}</span>
+            {p.transliteration && <span class="translit">{p.transliteration}</span>}
+          </p>
+          <p class="head__pitch">{p.pitch}</p>
+
+          <h2 class="lab lab--gap">Origin</h2>
+          <ul class="chips">
+            {p.regions.map((r) => <li class="data">{r}</li>)}
+          </ul>
+
+          {p.varieties.length > 0 && (
+            <>
+              <h2 class="lab lab--gap">Varieties</h2>
+              <ul class="chips">
+                {p.varieties.map((v) => <li class="data">{v}</li>)}
+              </ul>
+            </>
+          )}
+        </header>
+
+        <section class="col">
+          <h2 class="lab">Specification</h2>
+          <table class="spec">
+            <tbody>
+              {p.specs.map((s) => (
+                <tr>
+                  <th scope="row">{s.label}</th>
+                  <td>
+                    {filled(s.value)
+                      ? <span class="data">{s.value}</span>
+                      : <span class="ph">to be confirmed</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p class="warn">
+            Trade-standard ranges are <strong>not</strong> published here. Every figure on
+            this table is supplied and signed off by Tungsten before it goes live.
+          </p>
+        </section>
+
+      </div>
+
+      <div class="cols">
+        <section class="col">
+          <h2 class="lab">Shipment</h2>
+          <dl class="ship">
+            <div>
+              <dt>Loading port</dt>
+              <dd class="data">{p.loadingPort}</dd>
+            </div>
+            <div>
+              <dt>Packing</dt>
+              <dd>{filled(p.packing) ? <span class="data">{p.packing}</span> : <span class="ph">&#123;&#123;CONDITIONNEMENT&#125;&#125;</span>}</dd>
+            </div>
+            <div>
+              <dt>Incoterms</dt>
+              <dd>{p.incoterms.length ? <span class="data">{p.incoterms.join(' · ')}</span> : <span class="ph">&#123;&#123;INCOTERMS&#125;&#125;</span>}</dd>
+            </div>
+            <div>
+              <dt>Monthly capacity</dt>
+              <dd>{filled(p.capacity) ? <span class="data">{p.capacity}</span> : <span class="ph">&#123;&#123;CAPACITE_MENSUELLE_DE_CHARGEMENT&#125;&#125;</span>}</dd>
+            </div>
+            <div>
+              <dt>HS code</dt>
+              <dd>{filled(p.hsCode) ? <span class="data">{p.hsCode}</span> : <span class="ph">&#123;&#123;CODE_SH&#125;&#125;</span>}</dd>
+            </div>
+          </dl>
+
+          <a class="btn sheet__cta" href={`/quote/?product=${p.slug}`}>Request a quotation</a>
+        </section>
+
+        {/* Emplacement photographique reserve (§5) : compact, jamais un grand
+            vide. A remplacer par la macro du grain / les sacs de jute. */}
+        <figure class="plate">
+          <figcaption>Photography to come — macro of the seed, jute bags, loading</figcaption>
+        </figure>
+      </div>
+
+      <nav class="others" aria-label="Other export products">
+        <h2 class="lab">Also out of Ethiopia</h2>
+        <ul>
+          {others.map((o) => (
+            <li>
+              <a href={`/export/${o.slug}/`}>
+                <span class="others__n">{o.name}</span>
+                <em class="bot">{o.botanical}</em>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .sheet { padding-top: clamp(20px, 3vw, 36px); }
+
+  .crumb { display: flex; gap: 9px; font-family: var(--sans); font-stretch: 62%;
+           font-size: var(--t-micro); color: var(--fg-quiet); margin-bottom: clamp(18px, 3vw, 30px); }
+  .crumb a { text-decoration: none; }
+  .crumb a:hover { color: var(--fg); }
+
+  .head { max-width: min(52ch, 100%); }
+  .head h1 { font-size: clamp(2.4rem, 1.7rem + 3.2vw, 4.6rem); font-stretch: 125%; }
+  .head__names { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin: 10px 0 0; }
+  .bot { font-family: var(--serif); font-style: italic; color: var(--fg-quiet); }
+  .am { font-size: 1.25rem; }
+  .translit { font-family: var(--sans); font-stretch: 62%; font-size: var(--t-micro); color: var(--fg-quiet); }
+  .head__pitch { margin-top: 16px; font-size: var(--t-lead); max-width: min(52ch, 100%); }
+
+  /* Le premier ecran est tenu : le titre a gauche, la fiche technique a droite.
+     C'est ce qu'un acheteur de matieres premieres vient lire (§7). */
+  .top { display: grid; gap: clamp(28px, 4vw, 52px); align-items: start; }
+  @media (min-width: 860px) { .top { grid-template-columns: 1fr 1fr; } }
+
+  /* Emplacement photographique : compact et aligne sur le reste. Un grand
+     rectangle vide au centre lit comme une page cassee (§5). */
+  .plate {
+    margin: 0; aspect-ratio: 16 / 10;
+    border: 1px dashed var(--rule);
+    display: grid; place-items: center; padding: 16px;
+  }
+  .plate figcaption { font-family: var(--sans); font-stretch: 62%; font-size: var(--t-micro);
+                      color: var(--fg-quiet); text-align: center; max-width: 28ch; }
+
+  .cols { display: grid; gap: clamp(28px, 4vw, 56px); margin-top: clamp(32px, 4.5vw, 60px); }
+  @media (min-width: 860px) { .cols { grid-template-columns: 1fr 1fr; } }
+
+  .lab { font-family: var(--sans); font-stretch: 62%; font-weight: 600;
+         font-size: var(--t-micro); color: var(--fg-quiet); margin-bottom: 10px; }
+  .lab--gap { margin-top: 26px; }
+
+  .spec { width: 100%; border-collapse: collapse; }
+  .spec tr { border-top: 1px solid var(--rule); }
+  .spec tr:last-child { border-bottom: 1px solid var(--rule); }
+  .spec th, .spec td { text-align: left; padding: 11px 14px 11px 0; vertical-align: baseline; }
+  .spec th { font-family: var(--serif); font-weight: 400; width: 52%; }
+  .spec td { width: 48%; }
+
+  .warn { margin-top: 14px; font-size: var(--t-small); color: var(--fg-quiet); max-width: 48ch; }
+  .warn strong { font-weight: 600; }
+
+  .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips li { font-size: var(--t-small); border: 1px solid var(--rule); padding: 5px 10px; }
+
+  .ship { margin: 0; display: grid; }
+  .ship > div { display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: space-between;
+                padding: 10px 0; border-top: 1px solid var(--rule); }
+  .ship > div:last-child { border-bottom: 1px solid var(--rule); }
+  .ship dt { font-family: var(--serif); }
+  .ship dd { margin: 0; text-align: right; }
+
+  .sheet__cta { margin-top: 26px; }
+
+  .others { margin-top: clamp(40px, 5.5vw, 76px); }
+  .others ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--rule); }
+  @media (min-width: 700px) { .others ul { grid-template-columns: repeat(3, 1fr); } }
+  .others li { background: var(--bg); }
+  .others a { display: grid; gap: 3px; padding: 16px 16px 20px; text-decoration: none;
+              transition: background-color .22s var(--swing); }
+  .others a:hover { background: var(--accent); color: var(--accent-text); }
+  .others a:hover .bot { color: inherit; }
+  .others__n { font-family: var(--sans); font-stretch: 112%; font-weight: 600; font-size: 1.1rem; }
+</style>

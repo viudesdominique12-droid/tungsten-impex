@@ -4,11 +4,51 @@
     "name": "Sesame",
     "botanical": "Sesamum indicum",
     "amharic": "ሰሊጥ",
-    "varieties": ["Humera", "Gonder", "Wellega"],
-    "regions": ["Humera", "Metema", "Gondar", "Wollega"],
+    "varieties": [
+      "Humera",
+      "Gonder",
+      "Wellega"
+    ],
+    "regions": [
+      "Humera",
+      "Metema",
+      "Gondar",
+      "Wollega"
+    ],
     "pitch": "Humera and Gonder whitish seed for the bakery and confectionery trade; Wellega for crushing. We source on variety, not on a blended average.",
     "tonnage": "",
-    "note_specs": "Purete, humidite et teneur en huile: fourchettes standard du commerce, NON fournies par le client. A faire valider avant mise en ligne."
+    "note_specs": "Purete, humidite et teneur en huile: fourchettes standard du commerce, NON fournies par le client. A faire valider avant mise en ligne.",
+    "specs": [
+      {
+        "label": "Purity",
+        "value": ""
+      },
+      {
+        "label": "Moisture",
+        "value": ""
+      },
+      {
+        "label": "Oil content",
+        "value": ""
+      },
+      {
+        "label": "Free fatty acid",
+        "value": ""
+      },
+      {
+        "label": "Admixture",
+        "value": ""
+      },
+      {
+        "label": "Colour / grade",
+        "value": ""
+      }
+    ],
+    "packing": "",
+    "loadingPort": "Djibouti",
+    "incoterms": [],
+    "capacity": "",
+    "hsCode": ""
   },
   {
     "slug": "noug",
@@ -16,10 +56,40 @@
     "botanical": "Guizotia abyssinica",
     "amharic": "ኑግ",
     "varieties": [],
-    "regions": ["Gondar", "Wollega"],
+    "regions": [
+      "Gondar",
+      "Wollega"
+    ],
     "pitch": "Ethiopia's own oilseed, grown almost nowhere else at scale. Pressed for edible oil, and taken as birdseed in European markets.",
     "tonnage": "",
-    "note_specs": "Teneur en huile: a faire confirmer par le client."
+    "note_specs": "Teneur en huile: a faire confirmer par le client.",
+    "specs": [
+      {
+        "label": "Purity",
+        "value": ""
+      },
+      {
+        "label": "Moisture",
+        "value": ""
+      },
+      {
+        "label": "Oil content",
+        "value": ""
+      },
+      {
+        "label": "Free fatty acid",
+        "value": ""
+      },
+      {
+        "label": "Admixture",
+        "value": ""
+      }
+    ],
+    "packing": "",
+    "loadingPort": "Djibouti",
+    "incoterms": [],
+    "capacity": "",
+    "hsCode": ""
   },
   {
     "slug": "red-kidney-beans",
@@ -28,10 +98,40 @@
     "amharic": "ቀይ ቦሎቄ",
     "transliteration": "qey boloqe",
     "varieties": [],
-    "regions": ["Bale", "Arsi"],
+    "regions": [
+      "Bale",
+      "Arsi"
+    ],
     "pitch": "Bright red, even-sized bean with steady demand across Europe and South Asia. Sorted and bagged to buyer specification.",
     "tonnage": "",
-    "note_specs": "Calibre et taux de defauts: a faire confirmer."
+    "note_specs": "Calibre et taux de defauts: a faire confirmer.",
+    "specs": [
+      {
+        "label": "Purity",
+        "value": ""
+      },
+      {
+        "label": "Moisture",
+        "value": ""
+      },
+      {
+        "label": "Screen size",
+        "value": ""
+      },
+      {
+        "label": "Defective grains",
+        "value": ""
+      },
+      {
+        "label": "Foreign matter",
+        "value": ""
+      }
+    ],
+    "packing": "",
+    "loadingPort": "Djibouti",
+    "incoterms": [],
+    "capacity": "",
+    "hsCode": ""
   },
   {
     "slug": "soya-bean",
@@ -39,9 +139,42 @@
     "botanical": "Glycine max",
     "amharic": "አኩሪ አተር",
     "varieties": [],
-    "regions": ["Wollega"],
+    "regions": [
+      "Wollega"
+    ],
     "pitch": "Crushing-grade soya out of the western highlands, for oil mills and feed compounders.",
     "tonnage": "",
-    "note_specs": "Proteine et humidite: a faire confirmer."
+    "note_specs": "Proteine et humidite: a faire confirmer.",
+    "specs": [
+      {
+        "label": "Purity",
+        "value": ""
+      },
+      {
+        "label": "Moisture",
+        "value": ""
+      },
+      {
+        "label": "Protein",
+        "value": ""
+      },
+      {
+        "label": "Oil content",
+        "value": ""
+      },
+      {
+        "label": "Damaged grains",
+        "value": ""
+      },
+      {
+        "label": "Foreign matter",
+        "value": ""
+      }
+    ],
+    "packing": "",
+    "loadingPort": "Djibouti",
+    "incoterms": [],
+    "capacity": "",
+    "hsCode": ""
   }
 ]

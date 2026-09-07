@@ -111,6 +111,46 @@ const browser = await chromium.launch();
   await ctx.close();
 }
 
+/* ------------------------------------------------- fiche produit export -- */
+{
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await ctx.newPage();
+  await page.goto(new URL('/export/sesame/', TARGET).href, { waitUntil: 'networkidle' });
+  await page.evaluate(() => document.fonts.ready);
+
+  console.log('');
+  console.log('FICHE PRODUIT EXPORT (sesame) 1440x900');
+  const r = await page.evaluate(() => {
+    const vh = window.innerHeight;
+    const seen = (sel) => { const e = document.querySelector(sel); if (!e) return false;
+      const b = e.getBoundingClientRect(); return b.top < vh && b.bottom > 0; };
+    return {
+      over: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      specSeen: seen('.spec'), titleSeen: seen('h1'), chipsSeen: seen('.chips'),
+      specRows: document.querySelectorAll('.spec tbody tr').length,
+      invented: document.querySelectorAll('.spec td .data').length,
+      placeholders: document.querySelectorAll('.ph').length,
+      // §9.2 — aucune zone vide de plus d'un DEMI-ecran. Le seuil est la moitie
+      // de la hauteur visible, pas "hors du premier ecran".
+      plateH: Math.round(document.querySelector('.plate').getBoundingClientRect().height),
+      halfScreen: Math.round(vh / 2),
+      mono: [...document.querySelectorAll('*')].some((e) =>
+        /mono/i.test(getComputedStyle(e).fontFamily)),
+    };
+  });
+  check('aucun débordement horizontal', r.over === 0, `${r.over}px`);
+  check('titre dans le premier écran', r.titleSeen);
+  check('fiche technique dans le premier écran', r.specSeen, `${r.specRows} lignes`);
+  check('origine / variétés dans le premier écran', r.chipsSeen);
+  check('aucune valeur inventée', r.invented === 0, `${r.invented} remplie(s)`);
+  check('placeholders visibles', r.placeholders > 0, `${r.placeholders}`);
+  check('aucun vide > demi-écran', r.plateH < r.halfScreen, `emplacement photo ${r.plateH}px < ${r.halfScreen}px`);
+  check('aucune monospace (§6 interdit)', !r.mono);
+
+  await page.screenshot({ path: `${OUT}/pw-export-sheet.png` });
+  await ctx.close();
+}
+
 await browser.close();
 console.log(`\n${failures === 0 ? 'TOUT PASSE' : failures + ' ECHEC(S)'} — captures dans verif/\n`);
 process.exit(failures === 0 ? 0 : 1);
