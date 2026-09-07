@@ -85,6 +85,34 @@ const browser = await chromium.launch();
       .map((e) => e.tagName + '.' + (e.className || '').toString().slice(0, 24)).slice(0, 5));
   check('aucune ombre portée', shadows.length === 0, shadows.join(', '));
 
+  /* Aucun filet colore, nulle part. Un trait d'accent sous un en-tete ou
+     au-dessus d'une section est le tic de gabarit le plus reconnaissable ;
+     la couleur ne travaille qu'en aplat plein. On releve donc toutes les
+     bordures et tous les traits de soulignement peints a l'ecran. */
+  const filets = await page.evaluate(() => {
+    const bleu = (v) => {
+      const n = (v.match(/[\d.]+/g) || []).map(Number);
+      if (n.length > 3 && n[3] === 0) return false;
+      return n.length >= 3 && n[2] - n[0] > 60;
+    };
+    const out = [];
+    for (const el of document.querySelectorAll('body *')) {
+      if (el.getBoundingClientRect().right < 0) continue;
+      const s = getComputedStyle(el);
+      for (const [k, w] of [['borderTopColor', s.borderTopWidth],
+                            ['borderBottomColor', s.borderBottomWidth],
+                            ['borderLeftColor', s.borderLeftWidth],
+                            ['borderRightColor', s.borderRightWidth]]) {
+        if (parseFloat(w) > 0 && bleu(s[k])) out.push(el.tagName + '.' + (el.className || '') + ' ' + k);
+      }
+      if (s.textDecorationLine !== 'none' && bleu(s.textDecorationColor)
+          && s.textDecorationColor !== s.color)
+        out.push(el.tagName + '.' + (el.className || '') + ' underline');
+    }
+    return [...new Set(out)].slice(0, 6);
+  });
+  check('aucun filet colore', filets.length === 0, filets.join(' | '));
+
   /* §3 — trois couleurs à l'écran. On relève les teintes réellement peintes. */
   const palette = await page.evaluate(() => {
     const seen = new Map();
@@ -154,11 +182,11 @@ const browser = await chromium.launch();
   });
   check('la bande entrante existe', !!band);
   if (band) {
-    check('la bande peint la nuit', parse(band.bg)[0] < 40 && parse(band.bg)[2] > 40, band.bg);
+    check('la bande peint l aplat bleu', parse(band.bg)[0] < 40 && parse(band.bg)[2] > 40, band.bg);
     const cIn = ratio(flat(parse(band.fg), parse(band.bg)), parse(band.bg));
     const mIn = ratio(flat(parse(band.muted), parse(band.bg)), parse(band.bg));
-    check('AA papier / nuit', cIn >= 4.5, cIn.toFixed(2));
-    check('AA muted / nuit', mIn >= 4.5, mIn.toFixed(2));
+    check('AA papier / aplat bleu', cIn >= 4.5, cIn.toFixed(2));
+    check('AA muted / aplat bleu', mIn >= 4.5, mIn.toFixed(2));
     check('la bande fait sa hauteur', band.h > 400, `${band.h}px`);
     await page.evaluate((y) => scrollTo(0, y - 40), band.top);
     await page.waitForTimeout(300);
@@ -207,11 +235,11 @@ const browser = await chromium.launch();
     };
   });
   const rgbBg = parse(r.bg);
-  check('page import sur fond sombre', lum(rgbBg) < 0.1, r.bg);
+  check('page import sur l’aplat bleu', rgbBg[2] - rgbBg[0] > 60, r.bg);
   check('voile sombre sur l’image', r.overlay);
-  check('AA texte / fond sombre', ratio(flat(parse(r.fg), rgbBg), rgbBg) >= 4.5, ratio(flat(parse(r.fg), rgbBg), rgbBg).toFixed(2));
+  check('AA texte / aplat bleu', ratio(flat(parse(r.fg), rgbBg), rgbBg) >= 4.5, ratio(flat(parse(r.fg), rgbBg), rgbBg).toFixed(2));
   const mDark = ratio(flat(parse(r.muted), rgbBg), rgbBg);
-  check('AA muted / fond sombre', mDark >= 4.5, mDark.toFixed(2));
+  check('AA muted / aplat bleu', mDark >= 4.5, mDark.toFixed(2));
   check('image de tête pleine largeur', r.imgW >= r.vw * 0.9, `${r.imgW}px / ${r.vw}px`);
   check('aucun débordement horizontal', r.over === 0, `${r.over}px`);
   const geo = await page.evaluate(() => {
@@ -288,7 +316,7 @@ const browser = await chromium.launch();
 BALAYAGE — ${routes.length} pages`);
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
-  const over = [], vign = [];
+  const over = [], vign = [], filet = [];
   for (const r of routes) {
     await page.goto(new URL(r, TARGET).href, { waitUntil: 'networkidle' });
     const m = await page.evaluate(() => ({
@@ -298,12 +326,33 @@ BALAYAGE — ${routes.length} pages`);
       p: [...document.querySelectorAll('img')]
            .filter((i) => i.getBoundingClientRect().width < 360)
            .map((i) => i.getAttribute('src')),
+      // La couleur ne travaille qu'en aplat. Aucun filet bleu, sur aucune page.
+      f: (() => {
+        const bleu = (v) => { const n = (v.match(/[\d.]+/g) || []).map(Number);
+          return !(n.length > 3 && n[3] === 0) && n.length >= 3 && n[2] - n[0] > 60; };
+        const out = [];
+        for (const el of document.querySelectorAll('body *')) {
+          if (el.getBoundingClientRect().right < 0) continue;
+          const c = getComputedStyle(el);
+          for (const [k, w] of [['borderTopColor', c.borderTopWidth],
+                                ['borderBottomColor', c.borderBottomWidth],
+                                ['borderLeftColor', c.borderLeftWidth],
+                                ['borderRightColor', c.borderRightWidth]])
+            if (parseFloat(w) > 0 && bleu(c[k])) out.push(el.tagName + '.' + (el.className || ''));
+          if (c.textDecorationLine !== 'none' && bleu(c.textDecorationColor)
+              && c.textDecorationColor !== c.color)
+            out.push(el.tagName + '.' + (el.className || '') + ':underline');
+        }
+        return [...new Set(out)].slice(0, 3);
+      })(),
     }));
     if (m.o !== 0) over.push(`${r} (${m.o}px)`);
     if (m.p.length) vign.push(`${r} ${m.p.join(' ')}`);
+    if (m.f.length) filet.push(`${r} ${m.f.join(' ')}`);
   }
   check('aucun debordement sur aucune page', over.length === 0, over.join(', '));
   check('aucune vignette sur aucune page', vign.length === 0, vign.join(' | '));
+  check('aucun filet colore sur aucune page', filet.length === 0, filet.join(' | '));
   await ctx.close();
 }
 

@@ -22,7 +22,7 @@ const c = site.company;
 
 <Base
   title="Tungsten Import Export — Addis Ababa"
-  description="Ethiopian oilseeds and pulses to international buyers; equipment and materials into Ethiopia, cleared and delivered. Trading from Addis Ababa since 2007."
+  description="We export Ethiopian oilseeds and pulses, and import medicines, vehicles and materials into Ethiopia. Trading from Addis Ababa since 2007."
 >
   {/* 1 — PREMIER ECRAN. Le titre, et rien dessous : ni bouton, ni chapeau.
         La premiere ligne du registre affleure, ce qui dit qu'il y a un
@@ -30,17 +30,19 @@ const c = site.company;
   <section class="hero">
     <div class="shell">
       <h1 class="t-display hero__h">
-        <span class="line"><span>Ethiopian oilseeds and pulses out.</span></span>
-        <span class="line hero__in"><span>Medicines, vehicles and materials in.</span></span>
+        <span class="line"><span>We export Ethiopian oilseeds and pulses.</span></span>
+        <span class="line"><span>We import medicines, vehicles and materials.</span></span>
       </h1>
     </div>
   </section>
 
   {/* 2 — REGISTRE SORTANT, sur le papier. */}
-  <section class="reg-out" id="out">
+  <section class="reg-out" id="exports">
     <div class="shell">
-      <span class="tick" aria-hidden="true"></span>
-      <h2 class="t-label reg__h">Out &middot; {out.length} lines</h2>
+      <header class="reg__head">
+        <h2 class="t-h2">Exports</h2>
+        <p class="t-note t-quiet">{out.length} products</p>
+      </header>
       <div class="reg">
         {out.map((p) => (
           <a class="row" href={`/${p.folder}/${p.slug}/`}>
@@ -68,10 +70,12 @@ const c = site.company;
 
   {/* 3 — REGISTRE ENTRANT, meme composant, sur la nuit. La page descend du
         papier vers la nuit : c'est le sens de circulation, litteralement. */}
-  <section class="reg-in" id="in" data-flow="in">
+  <section class="reg-in" id="imports" data-flow="in">
     <div class="shell">
-      <span class="tick" aria-hidden="true"></span>
-      <h2 class="t-label reg__h">In &middot; {inn.length} lines</h2>
+      <header class="reg__head">
+        <h2 class="t-h2">Imports</h2>
+        <p class="t-note t-quiet">{inn.length} categories</p>
+      </header>
       <div class="reg">
         {inn.map((p) => (
           <a class="row" href={`/${p.folder}/${p.slug}/`}>
@@ -89,29 +93,16 @@ const c = site.company;
     </div>
   </section>
 
-  {/* 4 — DEUX DUREES. Il y en avait quatre : deux se contentaient de
-        recompter les lignes que les deux registres viennent de titrer. Un
-        chiffre qui repete ce qu'on lit au-dessus n'est pas un chiffre, c'est
-        du remplissage. Restent les deux anciennetes, qui ne sont pas la meme
-        chose et que le client a lui-meme distinguees. */}
-  <section class="fig">
-    <div class="shell fig__in">
-      <div class="fig__one">
-        <p class="t-display fig__n">{c.founded}</p>
-        <p class="t-lead">Trading from Addis Ababa, at Dembel City Center.</p>
-      </div>
-      <div class="fig__one">
-        <p class="t-display fig__n">30</p>
-        <p class="t-lead">Years the founder has spent in the export trade.</p>
-      </div>
-    </div>
-  </section>
-
-  {/* 5 — ORIENTATION. Pas de bande d'appel, pas de bouton repete. */}
+  {/* 4 — CLOTURE. Il y avait ici une bande de chiffres cles : 2007 et 30,
+        composes au palier d'affichage. C'est la figure la plus usee du
+        gabarit d'entreprise, et j'etais deja passe de quatre chiffres a deux
+        pour la meme raison — le bout de ce raisonnement est zero. Les deux
+        durees vivent la ou elles ont un sens : 2007 est imprime dans le
+        bandeau de tete de chaque page, les trente annees du fondateur sont
+        dans sa lettre, a un lien d'ici. */}
   <section class="orient">
     <div class="shell g g--d">
       <div>
-        <h2 class="t-label t-quiet">Where we are</h2>
         <p class="t-lead orient__addr">
           {c.address.line1}<br />{c.address.line2}<br />{c.address.city}, {c.address.country}
         </p>
@@ -130,9 +121,6 @@ const c = site.company;
   /* --- 1. premier ecran --- */
   .hero { padding-block: var(--s-section) var(--s-section); }
   .hero__h { display: grid; gap: 0; }
-  /* Le sortant sur l'encre, l'entrant sur le bleu : le titre porte deja la
-     bichromie que le reste de la page deploie. */
-  .hero__in { color: var(--accent); }
   /* Revelation par masque, jamais de fondu : l'opacite fabrique un gris qui
      n'est dans aucune charte. */
   .line { display: block; overflow: hidden; padding-bottom: .04em; }
@@ -145,27 +133,20 @@ const c = site.company;
   }
 
   /* --- 2 et 3. les deux registres, un seul gabarit --- */
-  .reg-out { padding-block: 0 var(--s-section); }
+  .reg-out { padding-block: 0 var(--s-band); }
   .hinge { display: block; }
   .reg-in  { padding-block: var(--s-section); }
-  .reg__h { margin: 20px 0 var(--s-block); }
-
-  /* --- 4. les deux durees --- */
-  .fig { padding-block: var(--s-section); }
-  .fig__in { display: grid; gap: var(--s-block) var(--col-gap); }
-  @media (min-width: 900px) { .fig__in { grid-template-columns: 1fr 1fr; } }
-  .fig__one { border-top: 2px solid var(--fg); padding-top: 16px; }
-  .fig__one .t-lead { max-width: 34ch; margin-top: 12px; }
-  .fig__n { color: var(--accent); }
+    .reg__head { display: flex; align-items: baseline; justify-content: space-between;
+               gap: var(--col-gap); padding-bottom: 14px;
+               border-bottom: 2px solid var(--fg); margin-bottom: var(--s-block); }
 
 
-  /* --- 5. orientation --- */
-  .orient { padding-bottom: var(--s-section); }
-  .orient__addr { margin-top: 16px; }
+  /* --- 4. cloture --- */
+  .orient { padding-block: var(--s-band); }
   .orient__h { margin-top: 16px; }
   .orient__links { display: grid; gap: 16px; align-content: start; }
   .orient__links a { text-decoration: none; border-bottom: 1px solid var(--rule);
                      padding-bottom: 8px; width: fit-content;
                      transition: border-color var(--hover) linear; }
-  .orient__links a:hover { border-bottom-color: var(--corridor); }
+  .orient__links a:hover { border-bottom-color: var(--fg); }
 </style>

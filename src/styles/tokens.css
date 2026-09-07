@@ -28,19 +28,20 @@
 }
 
 :root {
-  /* ---- couleur : quatre valeurs, le reste par opacite ---------------- */
-  --paper:  #f2f5f9;
-  --ink:    #0a1a33;
-  --accent: #1b3fa6;
-  --night:  #0a1b3c;
-  --accent-light: #7fa8e8;   /* le bleu tombe a 1,87 sur la nuit */
+  /* ---- couleur : trois valeurs, une fonction chacune -----------------
+     Le papier porte l'export. L'encre porte le chassis — bandeau, pied.
+     Le bleu porte l'import, en aplat plein et jamais en filet : un trait
+     d'accent colore sous un en-tete est un tic de gabarit, pas une marque.
+     Tous les gris sont derives par opacite ; aucun hexadecimal de gris. */
+  --paper: #f2f5f9;
+  --ink:   #0a1a33;
+  --blue:  #1b3fa6;
 
   --bg: var(--paper);
   --fg: var(--ink);
-  --rule:  rgba(10, 26, 51, .12);
-  --hair:  rgba(10, 26, 51, .06);
+  --rule:  rgba(10, 26, 51, .14);
+  --hair:  rgba(10, 26, 51, .07);
   --muted: rgba(10, 26, 51, .62);   /* 4,78 — AA */
-  --corridor: var(--accent);
 
   /* ---- grille : une seule pour toutes les pages --------------------- */
   --shell: 1360px;
@@ -84,17 +85,29 @@
   }
 }
 
-/* La nuit : le corridor entrant. Les gris se rederivent sur le fond clair. */
+/* L'aplat bleu : la moitie importee du negoce. Papier sur bleu = 8,31 ;
+   le gris de service a 74 % = 5,31. Les deux passent AA largement. */
 [data-flow='in'] {
-  background-color: var(--night);
+  background-color: var(--blue);
   color: var(--paper);
 
-  --bg: var(--night);
+  --bg: var(--blue);
   --fg: var(--paper);
   --rule:  rgba(242, 245, 249, .18);
-  --hair:  rgba(242, 245, 249, .08);
+  --hair:  rgba(242, 245, 249, .09);
+  --muted: rgba(242, 245, 249, .74);
+}
+
+/* L'aplat d'encre : le chassis. Bandeau utilitaire et pied de page. */
+[data-ground='ink'] {
+  background-color: var(--ink);
+  color: var(--paper);
+
+  --bg: var(--ink);
+  --fg: var(--paper);
+  --rule:  rgba(242, 245, 249, .20);
+  --hair:  rgba(242, 245, 249, .09);
   --muted: rgba(242, 245, 249, .68);
-  --corridor: var(--accent-light);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -111,7 +124,7 @@ body {
   font-stretch: var(--wd-text);
   -webkit-font-smoothing: antialiased;
 }
-body[data-flow='in'] { background-color: #0a1b3c; color: #f2f5f9; }
+body[data-flow='in'] { background-color: #1b3fa6; color: #f2f5f9; }
 
 img { display: block; max-width: 100%; border-radius: var(--radius); }
 a { color: inherit; }
@@ -168,10 +181,11 @@ p { margin: 0; }
 .t-label { font-size: var(--t-label); line-height: var(--lh-label);
            font-stretch: var(--wd-label); font-weight: var(--w-label);
            letter-spacing: var(--tr-label); text-transform: uppercase; }
+.t-note { font-size: var(--t-label); line-height: var(--lh-label);
+          font-stretch: var(--wd-text); font-weight: var(--w-text); }
 .t-quiet { color: var(--muted); }
 
 p, li, dd { text-wrap: pretty; }
-.measure { max-width: 68ch; }
 
 /* -------------------------------------------------------- composants --- */
 /* Pas de pilule, pas de rayon, pas d'ombre, pas de deplacement au survol. */
@@ -190,9 +204,6 @@ p, li, dd { text-wrap: pretty; }
 .act--line { background: transparent; color: var(--fg); }
 .act--line:hover { background: var(--fg); color: var(--bg); }
 
-/* Reglette de corridor : le seul aplat d'accent du site. */
-.tick { display: block; width: 100%; height: 3px; background: var(--corridor); }
-
 /* Une ligne de registre. Un seul gabarit, rempli quatorze fois. */
 .reg { border-top: 1px solid var(--rule); }
 .row {
@@ -209,7 +220,7 @@ p, li, dd { text-wrap: pretty; }
   .row__f { grid-column: 10 / 13; text-align: right; }
 }
 .row__v { font-variant-numeric: tabular-nums; display: block; }
-.row:hover { border-bottom-color: var(--corridor); }
+.row:hover { border-bottom-color: var(--fg); }
 
 /* Images : deux tailles, un etalonnage, angles vifs, aucun texte dessus. */
 /* `position: relative` n'est pas decoratif : la legende de la fiche produit

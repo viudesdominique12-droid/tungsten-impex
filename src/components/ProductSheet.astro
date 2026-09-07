@@ -10,11 +10,12 @@ const c = copy[product.slug] ?? { lead: '', facts: [], blocks: [], cta: '' };
 const flow = product.direction === 'out' ? 'out' : 'in';
 const dark = flow === 'in';
 const folder = flow === 'out' ? 'export' : 'import';
-const label = flow === 'out' ? 'Out' : 'In';
+const label = flow === 'out' ? 'Exports' : 'Imports';
 
-const i = siblings.findIndex((s) => s.slug === product.slug);
-const prev = siblings[(i - 1 + siblings.length) % siblings.length];
-const next = siblings[(i + 1) % siblings.length];
+/* Les autres lignes de la meme direction. Ni precedent ni suivant : l'ordre
+   du tableau n'est pas une sequence et rien ne justifie de la presenter
+   comme telle au lecteur. */
+const others = siblings.filter((sib) => sib.slug !== product.slug);
 
 /* §5 — deux tailles, aucune intermédiaire. Une source large prend la bande
    pleine largeur ; une source étroite prend la pleine colonne, pour ne pas
@@ -34,7 +35,7 @@ const size = product.wide ? 'band' : 'col';
           <nav class="crumb t-label" aria-label="Breadcrumb">
             <a href="/">Tungsten</a>
             <span aria-hidden="true">&middot;</span>
-            <a href={`/?flow=${flow}`}>{label}</a>
+            <a href={`/#${label.toLowerCase()}`}>{label}</a>
           </nav>
           <h1 class="t-h1 head__h">{product.name}</h1>
         </span>
@@ -72,23 +73,16 @@ const size = product.wide ? 'band' : 'col';
         <p class="t-h2 ask__line">{c.cta}</p>
         <div class="ask__act">
           <a class="act" href="/contact/">Contact us</a>
-          <a class="act act--line" href={`tel:${site.company.phoneHref}`}>{site.company.phone}</a>
         </div>
       </section>
 
-      <nav class="onward" aria-label={`Other ${label} lines`}>
-        <a href={`/${folder}/${prev.slug}/`}>
-          <span class="t-label t-quiet">Previous</span>
-          <span class="onward__n">{prev.name}</span>
-        </a>
-        <a href={`/${folder}/${next.slug}/`}>
-          <span class="t-label t-quiet">Next</span>
-          <span class="onward__n">{next.name}</span>
-        </a>
-        <a href={`/?flow=${flow}`}>
-          <span class="t-label t-quiet">All</span>
-          <span class="onward__n">{label}</span>
-        </a>
+      <nav class="onward" aria-label={`Our other ${label.toLowerCase()}`}>
+        <p class="t-label t-quiet onward__h">Our other {label.toLowerCase()}</p>
+        <ul class="onward__l">
+          {others.map((o) => (
+            <li><a href={`/${folder}/${o.slug}/`}><span class="onward__n">{o.name}</span></a></li>
+          ))}
+        </ul>
       </nav>
     </div>
   </article>
@@ -108,22 +102,26 @@ const size = product.wide ? 'band' : 'col';
   .head__cap { position: absolute; inset: auto 0 0 0;
                padding-block: clamp(46px, 8vw, 96px) clamp(16px, 2.5vw, 28px);
                background: linear-gradient(to top,
-                 rgba(10,27,60,.90) 0%, rgba(10,27,60,.78) 45%,
-                 rgba(10,27,60,.45) 75%, transparent 100%); }
+                 rgba(10,26,51,.92) 0%, rgba(10,26,51,.80) 45%,
+                 rgba(10,26,51,.46) 75%, transparent 100%); }
+  .media--dark .head__cap { background: linear-gradient(to top,
+                 rgba(27,63,166,.94) 0%, rgba(27,63,166,.82) 45%,
+                 rgba(27,63,166,.46) 75%, transparent 100%); }
   .head--col .head__cap { inset: auto 0 0 0; }
   .head__shell { display: block; color: var(--paper); }
   .head__h { color: var(--paper); margin: 5px 0 0; }
 
   .crumb { display: flex; gap: 8px; color: rgba(242,245,249,.86); }
   .crumb a { text-decoration: none; }
-  .crumb a:hover { color: var(--accent-light); }
+  .crumb a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
   /* ------------------------------------------------------------- intro -- */
   .intro { display: grid; gap: var(--s-block) var(--col-gap);
            padding-top: var(--s-block); align-items: start; }
-  @media (min-width: 880px) { .intro { grid-template-columns: 1.1fr 1fr; } }
-  .intro__lead { font-size: var(--t-lead); line-height: var(--lh-lead);
-                   font-stretch: var(--wd-text); margin: 0; }
+  @media (min-width: 880px) { .intro { grid-template-columns: 7fr 5fr; } }
+  .intro__lead { font-size: var(--t-h2); line-height: var(--lh-h2);
+                 font-stretch: var(--wd-text); font-weight: var(--w-text);
+                 margin: 0; max-width: 30ch; }
 
 
   /* ------------------------------------------------------------ prose -- */
@@ -143,17 +141,17 @@ const size = product.wide ? 'band' : 'col';
   .ask__act { display: flex; flex-wrap: wrap; gap: 12px; }
 
   /* ----------------------------------------------------------- onward -- */
-  .onward { display: grid; margin-top: var(--s-section); margin-bottom: var(--s-section);
-            border-top: 1px solid var(--rule); }
-  @media (min-width: 700px) { .onward { grid-template-columns: repeat(3, 1fr); } }
-  .onward a { display: grid; gap: 5px; padding: 18px 20px 22px 0;
-              text-decoration: none; border-bottom: 1px solid var(--rule); }
-  @media (min-width: 700px) {
-    .onward a + a { border-left: 1px solid var(--rule); padding-left: 20px; }
+  .onward { margin-top: var(--s-section); margin-bottom: var(--s-band); }
+  .onward__h { padding-bottom: 14px; border-bottom: 2px solid var(--fg); }
+  .onward__l { list-style: none; margin: 0; padding: 0; display: grid; }
+  @media (min-width: 760px) {
+    .onward__l { grid-template-columns: repeat(3, 1fr); column-gap: var(--col-gap); }
   }
+  .onward a { display: block; padding: 16px 0; text-decoration: none;
+              border-bottom: 1px solid var(--rule); }
   .onward__n { font-size: var(--t-h3); line-height: var(--lh-h3);
                font-stretch: var(--wd-text); font-weight: var(--w-display);
                border-bottom: 2px solid transparent; justify-self: start;
                transition: border-color var(--hover) linear; }
-  .onward a:hover .onward__n { border-bottom-color: var(--corridor); }
+  .onward a:hover .onward__n { border-bottom-color: var(--fg); }
 </style>

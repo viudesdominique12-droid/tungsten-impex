@@ -20,7 +20,7 @@ const cur = (h) => (here === h ? 'page' : undefined);
       et toute la hiérarchie s'effondre en Helvetica. */}
   <link rel="preload" href="/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin />
 
-  <meta name="theme-color" content={flow === 'in' ? '#0a1b3c' : '#f2f5f9'} />
+  <meta name="theme-color" content={flow === 'in' ? '#1b3fa6' : '#f2f5f9'} />
 </head>
 
 <body data-flow={flow}>
@@ -55,14 +55,13 @@ const cur = (h) => (here === h ? 'page' : undefined);
     <div class="nav__body">
       <div class="shell nav__grid">
         <nav class="nav__main" aria-label="Main">
-          <a href="/" aria-current={cur('/')}>Home</a>
           <a href="/about/" aria-current={cur('/about/')}>About us</a>
           <a href="/training/" aria-current={cur('/training/')}>Book to train with us</a>
           <a href="/contact/" aria-current={cur('/contact/')}>Contact us</a>
         </nav>
 
         <div class="nav__grp">
-          <a class="nav__head" href="/?flow=out"><b>Out</b><span class="t-label t-quiet">{site.exports.length} products</span></a>
+          <a class="nav__head" href="/#exports"><b>Exports</b><span class="t-note t-quiet">{site.exports.length} products</span></a>
           <ul>
             {site.exports.map((p) => (
               <li><a href={`/export/${p.slug}/`} aria-current={cur(`/export/${p.slug}/`)}>{p.name}</a></li>
@@ -71,7 +70,7 @@ const cur = (h) => (here === h ? 'page' : undefined);
         </div>
 
         <div class="nav__grp">
-          <a class="nav__head" href="/?flow=in"><b>In</b><span class="t-label t-quiet">{site.imports.length} categories</span></a>
+          <a class="nav__head" href="/#imports"><b>Imports</b><span class="t-note t-quiet">{site.imports.length} categories</span></a>
           <ul>
             {site.imports.map((p) => (
               <li><a href={`/import/${p.slug}/`} aria-current={cur(`/import/${p.slug}/`)}>{p.name}</a></li>
@@ -90,22 +89,21 @@ const cur = (h) => (here === h ? 'page' : undefined);
   <main id="main"><slot /></main>
 
   {/* §4 — le pied de page est un bandeau pleine largeur sur l'encre. */}
-  <footer class="ftr" data-flow="in">
+  <footer class="ftr" data-ground="ink">
     <div class="shell ftr__in">
       <div>
         <p class="ftr__name">{c.name}</p>
-        <p class="t-label t-quiet ftr__addr">
+        <p class="t-note t-quiet ftr__addr">
           {c.address.line1}<br />{c.address.line2}<br />{c.address.city}, {c.address.country}
         </p>
       </div>
       <div>
-        <p class="t-label t-quiet ftr__h">Out</p>
+        <p class="t-label t-quiet ftr__h">Exports</p>
         <ul>{site.exports.map((p) => <li><a href={`/export/${p.slug}/`}>{p.name}</a></li>)}</ul>
       </div>
       <div>
-        <p class="t-label t-quiet ftr__h">In</p>
-        <ul>{site.imports.slice(0, 5).map((p) => <li><a href={`/import/${p.slug}/`}>{p.name}</a></li>)}</ul>
-        <p class="ftr__more"><a href="/?flow=in">All {site.imports.length} categories</a></p>
+        <p class="t-label t-quiet ftr__h">Imports</p>
+        <ul>{site.imports.map((p) => <li><a href={`/import/${p.slug}/`}>{p.name}</a></li>)}</ul>
       </div>
       <div>
         <p class="t-label t-quiet ftr__h">Company</p>
@@ -116,9 +114,8 @@ const cur = (h) => (here === h ? 'page' : undefined);
         </ul>
       </div>
     </div>
-    <div class="shell ftr__end t-label t-quiet">
+    <div class="shell ftr__end t-note t-quiet">
       <span>&copy; {new Date().getFullYear()} {c.name}</span>
-      <a href={`tel:${c.phoneHref}`}>{c.phone}</a>
     </div>
   </footer>
 
@@ -161,16 +158,19 @@ const cur = (h) => (here === h ? 'page' : undefined);
 
   <style is:global>
     /* --------------------------------------------- bandeau utilitaire §4 - */
-    .util { background: #0a1b3c; color: var(--paper); }
     .util__in { display: flex; align-items: center; justify-content: space-between;
                 gap: 16px; min-height: 32px; }
     .util__in a { text-decoration: none; }
-    .util__in a:hover { color: var(--corridor); }   /* bleu clair sur nuit : 7,02 */
-    @media (max-width: 560px) { .util__in span { display: none; } }
+    .util__in a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    @media (max-width: 560px) { .util__in span { display: none; }
+      .util__in { justify-content: flex-end; } }
 
     /* -------------------------------------------------------- en-tête §4 - */
+    /* L'en-tete se separe du contenu par une reglure d'encre, pas par un
+       trait de couleur. Un filet d'accent sous une barre de navigation est
+       la signature visuelle du gabarit. */
     .hdr { position: sticky; top: 0; z-index: 60; background: var(--bg);
-           border-bottom: 2px solid var(--corridor); }
+           border-bottom: 1px solid var(--rule); }
     .hdr__in { display: flex; align-items: center; justify-content: space-between;
                gap: 20px; min-height: 66px; }
 
@@ -184,7 +184,12 @@ const cur = (h) => (here === h ? 'page' : undefined);
             font-family: inherit; font-stretch: var(--wd-label); font-weight: var(--w-label);
             font-size: var(--t-label); letter-spacing: var(--tr-label);
             text-transform: uppercase; background: none; border: 0; color: var(--fg);
-            padding: 6px 1px; border-bottom: 2px solid var(--corridor); }   /* §3 — noug en filet */
+            padding: 6px 1px; border-bottom: 1px solid transparent;
+            transition: border-color var(--hover) linear; }
+    .menu:hover { border-bottom-color: var(--fg); }
+    .mark { border-bottom: 1px solid transparent;
+            transition: border-color var(--hover) linear; }
+    .hdr .mark:hover { border-bottom-color: var(--fg); }
     .menu i { display: block; width: 16px; height: 1.5px; background: currentColor;
               position: relative; }
     .menu i::before, .menu i::after { content: ''; position: absolute; left: 0;
@@ -214,7 +219,8 @@ const cur = (h) => (here === h ? 'page' : undefined);
       font-stretch: var(--wd-display); font-weight: var(--w-display);
       font-size: var(--t-h2); line-height: var(--lh-h2); letter-spacing: var(--tr-display);
       transition: color var(--hover) linear; }
-    .nav__main a:hover, .nav__main a[aria-current='page'] { color: var(--corridor); }
+    .nav__main a:hover { border-bottom-color: var(--fg); }
+    .nav__main a[aria-current='page'] { color: var(--muted); }
 
     .nav__head { display: flex; align-items: baseline; justify-content: space-between;
       gap: 12px; text-decoration: none; padding-bottom: 8px; border-bottom: 2px solid var(--fg); }
@@ -224,7 +230,8 @@ const cur = (h) => (here === h ? 'page' : undefined);
     .nav__grp li a { display: block; padding: 9px 0; text-decoration: none;
       border-bottom: 1px solid var(--rule); font-size: var(--t-body);
       transition: color var(--hover) linear; }
-    .nav__grp li a:hover, .nav__grp li a[aria-current='page'] { color: var(--corridor); }
+    .nav__grp li a:hover { border-bottom-color: var(--fg); }
+    .nav__grp li a[aria-current='page'] { color: var(--muted); }
     .nav__grp li a[aria-current='page'] { font-weight: 700; }
 
     .nav__foot { margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--rule);
@@ -232,7 +239,7 @@ const cur = (h) => (here === h ? 'page' : undefined);
     .nav__foot a { text-decoration: none; }
 
     /* ------------------------------------------------------------ pied -- */
-    .ftr { background: #0a1b3c; color: var(--paper); margin-top: 0; }
+    .ftr { margin-top: 0; }
     .ftr__in { display: grid; gap: 28px 40px; padding-block: clamp(34px, 4.5vw, 60px); }
     @media (min-width: 760px) { .ftr__in { grid-template-columns: 1.5fr 1fr 1fr 1fr; } }
     .ftr__name { font-stretch: var(--wd-display); font-weight: var(--w-display);
@@ -242,8 +249,7 @@ const cur = (h) => (here === h ? 'page' : undefined);
     .ftr__h { margin: 0 0 12px; }
     .ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: var(--t-body); }
     .ftr a { text-decoration: none; }
-    .ftr a:hover { color: var(--corridor); }        /* bleu clair sur nuit : 7,02 */
-    .ftr__more { margin: 10px 0 0; font-size: var(--t-label); }
+    .ftr a:hover { text-decoration: underline; text-underline-offset: 3px; }
     .ftr__end { display: flex; flex-wrap: wrap; gap: 6px 22px; justify-content: space-between;
                 padding-bottom: 30px; }
     .ftr__end a { text-decoration: none; }
