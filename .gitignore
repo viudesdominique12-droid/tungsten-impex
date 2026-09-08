@@ -12,3 +12,9 @@ verif/maquette.html
 verif/**/*.png
 verif/maquette-autonome.html
 verif/hz-oeil/
+
+# Hors du depot public : notes internes, originaux (doublon de src/img), instantanes
+REPRISE.md
+recherche/
+originaux/
+verif/tungsten-v2.html
