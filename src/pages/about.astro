@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
+import Photo from '../components/Photo.astro';
 const c = site.company;
 ---
 
@@ -16,15 +17,15 @@ const c = site.company;
   </section>
 
   {/* §5 — une bande pleine largeur, bord a bord, comme respiration. */}
-  <figure class="media media--band">
-    <img src="/img/company/pharma-warehouse.jpg" alt="Palletised medicine cartons in the Tungsten store, Addis Ababa" />
-  </figure>
+  <div class="shell bande">
+    <Photo src="img/company/pharma-warehouse.jpg" eager
+           alt="Palletised medicine cartons in the Tungsten store, Addis Ababa" />
+  </div>
 
   <section class="letter">
     <div class="shell letter__in">
-      <figure class="media media--col letter__img">
-        <img src="/img/company/founder.jpg" alt="At the Tungsten office in Addis Ababa" loading="lazy" />
-      </figure>
+      <Photo src="img/company/founder.jpg" class="letter__img"
+             alt="At the Tungsten office in Addis Ababa" />
       <div>
         <p class="t-label t-quiet">From the founder</p>
         {site.founder.paragraphs.map((t, n) => (
@@ -42,9 +43,9 @@ const c = site.company;
     </div>
   </section>
 
-  <figure class="media media--band">
-    <img src="/img/company/office-floor.jpg" alt="The Tungsten office floor" loading="lazy" />
-  </figure>
+  <div class="shell bande">
+    <Photo src="img/company/office-floor.jpg" alt="The Tungsten office floor" />
+  </div>
 
   <section class="memb">
     <div class="shell">
@@ -77,7 +78,7 @@ const c = site.company;
   .premises { padding-top: clamp(40px, 5.5vw, 78px); }
   .premises__p { margin-top: 14px; color: var(--muted); }
 
-  .media--band { margin-top: clamp(34px, 4.5vw, 64px); }
+  .bande { margin-top: var(--s-section); }
 
   .memb { padding-top: clamp(40px, 5.5vw, 78px); }
   .memb__h { margin-bottom: 18px; }

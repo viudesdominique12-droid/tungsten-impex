@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
+import Photo from '../components/Photo.astro';
 const c = site.company;
 const t = site.training;
 ---
@@ -13,13 +14,16 @@ const t = site.training;
     <div class="shell">
       <p class="t-label t-quiet">Training</p>
       <h1 class="t-h1 top__h">Book to train with us</h1>
-      <p class="top__p">{t.intro}</p>
     </div>
   </section>
 
-  <figure class="media media--band">
-    <img src="/img/company/team-desk.jpg" alt="A member of the Tungsten team at work" loading="lazy" />
-  </figure>
+  {/* La photo est un portrait de 720x1280 : tenue a la verticale, elle ne
+      peut pas faire une banniere. Elle se met en vis-a-vis du chapeau. */}
+  <div class="shell duo">
+    <Photo src="img/company/team-desk.jpg" eager
+           alt="A member of the Tungsten team at work" />
+    <p class="top__p">{t.intro}</p>
+  </div>
 
   {/* Le programme reel, tel que fourni par l entreprise. */}
   <section class="syl">
@@ -94,7 +98,10 @@ const t = site.training;
   .top { padding-block: clamp(30px, 4.5vw, 62px) clamp(22px, 3vw, 40px); }
   .top__h { margin-top: 12px; }
   .top__p { margin-top: 18px; font-size: clamp(1.1rem, 1.7vw, 1.35rem); line-height: 1.5; }
-  .media--band { margin-bottom: clamp(34px, 4.5vw, 64px); }
+  .duo { display: grid; gap: var(--s-block) var(--col-gap);
+         align-items: start; margin-bottom: var(--s-section); }
+  @media (min-width: 860px) { .duo { grid-template-columns: auto 1fr; } }
+  .duo .top__p { max-width: 42ch; }
 
   .syl__h { margin-bottom: 20px; }
   .syl__list { list-style: none; margin: 0 0 clamp(40px, 5.5vw, 76px); padding: 0;

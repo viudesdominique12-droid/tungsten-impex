@@ -7,7 +7,7 @@
      · la police est bien Archivo, pas un repli Helvetica
      · wdth 118 et wdth 66 sont visiblement différentes
      · trois couleurs au maximum à l'écran
-     · toutes les images ont le même ratio et le même étalonnage
+     · aucune image n'est affichée au-delà de sa taille réelle
      · aucune image plus étroite que la colonne de texte
      · aucune ombre portée
      · les pages import sont bien sur fond sombre
@@ -57,7 +57,11 @@ const browser = await chromium.launch();
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
   await page.goto(TARGET, { waitUntil: 'networkidle' });
-  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    for (const i of document.querySelectorAll('img')) i.loading = 'eager';
+    await Promise.all([...document.querySelectorAll('img')].map((i) => i.decode().catch(() => {})));
+  });
 
   console.log('\nACCUEIL 1440x900');
 
@@ -144,16 +148,19 @@ const browser = await chromium.launch();
       total: imgs.length,
       filters: [...new Set(imgs.map((i) => getComputedStyle(i).filter))],
       radii: [...new Set(imgs.map((i) => getComputedStyle(i).borderRadius))],
-      narrow: imgs.filter((i) => {
-        const col = i.closest('.shell')?.clientWidth ?? document.documentElement.clientWidth;
-        return i.getBoundingClientRect().width < col * 0.9;
-      }).length,
+      // Ni agrandissement, ni dimension manquante dans le HTML.
+      agrandies: imgs.filter((i) => i.naturalWidth
+                    && i.getBoundingClientRect().width > i.naturalWidth + 1)
+                  .map((i) => (i.currentSrc || i.src).split('/').pop()),
+      sansDim: imgs.filter((i) => !i.getAttribute('width') || !i.getAttribute('height'))
+                  .map((i) => (i.currentSrc || i.src).split('/').pop()),
     };
   });
   check('étalonnage unique sur les images', media.filters.length <= 1,
         `${media.total} image(s), ${media.filters.length} filtre(s)`);
   check('angles vifs sur les images', media.radii.every((r) => parseFloat(r) === 0), media.radii.join(' '));
-  check('aucune vignette étroite', media.narrow === 0, `${media.narrow} plus étroite(s) que la colonne`);
+  check('aucune image agrandie', media.agrandies.length === 0, media.agrandies.join(' '));
+  check('dimensions dans le HTML', media.sansDim.length === 0, media.sansDim.join(' '));
 
   /* Contraste AA sur le fond clair. */
   const con = await page.evaluate(() => {
@@ -200,7 +207,11 @@ const browser = await chromium.launch();
   const ctx = await browser.newContext({ ...devices['iPhone 12'] });
   const page = await ctx.newPage();
   await page.goto(TARGET, { waitUntil: 'networkidle' });
-  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    for (const i of document.querySelectorAll('img')) i.loading = 'eager';
+    await Promise.all([...document.querySelectorAll('img')].map((i) => i.decode().catch(() => {})));
+  });
   console.log('\nMOBILE (iPhone 12, émulation réelle)');
   const m = await page.evaluate(() => ({
     vw: document.documentElement.clientWidth,
@@ -217,82 +228,32 @@ const browser = await chromium.launch();
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
   await page.goto(new URL('/import/medical-equipment/', TARGET).href, { waitUntil: 'networkidle' });
-  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(async () => {
+    await document.fonts.ready;
+    for (const i of document.querySelectorAll('img')) i.loading = 'eager';
+    await Promise.all([...document.querySelectorAll('img')].map((i) => i.decode().catch(() => {})));
+  });
 
   console.log('\nFICHE IMPORT (medical-equipment) 1440x900');
   const r = await page.evaluate(() => {
     const b = getComputedStyle(document.body);
     const q = document.querySelector('.t-quiet');
-    const img = document.querySelector('.head img');
     return {
       bg: b.backgroundColor, fg: b.color,
       muted: q ? getComputedStyle(q).color : b.color,
       over: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-      overlay: !!document.querySelector('.media--dark'),
-      imgW: img ? Math.round(img.getBoundingClientRect().width) : 0,
-      vw: document.documentElement.clientWidth,
+      titre: document.querySelector('h1')?.textContent?.trim() ?? '',
       mono: [...document.querySelectorAll('*')].some((e) => /mono/i.test(getComputedStyle(e).fontFamily)),
     };
   });
   const rgbBg = parse(r.bg);
   check('page import sur l’aplat bleu', rgbBg[2] - rgbBg[0] > 60, r.bg);
-  check('voile sombre sur l’image', r.overlay);
   check('AA texte / aplat bleu', ratio(flat(parse(r.fg), rgbBg), rgbBg) >= 4.5, ratio(flat(parse(r.fg), rgbBg), rgbBg).toFixed(2));
   const mDark = ratio(flat(parse(r.muted), rgbBg), rgbBg);
   check('AA muted / aplat bleu', mDark >= 4.5, mDark.toFixed(2));
-  check('image de tête pleine largeur', r.imgW >= r.vw * 0.9, `${r.imgW}px / ${r.vw}px`);
+  check('la fiche s’ouvre en typographie', r.titre.length > 0, r.titre);
   check('aucun débordement horizontal', r.over === 0, `${r.over}px`);
-  const geo = await page.evaluate(() => {
-    const f = document.querySelector('.head'), i = f.querySelector('img'),
-          c = f.querySelector('.head__cap');
-    const a = i.getBoundingClientRect(), b = c.getBoundingClientRect();
-    return { in: b.top >= a.top - 1 && b.bottom <= a.bottom + 1,
-             pos: getComputedStyle(f).position,
-             d: `legende ${Math.round(b.top)}-${Math.round(b.bottom)}, image ${Math.round(a.top)}-${Math.round(a.bottom)}` };
-  });
-  check('la legende est DANS l image', geo.in, `${geo.pos} — ${geo.d}`);
-
   check('aucune monospace', !r.mono);
-
-  /* Le titre est posé SUR une photo : aucun contraste calculé sur le fond de
-     page ne le couvre. On échantillonne les pixels de l'image sous la légende
-     et on composite le voile à son point le PLUS FAIBLE (pire cas). C'est ce
-     contrôle qui manquait : le titre est sorti illisible alors que les 21
-     autres passaient. */
-  const legible = await page.evaluate(async () => {
-    const img = document.querySelector('.head img');
-    const cap = document.querySelector('.head__cap');
-    const h1 = document.querySelector('.head__h');
-    if (!img || !cap || !h1) return null;
-    await img.decode();
-
-    const ib = img.getBoundingClientRect();
-    const tb = h1.getBoundingClientRect();
-    const cv = document.createElement('canvas');
-    cv.width = img.naturalWidth; cv.height = img.naturalHeight;
-    cv.getContext('2d').drawImage(img, 0, 0);
-
-    // region de l'image reellement sous le titre (object-fit: cover)
-    const sx = Math.max(0, Math.round(((tb.left - ib.left) / ib.width) * cv.width));
-    const sy = Math.max(0, Math.round(((tb.top - ib.top) / ib.height) * cv.height));
-    const sw = Math.max(1, Math.min(cv.width - sx, Math.round((tb.width / ib.width) * cv.width)));
-    const sh = Math.max(1, Math.min(cv.height - sy, Math.round((tb.height / ib.height) * cv.height)));
-    const d = cv.getContext('2d').getImageData(sx, sy, sw, sh).data;
-
-    let r = 0, g = 0, b = 0, n = 0;
-    for (let i = 0; i < d.length; i += 16) { r += d[i]; g += d[i+1]; b += d[i+2]; n++; }
-    const mean = [r/n, g/n, b/n];
-    const fg = getComputedStyle(h1).color;
-    return { mean, fg, filter: getComputedStyle(img).filter };
-  });
-
-  if (legible) {
-    // le voile le plus faible au-dessus de la ligne de titre : alpha .45
-    const scrim = [26, 29, 24];
-    const worst = legible.mean.map((c, i) => c * (1 - 0.45) + scrim[i] * 0.45);
-    const titleRatio = ratio(parse(legible.fg).slice(0, 3), worst);
-    check('titre lisible SUR la photo (pire cas du voile)', titleRatio >= 4.5, titleRatio.toFixed(2));
-  }
 
   await page.screenshot({ path: `${OUT}/import.png` });
   await ctx.close();
@@ -319,13 +280,19 @@ BALAYAGE — ${routes.length} pages`);
   const over = [], vign = [], filet = [];
   for (const r of routes) {
     await page.goto(new URL(r, TARGET).href, { waitUntil: 'networkidle' });
+    await page.evaluate(async () => {
+      for (const i of document.querySelectorAll('img')) i.loading = 'eager';
+      await Promise.all([...document.querySelectorAll('img')]
+        .map((i) => (i.complete ? 0 : new Promise((ok) => { i.onload = i.onerror = ok; }))));
+    });
     const m = await page.evaluate(() => ({
       o: document.documentElement.scrollWidth - document.documentElement.clientWidth,
       // §5 — deux tailles d'image seulement : la bande et la pleine colonne.
       // Sous 360px sur un ecran de 1440, c'est une vignette.
+      // Aucune image affichee au-dela de sa taille reelle, sur aucune page.
       p: [...document.querySelectorAll('img')]
-           .filter((i) => i.getBoundingClientRect().width < 360)
-           .map((i) => i.getAttribute('src')),
+           .filter((i) => i.naturalWidth && i.getBoundingClientRect().width > i.naturalWidth + 1)
+           .map((i) => (i.currentSrc || i.src).split('/').pop()),
       // La couleur ne travaille qu'en aplat. Aucun filet bleu, sur aucune page.
       f: (() => {
         const bleu = (v) => { const n = (v.match(/[\d.]+/g) || []).map(Number);
@@ -351,7 +318,7 @@ BALAYAGE — ${routes.length} pages`);
     if (m.f.length) filet.push(`${r} ${m.f.join(' ')}`);
   }
   check('aucun debordement sur aucune page', over.length === 0, over.join(', '));
-  check('aucune vignette sur aucune page', vign.length === 0, vign.join(' | '));
+  check('aucune image agrandie sur aucune page', vign.length === 0, vign.join(' | '));
   check('aucun filet colore sur aucune page', filet.length === 0, filet.join(' | '));
   await ctx.close();
 }

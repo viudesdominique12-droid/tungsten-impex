@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
+import Photo from '../components/Photo.astro';
 const c = site.company;
 const maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.mapQuery);
 const osm = `https://www.openstreetmap.org/export/embed.html?bbox=${c.mapBbox}&layer=mapnik&marker=${c.mapMarker}`;
@@ -56,9 +57,9 @@ const socials = c.socials.filter((s) => s.url);
     </div>
   </section>
 
-  <figure class="media media--band">
-    <img src="/img/company/office-corridor.jpg" alt="Offices at Dembel City Center" loading="lazy" />
-  </figure>
+  <div class="shell bande">
+    <Photo src="img/company/office-corridor.jpg" alt="Offices at Dembel City Center" />
+  </div>
 </Base>
 
 <style>
@@ -76,5 +77,5 @@ const socials = c.socials.filter((s) => s.url);
   .fields dd .lnk + .lnk { margin-left: 18px; }
 
   .map { width: 100%; height: 420px; border: 1px solid var(--rule); display: block; }
-  .media--band { margin-top: clamp(36px, 5vw, 70px); }
+  .bande { margin-top: var(--s-section); margin-bottom: var(--s-section); }
 </style>

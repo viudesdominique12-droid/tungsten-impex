@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
 import copy from '../data/copy.json';
+import Photo from '../components/Photo.astro';
 
 /* Le fait porte en colonne de droite est designe nommement dans copy.json
    (cle "mark"). L'heuristique precedente — le plus court qui contient un
@@ -64,9 +65,9 @@ const c = site.company;
         les legumineuses triees par variete, vues de dessus. Sa grille rime
         avec le registre qu'elle referme. Quatorze vignettes de produits
         auraient fait une grille de cartes — ce qu'on cherche a eviter. */}
-  <figure class="media media--band hinge">
-    <img src="/img/company/contact.jpg" alt="Pulses and oilseeds sorted by variety" loading="lazy" />
-  </figure>
+  <div class="shell">
+    <Photo src="img/company/contact.jpg" alt="Pulses and oilseeds sorted by variety" />
+  </div>
 
   {/* 3 — REGISTRE ENTRANT, meme composant, sur la nuit. La page descend du
         papier vers la nuit : c'est le sens de circulation, litteralement. */}
@@ -134,7 +135,6 @@ const c = site.company;
 
   /* --- 2 et 3. les deux registres, un seul gabarit --- */
   .reg-out { padding-block: 0 var(--s-band); }
-  .hinge { display: block; }
   .reg-in  { padding-block: var(--s-section); }
     .reg__head { display: flex; align-items: baseline; justify-content: space-between;
                gap: var(--col-gap); padding-bottom: 14px;

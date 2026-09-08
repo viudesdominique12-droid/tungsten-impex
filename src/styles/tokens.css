@@ -222,16 +222,20 @@ p, li, dd { text-wrap: pretty; }
 .row__v { font-variant-numeric: tabular-nums; display: block; }
 .row:hover { border-bottom-color: var(--fg); }
 
-/* Images : deux tailles, un etalonnage, angles vifs, aucun texte dessus. */
-/* `position: relative` n'est pas decoratif : la legende de la fiche produit
-   est en absolu dedans. Sans lui elle se cale sur le bloc conteneur initial
-   et le titre tombe sous la photo, par-dessus le tableau de faits. */
-.media { margin: 0; position: relative; }
-.media img { width: 100%; object-fit: cover; object-position: center;
-             filter: saturate(.82) contrast(1.06) brightness(.98); }
-.media--band img { height: 280px; }
-@media (min-width: 900px) { .media--band img { height: 480px; } }
-.media--col img { aspect-ratio: 16 / 10; }
+/* Images. Une seule regle gouverne les trois cadres : AUCUNE image n'est
+   jamais affichee au-dela de sa largeur native. Le pipeline la garantit au
+   build — il ne fabrique pas de variante plus large que la source — et --nat,
+   pose en ligne depuis les dimensions lues au build, la garantit au rendu.
+
+   Le filtre de desaturation a saute. Il etait cense unifier l'etalonnage ;
+   une constante CSS ne corrige pas une dominante, elle la deplace, et sur
+   trois interieurs deja surexposes elle achevait de les effacer. */
+.media { margin: 0; }
+.media img { display: block; width: 100%; height: auto; }
+
+/* Aucun object-fit, aucun aspect-ratio impose : sans cadre force il n'y a
+   rien a rogner. Le format affiche est celui du fichier. */
+.media--plate, .media--portrait { max-width: min(100%, var(--nat)); }
 
 /* Tableau de faits : filets horizontaux seuls, aucun fond alterne. */
 .facts { margin: 0; border-top: 1px solid var(--rule); }

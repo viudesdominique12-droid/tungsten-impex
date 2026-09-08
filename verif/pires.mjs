@@ -1,8 +1,9 @@
 import { chromium } from 'playwright';
 const b = await chromium.launch();
-const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
-for (const [u, n] of [['/about/','about'], ['/contact/','contact'],
-                      ['/training/','training'], ['/export/niger-seed-noug/','out-fiche'], ['/import/electric-vehicles/','in-fiche']]) {
+const ctx = await b.newContext({ viewport: { width: 1440, height: 1100 } });
+for (const [u, n] of [['/import/calcium-hypochlorite/','pire-400'],
+                      ['/import/stationery-materials/','pire-500'],
+                      ['/training/','pire-portrait']]) {
   const p = await ctx.newPage();
   await p.goto('http://localhost:4321' + u, { waitUntil: 'networkidle' });
   await p.evaluate(async () => {
@@ -14,7 +15,7 @@ for (const [u, n] of [['/about/','about'], ['/contact/','contact'],
       .map((i) => i.decode().catch(() => {})));
   });
   await p.waitForTimeout(300);
-  await p.screenshot({ path: `verif/p-${n}.png`, fullPage: true });
+  await p.screenshot({ path: `verif/${n}.png` });
   await p.close();
 }
-await b.close(); console.log('pages capturees');
+await b.close(); console.log('pires cas captures');

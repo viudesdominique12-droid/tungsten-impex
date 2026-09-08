@@ -2,52 +2,64 @@
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
 import copy from '../data/copy.json';
+import Photo from './Photo.astro';
+import { photo } from '../lib/photos.js';
 
 const { product, siblings } = Astro.props;
 const c = copy[product.slug] ?? { lead: '', facts: [], blocks: [], cta: '' };
 
-/* §3 — le sens de circulation se lit à la valeur du fond. */
+/* Le sens de circulation se lit à la valeur du fond. */
 const flow = product.direction === 'out' ? 'out' : 'in';
-const dark = flow === 'in';
 const folder = flow === 'out' ? 'export' : 'import';
 const label = flow === 'out' ? 'Exports' : 'Imports';
 
-/* Les autres lignes de la meme direction. Ni precedent ni suivant : l'ordre
-   du tableau n'est pas une sequence et rien ne justifie de la presenter
+/* Les autres lignes de la même direction. Ni précédent ni suivant : l'ordre
+   du tableau n'est pas une séquence et rien ne justifie de la présenter
    comme telle au lecteur. */
 const others = siblings.filter((sib) => sib.slug !== product.slug);
 
-/* §5 — deux tailles, aucune intermédiaire. Une source large prend la bande
-   pleine largeur ; une source étroite prend la pleine colonne, pour ne pas
-   l'étirer au-delà de ce qu'elle contient. */
-const size = product.wide ? 'band' : 'col';
+/* Quatre des quatorze fichiers font moins de 700px de large. Affiches seuls en
+   tete de page ils laissent un vide a leur droite ; mis en vis-a-vis du
+   chapeau ils composent. Le fichier decide, encore une fois, de sa mise en
+   page — pas l'inverse. */
+const img = photo(product.photo);
+const petite = !!img && img.width <= 700;
+
+/* La page s'ouvre en typographie, comme À propos et Contact : le nom du
+   produit ne se pose plus sur la photo. Deux raisons, et la seconde est la
+   vraie. D'abord tout le site s'ouvre alors de la même façon. Ensuite le nom
+   sur la photo obligeait à une bande de proportion fixe, et c'est cette bande
+   qui écrasait la bibliothèque : une source de 400x331 étalée sur 1440, une
+   photo en portrait rognée à 19 % de sa hauteur. Le titre parti, l'image
+   reprend son format et sa taille réelle. */
 ---
 
 <Base title={`${product.name} — Tungsten Import Export`} description={c.lead} flow={flow}>
   <article>
-    {/* §5 règle 5 — le nom se pose sur l'image, en bas à gauche. Le dégradé
-        est cantonné au tiers inférieur : c'est un voile de lisibilité, pas
-        un décor. */}
-    <figure class:list={['media', 'head', `head--${size}`, dark && 'media--dark']}>
-      <img src={`/${product.photo}`} alt="" />
-      <figcaption class="head__cap">
-        <span class="shell head__shell">
-          <nav class="crumb t-label" aria-label="Breadcrumb">
-            <a href="/">Tungsten</a>
-            <span aria-hidden="true">&middot;</span>
-            <a href={`/#${label.toLowerCase()}`}>{label}</a>
-          </nav>
-          <h1 class="t-h1 head__h">{product.name}</h1>
-        </span>
-      </figcaption>
-    </figure>
+    <header class="shell tete">
+      <nav class="crumb t-label t-quiet" aria-label="Breadcrumb">
+        <a href="/">Tungsten</a>
+        <span aria-hidden="true">&middot;</span>
+        <a href={`/#${label.toLowerCase()}`}>{label}</a>
+      </nav>
+      <h1 class="t-display tete__h">{product.name}</h1>
+    </header>
 
     <div class="shell">
+      {petite ? (
+        <div class="duo">
+          <Photo src={product.photo} alt={product.name} eager />
+          <p class="intro__lead">{c.lead}</p>
+        </div>
+      ) : (
+        <Photo src={product.photo} alt={product.name} eager class="tete__img" />
+      )}
+
       <div class="intro">
-        <p class="intro__lead">{c.lead}</p>
+        {!petite && <p class="intro__lead">{c.lead}</p>}
 
         {c.facts.length > 0 && (
-          <dl class="facts">
+          <dl class:list={['facts', petite && 'facts--large']}>
             {c.facts.map((f) => (
               <div>
                 <dt class="t-label t-quiet">{f.label}</dt>
@@ -89,42 +101,32 @@ const size = product.wide ? 'band' : 'col';
 </Base>
 
 <style>
-  /* ------------------------------------------------------- image de tête */
-  .head { margin: 0; }
-  .head--band img { width: 100%; height: clamp(280px, 42vh, 520px); aspect-ratio: auto; }
-  .head--col { max-width: var(--shell); margin-inline: auto;
-               padding-inline: var(--gutter); }
-  .head--col img { width: 100%; aspect-ratio: 16 / 10; }
-
-  /* Le voile doit couvrir la legende ENTIERE, sinon le titre flotte sur la
-     partie claire de la photo et devient illisible — constate au rendu. Il
-     reste cantonne au tiers inferieur parce que la legende y tient (§5). */
-  .head__cap { position: absolute; inset: auto 0 0 0;
-               padding-block: clamp(46px, 8vw, 96px) clamp(16px, 2.5vw, 28px);
-               background: linear-gradient(to top,
-                 rgba(10,26,51,.92) 0%, rgba(10,26,51,.80) 45%,
-                 rgba(10,26,51,.46) 75%, transparent 100%); }
-  .media--dark .head__cap { background: linear-gradient(to top,
-                 rgba(27,63,166,.94) 0%, rgba(27,63,166,.82) 45%,
-                 rgba(27,63,166,.46) 75%, transparent 100%); }
-  .head--col .head__cap { inset: auto 0 0 0; }
-  .head__shell { display: block; color: var(--paper); }
-  .head__h { color: var(--paper); margin: 5px 0 0; }
-
-  .crumb { display: flex; gap: 8px; color: rgba(242,245,249,.86); }
+  /* --------------------------------------------------------------- tête -- */
+  .tete { padding-block: var(--s-section) var(--s-block); }
+  .crumb { display: flex; gap: 8px; }
   .crumb a { text-decoration: none; }
   .crumb a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .tete__h { margin-top: 10px; }
+  .tete__img { margin-bottom: var(--s-block); }
+  .duo { display: grid; gap: var(--s-block) var(--col-gap); align-items: start; }
+  @media (min-width: 860px) { .duo { grid-template-columns: auto 1fr; } }
+  .duo .intro__lead { max-width: 34ch; }
 
-  /* ------------------------------------------------------------- intro -- */
+  /* ------------------------------------------------------------ intro --- */
   .intro { display: grid; gap: var(--s-block) var(--col-gap);
            padding-top: var(--s-block); align-items: start; }
   @media (min-width: 880px) { .intro { grid-template-columns: 7fr 5fr; } }
+  /* Quand le chapeau est deja parti en vis-a-vis, le tableau de faits prend
+     toute la largeur : deux colonnes de faits plutot qu'une colonne vide. */
+  @media (min-width: 880px) {
+    .facts--large { grid-column: 1 / -1; columns: 2; column-gap: var(--s-block); }
+    .facts--large > div { break-inside: avoid; }
+  }
   .intro__lead { font-size: var(--t-h2); line-height: var(--lh-h2);
                  font-stretch: var(--wd-text); font-weight: var(--w-text);
                  margin: 0; max-width: 30ch; }
 
-
-  /* ------------------------------------------------------------ prose -- */
+  /* ------------------------------------------------------------ prose --- */
   .prose { display: grid; gap: var(--s-block) var(--col-gap); padding-top: var(--s-section); }
   @media (min-width: 900px) { .prose { grid-template-columns: 1fr 1fr; } }
   .prose__h { font-size: var(--t-h3); line-height: var(--lh-h3);
@@ -132,7 +134,7 @@ const size = product.wide ? 'band' : 'col';
               margin-bottom: 6px; }
   .prose p { color: var(--muted); }
 
-  /* -------------------------------------------------------------- ask -- */
+  /* -------------------------------------------------------------- ask --- */
   .ask { margin-top: var(--s-section); padding-top: 24px;
          border-top: 2px solid var(--fg);
          display: flex; flex-wrap: wrap; gap: 20px 44px;
@@ -140,7 +142,7 @@ const size = product.wide ? 'band' : 'col';
   .ask__line { margin: 0; max-width: 26ch; }
   .ask__act { display: flex; flex-wrap: wrap; gap: 12px; }
 
-  /* ----------------------------------------------------------- onward -- */
+  /* ----------------------------------------------------------- onward --- */
   .onward { margin-top: var(--s-section); margin-bottom: var(--s-band); }
   .onward__h { padding-bottom: 14px; border-bottom: 2px solid var(--fg); }
   .onward__l { list-style: none; margin: 0; padding: 0; display: grid; }

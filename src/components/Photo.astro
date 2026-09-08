@@ -1,0 +1,41 @@
+---
+/* ---------------------------------------------------------------------------
+   Toute image du site passe par ici, et la regle est unique :
+
+     on n'agrandit jamais, on ne recadre jamais.
+
+   La bibliotheque du client va de 400x331 a 1600x581, et elle etait forcee
+   dans une bande unique de 1440x480. Consequences mesurees : une source de
+   400px etalee sur 1440 (x3,6, et x7 sur un ecran a densite double), une
+   photo de telephone tenue a la verticale dont on ne montrait que 19 % de la
+   hauteur. Le cadre doit suivre le fichier, jamais l'inverse.
+
+   L'agrandissement est empeche deux fois. Au build, le pipeline d'Astro ne
+   fabrique aucune variante plus large que la source. Au rendu, --nat borne la
+   largeur affichee a la largeur reelle du fichier. Le format natif est
+   conserve : sans object-fit il n'y a rien a rogner.
+   --------------------------------------------------------------------------- */
+import { Image } from 'astro:assets';
+import { photo, cadre, largeurs } from '../lib/photos.js';
+
+const { src, alt, max = 1600, eager = false, class: extra = '' } = Astro.props;
+const m = photo(src);
+const forme = m ? cadre(m) : null;
+
+/* Le portrait se borne plus court que la plaque : une photo verticale affichee
+   sur toute la colonne occuperait deux ecrans de haut. */
+const plafond = Math.min(m?.width ?? 0, forme === 'portrait' ? 400 : max);
+---
+
+{m && (
+  <figure class:list={['media', `media--${forme}`, extra]} style={`--nat: ${plafond}px`}>
+    <Image
+      src={m}
+      alt={alt}
+      widths={largeurs(m, plafond)}
+      sizes={`(max-width: ${plafond}px) 100vw, ${plafond}px`}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+  </figure>
+)}
