@@ -5,9 +5,11 @@ statiques, construites avec [Astro](https://astro.build). Aucun framework
 d'interface, aucun JavaScript de bibliothèque : ce qui bouge tient en une
 poignée de lignes écrites à la main.
 
-**Le dossier de reprise est [`REPRISE.md`](REPRISE.md)** — le client, le
-contenu, le système visuel, ce qui attend une réponse, et les pièges qui ont
-déjà coûté du temps. Commencez par là.
+> **Le dossier de reprise n'est pas dans ce dépôt.** `REPRISE.md` — le client,
+> ce qui attend sa validation, et les pièges qui ont déjà coûté du temps — cite
+> le client mot pour mot et reste sur le poste de travail. Demandez-le avant de
+> reprendre le projet : il répond à la plupart des questions que ce README
+> laisse ouvertes.
 
 ---
 
@@ -25,6 +27,10 @@ npm run dev        # http://localhost:4321
 | `npm run preview` | sert `dist/` sur le port 4321 |
 | `npm run verif` | **la vérification complète** — voir plus bas |
 | `node outils/bundle.mjs` | compile le site en un fichier unique, partageable |
+
+`outils/etalonner.mjs` lit un dossier `originaux/` qui n'est pas publié : les
+images de `src/img/` en sont déjà issues, et l'étalonnage n'est à refaire que si
+le client fournit de nouvelles photographies.
 
 ## Modifier le contenu
 
@@ -49,8 +55,9 @@ largeur, éditorial à titre collant, grille de cartes, citation, index à filet
 Trois familles de police : Fraunces pour les titres, Instrument Sans pour le
 texte, IBM Plex Mono pour les micro-libellés.
 
-Tout est décrit, avec les raisons, dans `src/styles/tokens.css` et dans
-[`REPRISE.md`](REPRISE.md) §6.
+Tout est décrit, avec les raisons, en tête de `src/styles/tokens.css` — les
+huit types, les six sols, l'échelle typographique et la signature. Les
+composants de section renvoient chacun au sien.
 
 **Deux règles se vérifient toutes seules** et font échouer `npm run verif` :
 deux sections voisines ne peuvent pas porter le même type, et aucune page ne
