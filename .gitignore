@@ -9,3 +9,4 @@ apercu-images/
 verif/*.png
 verif/*.png
 verif/maquette.html
+verif/**/*.png

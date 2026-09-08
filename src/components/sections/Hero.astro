@@ -23,11 +23,16 @@ import { manifeste } from '../../lib/registre.js';
 </section>
 
 <style>
-  /* Sur un ecran etroit le titre occupe deja toute la vue : 96px de reserve
-     au-dessus repoussaient le panneau a 67px du bord bas. A 36 il en depasse
-     assez pour se lire comme une invitation a defiler. */
-  .hero { padding-block: var(--s-block) var(--s-band); }
-  @media (min-width: 900px) { .hero { padding-block: var(--s-section) var(--s-band); } }
+  /* Le premier ecran ne porte plus qu'une chose : le titre.
+
+     L'ancienne reserve de 36px au-dessus venait d'un calcul qui n'a plus lieu
+     d'etre — il fallait alors faire tenir le titre ET le tableau de departs
+     dans les 844px de l'ecran, et le tableau depassait de 67px pour inviter a
+     defiler. A 42px de corps le titre remplit la vue a lui seul ; le tableau
+     est franchement dessous, et la reserve du haut peut redevenir celle d'une
+     section. Un titre qui commence a 150px du haut de l'ecran est une banniere ;
+     a 200px, c'est une page. */
+  .hero { padding-block: var(--s-section) var(--s-band); }
   .hero__in { display: grid; gap: var(--s-block); }
   .hero__say { display: grid; gap: var(--s-block); align-content: start; }
   @media (min-width: 900px) {

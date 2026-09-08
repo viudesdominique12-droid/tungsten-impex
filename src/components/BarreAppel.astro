@@ -10,8 +10,8 @@ import site from '../data/site.json';
 const c = site.company;
 ---
 
-<div class="barre" id="barre" data-ground="blue" hidden>
-  <a class="barre__a t-label" href={`tel:${c.phoneHref}`}>Call {c.phone}</a>
+<div class="barre" id="barre" hidden>
+  <a class="barre__a t-label" data-ground="blue" href={`tel:${c.phoneHref}`}>Call {c.phone}</a>
 </div>
 
 <script is:inline>
@@ -46,12 +46,34 @@ const c = site.company;
 </script>
 
 <style>
+  /* La barre ne peint plus le bord bas de l'ecran sur toute sa hauteur. Un
+     bandeau plein colle en bas ferme la page comme un plancher ; c'est le
+     dernier endroit ou l'on veut d'un aplat, puisqu'il est visible en
+     permanence. Le fond disparait donc, et il ne reste que l'action — une
+     pastille pleine, posee sur la page, arrondie comme tout ce qui se touche
+     ici. C'est la forme que le client a designee chez la reference : trois
+     pastilles flottantes, pas une barre. */
   .barre {
     position: fixed; inset: auto 0 0 0; z-index: 80;
-    padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom));
+    background: none;
+    padding: 12px var(--gutter) calc(14px + env(safe-area-inset-bottom));
     display: grid; place-items: center;
+    pointer-events: none;
   }
-  .barre__a { display: flex; align-items: center; justify-content: center;
-              min-height: 44px; width: 100%; text-decoration: none; }
+  /* `display: grid` sur `.barre` a la meme specificite que le `[hidden] {
+     display: none }` de la feuille du navigateur, et l'emporte sur lui parce
+     qu'il vient de l'auteur. L'attribut `hidden` que le script pose et retire
+     n'a donc jamais rien cache : la barre etait affichee sur toutes les pages,
+     en permanence, y compris par-dessus le premier ecran et par-dessus le pied
+     de page — exactement les deux cas que le script etait ecrit pour eviter.
+     Soixante-dix-huit pixels de bas d'ecran occupes du premier au dernier
+     defilement, sur un ecran qui en fait 844. */
+  .barre[hidden] { display: none; }
+  .barre__a {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 52px; width: 100%; text-decoration: none;
+    pointer-events: auto;
+    border-radius: 999px;
+  }
   @media (pointer: fine) { .barre { display: none; } }
 </style>

@@ -33,7 +33,7 @@ const cur = (h) => (here === h ? 'page' : undefined);
       casser quelque chose, pas l'épurer. Les points médians ont sauté aussi —
       une liste de références séparées par des points est une tournure de
       gabarit ; l'année de fondation descend au pied, où vit un colophon. */}
-  <div class="top">
+  <div class="chapeau">
     <div class="util" data-ground="blue">
       <div class="shell util__in t-label">
         <span>{c.address.city}, {c.address.country}</span>
@@ -177,7 +177,13 @@ const cur = (h) => (here === h ? 'page' : undefined);
       .util__in { justify-content: flex-end; } }
 
     /* -------------------------------------------------------- en-tête §4 - */
-    .top { position: sticky; top: 0; z-index: 60; }
+    /* Ce bloc s'appelait `.top`, et trois pages nomment `.top` leur propre
+       bandeau de titre — About, Training, Contact. La regle est globale : leur
+       titre heritait donc du `position: sticky`, se decollait au defilement et
+       venait se poser par-dessus le corps de la page. On lisait « Come and
+       find us. » a cheval sur les horaires d'ouverture. Le chassis porte
+       desormais un nom qui n'appartient qu'a lui. */
+    .chapeau { position: sticky; top: 0; z-index: 60; }
     .hdr { background: var(--bg); }
     .hdr__in { display: flex; align-items: center; justify-content: space-between;
                gap: 20px; min-height: 66px; }
