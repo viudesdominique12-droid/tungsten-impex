@@ -1,0 +1,42 @@
+---
+/* L'appel de cloture, et l'adresse en regard. Il remplace l'ancien bloc
+   d'orientation, dont les trois liens repetaient mot pour mot la colonne
+   « Company » du pied de page, dix centimetres plus bas. */
+import site from '../../data/site.json';
+import home from '../../data/home.json';
+const c = site.company;
+const a = home.appel;
+---
+
+<section class="fin">
+  <div class="shell fin__in">
+    <div class="fin__dire">
+      <h2 class="t-h1">{a.titre}</h2>
+      <p class="t-lead fin__p">{a.corps}</p>
+      <div class="fin__act">
+        <a class="act" href="/contact/">Contact us</a>
+        <a class="t-h3 fin__tel" href={`tel:${c.phoneHref}`}>{c.phone}</a>
+      </div>
+    </div>
+    <div class="fin__ou">
+      <p class="t-lead">
+        {c.address.line1}<br />{c.address.line2}<br />{c.address.city}, {c.address.country}
+      </p>
+      <p class="t-body t-quiet fin__h">{c.hours.weekdays}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fin { padding-block: var(--s-band); }
+  .fin__in { display: grid; gap: var(--s-block) var(--col-gap); align-items: start; }
+  @media (min-width: 900px) { .fin__in { grid-template-columns: 7fr 5fr; } }
+  .fin__dire h2 { max-width: 16ch; }
+  .fin__p { margin-top: 16px; max-width: 42ch; }
+  .fin__act { margin-top: var(--s-block); display: flex; flex-wrap: wrap;
+              align-items: center; gap: 16px 28px; }
+  .fin__tel { text-decoration: none; }
+  .fin__tel:hover { text-decoration: underline; text-underline-offset: 5px;
+                    text-decoration-thickness: 1px; }
+  .fin__h { margin-top: 16px; }
+</style>

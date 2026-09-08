@@ -1,0 +1,42 @@
+---
+/* La barre d'appel, au doigt seulement. Sur un telephone le numero n'est
+   atteignable qu'en haut de page ; sur une page de huit mille pixels, cela
+   veut dire remonter huit mille pixels. Elle n'apparait qu'apres le premier
+   ecran, pour ne pas couvrir le titre a l'arrivee, et se retire quand le pied
+   de page entre en vue — celui-ci porte deja tout ce qu'il faut.
+
+   Bureau : rien. Un pointeur fin n'a pas besoin qu'on lui apporte le numero. */
+import site from '../data/site.json';
+const c = site.company;
+---
+
+<div class="barre" id="barre" data-ground="blue" hidden>
+  <a class="barre__a t-label" href={`tel:${c.phoneHref}`}>Call {c.phone}</a>
+</div>
+
+<script is:inline>
+  (() => {
+    const b = document.getElementById('barre');
+    if (!b || !matchMedia('(pointer: coarse)').matches) return;
+    const pied = document.querySelector('.ftr');
+    let passeHero = false, piedVu = false;
+    const rendre = () => { b.hidden = !(passeHero && !piedVu); };
+
+    const hero = document.querySelector('.hero') || document.querySelector('main > *');
+    if (hero) new IntersectionObserver(([e]) => { passeHero = !e.isIntersecting; rendre(); },
+      { rootMargin: '0px' }).observe(hero);
+    if (pied) new IntersectionObserver(([e]) => { piedVu = e.isIntersecting; rendre(); },
+      { rootMargin: '0px' }).observe(pied);
+  })();
+</script>
+
+<style>
+  .barre {
+    position: fixed; inset: auto 0 0 0; z-index: 80;
+    padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom));
+    display: grid; place-items: center;
+  }
+  .barre__a { display: flex; align-items: center; justify-content: center;
+              min-height: 44px; width: 100%; text-decoration: none; }
+  @media (pointer: fine) { .barre { display: none; } }
+</style>

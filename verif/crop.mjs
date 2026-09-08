@@ -11,7 +11,7 @@ await p.evaluate(async () => {
       .map((i) => i.decode().catch(() => {})));
   });
   await p.waitForTimeout(300);
-const y = await p.evaluate(() => document.querySelector('.orient').getBoundingClientRect().top + scrollY);
+const y = await p.evaluate(() => document.querySelector('.fin').getBoundingClientRect().top + scrollY);
 await p.evaluate((v) => scrollTo(0, v - 30), y);
 await p.waitForTimeout(400);
 await p.screenshot({ path: 'verif/bas.png' });

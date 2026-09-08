@@ -1,0 +1,31 @@
+---
+/* Quatre reponses sur sept viennent de la copie deja verifiee ; les trois
+   autres sont des brouillons, et elles sont listees dans `aConfirmer`.
+   Pas d'accordeon : sept questions se lisent d'un coup d'oeil, et un
+   accordeon les cacherait derriere sept clics pour rien. */
+import home from '../../data/home.json';
+const f = home.faq;
+---
+
+<section class="faq">
+  <div class="shell">
+    <h2 class="t-h1 faq__h">{f.titre}</h2>
+    <dl class="faq__l">
+      {f.questions.map((q) => (
+        <div class="faq__q">
+          <dt class="t-h3">{q.q}</dt>
+          <dd class="t-body t-quiet">{q.r}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .faq { padding-block: var(--s-band); }
+  .faq__h { margin-bottom: var(--s-block); }
+  .faq__l { margin: 0; display: grid; gap: var(--s-block) var(--col-gap); }
+  @media (min-width: 900px) { .faq__l { grid-template-columns: repeat(2, 1fr); } }
+  .faq__q { display: grid; gap: 8px; align-content: start; max-width: 46ch; }
+  .faq__q dt, .faq__q dd { margin: 0; }
+</style>

@@ -1,0 +1,27 @@
+---
+/* Ce que la maison est, en deux paragraphes. Tout est verifie : l'annee de
+   fondation, les trois anciennetes que le client a lui-meme distinguees
+   (cinq ans a cette adresse, plus de vingt aux precedentes, trente ans de
+   metier pour le fondateur) et la licence EFDA. Ces faits dormaient dans
+   site.json sans etre affiches nulle part. */
+import home from '../../data/home.json';
+const m = home.manifeste;
+---
+
+<section class="man">
+  <div class="shell man__in">
+    <h2 class="t-h1 man__h">{m.chapeau}</h2>
+    <div class="man__t">
+      {m.corps.map((p) => <p class="t-lead">{p}</p>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .man { padding-block: var(--s-band); }
+  .man__in { display: grid; gap: var(--s-block) var(--col-gap); align-items: start; }
+  @media (min-width: 900px) { .man__in { grid-template-columns: 5fr 7fr; } }
+  .man__h { max-width: 18ch; }
+  .man__t { display: grid; gap: 20px; max-width: 62ch; }
+  .man__t p:last-child { color: var(--muted); }
+</style>

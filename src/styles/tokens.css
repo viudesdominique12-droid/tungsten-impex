@@ -120,11 +120,15 @@
 
    Le fond passe donc au lavis, le texte revient a l'encre, et c'est le TITRE
    qui prend le bleu. La distinction survit, en murmure. */
-[data-flow='in'] {
+[data-flow='in'], [data-ground='wash'] {
   background-color: var(--wash);
   --bg: var(--wash);
   /* le texte, les reglures et le gris de service restent ceux du papier */
 }
+/* `data-flow='in'` veut dire « marchandise entrante » ; `data-ground='wash'`
+   ne veut dire qu'une chose, le lavis. S'en servir pour teinter une section
+   qui n'a rien a voir avec l'import — le process, par exemple — reviendrait a
+   vider l'attribut de son sens pour obtenir une couleur. */
 [data-flow='in'] .reg__head h2,
 [data-flow='in'] .tete__h { color: var(--blue); }
 
@@ -350,7 +354,7 @@ p, li, dd { text-wrap: pretty; }
   .util__in a, .menu, .mark, .nav__x,
   .nav__main a, .nav__grp li a, .nav__foot a, .nav__head,
   .ftr a, .ftr__end a,
-  .orient__links a, .onward a, .lnk, .crumb a {
+  .orient__links a, .onward a, .lnk, .crumb a, .fin__tel {
     min-height: 44px;
     display: inline-flex;
     align-items: center;

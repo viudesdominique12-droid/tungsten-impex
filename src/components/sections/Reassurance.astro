@@ -1,0 +1,35 @@
+---
+/* Ce qui tient derriere une commande. Quatre affirmations, toutes de source
+   verifiee — et chacune PORTEE A SA LIGNE : les ingenieurs internes valent
+   pour l'equipement, le stockage froid pour les medicaments. Les presenter
+   comme valant pour toute la maison serait les surestimer. */
+import home from '../../data/home.json';
+const r = home.reassurance;
+---
+
+<section class="rea">
+  <div class="shell">
+    <header class="rea__head">
+      <h2 class="t-h1">{r.titre}</h2>
+      <p class="t-note t-quiet">{r.chapeau}</p>
+    </header>
+    <div class="rea__l">
+      {r.cartes.map((c) => (
+        <div class="rea__c">
+          <h3 class="t-h3">{c.titre}</h3>
+          <p class="t-body t-quiet">{c.corps}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .rea { padding-block: var(--s-band); }
+  .rea__head { margin-bottom: var(--s-block); }
+  .rea__head p { margin-top: 6px; }
+  .rea__l { display: grid; gap: var(--s-block) var(--col-gap); }
+  @media (min-width: 700px) { .rea__l { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .rea__l { grid-template-columns: repeat(4, 1fr); } }
+  .rea__c { display: grid; gap: 8px; align-content: start; }
+</style>

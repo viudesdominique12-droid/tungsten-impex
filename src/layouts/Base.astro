@@ -1,6 +1,7 @@
 ---
 import '../styles/tokens.css';
 import site from '../data/site.json';
+import BarreAppel from '../components/BarreAppel.astro';
 
 const { title, description, flow = 'out' } = Astro.props;
 const c = site.company;
@@ -126,6 +127,8 @@ const cur = (h) => (here === h ? 'page' : undefined);
       <span>&copy; {new Date().getFullYear()} {c.name}</span>
     </div>
   </footer>
+
+  <BarreAppel />
 
   <script>
     const nav = document.getElementById('nav');

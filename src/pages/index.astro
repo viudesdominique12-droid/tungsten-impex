@@ -1,209 +1,44 @@
 ---
+/* ---------------------------------------------------------------------------
+   L'accueil n'est plus une page, c'est une suite de sections nommees.
+
+   Constat : la page comptait cinq blocs — titre, Exports, photo, Imports,
+   adresse. Un catalogue avec une banniere. Les sites du studio en comptent dix
+   a douze, et chacun a un role : dire ce qu'on est, montrer ce qu'on vend,
+   prouver qu'on tient, expliquer comment on travaille, repondre aux questions
+   qui viennent avant l'achat, et appeler.
+
+   Il manquait donc le manifeste, la reassurance, le process, la FAQ et l'appel
+   final. Ils sont la. Le process et une partie de la FAQ sont des brouillons a
+   faire confirmer par le client : la liste des affirmations concernees est
+   dans src/data/home.json, cle `aConfirmer`.
+   --------------------------------------------------------------------------- */
 import Base from '../layouts/Base.astro';
-import site from '../data/site.json';
-import copy from '../data/copy.json';
-import Photo from '../components/Photo.astro';
-import Board from '../components/Board.astro';
-
-/* Le fait porte par chaque entrée est désigné nommément dans copy.json (clé
-   « mark »). L'heuristique précédente — le plus court qui contient un chiffre —
-   remontait le numéro de téléphone pour trois lignes et répétait « More than
-   20 years » à l'identique sur deux autres. Le choix est éditorial. */
-const pick = (slug) => {
-  const e = copy[slug];
-  return e?.facts?.find((f) => f.label === e.mark) ?? null;
-};
-const row = (p, folder) => ({ ...p, folder, lead: copy[p.slug]?.lead ?? '', fact: pick(p.slug) });
-
-const out = site.exports.map((p) => row(p, 'export'));
-const inn = site.imports.map((p) => row(p, 'import'));
-const c = site.company;
-
-/* Le manifeste du tableau de départs : les quatorze marchandises réelles, les
-   sortantes réparties parmi les entrantes pour que la bascule alterne les deux
-   fonds au lieu d'enchaîner dix bleus. Rien d'inventé ; les mêmes noms et les
-   mêmes chiffres que les registres plus bas. */
-const carte = (p) => ({
-  name: p.name,
-  href: `/${p.folder}/${p.slug}/`,
-  flow: p.folder === 'export' ? 'out' : 'in',
-  dir: p.folder === 'export' ? 'Export' : 'Import',
-  factLabel: p.fact?.label ?? '',
-  factValue: p.fact?.value ?? '',
-});
-const pas = Math.ceil(inn.length / out.length);
-let oi = 0;
-const manifeste = [];
-inn.forEach((p, n) => {
-  if (n % pas === 0 && oi < out.length) manifeste.push(carte(out[oi++]));
-  manifeste.push(carte(p));
-});
-while (oi < out.length) manifeste.push(carte(out[oi++]));
+import Hero from '../components/sections/Hero.astro';
+import Manifeste from '../components/sections/Manifeste.astro';
+import Registre from '../components/sections/Registre.astro';
+import Charniere from '../components/sections/Charniere.astro';
+import Reassurance from '../components/sections/Reassurance.astro';
+import Process from '../components/sections/Process.astro';
+import Faq from '../components/sections/Faq.astro';
+import AppelFinal from '../components/sections/AppelFinal.astro';
+import { sortants, entrants } from '../lib/registre.js';
 ---
 
 <Base
   title="Tungsten Import Export — Addis Ababa"
   description="We export Ethiopian oilseeds and pulses, and import medicines, vehicles and materials into Ethiopia. Trading from Addis Ababa since 2007."
 >
-  {/* 1 — PREMIER ÉCRAN. La déclaration et le tableau à gauche, la marchandise
-        à droite jusqu'au bord. Une maison de négoce montre ce qu'elle négocie
-        avant de parler d'elle ; la seule photographie de l'accueil était
-        enterrée à deux mille pixels de haut, et le premier écran ne portait
-        qu'un titre. */}
-  <section class="hero">
-    <div class="shell hero__in">
-      <div class="hero__say">
-        <h1 class="t-display hero__h">
-          <span class="line"><span>We export Ethiopian oilseeds and pulses.</span></span>
-          <span class="line"><span>We import medicines, vehicles and materials.</span></span>
-        </h1>
-        <div class="hero__board"><Board items={manifeste} /></div>
-      </div>
-      <div class="hero__img">
-        <Photo src="img/company/contact.jpg" eager
-               alt="Pulses and oilseeds sorted by variety" />
-      </div>
-    </div>
-  </section>
+  <Hero />
+  <Manifeste />
 
-  {/* 2 — LES QUATRE EXPORTS. Ils se présentent : chacun tient la place d'un
-        titre, le nom à gauche sur l'axe, la description en regard. Rien ne les
-        sépare qu'un intervalle trois fois plus grand que celui qui règne à
-        l'intérieur d'une entrée. C'est l'écart qui sépare, pas un trait. */}
-  <section class="reg-out" id="exports">
-    <div class="shell">
-      <header class="reg__head">
-        <h2 class="t-h1">Exports</h2>
-        <p class="t-note t-quiet">{out.length} products</p>
-      </header>
-      <div class="reg--wide">
-        {out.map((p) => (
-          <a class="ent" href={`/${p.folder}/${p.slug}/`}>
-            <h3 class="t-h2 ent__n">{p.name}</h3>
-            <p class="t-lead ent__d">{p.lead}</p>
-            {p.fact && (
-              <p class="ent__f">
-                <span class="t-note t-quiet">{p.fact.label}</span>
-                <b class="t-body">{p.fact.value}</b>
-              </p>
-            )}
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
+  <Registre lignes={sortants} titre="Exports" compte={`${sortants.length} products`} id="exports" />
+  <Charniere />
+  <Registre lignes={entrants} titre="Imports" compte={`${entrants.length} categories`}
+            id="imports" dense flow="in" />
 
-  {/* La charnière : les cartons de médicaments palettisés. L'image ne sert
-      plus de respiration, elle annonce ce qui suit — c'est exactement la
-      marchandise du champ bleu qui s'ouvre en dessous. */}
-  <div class="shell hinge">
-    <Photo src="img/company/pharma-warehouse.jpg"
-           alt="Palletised medicine cartons in the Tungsten store, Addis Ababa"
-           caption="Palletised medicine cartons in the Tungsten store, Dembel City Center." />
-  </div>
-
-  {/* 3 — LES DIX IMPORTS. Ils ne se présentent pas, ils s'indexent : deux
-        colonnes serrées, un cran de corps en dessous des exports. Quatre
-        choses et dix choses ne sont pas le même objet ; leur appliquer le
-        même gabarit était une économie de code, pas une décision. */}
-  <section class="reg-in" id="imports" data-flow="in">
-    <div class="shell">
-      <header class="reg__head">
-        <h2 class="t-h1">Imports</h2>
-        <p class="t-note t-quiet">{inn.length} categories</p>
-      </header>
-      <div class="reg--index">
-        {inn.map((p) => (
-          <a class="ent" href={`/${p.folder}/${p.slug}/`}>
-            <h3 class="t-h3 ent__n">{p.name}</h3>
-            <p class="t-body ent__d">{p.lead}</p>
-            {p.fact && (
-              <p class="ent__f">
-                <span class="t-note t-quiet">{p.fact.label}</span>
-                <b class="t-body">{p.fact.value}</b>
-              </p>
-            )}
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  {/* 4 — CLÔTURE. */}
-  <section class="orient">
-    <div class="shell g g--d">
-      <div>
-        <p class="t-lead orient__addr">
-          {c.address.line1}<br />{c.address.line2}<br />{c.address.city}, {c.address.country}
-        </p>
-        <p class="t-body t-quiet orient__h">{c.hours.weekdays}</p>
-      </div>
-      <nav class="orient__links" aria-label="Elsewhere">
-        <a class="t-h2" href="/about/">Read the founder&rsquo;s letter</a>
-        <a class="t-h2" href="/contact/">Contact us</a>
-        <a class="t-h2" href="/training/">Book to train with us</a>
-      </nav>
-    </div>
-  </section>
+  <Reassurance />
+  <Process />
+  <Faq />
+  <AppelFinal />
 </Base>
-
-<style>
-  /* --- 1. premier écran --- */
-  /* Sur un ecran etroit le titre occupe deja toute la vue : 96px de reserve
-     au-dessus repoussaient le panneau a 67px du bord bas, un liseré que
-     personne ne remarque. A 48px il en depasse pres de 150 — assez pour etre
-     lu comme une invitation a defiler. */
-  .hero { padding-block: var(--s-block) var(--s-band); }
-  @media (min-width: 900px) { .hero { padding-block: var(--s-section) var(--s-band); } }
-  /* Deux colonnes : la parole a gauche, la marchandise a droite. L'image
-     deborde dans la gouttiere droite pour venir au bord du chassis — sans
-     `vw`, qui compte la barre de defilement et fabrique un debordement. */
-  .hero__in { display: grid; gap: var(--s-block); }
-  .hero__say { display: grid; gap: var(--s-block); align-content: start; }
-  @media (min-width: 900px) {
-    /* Les deux colonnes s'alignent par le haut, et l'image descend de la
-       distance qui separe le haut de la boite du titre de sa ligne de
-       capitale : sans ce decalage optique les deux bords sont a vingt-six
-       pixels l'un de l'autre, assez pour se voir, pas assez pour etre un
-       choix. */
-    .hero__in { grid-template-columns: 1.35fr 1fr; align-items: start;
-                gap: var(--s-block); }
-    .hero__img { margin-top: .1em; font-size: var(--t-display); }
-    .hero__img > * { font-size: var(--t-body); }
-    .hero__img { margin-right: calc(-1 * var(--gutter)); }
-  }
-  .hero__h { display: grid; gap: 0; }
-  /* Révélation par masque, jamais de fondu : l'opacité fabrique un gris qui
-     n'est dans aucune charte. */
-  .line { display: block; overflow: hidden; padding-bottom: .04em; }
-  .line > span { display: block; transform: translateY(100%);
-                 animation: rise var(--in) var(--ease-out) forwards; }
-  .line:nth-child(2) > span { animation-delay: 30ms; }
-  @keyframes rise { to { transform: none; } }
-  @media (prefers-reduced-motion: reduce) {
-    .line > span { transform: none; animation: none; }
-  }
-
-  /* --- 2 et 3. les deux registres --- */
-  .reg-out { padding-block: 0 var(--s-section); }
-  /* La legende venait mourir a trente-six pixels de l'aplat bleu. Le bloc
-     image porte sa propre base. */
-  .hinge { padding-bottom: var(--s-section); }
-  .reg-in  { padding-block: var(--s-band); }
-
-  /* L'en-tête était composé « nom à gauche, compte à 1200px à droite », et ces
-     deux bouts ne tenaient ensemble que par le filet qui les reliait. Empilés
-     sur l'axe de gauche, ils tiennent seuls et le filet devient inutile. */
-  .reg__head { margin-bottom: var(--s-block); }
-  .reg__head p { margin-top: 6px; }
-
-  /* --- 4. clôture --- */
-  .orient { padding-block: var(--s-band); }
-  .orient__h { margin-top: 16px; }
-  .orient__links { display: grid; gap: 20px; align-content: start;
-                   justify-items: start; }
-  .orient__links a { text-decoration: none; }
-  .orient__links a:hover { text-decoration: underline;
-                           text-underline-offset: 6px;
-                           text-decoration-thickness: 1px; }
-</style>

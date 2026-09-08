@@ -1,0 +1,50 @@
+---
+/* Premier ecran : la declaration et le tableau a gauche, la marchandise a
+   droite jusqu'au bord. Une maison de negoce montre ce qu'elle negocie avant
+   de parler d'elle. */
+import Photo from '../Photo.astro';
+import Board from '../Board.astro';
+import { manifeste } from '../../lib/registre.js';
+---
+
+<section class="hero">
+  <div class="shell hero__in">
+    <div class="hero__say">
+      <h1 class="t-display hero__h">
+        <span class="line"><span>We export Ethiopian oilseeds and pulses.</span></span>
+        <span class="line"><span>We import medicines, vehicles and materials.</span></span>
+      </h1>
+      <div class="hero__board"><Board items={manifeste} /></div>
+    </div>
+    <div class="hero__img">
+      <Photo src="img/company/contact.jpg" eager alt="Pulses and oilseeds sorted by variety" />
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Sur un ecran etroit le titre occupe deja toute la vue : 96px de reserve
+     au-dessus repoussaient le panneau a 67px du bord bas. A 36 il en depasse
+     assez pour se lire comme une invitation a defiler. */
+  .hero { padding-block: var(--s-block) var(--s-band); }
+  @media (min-width: 900px) { .hero { padding-block: var(--s-section) var(--s-band); } }
+  .hero__in { display: grid; gap: var(--s-block); }
+  .hero__say { display: grid; gap: var(--s-block); align-content: start; }
+  @media (min-width: 900px) {
+    /* Les deux colonnes s'alignent par le haut, l'image decalee de la distance
+       qui separe le haut de la boite du titre de sa ligne de capitale. */
+    .hero__in { grid-template-columns: 1.35fr 1fr; align-items: start; gap: var(--s-block); }
+    .hero__img { margin-top: .1em; font-size: var(--t-display);
+                 margin-right: calc(-1 * var(--gutter)); }
+    .hero__img > * { font-size: var(--t-body); }
+  }
+  .hero__h { display: grid; gap: 0; }
+  /* Revelation par masque, jamais de fondu : l'opacite fabrique un gris qui
+     n'est dans aucune charte. */
+  .line { display: block; overflow: hidden; padding-bottom: .04em; }
+  .line > span { display: block; transform: translateY(100%);
+                 animation: rise var(--in) var(--ease-out) forwards; }
+  .line:nth-child(2) > span { animation-delay: 30ms; }
+  @keyframes rise { to { transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .line > span { transform: none; animation: none; } }
+</style>

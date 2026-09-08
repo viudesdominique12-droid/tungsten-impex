@@ -1,0 +1,80 @@
+{
+  "_note": "Les sections d'accueil. Chaque bloc porte une cle `source` : `verifie` quand la phrase vient d'un fait deja etabli avec le client ou de la copie adverse deja validee, `brouillon` quand elle est a faire confirmer. La liste `aConfirmer` en fin de fichier est generee a partir de ces marques : c'est elle qu'on envoie au client.",
+
+  "manifeste": {
+    "source": "verifie",
+    "chapeau": "A trading house in Addis Ababa, working both directions of the same trade.",
+    "corps": [
+      "Tungsten Import Export has traded from Addis Ababa since 2007. Its founder has spent thirty years in the export trade, across several companies; the house has held its Africa Avenue premises for five years and traded for more than twenty at its previous address.",
+      "It is licensed by the Ethiopian Food and Drug Authority and registered with five national bodies. Out go Ethiopian oilseeds and pulses; in come medicines, vehicles, equipment and materials."
+    ]
+  },
+
+  "reassurance": {
+    "source": "verifie",
+    "titre": "What stands behind an order",
+    "chapeau": "Every claim below is a matter of record, not a promise.",
+    "cartes": [
+      {
+        "titre": "EFDA licensed",
+        "corps": "Licensed by the Ethiopian Food and Drug Authority for import and wholesale, with a dedicated regulatory desk handling registration and clearance."
+      },
+      {
+        "titre": "Registered with five national bodies",
+        "corps": "EPOSPEA, the Ethiopian Chamber of Commerce, the Ministry of Revenue, the National Bank of Ethiopia and the Ministry of Trade."
+      },
+      {
+        "titre": "Engineers of our own",
+        "corps": "On the equipment lines, in-house biomedical engineers handle commissioning and long-term service in Ethiopia rather than a subcontractor."
+      },
+      {
+        "titre": "Bonded storage, held cold",
+        "corps": "On the medicine lines, bonded cold storage at the Addis Ababa warehouse; delivery within 24 hours in Addis Ababa and 48 to 72 hours to regional centres."
+      }
+    ]
+  },
+
+  "process": {
+    "source": "brouillon",
+    "titre": "How an order runs",
+    "chapeau": "Five steps, the same in both directions.",
+    "etapes": [
+      { "titre": "You tell us what you need", "corps": "Destination market, volume, and any specification or standard you work to. For imports, the make and model; for exports, the grade and the packing." },
+      { "titre": "We confirm and quote", "corps": "Availability, price and lead time in writing, with the incoterm the quotation is based on." },
+      { "titre": "Papers first", "corps": "Export and import documentation, certificates of origin and analysis, and trade references on request — before anything moves." },
+      { "titre": "Shipment", "corps": "We book the shipment and keep you told where the consignment is." },
+      { "titre": "Clearance and delivery", "corps": "Customs handled at the Ethiopian end, and delivery to the site you name." }
+    ]
+  },
+
+  "faq": {
+    "source": "mixte",
+    "titre": "Before you write",
+    "questions": [
+      { "q": "Can I order a single carton, or is there a minimum?", "r": "On the medicine lines, from a single carton to a full container.", "source": "verifie" },
+      { "q": "How fast do you deliver inside Ethiopia?", "r": "Within 24 hours in Addis Ababa, and 48 to 72 hours to regional centres.", "source": "verifie" },
+      { "q": "Are the medicines you import certified?", "r": "They come from more than 100 manufacturers, all WHO-GMP certified, and cover anti-infectives through to oncology, vaccines and over-the-counter lines.", "source": "verifie" },
+      { "q": "Do you publish grades and specifications for the export lines?", "r": "No. Grade, moisture, packing and shipment terms are agreed on enquiry, against your own market's requirements. Ask for a current sample before committing.", "source": "verifie" },
+      { "q": "Can you send a sample before I commit?", "r": "Yes, on the export lines. Tell us the market you are selling into so the sample matches what you will be judged on.", "source": "brouillon" },
+      { "q": "Which documents do you provide?", "r": "Commercial invoice, packing list, certificate of origin and certificate of analysis where the line calls for one. Ask for anything else your buyer or your customs authority requires.", "source": "brouillon" },
+      { "q": "Do you handle customs clearance?", "r": "At the Ethiopian end, yes. At the destination, we supply the documents your own broker will need.", "source": "brouillon" }
+    ]
+  },
+
+  "appel": {
+    "source": "verifie",
+    "titre": "Tell us what you are looking for.",
+    "corps": "Say the market, the volume and the specification, and we will come back with availability, price and lead time."
+  },
+
+  "aConfirmer": [
+    "PROCESS — les cinq etapes decrivent le deroulement d'une commande. Chacune est l'usage courant du negoce, mais aucune n'a ete confirmee par le client. A valider telle quelle, ou a corriger.",
+    "PROCESS, etape 2 — « avec l'incoterm sur lequel la cotation est basee ». Confirmer que les cotations mentionnent bien l'incoterm.",
+    "PROCESS, etape 3 — « certificats d'origine et d'analyse, references commerciales sur demande ». Confirmer que la maison les fournit.",
+    "PROCESS, etape 5 — « dedouanement au bout ethiopien ». Confirmer qui s'en charge.",
+    "FAQ — « Pouvez-vous envoyer un echantillon ? » La reponse suppose que oui sur les lignes export. A confirmer.",
+    "FAQ — la liste des documents fournis (facture commerciale, liste de colisage, certificat d'origine, certificat d'analyse). A confirmer ligne par ligne.",
+    "FAQ — « Assurez-vous le dedouanement ? » Meme point que l'etape 5 du process.",
+    "PREUVE — aucun temoignage client n'a ete ecrit, et aucun ne le sera sans que le client en fournisse de reels. Si des references existent (acheteurs, volumes, marches servis), elles sont les bienvenues et prendront la place qui leur revient."
+  ]
+}

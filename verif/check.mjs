@@ -235,7 +235,10 @@ const browser = await chromium.launch();
   /* La bascule a disparu : le corridor entrant est une bande permanente.
      On verifie que la bande peint bien la nuit et qu'elle tient AA dessus. */
   const band = await page.evaluate(() => {
-    const el = document.querySelector('[data-flow="in"].reg-in');
+    // On vise l'attribut, pas la classe : la classe de mise en page a change
+    // quand l'accueil est passe en sections nommees, et le controle a casse
+    // alors que la bande, elle, etait toujours la.
+    const el = document.querySelector('main section[data-flow="in"]');
     if (!el) return null;
     const s = getComputedStyle(el);
     const q = el.querySelector('.t-quiet');
