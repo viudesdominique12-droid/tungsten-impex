@@ -1,44 +1,52 @@
 {
   "electric-vehicles": {
-    "lead": "Tungsten imports two BYD battery electric models: the Yuan Up, offered in three trims with 301 to 401 km of combined range, and the 2025 Tang L.",
+    "lead": "Tungsten imports two BYD battery electric models: the Yuan Up, a compact SUV with 301 to 401 km of range, and the seven-seat Tang L with 600 to 670 km.",
     "facts": [
       {
         "label": "Vehicles",
-        "value": "BYD Yuan Up and BYD Tang L (2025)"
+        "value": "BYD Yuan Up and BYD Tang L"
       },
       {
-        "label": "Combined range",
-        "value": "301 or 401 km"
+        "label": "Range (CLTC)",
+        "value": "301 to 670 km by model and trim"
       },
       {
-        "label": "Battery",
-        "value": "Blade Battery, 32 or 45.12 kWh"
+        "label": "Batteries",
+        "value": "BYD Blade LFP, 32 to 100.5 kWh"
       },
       {
-        "label": "Charging",
-        "value": "AC and DC, 30-80% in 30 minutes"
+        "label": "Seats",
+        "value": "Five in the Yuan Up, seven in the Tang L"
       },
       {
-        "label": "Motor",
-        "value": "70 or 130 kW, 180/290 Nm"
+        "label": "Drive",
+        "value": "Front-, rear- or all-wheel by trim"
+      },
+      {
+        "label": "Manufacturer",
+        "value": "BYD"
       }
     ],
     "blocks": [
       {
         "title": "The Yuan Up",
-        "body": "A battery electric SUV launched on 26 March 2024, sold in three trims: 301 km Lingxian, 401 km Lingxian and 401 km Chaoyue. Five seats; 4,310 by 1,830 by 1,675 mm, on a 2,620 mm wheelbase."
-      },
-      {
-        "title": "Battery and charging",
-        "body": "Every trim uses BYD’s Blade Battery, 32 kWh on the 301 km trim and 45.12 kWh on the two 401 km trims. A 400-volt architecture supports AC and DC fast charging, taking the battery from 30 to 80 per cent in 30 minutes."
-      },
-      {
-        "title": "Performance",
-        "body": "An AC permanent magnet synchronous motor rated 70 kW and 180 Nm, or 130 kW and 290 Nm on the 401 km trims. Acceleration from 0 to 100 km/h takes 12 seconds, or 7.9 seconds on the higher-powered trims."
+        "body": "A compact battery electric SUV launched on 26 March 2024, sold in three trims: 301 km Lingxian, 401 km Lingxian and 401 km Chaoyue. Five seats; 4,310 by 1,830 by 1,675 mm, on a 2,620 mm wheelbase."
       },
       {
         "title": "The Tang L",
-        "body": "A 2025 BYD battery electric model, imported alongside the Yuan Up. Trims, range and battery specifications are confirmed on enquiry."
+        "body": "A seven-seat battery electric SUV launched on 9 April 2025, sold in three trims: two rear-wheel-drive at 670 km and one all-wheel-drive at 600 km. Seats are laid out 2+3+2; 5,040 by 1,996 by 1,760 mm, on a 2,950 mm wheelbase."
+      },
+      {
+        "title": "Batteries and charging",
+        "body": "Both models use BYD’s Blade lithium iron phosphate cells. The Yuan Up carries 32 kWh on the 301 km trim and 45.12 kWh on the two 401 km trims, on a 400-volt architecture that takes the battery from 30 to 80 per cent in 30 minutes. The Tang L carries 100.5 kWh and accepts up to 1,000 kW on a compatible charger, taking it from 10 to 70 per cent in about six minutes."
+      },
+      {
+        "title": "Performance",
+        "body": "The Yuan Up uses an AC permanent magnet synchronous motor rated 70 kW and 180 Nm, or 130 kW and 290 Nm on the 401 km trims; 0 to 100 km/h takes 12 seconds, or 7.9 on the higher-powered trims. The Tang L is rated 500 kW and 420 Nm in rear-wheel drive for 6.9 seconds, or 810 kW and 860 Nm in all-wheel drive for 3.9 seconds."
+      },
+      {
+        "title": "Reading the range figures",
+        "body": "The ranges above are CLTC figures, the Chinese homologation cycle. It reads higher than the European WLTP or the American EPA, so compare like with like before deciding. Ask us for the figures that apply to the trim and the market you are buying for."
       },
       {
         "title": "The manufacturer",
@@ -46,7 +54,7 @@
       }
     ],
     "cta": "Call +251 91 261 0248 to enquire about availability.",
-    "mark": "Combined range"
+    "mark": "Range (CLTC)"
   },
   "medical-equipment": {
     "lead": "An EFDA-licensed importer that supplies, installs and maintains hospital equipment across Ethiopia, with a dedicated regulatory team handling clearance and in-house biomedical engineers handling commissioning and long-term service.",
