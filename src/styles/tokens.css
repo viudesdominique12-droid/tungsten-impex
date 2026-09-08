@@ -350,8 +350,27 @@ h1:not([data-sol]) .accent-mot { color: inherit; }
 /* ======================== D — bande photo pleine largeur ==================
    Bord a bord, hauteur bornee, legende en mono en bas a gauche sur un degrade
    limite au tiers inferieur. Les photographies passent dans ce format au lieu
-   d'etre des vignettes calees dans une colonne. */
-.pleine { position: relative; width: 100%; margin: 0; overflow: hidden; }
+   d'etre des vignettes calees dans une colonne.
+
+   ET LA BANDE NE DEPASSE JAMAIS 1,4 FOIS LA TAILLE REELLE DU FICHIER.
+
+   « On n'agrandit jamais » est la regle absolue du site, tenue par --nat dans
+   Photo.astro. La bande passait a cote : `width: 100%` occupe la fenetre
+   quelle que soit la largeur du fichier. Mesure faite — a 1440px, une source
+   de 1024 etait etiree 1,41 fois, celle de /training/ (640 servis) 2,25 fois ;
+   a 1920, 1,88 et 3,00. Sur un ecran a densite double, on double encore.
+
+   La regle absolue devient donc une regle bornee, et le chiffre est dit : au
+   plus 1,4x. Ce n'est pas un assouplissement de confort — c'est l'ordre de
+   grandeur qui separe un agrandissement qu'on ne voit pas d'un agrandissement
+   qu'on voit. Le defaut d'origine, celui qui avait motive la regle, etait a
+   3,6x et 7x sur un ecran a densite double.
+
+   Au-dela de cette borne la bande se centre, et la page se voit de part et
+   d'autre. En dessous de 1024px de source, il n'y a pas de bande du tout : la
+   photographie garde sa colonne. */
+.pleine { position: relative; width: 100%; margin: 0 auto; overflow: hidden;
+          max-width: calc(var(--nat, 100vw) * 1.4); }
 .pleine img { width: 100%; height: clamp(320px, 55vh, 560px); object-fit: cover;
               border-radius: 0; }
 .pleine figcaption {

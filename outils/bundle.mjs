@@ -74,9 +74,27 @@ const routes = {};
 for (const { route, fichier } of pages) {
   let h = readFileSync(join(DIST, fichier), 'utf8');
 
-  const titre = (h.match(/<title>([\s\S]*?)<\/title>/) || [, ''])[1];
+  /* Le titre est du HTML, pas du texte : `document.title` prend une chaine
+     brute, et « Elevator &amp; Escalator » s'affichait tel quel dans l'onglet,
+     dans le favori et dans l'historique. On decode les cinq entites qu'Astro
+     produit. */
+  const titre = ((h.match(/<title>([\s\S]*?)<\/title>/) || [, ''])[1])
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'");
   const attrs = (h.match(/<body([^>]*)>/) || [, ''])[1];
-  let corps = (h.match(/<body[^>]*>([\s\S]*)<\/body>/) || [, ''])[1];
+
+  /* ASTRO ECRIT SES SCRIPTS APRES </body>.
+
+     La coupe s'arretait a `</body>` et les perdait tous. Consequence mesuree :
+     le formulaire d'inscription de /training/ partait SANS son gestionnaire —
+     l'envoyer quittait la page et ramenait le visiteur a l'accueil, avec ses
+     reponses passees en parametres d'URL, au lieu d'ouvrir son logiciel de
+     messagerie. Rien ne le signalait : le formulaire s'affichait parfaitement.
+
+     On prend donc tout ce qui suit l'ouverture du corps, et on retire seulement
+     les balises de fermeture du document. */
+  let corps = (h.match(/<body[^>]*>([\s\S]*)$/) || [, ''])[1]
+    .replace(/<\/body>|<\/html>/g, '');
 
   // les styles propres a la page (Astro en met en ligne certains)
   for (const m of h.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) css += m[1] + '\n';
@@ -89,14 +107,21 @@ for (const { route, fichier } of pages) {
   /* Une seule variante par image : la plus large demandee. Le srcset et le
      sizes disparaissent avec elle. */
   corps = corps.replace(/<img\b[^>]*>/g, (tag) => {
-    const ss = (tag.match(/srcset="([^"]+)"/) || [])[1];
+    /* « on garde UNE variante par image — la plus large reellement demandee »,
+       dit l'en-tete de ce fichier. Le code faisait le contraire : `max` partait
+       de zero, la premiere entree du srcset ecrasait donc toujours le candidat
+       `src`, qui ne concourait jamais. Or c'est dans `src` qu'Astro place la
+       plus large. Quatorze images sur vingt partaient retrecies — jusqu'a 51 %
+       de largeur perdue sur le portrait d'A propos, 810px disponibles pour
+       400px emportes. On prend `src`, et le srcset ne sert qu'en secours. */
     let choisi = (tag.match(/\bsrc="([^"]+)"/) || [])[1];
-    if (ss) {
+    if (!choisi) {
+      const ss = (tag.match(/srcset="([^"]+)"/) || [])[1];
       let max = 0;
-      for (const part of ss.split(',')) {
+      for (const part of (ss || '').split(',')) {
         const [u, w] = part.trim().split(/\s+/);
         const n = parseInt(w) || 0;
-        if (n >= max) { max = n; choisi = u; }
+        if (u && n >= max) { max = n; choisi = u; }
       }
     }
     if (!choisi) return tag;
@@ -129,7 +154,7 @@ for (const { route, fichier } of pages) {
 /* ---- 4. le document unique ---------------------------------------------- */
 const json = JSON.stringify(routes).replace(/<\/script/gi, '<\\/script');
 
-const sortie = `<title>Tungsten Import Export</title>
+const corpsDoc = `<title>Tungsten Import Export</title>
 <style>
 ${css}
 </style>
@@ -190,6 +215,46 @@ ${css}
 </script>
 `;
 
+/* ---- 5. DEUX SORTIES, ET C'EST LA CORRECTION LA PLUS IMPORTANTE ----------
+
+   Ce fichier n'ecrivait qu'un fragment : ni doctype, ni charset, ni viewport,
+   ni langue. Servi par une page publiee, cela ne se voyait pas — l'hebergeur
+   fournit son propre entete. Ouvert DIRECTEMENT, en double-cliquant le
+   fichier, c'etait autre chose, et c'est pourtant l'usage pour lequel il
+   existe :
+
+     . sans <meta name="viewport">, un telephone met la page en page a 980px
+       puis la reduit a 39,8 % — le texte des champs du formulaire tombait a
+       7,4px, le bouton Menu a 25x19, aucune cible tactile n'atteignait 48px ;
+     . sans <meta charset>, le moteur de Safari lit le fichier en windows-1252
+       — 114 fragments de texte abimes sur les 18 routes, dont les dix-huit
+       titres d'onglet et le micro-libelle de chaque section : « 01 — The line »
+       devenait « 01 a-euro-" The line ». Le fichier est pourtant de l'UTF-8
+       valide : c'est la declaration qui manquait, et sur file:// aucun entete
+       HTTP ne vient la suppleer ;
+     . sans <!doctype html>, le document passe en mode quirks ;
+     . sans lang, il part sans langue declaree.
+
+   Deux formes sont donc ecrites, des memes morceaux, en une passe :
+
+     maquette.html           le fragment, pour une publication qui fournit
+                             elle-meme son enveloppe ;
+     maquette-autonome.html  le document complet, pour ouvrir le fichier ou
+                             le poser sur n'importe quel hebergeur.            */
+
+const sortie = corpsDoc;
+
+const autonome = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+${corpsDoc}</body>
+</html>
+`;
+
 /* Garde-fou. La derniere fois, un echappement perdu avait laisse les <source>
    du <picture> en place : ils pointaient vers des fichiers absents, le
    navigateur les preferait au <img>, et la maquette est partie sans une seule
@@ -204,17 +269,30 @@ const nonEncodees = (sortie.match(/<img[^>]*src=\\"\/_astro/g) || []).length;
 const fontesPerdues = (sortie.match(/url\([^)]*[.]woff2/g) || []).length;
 const nbFontFace = (sortie.match(/@font-face/g) || []).length;
 const carteVive = (sortie.match(/id="map"/g) || []).length;
+/* L'enveloppe du document autonome. Ces quatre declarations ne se voient pas
+   quand elles manquent : la page s'affiche, simplement mal, et seulement chez
+   celui qui ouvre le fichier. */
+const enveloppe = ['<!doctype html>', 'lang="en"', 'charset="utf-8"', 'name="viewport"']
+  .filter((d) => !autonome.includes(d));
+/* Et le gestionnaire du formulaire, qui vivait apres </body> et se perdait a
+   la coupe. Sans lui, l'envoi quitte la page. */
+const sansFormulaire = sortie.includes('reportValidity') ? 0 : 1;
 if (restants || nonEncodees || feuillesOubliees || fontesPerdues
-    || nbFontFace < 4 || carteVive) {
+    || nbFontFace < 4 || carteVive || enveloppe.length || sansFormulaire) {
   console.error(`ARRET : ${restants} <source> restants, ${nonEncodees} images non encodees, ` +
                 `${feuillesOubliees} feuille(s) de style en lien externe, ` +
                 `${fontesPerdues} fonte(s) non encodee(s), ${nbFontFace} @font-face (4 attendues), ` +
-                `${carteVive} carte(s) encore branchee(s).`);
+                `${carteVive} carte(s) encore branchee(s), ` +
+                `enveloppe absente : ${enveloppe.join(' ') || 'non'}, ` +
+                `gestionnaire de formulaire perdu : ${sansFormulaire ? 'oui' : 'non'}.`);
   process.exit(1);
 }
 
 writeFileSync('verif/maquette.html', sortie);
-const ko = Math.round(Buffer.byteLength(sortie) / 1024);
+writeFileSync('verif/maquette-autonome.html', autonome);
+const ko = Math.round(Buffer.byteLength(autonome) / 1024);
 console.log(`${posees} pages, ${images} images posees, ${cache.size} fichiers encodes`);
 console.log(`maquette : ${(ko / 1024).toFixed(2)} Mo  (plafond 16 Mo)`);
+console.log('  verif/maquette.html           fragment, pour publication');
+console.log('  verif/maquette-autonome.html  document complet, pour ouvrir le fichier');
 console.log('routes :', Object.keys(routes).sort().join(' '));

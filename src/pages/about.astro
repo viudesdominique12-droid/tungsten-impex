@@ -31,7 +31,7 @@ const registres = [
   description="Founded in 2007 in Addis Ababa to bridge local potential with global markets. Words from the founder, and the premises we work from."
   rail="ABOUT US"
 >
-  <section class="tete section" data-sol="nuit" data-premier data-rail-section="ABOUT US">
+  <section class="tete section" data-type="A" data-sol="nuit" data-premier data-rail-section="ABOUT US">
     <div class="shell">
       <p class="t-label t-quiet code">01 — About us</p>
       <h1 class="t-display tete__h">
@@ -41,7 +41,8 @@ const registres = [
   </section>
 
   {plateau && (
-    <figure class="pleine" data-rail-section="THE PREMISES">
+    <figure class="pleine" data-type="D" data-rail-section="THE PREMISES"
+            style={`--nat: ${plateau.width}px`}>
       <Picture src={plateau} alt="The Tungsten office floor" formats={['avif']}
                fallbackFormat="webp" widths={largeurs.length ? largeurs : [plateau.width]}
                sizes="100vw" loading="eager" decoding="async" />
@@ -51,7 +52,7 @@ const registres = [
     </figure>
   )}
 
-  <section class="section letter" data-rail-section="FROM THE FOUNDER">
+  <section class="section letter" data-type="E" data-rail-section="FROM THE FOUNDER">
     <div class="shell edito">
       <div class="edito__t">
         <p class="t-label t-quiet code">02 — From the founder</p>
@@ -70,7 +71,7 @@ const registres = [
     </div>
   </section>
 
-  <section class="section" data-sol="wash" data-rail-section="REGISTERED WITH">
+  <section class="section" data-type="H" data-sol="wash" data-rail-section="REGISTERED WITH">
     <div class="shell">
       <header class="memb__head">
         <p class="t-label t-quiet code">03 — On record</p>
@@ -89,7 +90,7 @@ const registres = [
 
   {/* Le texte parle d'une zone de quarantaine ; la photographie en montrait
       une autre. Elle montre maintenant celle-la. */}
-  <section class="section premises" data-rail-section="AFRICA AVENUE">
+  <section class="section premises" data-type="E" data-rail-section="AFRICA AVENUE">
     <div class="shell premises__in">
       <Photo src="img/company/quarantine.jpg"
              alt="The quarantine area on the 4th floor of Dembel City Center"

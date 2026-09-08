@@ -10,3 +10,5 @@ verif/*.png
 verif/*.png
 verif/maquette.html
 verif/**/*.png
+verif/maquette-autonome.html
+verif/hz-oeil/

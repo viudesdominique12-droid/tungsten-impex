@@ -17,7 +17,8 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (m?.width ?? 0));
 ---
 
 {m && (
-  <figure class="pleine" data-type="D" data-rail-section="THE STORE">
+  <figure class="pleine" data-type="D" data-rail-section="THE STORE"
+          style={`--nat: ${m.width}px`}>
     <Picture
       src={m}
       alt="Palletised medicine cartons in the Tungsten store, Addis Ababa"

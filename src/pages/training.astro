@@ -8,13 +8,10 @@
 */
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
-import { Picture } from 'astro:assets';
-import { photo } from '../lib/photos.js';
+import Photo from '../components/Photo.astro';
 
 const c = site.company;
 const t = site.training;
-const equipe = photo('img/company/team-desk.jpg');
-const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (equipe?.width ?? 0));
 ---
 
 <Base
@@ -22,7 +19,7 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (equipe?.width ?? 0)
   description="Practical import and export training in Addis Ababa: export procedure and documentation, quality assurance, negotiation, cross-border contracts, risk and foreign market access."
   rail="TRAINING"
 >
-  <section class="tete section" data-sol="nuit" data-premier data-rail-section="TRAINING">
+  <section class="tete section" data-type="A" data-sol="nuit" data-premier data-rail-section="TRAINING">
     <div class="shell tete__in">
       <div>
         <p class="t-label t-quiet code">01 — Training</p>
@@ -32,18 +29,19 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (equipe?.width ?? 0)
     </div>
   </section>
 
-  {equipe && (
-    <figure class="pleine" data-rail-section="AT WORK">
-      <Picture src={equipe} alt="A member of the Tungsten team at work" formats={['avif']}
-               fallbackFormat="webp" widths={largeurs.length ? largeurs : [equipe.width]}
-               sizes="100vw" loading="eager" decoding="async" />
-      <figcaption>
-        <span class="shell t-label">A member of the Tungsten team at work.</span>
-      </figcaption>
-    </figure>
-  )}
+  {/* Pas de bande pleine largeur ici. Le fichier fait 720px de large : etale
+      sur une fenetre de 1440 il serait agrandi deux fois, trois fois sur un
+      ecran de 1920 — et six fois sur un ecran a densite double. La regle du
+      site borne l'agrandissement a 1,4x, et sous 1024px de source il n'y a
+      pas de bande du tout. La photographie garde donc sa colonne, a sa taille
+      reelle. C'est la seule page du site qui n'a pas de type D. */}
+  <div class="shell portrait" data-rail-section="AT WORK">
+    <Photo src="img/company/team-desk.jpg" eager
+           alt="A member of the Tungsten team at work"
+           caption="A member of the Tungsten team at work." />
+  </div>
 
-  <section class="section" data-rail-section="THE PROGRAMME">
+  <section class="section" data-type="H" data-rail-section="THE PROGRAMME">
     <div class="shell">
       <header class="syl__head">
         <p class="t-label t-quiet code">02 — The programme</p>
@@ -127,6 +125,9 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (equipe?.width ?? 0)
   .tete__h { margin-top: 22px; }
   .tete__p { color: var(--gris); }
 
+  .portrait { padding-top: var(--pad-section-mob); }
+  @media (min-width: 900px) { .portrait { padding-top: var(--pad-section); } }
+
   .syl__head { margin-bottom: var(--pile); }
   .syl__ligne { display: flex; align-items: baseline; justify-content: space-between;
                 gap: 20px; flex-wrap: wrap; margin-top: 16px; }
@@ -175,8 +176,12 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (equipe?.width ?? 0)
   const form = document.getElementById('enrol');
   const status = document.getElementById('status');
   form.addEventListener('submit', (e) => {
-    if (!form.reportValidity()) return;
+    /* On retient l'envoi AVANT de valider. Ecrit dans l'autre ordre, un
+       formulaire incomplet sortait du gestionnaire sans que rien n'ait
+       empeche l'envoi natif : le navigateur rechargeait la page, et les
+       reponses deja saisies passaient en clair dans la barre d'adresse. */
     e.preventDefault();
+    if (!form.reportValidity()) return;
     const d = new FormData(form);
     const g = (k) => (d.get(k) || '').toString().trim();
     const body = [

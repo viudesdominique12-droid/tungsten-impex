@@ -38,7 +38,7 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (img?.width ?? 0));
 
 <Base title={`${product.name} — Tungsten Import Export`} description={c.lead} rail={label.toUpperCase()}>
   <article>
-    <header class="tete section" data-sol="nuit" data-premier data-rail-section={product.name.toUpperCase()}>
+    <header class="tete section" data-type="A" data-sol="nuit" data-premier data-rail-section={product.name.toUpperCase()}>
       <div class="shell tete__in">
         <div>
           <nav class="crumb t-label t-quiet" aria-label="Breadcrumb">
@@ -53,14 +53,14 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (img?.width ?? 0));
     </header>
 
     {pleine ? (
-      <figure class="pleine">
+      <figure class="pleine" data-type="D" style={`--nat: ${img.width}px`}>
         <Picture src={img} alt={product.name} formats={['avif']} fallbackFormat="webp"
                  widths={largeurs.length ? largeurs : [img.width]} sizes="100vw"
                  loading="eager" decoding="async" />
       </figure>
     ) : null}
 
-    <section class="section intro" data-rail-section="THE LINE">
+    <section class="section intro" data-type="E" data-rail-section="THE LINE">
       <div class="shell edito">
         <div class="edito__t">
           <p class="t-label t-quiet code">01 — The line</p>
@@ -73,7 +73,7 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (img?.width ?? 0));
     </section>
 
     {c.facts.length > 0 && (
-      <section class="section specs" data-sol="wash" data-rail-section="SPECIFICATIONS">
+      <section class="section specs" data-type="H" data-sol="wash" data-rail-section="SPECIFICATIONS">
         <div class="shell">
           <header class="specs__head">
             <p class="t-label t-quiet code">02 — Specifications</p>
@@ -92,7 +92,7 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (img?.width ?? 0));
     )}
 
     {c.blocks.length > 0 && (
-      <section class="section" data-sol="nuit" data-rail-section="DETAIL">
+      <section class="section" data-type="E" data-sol="nuit" data-rail-section="DETAIL">
         <div class="shell edito">
           <div class="edito__t">
             <p class="t-label t-quiet code">03 — Detail</p>
@@ -121,7 +121,7 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (img?.width ?? 0));
       </div>
     </section>
 
-    <section class="section onward" data-sol="wash" data-rail-section={label.toUpperCase()}>
+    <section class="section onward" data-type="F" data-sol="wash" data-rail-section={label.toUpperCase()}>
       <nav class="shell" aria-label={`Our other ${label.toLowerCase()}`}>
         <p class="t-label t-quiet code onward__h">Our other {label.toLowerCase()}</p>
         <div class="cartes cartes--3">

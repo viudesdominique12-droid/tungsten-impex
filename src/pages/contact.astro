@@ -26,7 +26,7 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (couloir?.width ?? 0
   description={`Tungsten Import Export, ${c.address.line1}, ${c.address.line2}, ${c.address.city}. Phone ${c.phone}.`}
   rail="CONTACT"
 >
-  <section class="tete section" data-sol="nuit" data-premier data-rail-section="CONTACT US">
+  <section class="tete section" data-type="A" data-sol="nuit" data-premier data-rail-section="CONTACT US">
     <div class="shell tete__in">
       <div>
         <p class="t-label t-quiet code">01 — Contact us</p>
@@ -40,7 +40,8 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (couloir?.width ?? 0
   </section>
 
   {couloir && (
-    <figure class="pleine" data-rail-section="DEMBEL CITY CENTER">
+    <figure class="pleine" data-type="D" data-rail-section="DEMBEL CITY CENTER"
+            style={`--nat: ${couloir.width}px`}>
       <Picture src={couloir} alt="Offices at Dembel City Center" formats={['avif']}
                fallbackFormat="webp" widths={largeurs.length ? largeurs : [couloir.width]}
                sizes="100vw" loading="eager" decoding="async" />
@@ -50,7 +51,7 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (couloir?.width ?? 0
     </figure>
   )}
 
-  <section class="section" data-rail-section="DETAILS">
+  <section class="section" data-type="H" data-rail-section="DETAILS">
     <div class="shell">
       <header class="fields__head">
         <p class="t-label t-quiet code">02 — Details</p>
