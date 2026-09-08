@@ -1,49 +1,75 @@
 ---
+/* Formation, au repertoire :
+
+     A  tete sur nuit, avec le chapeau
+     D  bande photo pleine largeur
+     H  index a filets : les sept modules, numerotes
+        le formulaire, sur nuit, champs en surface
+*/
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
-import Photo from '../components/Photo.astro';
+import { Picture } from 'astro:assets';
+import { photo } from '../lib/photos.js';
+
 const c = site.company;
 const t = site.training;
+const equipe = photo('img/company/team-desk.jpg');
+const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (equipe?.width ?? 0));
 ---
 
 <Base
   title="Book to train with us — Tungsten Import Export"
   description="Practical import and export training in Addis Ababa: export procedure and documentation, quality assurance, negotiation, cross-border contracts, risk and foreign market access."
+  rail="TRAINING"
 >
-  <section class="top">
-    <div class="shell">
-      <p class="t-label t-quiet">Training</p>
-      <h1 class="t-h1 top__h">Book to train with us</h1>
-      <p class="t-lead top__p">{t.intro}</p>
-    </div>
-  </section>
-
-  {/* La photo est un portrait de 720x1280 : tenue a la verticale, elle ne
-      peut faire ni banniere ni vis-a-vis d'un paragraphe de cinq lignes — elle
-      mesure 711px de haut et laissait un vide a sa droite. Ce qui a la hauteur
-      d'une photo verticale, c'est le programme. */}
-  <section class="syl">
-    <div class="shell duo">
-      <Photo src="img/company/team-desk.jpg" eager
-             alt="A member of the Tungsten team at work"
-             caption="A member of the Tungsten team at work." />
+  <section class="tete section" data-sol="nuit" data-premier data-rail-section="TRAINING">
+    <div class="shell tete__in">
       <div>
-        <h2 class="t-h2 syl__h">What the programme covers</h2>
-        <ol class="syl__list">
-          {t.modules.map((m, n) => (
-            <li>
-              <span class="t-note t-quiet syl__n">{String(n + 1).padStart(2, '0')}</span>
-              <span class="syl__m">{m}</span>
-            </li>
-          ))}
-        </ol>
+        <p class="t-label t-quiet code">01 — Training</p>
+        <h1 class="t-display tete__h">Book to <em class="accent-mot">train</em> with us</h1>
       </div>
+      <p class="t-lead tete__p mesure">{t.intro}</p>
     </div>
   </section>
 
-  <section class="form-wrap">
+  {equipe && (
+    <figure class="pleine" data-rail-section="AT WORK">
+      <Picture src={equipe} alt="A member of the Tungsten team at work" formats={['avif']}
+               fallbackFormat="webp" widths={largeurs.length ? largeurs : [equipe.width]}
+               sizes="100vw" loading="eager" decoding="async" />
+      <figcaption>
+        <span class="shell t-label">A member of the Tungsten team at work.</span>
+      </figcaption>
+    </figure>
+  )}
+
+  <section class="section" data-rail-section="THE PROGRAMME">
     <div class="shell">
-      <h2 class="t-h2 form__h">Tell us how to reach you</h2>
+      <header class="syl__head">
+        <p class="t-label t-quiet code">02 — The programme</p>
+        <div class="syl__ligne">
+          <h2 class="t-h1">What the programme covers</h2>
+          <p class="t-label t-quiet">{t.modules.length} modules</p>
+        </div>
+      </header>
+      <ol class="index syl__list">
+        {t.modules.map((m, n) => (
+          <li class="index__l">
+            <span class="t-label index__n">{String(n + 1).padStart(2, '0')}</span>
+            <span class="t-h2 index__t">{m}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section form-wrap" data-sol="wash" data-rail-section="ENROL">
+    <div class="shell">
+      <header class="form__head">
+        <p class="t-label t-quiet code">03 — Enrol</p>
+        <h2 class="t-h1 form__h">Tell us how to reach you</h2>
+      </header>
+
       <form class="form" id="enrol" data-email={c.email} novalidate>
         <div class="row">
           <p class="t-label t-quiet">Who you are</p>
@@ -87,7 +113,7 @@ const t = site.training;
             <button class="act" type="submit">Send my enquiry</button>
             <p class="note">{t.note}</p>
             <p class="note">Office hours: {c.hours.weekdays}.</p>
-            <p class="status" id="status" role="status" aria-live="polite"></p>
+            <p class="status t-body" id="status" role="status" aria-live="polite"></p>
           </div>
         </div>
       </form>
@@ -96,49 +122,53 @@ const t = site.training;
 </Base>
 
 <style>
-  .top { padding-block: var(--s-section) 0; }
-  .top__h { margin-top: 12px; }
-  .top__p { margin-top: 20px; max-width: 52ch; }
-  .syl { padding-block: var(--s-section) var(--s-band); }
-  .duo { display: grid; gap: var(--s-block) var(--s-block); align-items: start; }
-  @media (min-width: 860px) { .duo { grid-template-columns: auto 1fr; } }
+  .tete__in { display: grid; gap: var(--pile) var(--col-gap); align-items: end; }
+  @media (min-width: 900px) { .tete__in { grid-template-columns: 6fr 5fr; } }
+  .tete__h { margin-top: 22px; }
+  .tete__p { color: var(--gris); }
 
-  .syl__h { margin-bottom: var(--s-block); }
-  .syl__list { list-style: none; margin: 0; padding: 0;
-               display: grid; gap: 18px var(--col-gap); }
-  .syl__list li { display: grid; gap: 2px 20px; align-items: baseline; }
-  @media (min-width: 620px) { .syl__list li { grid-template-columns: 40px 1fr; } }
-  .syl__n { margin: 0; }
-  .syl__m { font-size: var(--t-h3); line-height: var(--lh-h3);
-            font-stretch: var(--wd-text); font-weight: var(--w-display); }
+  .syl__head { margin-bottom: var(--pile); }
+  .syl__ligne { display: flex; align-items: baseline; justify-content: space-between;
+                gap: 20px; flex-wrap: wrap; margin-top: 16px; }
+  .syl__list { list-style: none; margin: -1px 0 0; padding: 0; }
 
-  .form-wrap { padding-bottom: var(--s-band); }
-  .form__h { margin-bottom: var(--s-block); }
-  .form { display: grid; gap: var(--s-block); }
-  .row { display: grid; gap: 10px 32px; }
+  /* Le formulaire etait sur nuit. Avec la tete et le pied, la page passait a
+     74 % de sombre — un fond, plus un rythme. Il prend le lavis, et les champs
+     s'y detachent en surface au lieu de s'y creuser. */
+  .form__head { margin-bottom: var(--pile); }
+  .form__h { margin-top: 18px; }
+  .form { display: grid; gap: var(--pile); }
+  .row { display: grid; gap: 14px var(--col-gap);
+         padding-top: 22px; border-top: 1px solid var(--filet); }
   @media (min-width: 780px) { .row { grid-template-columns: 220px 1fr; } }
-  .row > p:first-child { margin: 0; max-width: none; }
+  .row > p:first-child { margin: 0; padding-top: .35em; }
 
   .pair { display: grid; gap: 16px; }
   @media (min-width: 760px) { .pair { grid-template-columns: 1fr 1fr; } }
-  .f { display: grid; gap: 6px; margin: 0; max-width: none; }
-  .f label { font-size: var(--t-label); line-height: var(--lh-label);
-             font-stretch: var(--wd-text); color: var(--muted); }
-  .req { color: var(--fg); }
-  /* Un bloc empli plutot qu'une boite cerclee : six contours gris alignes,
-     c'est encore du trait. Le fond dit ou l'on ecrit ; il suffit. */
+  .f { display: grid; gap: 8px; margin: 0; }
+  .f label { font-family: var(--font-mono); font-size: var(--label);
+             letter-spacing: .12em; text-transform: uppercase; color: var(--gris); }
+  .req { color: var(--encre); }
+  /* Un bloc empli plutot qu'une boite cerclee : six contours alignes, c'est
+     encore du trait. Le fond dit ou l'on ecrit ; il suffit. Le coin en goutte
+     signe le champ comme il signe la carte. */
   .f input, .f select, .f textarea {
-    font-family: inherit; font-size: var(--t-body); color: var(--fg);
-    background: var(--hair); border: 0; border-radius: var(--radius);
-    padding: 13px 14px; width: 100%; }
-  .f textarea { resize: vertical; min-height: 110px; }
-  .f input:focus, .f select:focus, .f textarea:focus { outline: 2px solid var(--fg);
-    outline-offset: 0; }
-  .hint { font-size: var(--t-label); line-height: var(--lh-label); color: var(--muted); }
+    font-family: var(--font-body); font-size: var(--step-0); color: var(--encre);
+    background: var(--surface); border: 0;
+    border-radius: var(--goutte-carte);
+    padding: 14px 16px; width: 100%; }
+  .f textarea { resize: vertical; min-height: 120px; }
+  .f input::placeholder, .f textarea::placeholder { color: var(--gris); }
+  .f input:focus, .f select:focus, .f textarea:focus {
+    outline: 2px solid currentColor; outline-offset: 0; }
+  .f select option { color: #0A1A33; }
+  .hint { font-family: var(--font-mono); font-size: var(--label);
+          letter-spacing: .06em; color: var(--gris); }
 
-  .note { margin-top: 12px; color: var(--muted); font-size: var(--t-label);
-          line-height: var(--lh-label); }
-  .status { margin-top: 8px; font-weight: var(--w-display); }
+  .note { margin-top: 14px; color: var(--gris); font-family: var(--font-mono);
+          font-size: var(--label); line-height: 1.6; letter-spacing: .04em; }
+  .status { margin-top: 12px; }
+  .form .act { width: auto; }
 </style>
 
 <script>

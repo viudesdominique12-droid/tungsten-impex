@@ -1,407 +1,460 @@
 /* ===========================================================================
    Tungsten Import Export — le systeme
 
-   Constat mesure sur la version precedente : 32 declarations de taille pour 22
-   valeurs distinctes, 8 graisses, 9 chasses dont quatre tenaient dans 12 points
-   que l'oeil ne separe pas, 26 gouttieres, 51 clamp() improvises, 6 partages de
-   colonnes sans unite commune. Chaque valeur etait plausible seule ; ensemble
-   elles disaient qu'aucune n'avait ete arbitree.
+   Refonte demandee mot pour mot : « le site est vide et rempli a la fois ».
+   Le diagnostic du client est juste, et il est precis. La page n'avait que
+   deux registres visuels — des titres enormes entoures de blanc, et des paves
+   de texte compactes — et rien entre les deux. Aucun palier intermediaire,
+   donc aucune raison de defiler : chaque ecran ressemblait au precedent.
 
-   Ici : 7 paliers, 3 graisses, 3 chasses, 3 approches, 6 gouttieres,
-   3 espacements de section, 4 placements de grille, 2 clamp().
-   Aucune valeur litterale de taille, graisse, chasse, approche, rayon ou duree
-   n'est autorisee ailleurs que dans ce fichier.
+   Le remede n'est ni plus de blanc ni moins de texte. C'est un REPERTOIRE DE
+   SECTIONS, huit types au comportement visuel distinct, alternes de sorte que
+   deux sections voisines ne se ressemblent jamais, et une famille sombre qui
+   revient toutes les deux ou trois sections pour donner le rythme.
 
-   Palette inchangee. Aucun gris en hexadecimal : tous derives par opacite.
+     A  heros, fond nuit
+     B  bande de donnees, quatre cellules separees par des filets
+     C  ruban defilant, bande fine en accent
+     D  bande photo pleine largeur, legende sur degrade
+     E  editorial deux colonnes, titre collant
+     F  grille de cartes, fond surface, rayon en goutte
+     G  citation nuit
+     H  index a filets, numerotation mono
+
+   Les jetons sont ceux du site de reference impose par le client, releves dans
+   sa feuille et repris tels quels. Le contenu, lui, n'a pas bouge d'un mot :
+   aucun texte supprime, ajoute ou reecrit.
    =========================================================================== */
 
+/* ---------------------------------------------------------------- polices --
+   Auto-hebergees, jamais fonts.googleapis.com : sur une connexion lente
+   l'appel echoue et toute la hierarchie s'effondre en Helvetica. Trois
+   familles, quatre fichiers, 127 Ko — l'Archivo qu'elles remplacent en pesait
+   90 a lui seul.
+
+   Fraunces porte les titres. C'est une serif a contraste variable, et c'est
+   elle qui distingue un titre d'un paragraphe autrement que par la taille.
+   C'etait tout le probleme des titres precedents : meme dessin que le corps,
+   trois fois plus gros, donc du remplissage. */
+
 @font-face {
-  font-family: 'Archivo';
+  font-family: 'Fraunces';
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
-  font-stretch: 62% 125%;
-  src: url('/fonts/archivo-var.woff2') format('woff2-variations');
+  src: url('/fonts/fraunces-var.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Fraunces';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('/fonts/fraunces-var-italic.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 700;
+  src: url('/fonts/instrument-sans-var.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Plex Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url('/fonts/plex-mono.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
                  U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
                  U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 :root {
-  /* ---- couleur : trois valeurs, une fonction chacune -----------------
-     Le papier porte l'export. L'encre porte le chassis — bandeau, pied.
-     Le bleu porte l'import, en aplat plein et jamais en filet : un trait
-     d'accent colore sous un en-tete est un tic de gabarit, pas une marque.
-     Tous les gris sont derives par opacite ; aucun hexadecimal de gris. */
-  --paper: #f2f5f9;
-  /* Le fonce du site de reference du client, releve sur sa page : rgb(10,27,60).
-     Le notre etait a rgb(10,26,51) — neuf unites de bleu en moins, invisibles
-     dans un texte mais lisibles sur un pied de page entier. On adopte le sien :
-     le pied se lit alors comme du bleu profond, ce qui va dans le sens de
-     « blue and white », et le texte ne bouge pas (15,53 contre 15,89). */
-  --ink:   #0a1b3c;
-  --blue:  #1b3fa6;
-  /* Le lavis : le bleu de la maison a 5 % sur le papier, exactement le geste
-     du site de reference du client, qui emploie rgba(27,63,166,.05) sur
-     301 000 px2. Compose une fois ici plutot que laisse en rgba : l'en-tete
-     collant peint var(--bg), et un rgba empile sur le fond du corps donnerait
-     une valeur differente — une bande claire en haut de chaque fiche import.
-       .05 x (27,63,166) + .95 x (242,245,249) = (231, 236, 245) */
-  --wash: #e7ecf5;
+  /* ---- clair ---------------------------------------------------------- */
+  --bg:      #F2F5F9;
+  --surface: #FBFDFF;
+  --ink:     #0A1A33;
+  --muted:   #45597A;
+  --wash:    #DCE7F4;
 
-  --bg: var(--paper);
-  --fg: var(--ink);
-  --rule:  rgba(10, 27, 60, .14);
-  --hair:  rgba(10, 27, 60, .07);
-  --muted: rgba(10, 27, 60, .70);   /* 6,11 — AA */
+  /* ---- accent --------------------------------------------------------- */
+  --accent:      #1B3FA6;
+  --accent-deep: #142F7E;
 
-  /* ---- grille : une seule pour toutes les pages --------------------- */
-  --shell: 1360px;
-  /* La gouttiere du telephone passe de 24 a 32px. Mesure faite sur la
-     reference du client : elle tient ses textes a 40px du bord sur un ecran de
-     390. A 24 le notre les posait a moins d'un demi-centimetre du verre, et
-     c'est la premiere chose qui fait qu'une page « tasse » — avant meme les
-     ecarts verticaux, un texte qui touche le bord n'a pas de page autour de
-     lui. Le bureau ne bouge pas : sa valeur est reprise telle quelle plus bas. */
-  --gutter: clamp(32px, 8.2vw, 40px);
-  --col-gap: 24px;
+  /* ---- nuit — indispensable, c'est ce qui cree le rythme --------------- */
+  --nuit:       #0A1B3C;
+  --nuit-2:     #12264D;
+  --nuit-ink:   #EAF1FA;
+  --nuit-muted: #93A7C7;
 
-  /* ---- typographie : sept paliers, aucun doublon -------------------- */
-  /* L'ecart entre le plus grand et le plus petit est ce qui fabrique de l'air
-     SANS ajouter de vide. Il etait de 2,1 sur un telephone — 36 contre 17 — et
-     une page dont tout tient dans un rapport de deux paraissait tassee meme
-     avec des marges correctes. Il passe a 2,4. Au-dela, le titre d'accueil
-     — deux phrases entieres — depasserait la hauteur d'un ecran a lui seul :
-     l'echelle de la reference (2,7) porte un titre de quatre mots, pas
-     celui-ci. L'interlignage des textes courants s'ouvre d'un cran dans le
-     meme mouvement. */
-  --t-display: 42px;  --lh-display: 46px;   /* H1 accueil UNIQUEMENT */
-  --t-h1:      34px;  --lh-h1:      40px;
-  --t-h2:      26px;  --lh-h2:      34px;
-  --t-lead:    20px;  --lh-lead:    32px;
-  --t-h3:      20px;  --lh-h3:      28px;
-  --t-body:    17px;  --lh-body:    29px;
-  --t-label:   14px;  --lh-label:   20px;
+  /* ---- etats ---------------------------------------------------------- */
+  --ok: #157A52;  --ok-nuit: #4ADE9E;  --err: #C13B3B;
 
-  --w-text: 400;  --w-display: 500;  --w-label: 600;
-  --wd-label: 68%;  --wd-text: 100%;  --wd-display: 120%;
-  --tr-label: .06em;  --tr-text: 0;  --tr-display: -.015em;
+  /* ---- ce que peint la section courante -------------------------------
+     Le sol, l'encre, le gris et le filet sont des variables, pas des
+     couleurs : une section change de famille en redefinissant ces quatre
+     lignes, et tout ce qu'elle contient suit. C'est ce qui rend l'alternance
+     jouable sans dupliquer un style par fond. */
+  --sol:   var(--bg);
+  --encre: var(--ink);
+  --gris:  var(--muted);
+  --filet: rgba(10, 26, 51, .12);
 
-  /* ---- rythme : base 4, trois espacements de section ----------------
-     Resserre de 25 %. En retirant les filets je les avais remplaces par des
-     ecarts enormes — 96px entre deux produits, 160px entre deux sections —
-     et la page etait devenue une suite d'ilots. Un catalogue de negoce est
-     dense : la respiration est dans les marges, pas entre chaque ligne. */
-  /* Ces trois valeurs sont celles du TELEPHONE. Le bureau reprend les siennes
-     dans le palier a 900px, inchangees : sur un ecran large, le regard
-     embrasse la colonne entiere et le resserrement de 25 % tenait. Sur un
-     ecran de 390 il ne tient pas — on ne voit jamais qu'un fragment, et c'est
-     l'ecart d'avec le fragment precedent qui dit si l'on a change de sujet.
-     Chacune monte d'environ un quart, dans le rapport 1 : 2 : 3,5. */
-  --s-block: 44px;
-  --s-section: 92px;
-  --s-band: 148px;
+  /* ---- polices -------------------------------------------------------- */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body:    'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:    'Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  /* ---- mouvement : deux courbes, quatre durees ---------------------- */
-  --ease-out: cubic-bezier(.25, 1, .5, 1);
-  --ease-in-out: cubic-bezier(.76, 0, .24, 1);
-  --hover: 150ms;
-  --in: 300ms;
-  --out: 140ms;
-  /* La bascule du tableau. Elle suit la cadence : a 1,5 s par ligne, une
-     rotation de 520 ms ne laisserait que 980 ms de lecture. A 400 elle en
-     laisse 1,1 s, et le geste est plus sec — ce qui est le but. */
-  --turn: 400ms;
+  /* ---- echelle -------------------------------------------------------- */
+  --step--1: clamp(0.82rem, 0.78rem + 0.2vw, 0.94rem);
+  --step-0:  clamp(1rem,    0.95rem + 0.35vw, 1.19rem);
+  --step-1:  clamp(1.25rem, 1.15rem + 0.6vw,  1.56rem);
+  --step-2:  clamp(1.56rem, 1.35rem + 1.1vw,  2.07rem);
+  --step-3:  clamp(1.95rem, 1.55rem + 2vw,    2.99rem);
+  --step-4:  clamp(2.44rem, 1.8rem  + 3.2vw,  4.2rem);
+  --step-5:  clamp(3.4rem,  2.2rem  + 6vw,    6.8rem);
+  --label:   0.6875rem;
 
-  --radius: 0;
+  /* ---- gabarit -------------------------------------------------------- */
+  --container: 1280px;
+  --gutter: clamp(1.25rem, 2.5vw, 2rem);
+  --col-gap: clamp(1.5rem, 2.4vw, 2.75rem);
+
+  /* Le pas vertical d'une section. Le laboratoire est a 112px en bureau. */
+  --pad-section: clamp(72px, 9vw, 112px);
+  --pad-section-mob: clamp(64px, 12vw, 88px);
+  --pile: clamp(28px, 7vw, 44px);   /* entre deux blocs d'une meme section */
+
+  /* ---- signature ------------------------------------------------------ */
+  /* Le jeton du laboratoire, tel quel : trois coins ronds, un coin vif. A
+     50 % il ne vaut que pour un objet deja rond — une puce, un point. Sur une
+     carte de 300x200 il donnerait une ellipse, alors que le brief demande un
+     geste « discret ». La carte prend donc le meme geste a son echelle. */
+  --goutte: 50% 50% 50% 4px;
+  --goutte-carte: 22px 22px 22px 4px;
+
+  --ease-pipette: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-verse:   cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-tampon:  cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Le bureau reprend mot pour mot ce qu'il avait. La demande portait sur le
-   telephone ; elargir un ecran de 1440 au passage aurait ete une seconde
-   refonte, non demandee et non verifiee. Tout ce qui a bouge plus haut est
-   donc redit ici a sa valeur d'origine. */
-@media (min-width: 900px) {
-  :root {
-    --gutter: clamp(24px, 5.2vw, 88px);
+/* ------------------------------------------------------------ les sols ----
+   Quatre familles, et rien d'autre. Une section declare la sienne par
+   `data-sol`, et tout ce qu'elle contient — texte, gris de service, filets —
+   se met a la bonne valeur sans qu'aucun composant ait a le savoir. */
 
-    --t-display: clamp(40px, 3.9vw, 52px);  --lh-display: 1.06;
-    --t-h1:   44px;  --lh-h1:   48px;
-    --t-h2:   30px;  --lh-h2:   40px;
-    --t-lead: 22px;  --lh-lead: 32px;
-    --lh-body: 28px;
-
-    --s-block: 36px;
-    --s-section: 72px;
-    --s-band: 120px;
-  }
+[data-sol='nuit'] {
+  --sol: var(--nuit);  --encre: var(--nuit-ink);
+  --gris: var(--nuit-muted);  --filet: rgba(234, 241, 250, .16);
+  background-color: var(--nuit); color: var(--nuit-ink);
 }
-
-/* LA MOITIE IMPORTEE : un lavis, plus un aplat.
-
-   Mesure faite sur le site de reference du client et sur le notre :
-   sa reference porte 10,3 % de bleu, notre accueil 34,3 %, et nos dix fiches
-   import 34,2 % de bleu pour 0,3 % de blanc — la page entiere etait un aplat
-   sature. « Heavy on the eyes », et il a raison.
-
-   Sa reference met le bleu ailleurs : un pied de page fonce, des boutons, de
-   petits panneaux teintes, et le corps blanc de bout en bout. Le bleu y est
-   une encre POSEE SUR du blanc, jamais un fond. J'avais fait l'inverse, pour
-   que la couleur porte le sens import/export apres le retrait des filets.
-   L'idee tenait ; elle coutait trop cher aux yeux sur dix pages.
-
-   Le fond passe donc au lavis, le texte revient a l'encre, et c'est le TITRE
-   qui prend le bleu. La distinction survit, en murmure. */
-[data-flow='in'], [data-ground='wash'] {
+[data-sol='nuit-2'] {
+  --sol: var(--nuit-2);  --encre: var(--nuit-ink);
+  --gris: var(--nuit-muted);  --filet: rgba(234, 241, 250, .16);
+  background-color: var(--nuit-2); color: var(--nuit-ink);
+}
+[data-sol='accent'] {
+  --sol: var(--accent);  --encre: var(--nuit-ink);
+  --gris: rgba(234, 241, 250, .78);  --filet: rgba(234, 241, 250, .22);
+  background-color: var(--accent); color: var(--nuit-ink);
+}
+[data-sol='wash'] {
+  --sol: var(--wash);
   background-color: var(--wash);
-  --bg: var(--wash);
-  /* le texte, les reglures et le gris de service restent ceux du papier */
 }
-/* `data-flow='in'` veut dire « marchandise entrante » ; `data-ground='wash'`
-   ne veut dire qu'une chose, le lavis. S'en servir pour teinter une section
-   qui n'a rien a voir avec l'import — le process, par exemple — reviendrait a
-   vider l'attribut de son sens pour obtenir une couleur. */
-[data-flow='in'] .reg__head h2,
-[data-flow='in'] .tete__h { color: var(--blue); }
-
-/* L'APLAT BLEU, reduit a l'echelle d'accent de la reference : le bandeau de
-   tete, et la face entrante du tableau de departs. Papier sur bleu = 8,32 ;
-   le gris de service a 74 % = 5,31. */
-[data-ground='blue'] {
-  background-color: var(--blue);
-  color: var(--paper);
-
-  --bg: var(--blue);
-  --fg: var(--paper);
-  --rule:  rgba(242, 245, 249, .18);
-  --hair:  rgba(242, 245, 249, .09);
-  --muted: rgba(242, 245, 249, .74);
-}
-
-/* L'APLAT D'ENCRE : le pied de page. La reference emploie rgb(10,27,60) au
-   meme endroit — a neuf unites de notre encre, l'oeil ne les separe pas. */
-[data-ground='ink'] {
-  background-color: var(--ink);
-  color: var(--paper);
-
-  --bg: var(--ink);
-  --fg: var(--paper);
-  --rule:  rgba(242, 245, 249, .20);
-  --hair:  rgba(242, 245, 249, .09);
-  --muted: rgba(242, 245, 249, .74);
+[data-sol='surface'] {
+  --sol: var(--surface);
+  background-color: var(--surface);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background-color: #f2f5f9;
-  color: #0a1b3c;
-  font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
-  font-size: var(--t-body);
-  line-height: var(--lh-body);
-  font-weight: var(--w-text);
-  font-stretch: var(--wd-text);
+  background-color: #F2F5F9;
+  color: #0A1A33;
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
-body[data-flow='in'] { background-color: #e7ecf5; }
 
-img { display: block; max-width: 100%; border-radius: var(--radius); }
+img { display: block; max-width: 100%; }
 a { color: inherit; }
-h1, h2, h3, h4 { margin: 0; font-weight: var(--w-display); }
+h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); font-weight: 500; }
 p { margin: 0; }
 :where(a, button, input, select, textarea):focus-visible {
-  outline: 2px solid var(--fg); outline-offset: 3px;
+  outline: 2px solid currentColor; outline-offset: 3px;
 }
 
 .skip { position: absolute; left: -9999px; top: 0; z-index: 300;
-        background: var(--fg); color: var(--bg); padding: 12px 20px; }
+        background: var(--nuit); color: var(--nuit-ink); padding: 12px 20px; }
 .skip:focus { left: 0; }
 
-/* --------------------------------------------------------- la grille ---- */
-/* Quatre placements. Rien d'autre sur le site.
-   A : 1-12   registres, bandes, compteurs, pied
-   B : 1-7 + 9-12   fiche produit, lettre
-   C : 2-6    texte courant, 68 signes
-   D : 1-5 + 7-12   paires asymetriques                                    */
-
-.shell { width: 100%; max-width: var(--shell); margin-inline: auto;
+/* --------------------------------------------------------- le gabarit ---- */
+.shell { width: 100%; max-width: var(--container); margin-inline: auto;
          padding-inline: var(--gutter); }
 
-/* Mobile d'abord : une colonne. Les placements n'existent qu'a partir de
-   900px. Ecrit dans l'autre sens, `.g--d > :first-child` (0,2,0) l'emportait
-   sur le `.g--d > *` (0,1,0) du media query et le repli ne se faisait pas —
-   deux colonnes de 129 et 159px sur un iPhone. */
-.g { display: grid; gap: var(--s-block) var(--col-gap); }
-@media (min-width: 900px) {
-  .g { grid-template-columns: repeat(12, 1fr); }
-  .g--b > :first-child { grid-column: 1 / 8; }
-  .g--b > :last-child  { grid-column: 9 / 13; }
-  .g--c > *            { grid-column: 2 / 7; }
-  .g--d > :first-child { grid-column: 1 / 6; }
-  .g--d > :last-child  { grid-column: 7 / 13; }
+.section { padding-block: var(--pad-section-mob); }
+@media (min-width: 900px) { .section { padding-block: var(--pad-section); } }
+
+/* ------------------------------------------------------- typographie -----
+   Cinq roles, pas davantage, et une regle qui gouverne les deux plus grands :
+   --step-4 et --step-5 sont reserves a un contenu qui merite cette taille —
+   une affirmation, un chiffre, un prix. Jamais un titre de section ordinaire.
+   C'est exactement ce que le client reproche a l'ancienne version. */
+
+.t-display { font-family: var(--font-display); font-size: var(--step-4);
+             line-height: 1.0; font-weight: 500; letter-spacing: -.015em; }
+.t-h1 { font-family: var(--font-display); font-size: var(--step-3);
+        line-height: 1.02; font-weight: 520; letter-spacing: -.012em;
+        text-wrap: balance; }
+.t-h2 { font-family: var(--font-display); font-size: var(--step-2);
+        line-height: 1.06; font-weight: 560; letter-spacing: -.008em;
+        text-wrap: balance; }
+.t-h3 { font-family: var(--font-display); font-size: var(--step-1);
+        line-height: 1.15; font-weight: 600; }
+.t-lead { font-family: var(--font-body); font-size: var(--step-1);
+          line-height: 1.42; font-weight: 400; }
+.t-body { font-size: var(--step-0); line-height: 1.6; }
+.t-note { font-size: var(--step--1); line-height: 1.5; }
+
+/* Le micro-libelle. Mono, capitales, tres petit, tres clair : il remplace les
+   titres intermediaires lourds et il pose une structure sans occuper de
+   volume. Il est partout — c'est lui qui tient le site ensemble. */
+.t-label { font-family: var(--font-mono); font-size: var(--label);
+           line-height: 1.3; font-weight: 400; letter-spacing: .12em;
+           text-transform: uppercase; }
+.t-quiet { color: var(--gris); }
+
+/* Le mot d'accent du titre de heros : Fraunces italique, souligne. C'est la
+   signature du laboratoire, et le seul endroit du site ou un mot est traite
+   autrement que ses voisins. */
+.accent-mot { font-style: italic;
+              text-decoration: underline; text-underline-offset: .1em;
+              text-decoration-thickness: from-font; }
+[data-sol='nuit'] .accent-mot, [data-sol='nuit-2'] .accent-mot { color: #8FADF2; }
+:where(:not([data-sol='nuit'], [data-sol='nuit-2'], [data-sol='accent'])) > .accent-mot,
+h1:not([data-sol]) .accent-mot { color: inherit; }
+
+/* La mesure : 62 signes en bureau, 36 au telephone. Un paragraphe qui remplit
+   la largeur parait dense meme avec des marges correctes. */
+.mesure { max-width: 36ch; }
+@media (min-width: 760px) { .mesure { max-width: 62ch; } }
+
+/* ---------------------------------------------------------- les codes ----
+   Chaque section porte un code court avant son titre — « 03 — EXPORTS ».
+   Structure sans volume : c'est un repere de lecture, pas un titre. */
+.code { display: flex; align-items: center; gap: 10px; color: var(--gris); }
+.code::before { content: ''; width: 22px; height: 1px; background: currentColor;
+                flex: none; opacity: .7; }
+
+/* --------------------------------------------------- point de conduite ---
+   Deux informations sur une meme ligne, reliees par une ligne de points fins,
+   comme un sommaire imprime. Le laboratoire s'en sert dans son heros. */
+.conduite { display: flex; align-items: baseline; gap: 12px; width: 100%; }
+.conduite__f { flex: 1 1 auto; height: 0; align-self: center;
+               border-bottom: 1px dotted currentColor; opacity: .38;
+               min-width: 24px; }
+/* `flex: none` prend la taille maximale du contenu et ne cede jamais : sur un
+   telephone, « One third of Ethiopia's to America » sortait de la page de
+   soixante et onze pixels, et tout le document s'elargissait avec lui — y
+   compris le menu plein ecran, qui debordait alors sur toutes les pages. La
+   valeur peut retrecir et passer a la ligne ; c'est le trait de conduite qui
+   absorbe ce qui reste. */
+.conduite__v { flex: 0 1 auto; min-width: 0; text-align: right; }
+@media (max-width: 479px) {
+  /* Sous 480px il ne reste pas de quoi tirer un trait entre deux valeurs :
+     l'intitule et sa valeur s'empilent, et le trait disparait. */
+  .conduite { flex-wrap: wrap; gap: 4px; }
+  .conduite__f { display: none; }
+  .conduite__v { text-align: left; flex-basis: 100%; }
 }
 
-/* ------------------------------------------------------ typographie ----- */
-
-/* 76px reclamaient 900px de mesure : le titre occupait alors toute la largeur
-   utile et il ne restait, pour tout le reste du premier ecran, qu'un panneau
-   de 260px. Mesure faite : 45 % de la vue etait peinte, et l'essentiel de ce
-   chiffre etait le cadre du titre, lui-meme de l'air. Un titre de studio, pas
-   une page de negoce. A 58px il tient en 600px, et la photographie de la
-   marchandise prend la moitie droite. */
-.t-display { font-size: var(--t-display); line-height: var(--lh-display);
-             font-stretch: var(--wd-display); font-weight: var(--w-display);
-             letter-spacing: var(--tr-display); max-width: 23ch; }
-.t-h1 { font-size: var(--t-h1); line-height: var(--lh-h1);
-        font-stretch: var(--wd-display); font-weight: var(--w-display);
-        letter-spacing: var(--tr-display); text-wrap: balance; }
-.t-h2 { font-size: var(--t-h2); line-height: var(--lh-h2);
-        font-stretch: var(--wd-text); font-weight: var(--w-display);
-        letter-spacing: var(--tr-text); text-wrap: balance; }
-.t-lead { font-size: var(--t-lead); line-height: var(--lh-lead);
-          font-stretch: var(--wd-text); font-weight: var(--w-text); }
-.t-h3 { font-size: var(--t-h3); line-height: var(--lh-h3);
-        font-stretch: var(--wd-text); font-weight: var(--w-display); }
-.t-body { font-size: var(--t-body); line-height: var(--lh-body); }
-.t-label { font-size: var(--t-label); line-height: var(--lh-label);
-           font-stretch: var(--wd-label); font-weight: var(--w-label);
-           letter-spacing: var(--tr-label); text-transform: uppercase; }
-.t-note { font-size: var(--t-label); line-height: var(--lh-label);
-          font-stretch: var(--wd-text); font-weight: var(--w-text); }
-.t-quiet { color: var(--muted); }
-
-p, li, dd { text-wrap: pretty; }
-
-/* -------------------------------------------------------- composants --- */
-/* Pas de pilule, pas de rayon, pas d'ombre, pas de deplacement au survol. */
-
+/* -------------------------------------------------------- les actions ----
+   Pilules. Un angle vif sur ce qui se touche se lit comme une contrainte. */
 .act {
   display: inline-flex; align-items: center; justify-content: center;
-  padding: 14px 26px; border-radius: var(--radius); cursor: pointer;
-  font-family: inherit; font-size: var(--t-label); line-height: 1;
-  font-stretch: var(--wd-label); font-weight: var(--w-label);
-  letter-spacing: var(--tr-label); text-transform: uppercase;
-  text-decoration: none; border: 1px solid var(--blue);
-  background: var(--blue); color: var(--paper);
-  transition: background-color var(--hover) linear, color var(--hover) linear;
+  padding: 14px 28px; min-height: 48px; border-radius: 999px; cursor: pointer;
+  font-family: var(--font-body); font-size: var(--step--1); line-height: 1;
+  font-weight: 600; letter-spacing: .01em;
+  text-decoration: none; border: 1px solid var(--accent);
+  background: var(--accent); color: #FBFDFF;
+  transition: background-color 180ms var(--ease-pipette),
+              border-color 180ms var(--ease-pipette),
+              color 180ms var(--ease-pipette);
 }
-.act:hover { background: transparent; color: var(--blue); }
-.act--line { background: transparent; color: var(--blue); }
-.act--line:hover { background: var(--blue); color: var(--paper); }
-
-/* Au doigt, l'action prend la largeur de la colonne et 52px de haut. Un
-   rectangle de 140x44 pose en haut a gauche d'un bloc se cherche ; une barre
-   pleine largeur se trouve sans regarder. C'est le seul endroit du site ou
-   le rayon existe : un arrondi complet sur ce qui se touche, des angles vifs
-   partout ailleurs. Un angle vif sur une cible tactile se lit comme une
-   contrainte — et c'est le geste que le client a designe chez la reference. */
-@media (pointer: coarse) {
-  .act { display: flex; width: 100%; min-height: 52px; padding: 14px 26px;
-         border-radius: 999px; }
+.act:hover { background: var(--accent-deep); border-color: var(--accent-deep); }
+.act--line { background: transparent; color: var(--encre);
+             border-color: var(--filet); }
+.act--line:hover { background: transparent; color: var(--encre);
+                   border-color: currentColor; }
+[data-sol='nuit'] .act--line, [data-sol='nuit-2'] .act--line {
+  color: var(--nuit-ink); border-color: rgba(234, 241, 250, .34);
 }
+.actes { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 559px) { .actes { display: grid; } }
 
-/* ------------------------------------------------------- les registres ---
-   Il n'y a plus un seul filet de separation sur ce site. Une liste dont
-   chaque ligne est soulignee est un tableau qui se fait passer pour une
-   liste ; c'est le reflexe par defaut, pas une decision. Ce qui separe ici,
-   c'est l'ecart — l'espace entre deux entrees vaut plusieurs fois celui qui
-   regne a l'interieur d'une entree — l'axe de gauche, et l'echelle.
-
-   Et les deux registres cessent d'etre le meme objet. Quatre lignes d'export
-   se PRESENTENT, chacune a la place d'un titre ; dix categories d'import
-   s'INDEXENT, sur deux colonnes serrees. Sortir le meme gabarit pour les deux
-   etait une economie de code, jamais une decision de mise en page. */
-
-/* Le nom seul a gauche laissait un rectangle vide sous lui pendant que la
-   description courait sur trois lignes a droite. Le fait remonte donc dans la
-   colonne de gauche : les deux portent du contenu, et l'ecart entre deux
-   entrees peut redescendre. */
-.reg--wide  { display: grid; gap: var(--s-section); }
-.reg--index { display: grid; gap: var(--s-block) var(--col-gap); }
-@media (min-width: 900px) { .reg--index { grid-template-columns: 1fr 1fr; } }
-
-/* Empile, l'ordre est celui de la lecture : nom, description, chiffre. Le
-   balisage suivait l'autre ordre parce que le bureau met le nom et le chiffre
-   dans la meme colonne — et sur un telephone le chiffre passait AVANT la
-   description. Le placement par zones remet les deux colonnes a leur place
-   sans toucher a l'ordre du document. */
-.ent { display: grid; gap: 8px var(--col-gap); align-content: start;
-       text-decoration: none; }
-.reg--wide .ent { gap: 12px var(--col-gap); }
+/* ============================ B — bande de donnees ========================
+   L'antidote principal au vide. Quatre cellules pleine largeur separees par
+   des filets verticaux, micro-libelle mono au-dessus, valeur en Fraunces
+   dessous. C'est dense ET structure : ca occupe l'espace en portant de
+   l'information, ce qu'un titre demesure ne fait pas. */
+.donnees { display: grid; }
+.donnees > * { padding: clamp(20px, 3.4vw, 30px) 0; }
+/* Au telephone la bande passe a DEUX colonnes, jamais une : une donnee courte
+   seule sur sa ligne redevient du vide. */
+@media (min-width: 380px) {
+  .donnees { grid-template-columns: 1fr 1fr; }
+  .donnees > * { padding-left: clamp(16px, 3vw, 30px);
+                 border-left: 1px solid var(--filet); }
+  .donnees > :nth-child(2n+1) { border-left: 0; padding-left: 0; }
+}
 @media (min-width: 900px) {
-  .reg--wide .ent {
-    grid-template-columns: 4fr 8fr;
-    grid-template-areas: 'nom  texte'
-                         'fait texte';
-    align-content: start;
+  .donnees { grid-template-columns: repeat(4, 1fr); }
+  .donnees > * { border-left: 1px solid var(--filet);
+                 padding-left: clamp(16px, 2.4vw, 30px); }
+  .donnees > :first-child { border-left: 0; padding-left: 0; }
+}
+.donnee__v { display: block; margin-top: 12px; font-family: var(--font-display);
+             font-size: var(--step-2); line-height: 1.04; font-weight: 560;
+             letter-spacing: -.008em; }
+
+/* ============================ C — ruban defilant ==========================
+   Bande fine pleine largeur en accent, mono capitales, defilement lent, puces
+   entre les entrees. Purement textural : trois lignes de CSS, et la sensation
+   de page morte disparait. */
+.ruban { overflow: hidden; padding-block: 13px; }
+.ruban__piste { display: flex; width: max-content;
+                animation: defile 70s linear infinite; }
+.ruban:hover .ruban__piste { animation-play-state: paused; }
+.ruban__e { display: flex; align-items: center; gap: 22px; padding-right: 22px;
+            white-space: nowrap; }
+.ruban__e::after { content: ''; width: 5px; height: 5px; flex: none;
+                   background: currentColor; border-radius: var(--goutte);
+                   opacity: .75; }
+@keyframes defile { to { transform: translateX(-50%); } }
+
+/* ======================== D — bande photo pleine largeur ==================
+   Bord a bord, hauteur bornee, legende en mono en bas a gauche sur un degrade
+   limite au tiers inferieur. Les photographies passent dans ce format au lieu
+   d'etre des vignettes calees dans une colonne. */
+.pleine { position: relative; width: 100%; margin: 0; overflow: hidden; }
+.pleine img { width: 100%; height: clamp(320px, 55vh, 560px); object-fit: cover;
+              border-radius: 0; }
+.pleine figcaption {
+  position: absolute; inset: auto 0 0 0; margin: 0; color: #EAF1FA;
+  padding: clamp(60px, 12vh, 120px) 0 clamp(18px, 3vw, 28px);
+  background: linear-gradient(to top, rgba(10, 27, 60, .8), rgba(10, 27, 60, 0));
+}
+/* `.shell` centre par `margin-inline: auto`, ce qu'un span en ligne ne fait
+   pas : la legende se collait au bord de l'ecran au lieu de suivre la colonne
+   du texte. */
+.pleine figcaption .shell { display: block; }
+
+/* ========================= E — editorial deux colonnes ====================
+   Titre de section collant a gauche, contenu qui defile a droite. Le mouvement
+   vient de la mise en page, pas d'une animation. */
+.edito { display: grid; gap: var(--pile) var(--col-gap); align-items: start; }
+@media (min-width: 900px) {
+  .edito { grid-template-columns: 4fr 7fr; }
+  .edito__t { position: sticky; top: clamp(96px, 12vh, 150px); }
+}
+.edito__c { display: grid; gap: var(--pile); }
+
+/* ========================== F — grille de cartes ==========================
+   Fond surface sur le sol de la section, rayon en goutte, aucun encadre,
+   aucune ombre. Au survol, trois pixels de translation. */
+.cartes { display: grid; gap: clamp(16px, 2vw, 24px); }
+@media (min-width: 620px) { .cartes { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .cartes--3 { grid-template-columns: repeat(3, 1fr); } }
+.carte {
+  display: grid; gap: 10px; align-content: start; text-decoration: none;
+  padding: clamp(22px, 2.6vw, 32px);
+  background: var(--surface); color: var(--ink);
+  border-radius: var(--goutte-carte);
+  transition: transform 260ms var(--ease-tampon);
+}
+[data-sol='nuit'] .carte, [data-sol='nuit-2'] .carte {
+  background: var(--nuit-2); color: var(--nuit-ink);
+}
+[data-sol='nuit'] .carte .t-quiet, [data-sol='nuit-2'] .carte .t-quiet {
+  color: var(--nuit-muted);
+}
+a.carte:hover { transform: translateY(-3px); }
+
+/* ============================= G — citation nuit ==========================
+   Une seule par page. Fraunces italique, attribution en mono. */
+.citation { display: grid; gap: clamp(22px, 3vw, 32px); }
+.citation blockquote { margin: 0; font-family: var(--font-display);
+                       font-style: italic; font-size: var(--step-3);
+                       line-height: 1.12; font-weight: 400; max-width: 22ch; }
+
+/* ============================ H — index a filets ==========================
+   Filets 1px, numerotation mono a gauche, contenu au centre, valeur a droite.
+   Aucun fond, aucun encadre. C'est la forme la plus dense du repertoire, et
+   celle qui remplace les listes de titres espaces de cent pixels. */
+.index { display: grid; }
+.index__l {
+  display: grid; gap: 8px var(--col-gap); align-items: baseline;
+  padding-block: clamp(20px, 2.6vw, 30px);
+  border-top: 1px solid var(--filet); text-decoration: none;
+  grid-template-columns: 2.6rem 1fr;
+  grid-template-areas: 'n titre' '. corps' '. fait';
+}
+.index__l:last-child { border-bottom: 1px solid var(--filet); }
+@media (min-width: 900px) {
+  .index__l {
+    grid-template-columns: 3.5rem minmax(0, 5fr) minmax(0, 6fr);
+    grid-template-areas: 'n titre corps' 'n fait  corps';
+    align-items: start;
   }
-  .reg--wide .ent__n { grid-area: nom; }
-  .reg--wide .ent__d { grid-area: texte; }
-  .reg--wide .ent__f { grid-area: fait; }
 }
-/* Sur un telephone la description du registre large descend au corps courant :
-   a 20px dans une colonne de 342px elle ne tenait que vingt-quatre signes par
-   ligne, et la page d'accueil montait a 7655px. */
-@media (max-width: 899px) {
-  .reg--wide .ent__d { font-size: var(--t-body); line-height: var(--lh-body); }
-}
+.index__n { grid-area: n; color: var(--gris); padding-top: .5em; }
+.index__t { grid-area: titre; }
+.index__c { grid-area: corps; color: var(--gris); max-width: 52ch; }
+.index__f { grid-area: fait; margin-top: 12px; }
+.index__f b { display: block; font-weight: 400; }
+a.index__l .index__t { transition: color 160ms var(--ease-pipette); }
+a.index__l:hover .index__t { color: var(--accent); }
+[data-sol='nuit'] a.index__l:hover .index__t,
+[data-sol='nuit-2'] a.index__l:hover .index__t { color: #8FADF2; }
 
-/* Le seul geste au survol : le nom se souligne. C'est l'usage du lien, pas
-   un trait de decor — et il n'existe que sous le curseur. */
-.ent:hover .ent__n { text-decoration: underline; text-underline-offset: 5px;
-                     text-decoration-thickness: 1px; }
-.ent__d { color: var(--muted); }
-/* Le fait doit se detacher de la description, sinon il se lit comme la
-   derniere phrase du paragraphe. */
-.ent__f { margin-top: 14px; }
-.ent__f b { font-weight: var(--w-text); display: block; }
-
-/* Images. Une seule regle gouverne les trois cadres : AUCUNE image n'est
-   jamais affichee au-dela de sa largeur native. Le pipeline la garantit au
-   build — il ne fabrique pas de variante plus large que la source — et --nat,
-   pose en ligne depuis les dimensions lues au build, la garantit au rendu.
-
-   Le filtre de desaturation a saute. Il etait cense unifier l'etalonnage ;
-   une constante CSS ne corrige pas une dominante, elle la deplace, et sur
-   trois interieurs deja surexposes elle achevait de les effacer. */
+/* ------------------------------------------------------------- images ----
+   Aucune image n'est jamais affichee au-dela de sa largeur native : le
+   pipeline le garantit au build, --nat le garantit au rendu. */
 .media { margin: 0; }
-.media img { display: block; width: 100%; height: auto; }
-
-/* Aucun object-fit, aucun aspect-ratio impose : sans cadre force il n'y a
-   rien a rogner. Le format affiche est celui du fichier. */
+.media img { display: block; width: 100%; height: auto;
+             border-radius: var(--goutte-carte); }
 .media--plate, .media--portrait { max-width: min(100%, var(--nat)); }
+.media__cap { margin-top: 12px; max-width: 46ch; color: var(--gris); }
 
-/* Les specifications. Le tableau regle a disparu, et avec lui le ferrage a
-   droite : aligner a droite une valeur qui est une phrase — « Laminated,
-   tempered, wired » — promet une comparaison chiffree que rien ne tient. Tout
-   part de l'axe de gauche, l'intitule au-dessus de sa valeur. */
-.facts { margin: 0; display: grid; gap: var(--s-block) var(--col-gap); }
-/* Deux colonnes de specifications a 620px de large font deux colonnes de
-   286px, et une valeur comme « Laminated, tempered, wired » y tient sur trois
-   lignes. Le partage attend 760. */
+/* Les specifications : intitule mono au-dessus, valeur dessous, tout part de
+   l'axe de gauche, et un filet ouvre chaque paire. Jamais deux colonnes sous
+   760px. */
+.facts { margin: 0; display: grid; gap: clamp(20px, 3vw, 30px) var(--col-gap); }
 @media (min-width: 760px) { .facts { grid-template-columns: repeat(2, 1fr); } }
-.facts > div { display: grid; gap: 2px; align-content: start; }
+.facts > div { display: grid; gap: 6px; align-content: start;
+               border-top: 1px solid var(--filet); padding-top: 14px; }
 .facts dt, .facts dd { margin: 0; }
 
-/* ------------------------------------------------- au doigt, pas au curseur -
-   Audit mesure : de quarante a cinquante et une cibles de moins de 44px par
-   page — le numero du bandeau en faisait 20, le bouton Menu 27, les liens du
-   pied et du menu guere plus. C'est la consequence directe du retrait des
-   filets : en enlevant les traits j'avais enleve les rembourrages qui allaient
-   avec, et les liens s'etaient reduits a la hauteur de leur ligne.
-
-   Sur un ecran tactile chaque lien reprend donc 48px de haut — un cran
-   au-dessus du minimum d'Apple comme de Google, parce qu'un menu de dix-sept
-   entrees se parcourt au pouce en marchant. L'ecart qui les separe diminue
-   d'autant, pour que
-   la page ne s'allonge pas : c'est la zone de contact qui grandit, pas le
-   rythme qui se defait. Rien ne change a la souris. */
+/* ------------------------------------------------ au doigt, pas au curseur */
 @media (pointer: coarse) {
   .util__in a, .menu, .mark, .nav__x,
   .nav__main a, .nav__grp li a, .nav__foot a, .nav__head,
-  .ftr a, .ftr__end a,
-  .orient__links a, .onward a, .lnk, .crumb a, .fin__tel {
+  .ftr a, .ftr__end a, .onward a, .lnk, .crumb a, .fin__tel {
     min-height: 48px;
     display: inline-flex;
     align-items: center;
@@ -410,15 +463,18 @@ p, li, dd { text-wrap: pretty; }
   .nav__main { gap: 0; }
   .nav__grp ul { gap: 0; }
   .ftr ul { gap: 0; }
-  .orient__links { gap: 4px; }
-  /* La barre d'appel flotte sur 72px en bas de l'ecran. Sans cette reserve,
-     un saut vers #imports amenait le titre de section SOUS elle. */
-  html { scroll-padding-bottom: 84px; }
-  .onward__l { gap: 0; }
-  .memb__list { gap: 0 var(--col-gap); }
   .memb__list li { min-height: 48px; display: flex; align-items: center; }
+  html { scroll-padding-bottom: 92px; }
 }
 
+/* Aucun fade-up generalise au defilement : c'est la signature la plus
+   reconnaissable d'une page generee. Le seul mouvement d'arrivee est celui du
+   titre de heros, une fois. */
 @media (prefers-reduced-motion: reduce) {
-  :root { --in: 0s; --out: 0s; --hover: 0s; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
 }

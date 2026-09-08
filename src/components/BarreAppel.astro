@@ -1,17 +1,21 @@
 ---
-/* La barre d'appel, au doigt seulement. Sur un telephone le numero n'est
-   atteignable qu'en haut de page ; sur une page de huit mille pixels, cela
-   veut dire remonter huit mille pixels. Elle n'apparait qu'apres le premier
-   ecran, pour ne pas couvrir le titre a l'arrivee, et se retire quand le pied
-   de page entre en vue — celui-ci porte deja tout ce qu'il faut.
+/* La barre d'action, au doigt seulement.
 
-   Bureau : rien. Un pointeur fin n'a pas besoin qu'on lui apporte le numero. */
+   Sur un telephone, l'action n'etait atteignable qu'en haut de page ; sur une
+   page de douze mille pixels, cela veut dire remonter douze mille pixels. Deux
+   actions, jamais plus : appeler, ecrire. Elle n'apparait qu'apres le premier
+   ecran — celui-ci porte deja ses propres boutons — et se retire quand le pied
+   de page entre en vue, ou tout se retrouve.
+
+   Bureau : rien. Un pointeur fin n'a pas besoin qu'on lui apporte le numero.
+*/
 import site from '../data/site.json';
 const c = site.company;
 ---
 
-<div class="barre" id="barre" hidden>
-  <a class="barre__a t-label" data-ground="blue" href={`tel:${c.phoneHref}`}>Call {c.phone}</a>
+<div class="barre" id="barre" data-sol="nuit" hidden>
+  <a class="act barre__a" href={`tel:${c.phoneHref}`}>Call</a>
+  <a class="act act--line barre__a" href="/contact/">Contact us</a>
 </div>
 
 <script is:inline>
@@ -22,13 +26,12 @@ const c = site.company;
     let passeHero = false, piedVu = false;
     const rendre = () => { b.hidden = !(passeHero && !piedVu); };
 
-    const hero = document.querySelector('.hero') || document.querySelector('main > *');
+    const hero = document.querySelector('[data-premier]') || document.querySelector('main > *');
 
     /* L'etat se calcule tout de suite, il ne s'attend pas. Le premier verdict
-       d'un IntersectionObserver arrive apres coup, et quand le balisage vient
-       d'etre insere il peut le rendre sur un element pas encore mis en page :
-       la barre apparaissait alors une fraction de seconde par-dessus le
-       premier ecran, avant de se corriger. */
+       d'un IntersectionObserver arrive apres coup, et sur un balisage qui vient
+       d'etre insere il peut se prononcer avant la mise en page : la barre
+       apparaissait une fraction de seconde par-dessus le premier ecran. */
     const visible = (el) => {
       if (!el) return false;
       const r = el.getBoundingClientRect();
@@ -46,34 +49,19 @@ const c = site.company;
 </script>
 
 <style>
-  /* La barre ne peint plus le bord bas de l'ecran sur toute sa hauteur. Un
-     bandeau plein colle en bas ferme la page comme un plancher ; c'est le
-     dernier endroit ou l'on veut d'un aplat, puisqu'il est visible en
-     permanence. Le fond disparait donc, et il ne reste que l'action — une
-     pastille pleine, posee sur la page, arrondie comme tout ce qui se touche
-     ici. C'est la forme que le client a designee chez la reference : trois
-     pastilles flottantes, pas une barre. */
   .barre {
     position: fixed; inset: auto 0 0 0; z-index: 80;
-    background: none;
-    padding: 12px var(--gutter) calc(14px + env(safe-area-inset-bottom));
-    display: grid; place-items: center;
-    pointer-events: none;
+    padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    border-top: 1px solid rgba(234, 241, 250, .14);
   }
-  /* `display: grid` sur `.barre` a la meme specificite que le `[hidden] {
-     display: none }` de la feuille du navigateur, et l'emporte sur lui parce
-     qu'il vient de l'auteur. L'attribut `hidden` que le script pose et retire
-     n'a donc jamais rien cache : la barre etait affichee sur toutes les pages,
+  /* `display: grid` sur `.barre` a la meme specificite que le
+     `[hidden] { display: none }` de la feuille du navigateur, et l'emporte sur
+     lui parce qu'il vient de l'auteur. L'attribut que le script pose et retire
+     n'a longtemps rien cache : la barre etait affichee sur toutes les pages,
      en permanence, y compris par-dessus le premier ecran et par-dessus le pied
-     de page — exactement les deux cas que le script etait ecrit pour eviter.
-     Soixante-dix-huit pixels de bas d'ecran occupes du premier au dernier
-     defilement, sur un ecran qui en fait 844. */
+     de page — exactement les deux cas que ce script evite. */
   .barre[hidden] { display: none; }
-  .barre__a {
-    display: flex; align-items: center; justify-content: center;
-    min-height: 52px; width: 100%; text-decoration: none;
-    pointer-events: auto;
-    border-radius: 999px;
-  }
+  .barre__a { width: 100%; min-height: 50px; padding-inline: 12px; }
   @media (pointer: fine) { .barre { display: none; } }
 </style>

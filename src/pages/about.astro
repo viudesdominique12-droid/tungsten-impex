@@ -1,91 +1,121 @@
 ---
+/* A propos, au repertoire :
+
+     A  tete sur nuit
+     D  bande photo pleine largeur, le plateau de bureaux
+     E  editorial : la lettre du fondateur, titre collant
+     H  index a filets sur nuit : les cinq registres
+        les locaux, photo et texte en vis-a-vis
+*/
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
 import Photo from '../components/Photo.astro';
+import { Picture } from 'astro:assets';
+import { photo } from '../lib/photos.js';
+
 const c = site.company;
+const plateau = photo('img/company/office-floor.jpg');
+const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (plateau?.width ?? 0));
+
+const registres = [
+  'EPOSPEA',
+  'Ethiopian Chamber of Commerce',
+  'Ministry of Revenue',
+  'National Bank of Ethiopia',
+  'Ministry of Trade',
+];
 ---
 
 <Base
   title="About us — Tungsten Import Export"
   description="Founded in 2007 in Addis Ababa to bridge local potential with global markets. Words from the founder, and the premises we work from."
+  rail="ABOUT US"
 >
-  <section class="top">
+  <section class="tete section" data-sol="nuit" data-premier data-rail-section="ABOUT US">
     <div class="shell">
-      <p class="t-label t-quiet">About us</p>
-      <h1 class="t-h1 top__h">Naturally strong. Built to endure.</h1>
+      <p class="t-label t-quiet code">01 — About us</p>
+      <h1 class="t-display tete__h">
+        Naturally strong. Built to <em class="accent-mot">endure</em>.
+      </h1>
     </div>
   </section>
 
-  <div class="shell bande">
-    <Photo src="img/company/office-floor.jpg" eager alt="The Tungsten office floor"
-           caption="The office floor on the 4th floor of Dembel City Center." />
-  </div>
+  {plateau && (
+    <figure class="pleine" data-rail-section="THE PREMISES">
+      <Picture src={plateau} alt="The Tungsten office floor" formats={['avif']}
+               fallbackFormat="webp" widths={largeurs.length ? largeurs : [plateau.width]}
+               sizes="100vw" loading="eager" decoding="async" />
+      <figcaption>
+        <span class="shell t-label">The office floor on the 4th floor of Dembel City Center.</span>
+      </figcaption>
+    </figure>
+  )}
 
-  <section class="letter">
-    <div class="shell letter__in">
-      <Photo src="img/company/founder.jpg" class="letter__img"
-             alt="At the Tungsten office in Addis Ababa" />
-      <div>
-        <p class="t-label t-quiet">From the founder</p>
-        {site.founder.paragraphs.map((t, n) => (
-          <p class={n === 0 ? 'letter__first' : 'letter__p'}>{t}</p>
-        ))}
-        <p class="letter__sign"><b>{site.founder.name}</b><span class="t-label t-quiet">{site.founder.role} &middot; {c.name}</span></p>
+  <section class="section letter" data-rail-section="FROM THE FOUNDER">
+    <div class="shell edito">
+      <div class="edito__t">
+        <p class="t-label t-quiet code">02 — From the founder</p>
+        <Photo src="img/company/founder.jpg" class="letter__img"
+               alt="At the Tungsten office in Addis Ababa" />
       </div>
+      <div class="edito__c">
+        {site.founder.paragraphs.map((t, n) => (
+          <p class={n === 0 ? 't-lead mesure' : 't-body t-quiet mesure'}>{t}</p>
+        ))}
+        <p class="letter__sign">
+          <b class="t-h3">{site.founder.name}</b>
+          <span class="t-label t-quiet">{site.founder.role} &middot; {c.name}</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-sol="wash" data-rail-section="REGISTERED WITH">
+    <div class="shell">
+      <header class="memb__head">
+        <p class="t-label t-quiet code">03 — On record</p>
+        <h2 class="t-h1 memb__h">Registered with</h2>
+      </header>
+      <ol class="index memb__list">
+        {registres.map((m, n) => (
+          <li class="index__l">
+            <span class="t-label index__n">{String(n + 1).padStart(2, '0')}</span>
+            <span class="t-h2 index__t">{m}</span>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
   {/* Le texte parle d'une zone de quarantaine ; la photographie en montrait
       une autre. Elle montre maintenant celle-la. */}
-  <section class="premises">
+  <section class="section premises" data-rail-section="AFRICA AVENUE">
     <div class="shell premises__in">
       <Photo src="img/company/quarantine.jpg"
              alt="The quarantine area on the 4th floor of Dembel City Center"
              caption="The quarantine area." />
-      {/* Le portrait fait 533px de haut ; deux lignes de texte ne le tiennent
-          pas en regard. Tout ce qui concerne les locaux — l'adresse, ce qu'on
-          y trouve, et les registres ou la maison est inscrite — se met donc
-          dans la meme colonne. */}
       <div>
-        <h2 class="t-h2">Africa Avenue, Addis Ababa</h2>
-        <p class="premises__p">Offices, a licensed pharmaceutical store and a quarantine area, on the 4th floor of Dembel City Center.</p>
-
-        <h2 class="t-h2 memb__h">Registered with</h2>
-        <ul class="memb__list">
-          {["EPOSPEA","Ethiopian Chamber of Commerce","Ministry of Revenue","National Bank of Ethiopia","Ministry of Trade"].map((m) => (
-            <li class="t-body">{m}</li>
-          ))}
-        </ul>
+        <p class="t-label t-quiet code">04 — Where we work</p>
+        <h2 class="t-h1 premises__h">Africa Avenue, Addis Ababa</h2>
+        <p class="t-lead premises__p">Offices, a licensed pharmaceutical store and a quarantine area, on the 4th floor of Dembel City Center.</p>
       </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .top { padding-block: var(--s-section) var(--s-block); }
-  .top__h { margin-top: 12px; max-width: 18ch; }
+  .tete__h { margin-top: 22px; max-width: 16ch; }
 
-  .letter { padding-top: var(--s-band); }
-  .letter__in { display: grid; gap: var(--s-block) var(--col-gap); align-items: start; }
-    /* 340px faisait une vignette : la charte n'admet que deux tailles d'image,
-     la bande et la pleine colonne. Le portrait prend sa colonne. */
-  @media (min-width: 860px) { .letter__in { grid-template-columns: 5fr 7fr; } }
-  .letter__img { margin: 0; }
-  .letter__first { font-size: var(--t-lead); line-height: var(--lh-lead);
-                   margin: 12px 0 20px; }
-  .letter__p { color: var(--muted); }
-  .letter__sign { display: grid; gap: 3px; margin-top: var(--s-block); }
-  .letter__sign b { font-stretch: var(--wd-text); font-weight: var(--w-display);
-                    font-size: var(--t-h3); }
+  .letter__img { margin-top: 26px; }
+  .letter__img img { border-radius: var(--goutte-carte); }
+  .letter__sign { display: grid; gap: 6px; margin-top: 12px; }
 
-  .premises { padding-block: var(--s-band); }
-  .premises__in { display: grid; gap: var(--s-block); align-items: start; }
-  @media (min-width: 860px) { .premises__in { grid-template-columns: auto 1fr; } }
-  .premises__p { margin-top: 14px; color: var(--muted); max-width: 46ch; }
+  .memb__head { margin-bottom: var(--pile); }
+  .memb__h { margin-top: 18px; }
+  .memb__list { list-style: none; margin: -1px 0 0; padding: 0; }
 
-  .bande { margin-top: var(--s-section); }
-
-  .memb__h { margin-top: var(--s-section); margin-bottom: var(--s-block); }
-  .memb__list { list-style: none; margin: 0; padding: 0;
-                display: grid; gap: 10px var(--col-gap); }
+  .premises__in { display: grid; gap: var(--pile) var(--col-gap); align-items: start; }
+  @media (min-width: 860px) { .premises__in { grid-template-columns: 5fr 6fr; } }
+  .premises__h { margin-top: 18px; }
+  .premises__p { margin-top: 20px; max-width: 40ch; color: var(--gris); }
 </style>

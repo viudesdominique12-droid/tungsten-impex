@@ -34,12 +34,13 @@ const faces = [items[0], items[1] ?? items[0]];
   <a class="board__card" id="board-card" href={items[0].href} data-dir={items[0].flow}>
     {faces.map((it, n) => (
       <span class:list={['board__face', n === 1 && 'board__face--b']}
-            data-ground={it.flow === 'in' ? 'blue' : undefined}>
-        <span class="t-note board__dir">{it.dir}</span>
-        <span class="t-h1 board__n">{it.name}</span>
-        <span class="board__f" hidden={!it.factLabel}>
-          <span class="t-note t-quiet board__fl">{it.factLabel}</span>
-          <b class="t-body board__fv">{it.factValue}</b>
+            data-sol={it.flow === 'in' ? 'accent' : 'nuit-2'}>
+        <span class="t-label t-quiet board__dir">{it.dir}</span>
+        <span class="t-h2 board__n">{it.name}</span>
+        <span class="board__f conduite" hidden={!it.factLabel}>
+          <span class="t-label t-quiet board__fl">{it.factLabel}</span>
+          <span class="conduite__f"></span>
+          <b class="t-note board__fv conduite__v">{it.factValue}</b>
         </span>
       </span>
     ))}
@@ -67,8 +68,7 @@ const faces = [items[0], items[1] ?? items[0]];
       // La face entrante garde l'aplat bleu plein : c'est le seul accent fort
       // de l'accueil depuis que la section Imports est passee au lavis, et
       // c'est l'echelle a laquelle la reference emploie sa couleur.
-      if (it.flow === 'in') f.el.dataset.ground = 'blue';
-      else delete f.el.dataset.ground;
+      f.el.dataset.sol = it.flow === 'in' ? 'accent' : 'nuit-2';
       f.dir.textContent = it.dir;
       f.nom.textContent = it.name;
       f.etiq.textContent = it.factLabel || '';
@@ -148,35 +148,25 @@ const faces = [items[0], items[1] ?? items[0]];
 </script>
 
 <style>
-  .board { perspective: 1400px; --ty: 0deg; --tx: 0deg; }
+  .board { perspective: 1400px; --ty: 0deg; --tx: 0deg; --turn: 480ms; }
   .board__card {
-    display: block; position: relative; height: 260px;
+    display: block; position: relative; height: clamp(230px, 34vh, 290px);
     transform-style: preserve-3d; text-decoration: none;
     transform: rotateX(var(--ty)) rotateY(var(--tx));
-    transition: transform var(--turn) var(--ease-in-out);
+    transition: transform var(--turn) var(--ease-verse);
   }
   .board__face {
     position: absolute; inset: 0; backface-visibility: hidden;
     display: grid; align-content: space-between;
-    padding: 24px 26px; overflow: hidden;
+    padding: clamp(20px, 2.4vw, 28px); overflow: hidden;
+    border-radius: var(--goutte-carte);
   }
-  /* La face sortante n'avait aucun fond : le panneau disparaissait sur les
-     exports et ne revenait qu'en bleu — un clignotement, pas une bascule. Elle
-     prend un lavis d'encre, dérivé par opacité comme tous les gris du site.
-     L'attribut ne vit que sur les faces : posé sur la carte, `[data-flow='in']`
-     peignait la carte entière et redéfinissait --hair pour ses deux faces. */
-  .board__face:not([data-ground]) { background: rgba(10, 27, 60, .07); }
   .board__face--b { transform: rotateX(180deg); }
 
   .board__dir { display: block; }
   .board__n { display: block; align-self: center; text-wrap: balance; }
-  .board__f { display: grid; gap: 2px; }
-  .board__fv { font-weight: var(--w-text); }
-
-  @media (max-width: 899px) {
-    .board__card { height: 220px; }
-    .board__face { padding: 20px 22px; }
-  }
+  .board__f { display: flex; }
+  .board__fv { font-weight: 400; }
 
   @media (prefers-reduced-motion: reduce) {
     .board__card { transition: none; }

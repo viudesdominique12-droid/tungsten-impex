@@ -2,8 +2,9 @@
 import '../styles/tokens.css';
 import site from '../data/site.json';
 import BarreAppel from '../components/BarreAppel.astro';
+import Rail from '../components/Rail.astro';
 
-const { title, description, flow = 'out' } = Astro.props;
+const { title, description, rail = 'TUNGSTEN' } = Astro.props;
 const c = site.company;
 const here = Astro.url.pathname;
 const cur = (h) => (here === h ? 'page' : undefined);
@@ -17,45 +18,49 @@ const cur = (h) => (here === h ? 'page' : undefined);
   <title>{title}</title>
   <meta name="description" content={description} />
 
-  {/* §2 — auto-hébergée et préchargée. Sans la variable, l'axe wdth disparaît
-      et toute la hiérarchie s'effondre en Helvetica. */}
-  <link rel="preload" href="/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin />
+  {/* Auto-hebergees et prechargees. Sans elles, toute la hierarchie
+      s'effondre en Helvetica et il ne reste que la taille pour distinguer un
+      titre d'un paragraphe — le defaut exact que cette refonte corrige. */}
+  <link rel="preload" href="/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/fraunces-var-italic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/instrument-sans-var.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/plex-mono.woff2" as="font" type="font/woff2" crossorigin />
 
-  <meta name="theme-color" content={flow === 'in' ? '#e7ecf5' : '#f2f5f9'} />
+  <meta name="theme-color" content="#0A1B3C" />
 </head>
 
-<body data-flow={flow}>
+<body>
   <a class="skip" href="#main">Skip to content</a>
 
-  {/* Le bandeau bleu et l'en-tête ne font qu'un bloc, et ce bloc est collant.
-      Le bleu tient le bord supérieur de la page à la place du filet qu'on a
-      retiré : effacer un trait sans donner à sa fonction un remplaçant, c'est
-      casser quelque chose, pas l'épurer. Les points médians ont sauté aussi —
-      une liste de références séparées par des points est une tournure de
-      gabarit ; l'année de fondation descend au pied, où vit un colophon. */}
+  {/* Le bandeau utilitaire et l'en-tete ne font qu'un bloc, et ce bloc est
+      collant. Il portait le nom `.top`, que trois pages emploient pour leur
+      propre bandeau de titre : leur titre heritait du `position: sticky` et
+      venait se poser par-dessus le corps de la page. Le chassis porte
+      desormais un nom qui n'appartient qu'a lui. */}
   <div class="chapeau">
-    <div class="util" data-ground="blue">
+    <div class="util" data-sol="accent">
       <div class="shell util__in t-label">
         <span>{c.address.city}, {c.address.country}</span>
         <a href={`tel:${c.phoneHref}`}>{c.phone}</a>
       </div>
     </div>
 
-  {/* §4 — transparent, posé sur le fond de la page. Filet au scroll, pas d'ombre. */}
-  <header class="hdr" id="hdr">
-    <div class="shell hdr__in">
-      <a class="mark" href="/">
-        <strong>Tungsten</strong>
-        <span class="t-label t-quiet">Import Export</span>
-      </a>
-      <button class="menu" id="nav-open" type="button" aria-expanded="false" aria-controls="nav">
-        <i aria-hidden="true"></i> Menu
-      </button>
-    </div>
+    <header class="hdr" id="hdr">
+      <div class="shell hdr__in">
+        <a class="mark" href="/">
+          <strong>Tungsten</strong>
+          <span class="t-label t-quiet">Import Export</span>
+        </a>
+        <button class="menu t-label" id="nav-open" type="button" aria-expanded="false" aria-controls="nav">
+          <i aria-hidden="true"></i> Menu
+        </button>
+      </div>
     </header>
   </div>
 
-  <div class="nav" id="nav" data-open="false" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menu">
+  <Rail prefixe={rail} />
+
+  <div class="nav" id="nav" data-open="false" data-sol="nuit" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menu">
     <div class="shell nav__bar">
       <a class="mark" href="/"><strong>Tungsten</strong><span class="t-label t-quiet">Import Export</span></a>
       <button class="nav__x" id="nav-close" type="button" aria-label="Close menu">&times;</button>
@@ -69,7 +74,7 @@ const cur = (h) => (here === h ? 'page' : undefined);
         </nav>
 
         <div class="nav__grp">
-          <a class="nav__head" href="/#exports"><b>Exports</b><span class="t-note t-quiet">{site.exports.length} products</span></a>
+          <a class="nav__head" href="/#exports"><b>Exports</b><span class="t-label t-quiet">{site.exports.length} products</span></a>
           <ul>
             {site.exports.map((p) => (
               <li><a href={`/export/${p.slug}/`} aria-current={cur(`/export/${p.slug}/`)}>{p.name}</a></li>
@@ -78,7 +83,7 @@ const cur = (h) => (here === h ? 'page' : undefined);
         </div>
 
         <div class="nav__grp">
-          <a class="nav__head" href="/#imports"><b>Imports</b><span class="t-note t-quiet">{site.imports.length} categories</span></a>
+          <a class="nav__head" href="/#imports"><b>Imports</b><span class="t-label t-quiet">{site.imports.length} categories</span></a>
           <ul>
             {site.imports.map((p) => (
               <li><a href={`/import/${p.slug}/`} aria-current={cur(`/import/${p.slug}/`)}>{p.name}</a></li>
@@ -96,12 +101,11 @@ const cur = (h) => (here === h ? 'page' : undefined);
 
   <main id="main"><slot /></main>
 
-  {/* §4 — le pied de page est un bandeau pleine largeur sur l'encre. */}
-  <footer class="ftr" data-ground="ink">
+  <footer class="ftr" data-sol="nuit">
     <div class="shell ftr__in">
       <div>
-        <p class="ftr__name">{c.name}</p>
-        <p class="t-note t-quiet ftr__est">Established {c.founded} &middot; EFDA licensed</p>
+        <p class="t-label t-quiet code">Tungsten Import Export</p>
+        <p class="t-h3 ftr__name">Established {c.founded}</p>
         <p class="t-note t-quiet ftr__addr">
           {c.address.line1}<br />{c.address.line2}<br />{c.address.city}, {c.address.country}
         </p>
@@ -123,8 +127,9 @@ const cur = (h) => (here === h ? 'page' : undefined);
         </ul>
       </div>
     </div>
-    <div class="shell ftr__end t-note t-quiet">
+    <div class="shell ftr__end t-label t-quiet">
       <span>&copy; {new Date().getFullYear()} {c.name}</span>
+      <span>EFDA licensed</span>
     </div>
   </footer>
 
@@ -164,106 +169,100 @@ const cur = (h) => (here === h ? 'page' : undefined);
       if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
       else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
     });
-
   </script>
 
   <style is:global>
-    /* --------------------------------------------- bandeau utilitaire §4 - */
+    /* --------------------------------------------- bandeau utilitaire ---- */
     .util__in { display: flex; align-items: center; justify-content: space-between;
-                gap: 16px; min-height: 32px; }
+                gap: 16px; min-height: 34px; }
     .util__in a { text-decoration: none; }
     .util__in a:hover { text-decoration: underline; text-underline-offset: 3px; }
     @media (max-width: 560px) { .util__in span { display: none; }
       .util__in { justify-content: flex-end; } }
 
-    /* -------------------------------------------------------- en-tête §4 - */
-    /* Ce bloc s'appelait `.top`, et trois pages nomment `.top` leur propre
-       bandeau de titre — About, Training, Contact. La regle est globale : leur
-       titre heritait donc du `position: sticky`, se decollait au defilement et
-       venait se poser par-dessus le corps de la page. On lisait « Come and
-       find us. » a cheval sur les horaires d'ouverture. Le chassis porte
-       desormais un nom qui n'appartient qu'a lui. */
+    /* ------------------------------------------------------- en-tete ----- */
     .chapeau { position: sticky; top: 0; z-index: 60; }
-    .hdr { background: var(--bg); }
+    /* L'en-tete n'est pas transparent : il passe au-dessus de sections nuit,
+       de rubans en accent et de bandes photo. Un fond opaque, et un filet qui
+       le separe de ce qu'il recouvre. */
+    .hdr { background: var(--bg); border-bottom: 1px solid rgba(10, 26, 51, .1); }
     .hdr__in { display: flex; align-items: center; justify-content: space-between;
-               gap: 20px; min-height: 66px; }
+               gap: 20px; min-height: 68px; }
 
-    .mark { display: inline-flex; flex-direction: column; gap: 1px;
-            text-decoration: none; line-height: 1.05; }
-    .mark strong { font-stretch: var(--wd-display); font-weight: var(--w-display);
-                   font-size: var(--t-h3); letter-spacing: var(--tr-display); }
-    .mark span { font-size: var(--t-label); }
+    .mark { display: inline-flex; flex-direction: column; gap: 2px;
+            text-decoration: none; line-height: 1.02; }
+    .mark strong { font-family: var(--font-display); font-weight: 600;
+                   font-size: var(--step-1); letter-spacing: -.012em; }
 
-    .menu { display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
-            font-family: inherit; font-stretch: var(--wd-label); font-weight: var(--w-label);
-            font-size: var(--t-label); letter-spacing: var(--tr-label);
-            text-transform: uppercase; background: none; border: 0; color: var(--fg);
-            padding: 6px 1px; }
+    .menu { display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+            font-family: var(--font-mono); font-size: var(--label);
+            letter-spacing: .12em; text-transform: uppercase;
+            background: none; border: 0; color: inherit; padding: 8px 2px; }
     .menu:hover, .mark:hover { text-decoration: underline; text-underline-offset: 5px;
-                          text-decoration-thickness: 1px; }
-    .menu i { display: block; width: 16px; height: 1.5px; background: currentColor;
+                               text-decoration-thickness: 1px; }
+    .menu i { display: block; width: 17px; height: 1.5px; background: currentColor;
               position: relative; }
     .menu i::before, .menu i::after { content: ''; position: absolute; left: 0;
-      width: 16px; height: 1.5px; background: currentColor; }
+      width: 17px; height: 1.5px; background: currentColor; }
     .menu i::before { top: -5px; } .menu i::after { top: 5px; }
 
-    /* ------------------------------------------------------ menu pop-up -- */
-    .nav { position: fixed; inset: 0; z-index: 200; background: var(--bg); color: var(--fg);
+    /* ------------------------------------------------------ menu plein --- */
+    .nav { position: fixed; inset: 0; z-index: 200;
            display: grid; grid-template-rows: auto 1fr;
            opacity: 0; visibility: hidden;
-           transition: opacity .25s var(--ease-out), visibility .25s; }
+           transition: opacity .25s var(--ease-pipette), visibility .25s; }
     .nav[data-open='true'] { opacity: 1; visibility: visible; }
     body[data-nav='open'] { overflow: hidden; }
     .nav__bar { display: flex; align-items: center; justify-content: space-between;
-                min-height: 66px; }
-    .nav__x { width: 36px; height: 36px; border: 0; background: none;
-              color: var(--fg); cursor: pointer; display: grid; place-items: center;
-              font-size: 22px; line-height: 1; }
-    .nav__x:hover { color: var(--muted); }
-    .nav__body { overflow-y: auto; padding-block: var(--s-block); }
-    .nav__grid { display: grid; gap: 28px; }
-    @media (min-width: 900px) { .nav__grid { grid-template-columns: 1.1fr 1fr 1fr; gap: 24px 44px; } }
+                min-height: 68px; }
+    .nav__x { width: 40px; height: 40px; border: 0; background: none;
+              color: inherit; cursor: pointer; display: grid; place-items: center;
+              font-size: 24px; line-height: 1; }
+    .nav__x:hover { color: var(--gris); }
+    .nav__body { overflow-y: auto; padding-block: var(--pile); }
+    .nav__grid { display: grid; gap: var(--pile); }
+    @media (min-width: 900px) { .nav__grid { grid-template-columns: 1.1fr 1fr 1fr; gap: 32px 48px; } }
 
     .nav__main { display: grid; align-content: start; gap: 10px; }
     .nav__main a { display: block; text-decoration: none; width: fit-content;
-      font-stretch: var(--wd-display); font-weight: var(--w-display);
-      font-size: var(--t-h2); line-height: var(--lh-h2); letter-spacing: var(--tr-display); }
+      font-family: var(--font-display); font-weight: 520;
+      font-size: var(--step-2); line-height: 1.15; letter-spacing: -.01em; }
     .nav__main a:hover { text-decoration: underline; text-underline-offset: 5px;
                           text-decoration-thickness: 1px; }
-    .nav__main a[aria-current='page'] { color: var(--muted); }
+    .nav__main a[aria-current='page'] { color: var(--gris); }
 
-    .nav__head { display: grid; gap: 2px; text-decoration: none;
-                 margin-bottom: 20px; width: fit-content; }
-    .nav__head b { font-stretch: var(--wd-display); font-weight: var(--w-display);
-                  font-size: var(--t-h2); letter-spacing: var(--tr-display); }
+    .nav__head { display: grid; gap: 6px; text-decoration: none;
+                 margin-bottom: 22px; width: fit-content;
+                 padding-bottom: 14px; border-bottom: 1px solid var(--filet); }
+    .nav__head b { font-family: var(--font-display); font-weight: 560;
+                   font-size: var(--step-1); letter-spacing: -.01em; }
     .nav__grp ul { list-style: none; margin: 0; padding: 0;
                    display: grid; gap: 8px; }
-    .nav__grp li a { display: block; text-decoration: none; width: fit-content;
-                     font-size: var(--t-body); }
+    .nav__grp li a { display: block; text-decoration: none; width: fit-content; }
     .nav__grp li a:hover { text-decoration: underline; text-underline-offset: 5px;
                            text-decoration-thickness: 1px; }
-    .nav__grp li a[aria-current='page'] { color: var(--muted); }
+    .nav__grp li a[aria-current='page'] { color: var(--gris); }
 
-    .nav__foot { margin-top: var(--s-block); display: flex; flex-wrap: wrap;
-                 gap: 6px 26px; }
+    .nav__foot { margin-top: var(--pile); display: flex; flex-wrap: wrap;
+                 gap: 8px 28px; }
     .nav__foot a { text-decoration: none; }
 
-    /* ------------------------------------------------------------ pied -- */
-    .ftr { margin-top: 0; }
-    .ftr__in { display: grid; gap: var(--s-block) 40px; padding-block: var(--s-section); }
-    @media (min-width: 760px) { .ftr__in { grid-template-columns: 1.5fr 1fr 1fr 1fr; } }
-    .ftr__name { font-stretch: var(--wd-display); font-weight: var(--w-display);
-                 font-size: var(--t-h3); letter-spacing: var(--tr-display);
-                 margin: 0 0 10px; }
-    .ftr__est { margin: 8px 0 4px; }
+    /* ----------------------------------------------------------- pied --- */
+    .ftr__in { display: grid; gap: var(--pile) 40px;
+               padding-block: var(--pad-section-mob) var(--pile); }
+    @media (min-width: 760px) { .ftr__in { grid-template-columns: 1.6fr 1fr 1fr 1fr; } }
+    @media (min-width: 900px) { .ftr__in { padding-block: var(--pad-section) var(--pile); } }
+    .ftr__name { margin: 14px 0 12px; }
     .ftr__addr { margin: 0; line-height: 1.7; }
-    .ftr__h { margin: 0 0 12px; }
-    .ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: var(--t-body); }
+    .ftr__h { margin: 0 0 16px; padding-bottom: 12px;
+              border-bottom: 1px solid var(--filet); }
+    .ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px;
+              font-size: var(--step--1); }
     .ftr a { text-decoration: none; }
     .ftr a:hover { text-decoration: underline; text-underline-offset: 3px; }
-    .ftr__end { display: flex; flex-wrap: wrap; gap: 6px 22px; justify-content: space-between;
-                padding-bottom: 30px; }
-    .ftr__end a { text-decoration: none; }
+    .ftr__end { display: flex; flex-wrap: wrap; gap: 8px 24px;
+                justify-content: space-between; padding-top: 22px;
+                padding-bottom: 34px; border-top: 1px solid var(--filet); }
   </style>
 </body>
 </html>

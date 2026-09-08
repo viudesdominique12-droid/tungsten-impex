@@ -1,0 +1,43 @@
+---
+/* B — la bande de donnees.
+
+   C'est l'antidote principal au « vide et rempli a la fois ». Quatre cellules
+   pleine largeur, separees par des filets verticaux : micro-libelle mono
+   au-dessus, valeur en Fraunces dessous. Dense ET structure — ca occupe
+   l'espace en portant de l'information, ce qu'un titre trois fois trop gros ne
+   fait pas.
+
+   Les quatre valeurs existaient deja sur le site, dispersees : « Established
+   2007 » et « EFDA licensed » au pied de page, « 4 products » et « 10
+   categories » dans le menu. Rien n'est invente ici, tout est rassemble.
+*/
+import site from '../../data/site.json';
+const c = site.company;
+
+const cellules = [
+  { label: 'Established', valeur: String(c.founded) },
+  { label: 'Exports',     valeur: `${site.exports.length} products` },
+  { label: 'Imports',     valeur: `${site.imports.length} categories` },
+  { label: 'Licensed',    valeur: 'EFDA' },
+];
+---
+
+<section class="bd section" data-type="B" data-rail-section="THE HOUSE">
+  <div class="shell">
+    <dl class="donnees">
+      {cellules.map((x) => (
+        <div>
+          <dt class="t-label t-quiet">{x.label}</dt>
+          <dd class="donnee__v">{x.valeur}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  /* La bande est un liseré entre deux sections, pas une section a part
+     entiere : elle prend la moitie du pas vertical. */
+  .bd { padding-block: clamp(40px, 6vw, 64px); }
+  .bd dd { margin: 0; }
+</style>

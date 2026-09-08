@@ -1,27 +1,32 @@
 ---
-/* Ce que la maison est, en deux paragraphes. Tout est verifie : l'annee de
-   fondation, les trois anciennetes que le client a lui-meme distinguees
-   (cinq ans a cette adresse, plus de vingt aux precedentes, trente ans de
-   metier pour le fondateur) et la licence EFDA. Ces faits dormaient dans
-   site.json sans etre affiches nulle part. */
+/* E — editorial deux colonnes, sur nuit.
+
+   Le titre reste colle en haut de la fenetre pendant que les paragraphes
+   defilent en regard. Le mouvement vient de la mise en page, pas d'une
+   animation — c'est le seul moyen d'en obtenir sans le fade-up generalise.
+
+   Le fond nuit tombe ici parce que le rythme le demande : la section 1 est
+   nuit, les 2 et 3 sont claires, celle-ci est la quatrieme. Une section sombre
+   toutes les deux ou trois sections, c'est le levier le plus puissant contre
+   l'ennui — et c'est ce que fait le laboratoire de reference.
+*/
 import home from '../../data/home.json';
 const m = home.manifeste;
 ---
 
-<section class="man">
-  <div class="shell man__in">
-    <h2 class="t-h1 man__h">{m.chapeau}</h2>
-    <div class="man__t">
-      {m.corps.map((p) => <p class="t-lead">{p}</p>)}
+<section class="section" data-type="E" data-sol="nuit" data-rail-section="THE HOUSE">
+  <div class="shell edito">
+    <div class="edito__t">
+      <p class="t-label t-quiet code">02 — The house</p>
+      <h2 class="t-h1 man__h">{m.chapeau}</h2>
+    </div>
+    <div class="edito__c">
+      {m.corps.map((p) => <p class="t-lead mesure">{p}</p>)}
     </div>
   </div>
 </section>
 
 <style>
-  .man { padding-block: var(--s-band); }
-  .man__in { display: grid; gap: var(--s-block) var(--col-gap); align-items: start; }
-  @media (min-width: 900px) { .man__in { grid-template-columns: 5fr 7fr; } }
-  .man__h { max-width: 18ch; }
-  .man__t { display: grid; gap: 20px; max-width: 62ch; }
-  .man__t p:last-child { color: var(--muted); }
+  .man__h { margin-top: 18px; max-width: 16ch; }
+  .edito__c p:last-child { color: var(--gris); }
 </style>

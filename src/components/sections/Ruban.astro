@@ -1,0 +1,31 @@
+---
+/* C — le ruban defilant.
+
+   Bande fine pleine largeur en accent, mono capitales, defilement lent, une
+   puce entre deux entrees. C'est purement textural : ca ne dit rien qu'on ne
+   trouve ailleurs, et c'est justement le point. Une page ou rien ne bouge
+   jamais se lit comme un document imprime ; trois lignes de CSS suffisent a
+   lui donner un pouls, sans le fade-up generalise au defilement qui est la
+   signature la plus reconnaissable d'une page generee.
+
+   La piste est ecrite DEUX FOIS et translatee de la moitie de sa largeur : la
+   boucle est alors invisible, sans mesurer quoi que ce soit en JavaScript.
+*/
+import { sortants, entrants } from '../../lib/registre.js';
+
+const lignes = [...sortants, ...entrants].map((p) => p.name);
+---
+
+<div class="ruban t-label" data-type="C" data-sol="accent" aria-hidden="true">
+  <div class="ruban__piste">
+    {[0, 1].map(() => (
+      <div class="ruban__lot">
+        {lignes.map((n) => <span class="ruban__e">{n}</span>)}
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .ruban__lot { display: flex; align-items: center; flex: none; }
+</style>

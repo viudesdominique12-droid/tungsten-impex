@@ -1,20 +1,30 @@
 ---
-/* Quatre reponses sur sept viennent de la copie deja verifiee ; les trois
-   autres sont des brouillons, et elles sont listees dans `aConfirmer`.
-   Pas d'accordeon : sept questions se lisent d'un coup d'oeil, et un
-   accordeon les cacherait derriere sept clics pour rien. */
+/* F — grille de cartes, sur le sol clair.
+
+   Quatre reponses sur sept viennent de la copie deja verifiee ; les trois
+   autres sont des brouillons, listees dans `aConfirmer`.
+
+   Pas d'accordeon : sept questions se lisent d'un coup d'oeil, et un accordeon
+   les cacherait derriere sept clics pour rien. Elles reviennent en cartes
+   plutot qu'en colonnes de texte parce que la section precedente est un index
+   a filets sur nuit — deux sections voisines ne se ressemblent jamais.
+*/
 import home from '../../data/home.json';
 const f = home.faq;
 ---
 
-<section class="faq">
+<section class="section" data-type="F" data-rail-section="BEFORE YOU WRITE">
   <div class="shell">
-    <h2 class="t-h1 faq__h">{f.titre}</h2>
-    <dl class="faq__l">
+    <header class="faq__head">
+      <p class="t-label t-quiet code">07 — Questions</p>
+      <h2 class="t-h1 faq__h">{f.titre}</h2>
+    </header>
+
+    <dl class="cartes cartes--3 faq__l">
       {f.questions.map((q) => (
-        <div class="faq__q">
+        <div class="carte">
           <dt class="t-h3">{q.q}</dt>
-          <dd class="t-body t-quiet">{q.r}</dd>
+          <dd class="t-note t-quiet faq__r">{q.r}</dd>
         </div>
       ))}
     </dl>
@@ -22,10 +32,8 @@ const f = home.faq;
 </section>
 
 <style>
-  .faq { padding-block: var(--s-band); }
-  .faq__h { margin-bottom: var(--s-block); }
-  .faq__l { margin: 0; display: grid; gap: var(--s-block) var(--col-gap); }
-  @media (min-width: 900px) { .faq__l { grid-template-columns: repeat(2, 1fr); } }
-  .faq__q { display: grid; gap: 8px; align-content: start; max-width: 46ch; }
-  .faq__q dt, .faq__q dd { margin: 0; }
+  .faq__head { margin-bottom: var(--pile); }
+  .faq__h { margin-top: 18px; max-width: 20ch; }
+  .faq__l { margin: 0; }
+  .faq__r { margin: 0; }
 </style>

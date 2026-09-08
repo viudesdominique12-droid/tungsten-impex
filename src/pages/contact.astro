@@ -1,92 +1,127 @@
 ---
+/* Contact, au repertoire :
+
+     A  tete sur nuit
+     D  bande photo pleine largeur, le couloir des bureaux
+     H  index a filets : chaque coordonnee sur sa ligne, reliee a son intitule
+        par un point de conduite
+        la carte, pleine largeur, chargee a la demande
+*/
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
-import Photo from '../components/Photo.astro';
+import { Picture } from 'astro:assets';
+import { photo } from '../lib/photos.js';
+
 const c = site.company;
 const maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.mapQuery);
 const osm = `https://www.openstreetmap.org/export/embed.html?bbox=${c.mapBbox}&layer=mapnik&marker=${c.mapMarker}`;
 const socials = c.socials.filter((s) => s.url);
+
+const couloir = photo('img/company/office-corridor.jpg');
+const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (couloir?.width ?? 0));
 ---
 
 <Base
   title="Contact us — Tungsten Import Export"
   description={`Tungsten Import Export, ${c.address.line1}, ${c.address.line2}, ${c.address.city}. Phone ${c.phone}.`}
+  rail="CONTACT"
 >
-  <section class="top">
-    <div class="shell">
-      <p class="t-label t-quiet">Contact us</p>
-      <h1 class="t-h1 top__h">Come and find us.</h1>
+  <section class="tete section" data-sol="nuit" data-premier data-rail-section="CONTACT US">
+    <div class="shell tete__in">
+      <div>
+        <p class="t-label t-quiet code">01 — Contact us</p>
+        <h1 class="t-display tete__h">Come and <em class="accent-mot">find</em> us.</h1>
+      </div>
+      <div class="actes tete__act">
+        <a class="act" href={`tel:${c.phoneHref}`}>{c.phone}</a>
+        <a class="act act--line" href={`mailto:${c.email}`}>Email us</a>
+      </div>
     </div>
   </section>
 
-  <section class="body">
-    <div class="shell body__in">
-      <dl class="fields">
-        <div>
-          <dt class="t-label t-quiet">Position</dt>
-          <dd>
+  {couloir && (
+    <figure class="pleine" data-rail-section="DEMBEL CITY CENTER">
+      <Picture src={couloir} alt="Offices at Dembel City Center" formats={['avif']}
+               fallbackFormat="webp" widths={largeurs.length ? largeurs : [couloir.width]}
+               sizes="100vw" loading="eager" decoding="async" />
+      <figcaption>
+        <span class="shell t-label">Offices at Dembel City Center, Africa Avenue.</span>
+      </figcaption>
+    </figure>
+  )}
+
+  <section class="section" data-rail-section="DETAILS">
+    <div class="shell">
+      <header class="fields__head">
+        <p class="t-label t-quiet code">02 — Details</p>
+      </header>
+
+      <dl class="index fields">
+        <div class="index__l">
+          <span class="t-label index__n">01</span>
+          <dt class="t-h3 index__t">Position</dt>
+          <dd class="t-body index__c">
             {c.address.line1}<br />{c.address.line2}<br />{c.address.city}, {c.address.country}
             <br /><a class="lnk" href={maps} rel="noopener">Open in Google Maps</a>
           </dd>
         </div>
-        <div>
-          <dt class="t-label t-quiet">Telephone</dt>
-          <dd><a class="lnk" href={`tel:${c.phoneHref}`}>{c.phone}</a></dd>
+        <div class="index__l">
+          <span class="t-label index__n">02</span>
+          <dt class="t-h3 index__t">Telephone</dt>
+          <dd class="t-body index__c"><a class="lnk" href={`tel:${c.phoneHref}`}>{c.phone}</a></dd>
         </div>
-        <div>
-          <dt class="t-label t-quiet">Email</dt>
-          <dd><a class="lnk" href={`mailto:${c.email}`}>{c.email}</a></dd>
+        <div class="index__l">
+          <span class="t-label index__n">03</span>
+          <dt class="t-h3 index__t">Email</dt>
+          <dd class="t-body index__c"><a class="lnk" href={`mailto:${c.email}`}>{c.email}</a></dd>
         </div>
         {socials.length > 0 && (
-          <div>
-            <dt class="t-label t-quiet">Socials</dt>
-            <dd>{socials.map((s) => <a class="lnk" href={s.url} rel="noopener">{s.label}</a>)}</dd>
+          <div class="index__l">
+            <span class="t-label index__n">04</span>
+            <dt class="t-h3 index__t">Socials</dt>
+            <dd class="t-body index__c">{socials.map((s) => <a class="lnk" href={s.url} rel="noopener">{s.label}</a>)}</dd>
           </div>
         )}
-        <div>
-          <dt class="t-label t-quiet">Opening hours</dt>
-          <dd>{c.hours.weekdays}<br /><span class="t-quiet">{c.hours.weekend}</span></dd>
+        <div class="index__l">
+          <span class="t-label index__n">05</span>
+          <dt class="t-h3 index__t">Opening hours</dt>
+          <dd class="t-body index__c">{c.hours.weekdays}<br /><span class="t-quiet">{c.hours.weekend}</span></dd>
         </div>
-        <div>
-          <dt class="t-label t-quiet">Training</dt>
-          <dd><a class="lnk" href="/training/">Book a place on the next intake</a></dd>
+        <div class="index__l">
+          <span class="t-label index__n">06</span>
+          <dt class="t-h3 index__t">Training</dt>
+          <dd class="t-body index__c"><a class="lnk" href="/training/">Book a place on the next intake</a></dd>
         </div>
       </dl>
-
-      {/* La carte pesait 1 862 Ko sur un iPhone, contre 101 a 193 pour toutes
-        les autres pages du site : les tuiles d'OpenStreetMap se chargeaient
-        des que le cadre approchait de l'ecran. Elle ne se charge donc plus
-        qu'a la demande. Sans script, le bouton reste un lien vers la carte
-        en ligne — la page ne perd rien. */}
-    <div class="map" id="map" data-osm={osm}>
-      <a class="act map__go" id="map-go" href={maps} rel="noopener">Show the map</a>
-    </div>
     </div>
   </section>
 
-  <div class="shell bande">
-    <Photo src="img/company/office-corridor.jpg" alt="Offices at Dembel City Center"
-           caption="Offices at Dembel City Center, Africa Avenue." />
+  {/* La carte pesait 1 862 Ko sur un iPhone, contre 101 a 193 pour toutes les
+      autres pages : les tuiles d'OpenStreetMap se chargeaient des que le cadre
+      approchait de l'ecran. Elle ne se charge donc plus qu'a la demande. Sans
+      script, le bouton reste un lien vers la carte en ligne. */}
+  <div class="map" id="map" data-osm={osm} data-sol="wash" data-rail-section="THE MAP">
+    <a class="act map__go" id="map-go" href={maps} rel="noopener">Show the map</a>
   </div>
 </Base>
 
 <style>
-  .top { padding-block: var(--s-section) var(--s-block); }
-  .top__h { margin-top: 12px; }
-  .body__in { display: grid; gap: var(--s-block) var(--s-block); align-items: start; }
-  @media (min-width: 900px) { .body__in { grid-template-columns: 1fr 1fr; } }
+  .tete__in { display: grid; gap: var(--pile); align-items: end; }
+  @media (min-width: 900px) { .tete__in { grid-template-columns: 7fr 5fr; }
+    .tete__act { justify-content: flex-end; } }
+  .tete__h { margin-top: 22px; }
 
-  .fields { margin: 0; display: grid; gap: var(--s-block); }
-  .fields > div { display: grid; gap: 2px; align-content: start; }
+  .fields__head { margin-bottom: var(--pile); }
+  .fields { margin: 0; }
   .fields dt, .fields dd { margin: 0; }
   .lnk { text-decoration: underline; text-underline-offset: 4px;
          text-decoration-thickness: 1px; }
   .fields dd .lnk + .lnk { margin-left: 18px; }
 
-  .map { width: 100%; height: 420px; border: 0; display: grid; place-items: center;
-         background: var(--hair); }
+  .map { width: 100%; height: clamp(320px, 55vh, 520px);
+         display: grid; place-items: center; }
   .map iframe { width: 100%; height: 100%; border: 0; display: block; }
-  .bande { margin-top: var(--s-section); margin-bottom: var(--s-section); }
+  .map__go { width: auto; }
 </style>
 
 <script is:inline>

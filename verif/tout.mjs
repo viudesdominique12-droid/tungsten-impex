@@ -8,13 +8,13 @@
 import { spawnSync } from 'node:child_process';
 
 const ETAPES = [
-  ['check.mjs',          'systeme, couleur, images, mobile, tableau — 35 controles'],
+  ['check.mjs',          'polices, repertoire de sections, sols, images, mobile, tableau'],
   ['partout.mjs',        'contraste et cibles tactiles sur LES 18 PAGES, bureau + iPhone'],
   ['safari-clavier.mjs', 'WebKit (moteur de Safari), clavier, piege de focus, formulaire'],
   ['links.mjs',          'tous les liens de toutes les pages'],
   ['photos-diag.mjs',    'aucune image affichee au-dela de sa taille reelle'],
   ['photos.mjs',         'quelles photos sont posees, lesquelles restent en reserve'],
-  ['couleur.mjs',        'part de bleu par page, face a la reference du client'],
+  ['couleur.mjs',        'repartition clair / nuit / accent, page par page'],
   ['mobile.mjs',         'poids et cibles sur iPhone 12 et Android 360'],
 ];
 
@@ -31,9 +31,11 @@ console.log(`TOUT PASSE.
 
   Couvert   les 18 pages, a 1440px et sur iPhone 12 emule ; Chromium ET WebKit,
             le moteur de Safari donc de l'iPhone ; Android 360px pour le poids.
-            Contraste AA compose (l'alpha est empile avant mesure), cibles
-            tactiles de 44px, debordement, agrandissement d'image, part de
-            bleu, liens, clavier et piege de focus, validation du formulaire.
+            Contraste AA compose (l'alpha est empile avant mesure) sur les
+            sols clairs ET sur les sols nuit, cibles tactiles de 48px,
+            debordement, agrandissement d'image, alternance du repertoire de
+            sections, part de nuit, liens, clavier et piege de focus,
+            validation du formulaire.
 
   NON couvert, et il faut le savoir :
    . Firefox n'est pas installe. Les trois moteurs du web sont Blink, WebKit et

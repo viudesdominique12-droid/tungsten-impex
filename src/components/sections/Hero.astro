@@ -1,55 +1,64 @@
 ---
-/* Premier ecran : la declaration et le tableau a gauche, la marchandise a
-   droite jusqu'au bord. Une maison de negoce montre ce qu'elle negocie avant
-   de parler d'elle. */
+/* A — le heros, fond nuit.
+
+   Composition asymetrique, alignee a gauche, jamais centree : micro-libelle
+   mono, titre, deux pilules, et le tableau de departs en regard.
+
+   Le titre est a --step-4 et non --step-5. La regle du brief est que les deux
+   plus grands crans sont reserves a un contenu qui merite cette taille — une
+   affirmation, un chiffre. Celui-ci EST une affirmation, mais il en fait deux,
+   quatre-vingt-cinq signes : a --step-5 (jusqu'a 6,8rem) il occuperait a lui
+   seul plus d'un ecran de haut, et le client reproche precisement au site ses
+   « titres demesures qui font semblant d'occuper l'espace ». Le cran au-dessus
+   n'existe donc nulle part sur le site, et c'est une decision, pas un oubli.
+*/
 import Photo from '../Photo.astro';
 import Board from '../Board.astro';
 import { manifeste } from '../../lib/registre.js';
 ---
 
-<section class="hero">
+<section class="hero section" data-type="A" data-sol="nuit" data-premier data-rail-section="ADDIS ABABA">
   <div class="shell hero__in">
     <div class="hero__say">
+      <p class="t-label t-quiet code">01 — Import &amp; export</p>
+
       <h1 class="t-display hero__h">
-        <span class="line"><span>We export Ethiopian oilseeds and pulses.</span></span>
+        <span class="line"><span>We export <em class="accent-mot">Ethiopian</em> oilseeds and pulses.</span></span>
         <span class="line"><span>We import medicines, vehicles and materials.</span></span>
       </h1>
-      <div class="hero__board"><Board items={manifeste} /></div>
+
+      <div class="actes hero__act">
+        <a class="act" href="/contact/">Contact us</a>
+        <a class="act act--line" href="#exports">Exports</a>
+      </div>
     </div>
-    <div class="hero__img">
-      <Photo src="img/company/contact.jpg" eager alt="Pulses and oilseeds sorted by variety" />
-    </div>
+
+    <div class="hero__board"><Board items={manifeste} /></div>
   </div>
 </section>
 
 <style>
-  /* Le premier ecran ne porte plus qu'une chose : le titre.
+  .hero__in { display: grid; gap: var(--pile); align-items: end; }
+  .hero__say { display: grid; gap: var(--pile); align-content: start; }
+  .hero__h { margin-top: 4px; }
+  .hero__act { margin-top: 4px; }
 
-     L'ancienne reserve de 36px au-dessus venait d'un calcul qui n'a plus lieu
-     d'etre — il fallait alors faire tenir le titre ET le tableau de departs
-     dans les 844px de l'ecran, et le tableau depassait de 67px pour inviter a
-     defiler. A 42px de corps le titre remplit la vue a lui seul ; le tableau
-     est franchement dessous, et la reserve du haut peut redevenir celle d'une
-     section. Un titre qui commence a 150px du haut de l'ecran est une banniere ;
-     a 200px, c'est une page. */
-  .hero { padding-block: var(--s-section) var(--s-band); }
-  .hero__in { display: grid; gap: var(--s-block); }
-  .hero__say { display: grid; gap: var(--s-block); align-content: start; }
   @media (min-width: 900px) {
-    /* Les deux colonnes s'alignent par le haut, l'image decalee de la distance
-       qui separe le haut de la boite du titre de sa ligne de capitale. */
-    .hero__in { grid-template-columns: 1.35fr 1fr; align-items: start; gap: var(--s-block); }
-    .hero__img { margin-top: .1em; font-size: var(--t-display);
-                 margin-right: calc(-1 * var(--gutter)); }
-    .hero__img > * { font-size: var(--t-body); }
+    /* Le blanc est compose : la colonne du tableau est plus etroite que celle
+       du titre, et l'ensemble est cale a gauche. Une grille 7/5 laisse a
+       droite une reserve qui n'est pas un oubli mais une respiration. */
+    .hero__in { grid-template-columns: 7fr 5fr; gap: var(--col-gap); align-items: end; }
+    .hero__say { gap: clamp(28px, 3vw, 40px); }
   }
-  .hero__h { display: grid; gap: 0; }
-  /* Revelation par masque, jamais de fondu : l'opacite fabrique un gris qui
-     n'est dans aucune charte. */
-  .line { display: block; overflow: hidden; padding-bottom: .04em; }
-  .line > span { display: block; transform: translateY(100%);
-                 animation: rise var(--in) var(--ease-out) forwards; }
-  .line:nth-child(2) > span { animation-delay: 30ms; }
-  @keyframes rise { to { transform: none; } }
-  @media (prefers-reduced-motion: reduce) { .line > span { transform: none; animation: none; } }
+
+  /* Revelation par masque montant, une seule fois, 80ms entre les lignes.
+     Jamais d'opacite : elle fabrique un gris qui n'est dans aucune charte. */
+  .line { display: block; overflow: hidden; padding-bottom: .06em; }
+  .line > span { display: block; transform: translateY(105%);
+                 animation: monte 700ms var(--ease-pipette) forwards; }
+  .line:nth-child(2) > span { animation-delay: 80ms; }
+  @keyframes monte { to { transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .line > span { transform: none; animation: none; }
+  }
 </style>

@@ -1,42 +1,55 @@
 ---
-/* L'appel de cloture, et l'adresse en regard. Il remplace l'ancien bloc
-   d'orientation, dont les trois liens repetaient mot pour mot la colonne
-   « Company » du pied de page, dix centimetres plus bas. */
+/* L'appel de cloture, et l'adresse en regard.
+
+   L'adresse, les horaires et le numero passent en points de conduite : trois
+   paires intitule / valeur reliees par une ligne de points fins, comme dans un
+   sommaire imprime. C'etait auparavant un bloc d'adresse sur trois lignes, que
+   rien ne distinguait d'un paragraphe.
+*/
 import site from '../../data/site.json';
 import home from '../../data/home.json';
 const c = site.company;
 const a = home.appel;
+
+const lignes = [
+  { label: 'Address', valeur: `${c.address.line1}, ${c.address.line2}` },
+  { label: 'City',    valeur: `${c.address.city}, ${c.address.country}` },
+  { label: 'Hours',   valeur: c.hours.weekdays },
+];
 ---
 
-<section class="fin">
+<section class="fin section" data-type="B" data-rail-section="CONTACT">
   <div class="shell fin__in">
     <div class="fin__dire">
-      <h2 class="t-h1">{a.titre}</h2>
+      <p class="t-label t-quiet code">08 — Enquiry</p>
+      <h2 class="t-h1 fin__h">{a.titre}</h2>
       <p class="t-lead fin__p">{a.corps}</p>
-      <div class="fin__act">
+      <div class="actes fin__act">
         <a class="act" href="/contact/">Contact us</a>
-        <a class="t-h3 fin__tel" href={`tel:${c.phoneHref}`}>{c.phone}</a>
+        <a class="act act--line" href={`tel:${c.phoneHref}`}>{c.phone}</a>
       </div>
     </div>
-    <div class="fin__ou">
-      <p class="t-lead">
-        {c.address.line1}<br />{c.address.line2}<br />{c.address.city}, {c.address.country}
-      </p>
-      <p class="t-body t-quiet fin__h">{c.hours.weekdays}</p>
-    </div>
+
+    <dl class="fin__ou">
+      {lignes.map((l) => (
+        <div class="conduite t-note">
+          <dt class="t-label t-quiet">{l.label}</dt>
+          <span class="conduite__f"></span>
+          <dd class="conduite__v">{l.valeur}</dd>
+        </div>
+      ))}
+    </dl>
   </div>
 </section>
 
 <style>
-  .fin { padding-block: var(--s-band); }
-  .fin__in { display: grid; gap: var(--s-block) var(--col-gap); align-items: start; }
-  @media (min-width: 900px) { .fin__in { grid-template-columns: 7fr 5fr; } }
-  .fin__dire h2 { max-width: 16ch; }
-  .fin__p { margin-top: 16px; max-width: 42ch; }
-  .fin__act { margin-top: var(--s-block); display: flex; flex-wrap: wrap;
-              align-items: center; gap: 16px 28px; }
-  .fin__tel { text-decoration: none; }
-  .fin__tel:hover { text-decoration: underline; text-underline-offset: 5px;
-                    text-decoration-thickness: 1px; }
-  .fin__h { margin-top: 16px; }
+  .fin__in { display: grid; gap: var(--pile) var(--col-gap); align-items: start; }
+  @media (min-width: 900px) { .fin__in { grid-template-columns: 7fr 4fr; } }
+  .fin__h { margin-top: 18px; max-width: 14ch; }
+  .fin__p { margin-top: 20px; max-width: 40ch; color: var(--gris); }
+  .fin__act { margin-top: var(--pile); }
+  .fin__ou { margin: 0; display: grid; gap: 0; }
+  .fin__ou > div { padding-block: 16px; border-top: 1px solid var(--filet); }
+  .fin__ou > div:last-child { border-bottom: 1px solid var(--filet); }
+  .fin__ou dd { margin: 0; text-align: right; max-width: 22ch; }
 </style>

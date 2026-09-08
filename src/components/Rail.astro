@@ -1,0 +1,88 @@
+---
+/* Le rail vertical.
+
+   Un texte pivote sur le bord gauche de la fenetre, en mono minuscule, qui dit
+   la section en cours. Le laboratoire de reference l'emploie — ZW—LAB /
+   INSIDE THE LABORATORY — et c'est un dispositif de texture, pas une
+   navigation : on ne clique pas dessus, il repond a une question qu'on se pose
+   au milieu d'une page longue, « ou suis-je ». Trente pixels de bord perdus,
+   et la page cesse d'etre un rouleau anonyme.
+
+   Il ne parait qu'a partir de 1200px. En dessous, le bord de l'ecran est la
+   marge du texte : il n'y a pas trente pixels a lui donner.
+
+   Chaque section nommee porte `data-rail-section="EXPORTS"`. Le rail lit cet
+   attribut, il n'a aucune liste a tenir a jour de son cote.
+*/
+const { prefixe = 'TUNGSTEN' } = Astro.props;
+---
+
+<div class="rail t-label" id="rail" aria-hidden="true">
+  <span class="rail__p">{prefixe}</span>
+  <span class="rail__t" id="rail-t"></span>
+</div>
+
+<script is:inline>
+  (() => {
+    const cible = document.getElementById('rail-t');
+    if (!cible || !matchMedia('(min-width: 1200px)').matches) return;
+
+    /* Le rail est ecrit avant <main> — il doit l'etre, il se pose sur le bord
+       de la fenetre et non dans le flux. Son script s'executait donc a un
+       moment ou aucune section n'existait encore : la liste revenait vide et
+       il n'affichait jamais que son prefixe. Il attend le document. */
+    const partir = () => {
+      const sections = [...document.querySelectorAll('[data-rail-section]')];
+      if (!sections.length) return;
+      poser(sections);
+    };
+    if (document.readyState === 'loading')
+      document.addEventListener('DOMContentLoaded', partir);
+    else partir();
+
+    function poser(sections) {
+
+    /* On ne prend pas « la premiere section visible » : deux sections le sont
+       presque toujours, et le libelle papillonnait a chaque pixel de
+       defilement. La section courante est celle qui croise le tiers superieur
+       de la fenetre — une ligne unique, donc une seule reponse. */
+    const ligne = () => innerHeight / 3;
+    let dernier = '';
+
+    const relire = () => {
+      const y = ligne();
+      let nom = sections[0].dataset.railSection;
+      for (const s of sections) {
+        const r = s.getBoundingClientRect();
+        if (r.top <= y) nom = s.dataset.railSection; else break;
+      }
+      if (nom !== dernier) { dernier = nom; cible.textContent = nom; }
+    };
+
+    relire();
+    addEventListener('scroll', () => requestAnimationFrame(relire), { passive: true });
+    addEventListener('resize', relire, { passive: true });
+    }
+  })();
+</script>
+
+<style>
+  .rail {
+    position: fixed; left: 12px; top: 50%; z-index: 50;
+    translate: 0 -50%;
+    writing-mode: vertical-rl; transform: rotate(180deg);
+    display: flex; align-items: center; gap: 14px;
+    /* Il passe au-dessus de sols clairs et de sols nuit sans savoir lesquels :
+       une valeur mediane, lisible sur les deux, plutot qu'une variable qui
+       suivrait un fond qu'il ne traverse pas. */
+    color: #7E93B6; pointer-events: none;
+    max-height: 70vh; overflow: hidden;
+  }
+  /* La barre qui separe le prefixe de la section : elle est verticale a
+     l'ecran parce que tout le bloc est pivote. */
+  .rail__p::after { content: ''; display: block; width: 1px; height: 18px;
+                    background: currentColor; opacity: .5; margin: 12px auto 0; }
+  .rail__p { display: block; }
+  .rail__t { display: block; }
+  @media (max-width: 1199px) { .rail { display: none; } }
+</style>

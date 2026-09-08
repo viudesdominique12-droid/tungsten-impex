@@ -1,20 +1,43 @@
 ---
 /* ---------------------------------------------------------------------------
-   L'accueil n'est plus une page, c'est une suite de sections nommees.
+   L'accueil : onze sections, et deux voisines ne se ressemblent jamais.
 
-   Constat : la page comptait cinq blocs — titre, Exports, photo, Imports,
-   adresse. Un catalogue avec une banniere. Les sites du studio en comptent dix
-   a douze, et chacun a un role : dire ce qu'on est, montrer ce qu'on vend,
-   prouver qu'on tient, expliquer comment on travaille, repondre aux questions
-   qui viennent avant l'achat, et appeler.
+   Le client a dit « le site est vide et rempli a la fois ». Ce n'est pas une
+   contradiction, c'est un symptome precis : la page n'avait que deux registres
+   visuels — des titres enormes entoures de blanc, des paves de texte
+   compactes — et rien entre les deux. Aucun palier intermediaire, donc aucune
+   raison de defiler.
 
-   Il manquait donc le manifeste, la reassurance, le process, la FAQ et l'appel
-   final. Ils sont la. Le process et une partie de la FAQ sont des brouillons a
-   faire confirmer par le client : la liste des affirmations concernees est
-   dans src/data/home.json, cle `aConfirmer`.
+   L'ordre ci-dessous est la reponse. Chaque ligne porte son type du repertoire
+   et son sol, et l'alternance est verifiee a la lecture :
+
+     1   A  heros                      nuit
+     2   C  ruban defilant             accent      pleine largeur
+     3   B  bande de donnees           clair
+     4   E  editorial, titre collant   nuit
+     5   H  index a filets, Exports    clair
+     6   D  bande photo                image       pleine largeur
+     7   F  grille de cartes, Imports  clair
+     8   E  editorial, Record          nuit
+     9   H  index a filets, Method     clair
+    10   F  grille de cartes, FAQ      clair
+    11      appel de cloture           clair       (puis le pied, nuit)
+
+   Une section sombre revient au moins toutes les trois sections, et pas plus
+   souvent : la nuit donne le rythme, elle ne tient pas le sol. Les deux plus
+   hautes sections de la page — les dix cartes d'import et les cinq etapes du
+   process — sont donc restees claires. Sur nuit, elles portaient a elles deux
+   la moitie de la hauteur de la page et le site entier basculait du cote
+   sombre : 59 % de la surface peinte, ce qui n'est plus un rythme mais un
+   fond, et c'est ce que le client avait deja refuse en bleu.
+
+   Un element pleine largeur tombe tous les deux ecrans de defilement. Le
+   contenu, lui, n'a pas bouge d'un mot.
    --------------------------------------------------------------------------- */
 import Base from '../layouts/Base.astro';
 import Hero from '../components/sections/Hero.astro';
+import Ruban from '../components/sections/Ruban.astro';
+import BandeDonnees from '../components/sections/BandeDonnees.astro';
 import Manifeste from '../components/sections/Manifeste.astro';
 import Registre from '../components/sections/Registre.astro';
 import Charniere from '../components/sections/Charniere.astro';
@@ -28,14 +51,20 @@ import { sortants, entrants } from '../lib/registre.js';
 <Base
   title="Tungsten Import Export — Addis Ababa"
   description="We export Ethiopian oilseeds and pulses, and import medicines, vehicles and materials into Ethiopia. Trading from Addis Ababa since 2007."
+  rail="TUNGSTEN"
 >
   <Hero />
+  <Ruban />
+  <BandeDonnees />
   <Manifeste />
 
-  <Registre lignes={sortants} titre="Exports" compte={`${sortants.length} products`} id="exports" />
+  <Registre lignes={sortants} titre="Exports" compte={`${sortants.length} products`}
+            id="exports" code="03 — Out of Ethiopia" forme="index" rail="EXPORTS" />
+
   <Charniere />
+
   <Registre lignes={entrants} titre="Imports" compte={`${entrants.length} categories`}
-            id="imports" dense flow="in" />
+            id="imports" code="04 — Into Ethiopia" forme="cartes" rail="IMPORTS" />
 
   <Reassurance />
   <Process />

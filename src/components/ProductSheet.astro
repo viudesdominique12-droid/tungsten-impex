@@ -1,167 +1,163 @@
 ---
+/* La fiche produit, passee au repertoire.
+
+     A  tete sur nuit : fil d'Ariane, code, nom, chapeau
+     D  bande photo pleine largeur quand le fichier la porte
+     H  index a filets pour les specifications
+     E  editorial deux colonnes pour les textes, sur nuit
+        appel, puis les autres lignes de la meme direction
+
+   La regle des images n'a pas bouge : on n'agrandit jamais. Quatre des
+   quatorze fichiers font moins de 700px de large — ceux-la ne peuvent pas
+   tenir une bande pleine largeur, et ils gardent leur colonne. Le fichier
+   decide de sa mise en page, jamais l'inverse.
+*/
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
 import copy from '../data/copy.json';
 import Photo from './Photo.astro';
+import { Picture } from 'astro:assets';
 import { photo } from '../lib/photos.js';
 
 const { product, siblings } = Astro.props;
 const c = copy[product.slug] ?? { lead: '', facts: [], blocks: [], cta: '' };
 
-/* Le sens de circulation se lit à la valeur du fond. */
 const flow = product.direction === 'out' ? 'out' : 'in';
 const folder = flow === 'out' ? 'export' : 'import';
 const label = flow === 'out' ? 'Exports' : 'Imports';
+const sens = flow === 'out' ? 'Out of Ethiopia' : 'Into Ethiopia';
 
-/* Les autres lignes de la même direction. Ni précédent ni suivant : l'ordre
-   du tableau n'est pas une séquence et rien ne justifie de la présenter
-   comme telle au lecteur. */
 const others = siblings.filter((sib) => sib.slug !== product.slug);
 
-/* Quatre des quatorze fichiers font moins de 700px de large. Affiches seuls en
-   tete de page ils laissent un vide a leur droite ; mis en vis-a-vis du
-   chapeau ils composent. Le fichier decide, encore une fois, de sa mise en
-   page — pas l'inverse. */
 const img = photo(product.photo);
-const petite = !!img && img.width <= 700;
-
-/* La page s'ouvre en typographie, comme À propos et Contact : le nom du
-   produit ne se pose plus sur la photo. Deux raisons, et la seconde est la
-   vraie. D'abord tout le site s'ouvre alors de la même façon. Ensuite le nom
-   sur la photo obligeait à une bande de proportion fixe, et c'est cette bande
-   qui écrasait la bibliothèque : une source de 400x331 étalée sur 1440, une
-   photo en portrait rognée à 19 % de sa hauteur. Le titre parti, l'image
-   reprend son format et sa taille réelle. */
+/* Une bande pleine largeur reclame de quoi la remplir. En dessous de 1200px de
+   source, la photo reste dans sa colonne a sa taille reelle. */
+const pleine = !!img && img.width >= 1200;
+const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (img?.width ?? 0));
 ---
 
-<Base title={`${product.name} — Tungsten Import Export`} description={c.lead} flow={flow}>
+<Base title={`${product.name} — Tungsten Import Export`} description={c.lead} rail={label.toUpperCase()}>
   <article>
-    <header class="shell tete">
-      <nav class="crumb t-label t-quiet" aria-label="Breadcrumb">
-        <a href="/">Tungsten</a>
-        <span aria-hidden="true">&middot;</span>
-        <a href={`/#${label.toLowerCase()}`}>{label}</a>
-      </nav>
-      <h1 class="t-display tete__h">{product.name}</h1>
+    <header class="tete section" data-sol="nuit" data-premier data-rail-section={product.name.toUpperCase()}>
+      <div class="shell tete__in">
+        <div>
+          <nav class="crumb t-label t-quiet" aria-label="Breadcrumb">
+            <a href="/">Tungsten</a>
+            <span aria-hidden="true">/</span>
+            <a href={`/#${label.toLowerCase()}`}>{label}</a>
+          </nav>
+          <h1 class="t-display tete__h">{product.name}</h1>
+        </div>
+        <p class="t-label t-quiet code tete__sens">{sens}</p>
+      </div>
     </header>
 
-    <div class="shell">
-      {petite ? (
-        <div class="duo">
-          <Photo src={product.photo} alt={product.name} eager />
-          <p class="intro__lead">{c.lead}</p>
-        </div>
-      ) : (
-        <Photo src={product.photo} alt={product.name} eager />
-      )}
+    {pleine ? (
+      <figure class="pleine">
+        <Picture src={img} alt={product.name} formats={['avif']} fallbackFormat="webp"
+                 widths={largeurs.length ? largeurs : [img.width]} sizes="100vw"
+                 loading="eager" decoding="async" />
+      </figure>
+    ) : null}
 
-      {/* Le chapeau et les specifications se tiennent : c'est la meme chose,
-          la phrase qui vend la ligne et les chiffres qui l'etayent. Separes,
-          le chapeau laissait 610px de vide a sa droite et un ecart de 120px
-          les separait. Ensemble, ils remplissent la bande. */}
-      <div class="carte">
-        {!petite && <p class="intro__lead">{c.lead}</p>}
-        {c.facts.length > 0 && (
-          <dl class="facts">
-            {c.facts.map((f) => (
-              <div>
-                <dt class="t-note t-quiet">{f.label}</dt>
-                <dd>{f.value}</dd>
+    <section class="section intro" data-rail-section="THE LINE">
+      <div class="shell edito">
+        <div class="edito__t">
+          <p class="t-label t-quiet code">01 — The line</p>
+        </div>
+        <div class="edito__c">
+          <p class="t-lead intro__lead">{c.lead}</p>
+          {!pleine && <Photo src={product.photo} alt={product.name} eager />}
+        </div>
+      </div>
+    </section>
+
+    {c.facts.length > 0 && (
+      <section class="section specs" data-sol="wash" data-rail-section="SPECIFICATIONS">
+        <div class="shell">
+          <header class="specs__head">
+            <p class="t-label t-quiet code">02 — Specifications</p>
+          </header>
+          <dl class="index specs__l">
+            {c.facts.map((f, n) => (
+              <div class="index__l">
+                <span class="t-label index__n">{String(n + 1).padStart(2, '0')}</span>
+                <dt class="t-h3 index__t">{f.label}</dt>
+                <dd class="t-body index__c">{f.value}</dd>
               </div>
             ))}
           </dl>
-        )}
-      </div>
+        </div>
+      </section>
+    )}
 
-      {c.blocks.length > 0 && (
-        <div class="prose">
-          {c.blocks.map((b) => (
-            <section>
-              <h2 class="prose__h">{b.title}</h2>
-              <p>{b.body}</p>
-            </section>
+    {c.blocks.length > 0 && (
+      <section class="section" data-sol="nuit" data-rail-section="DETAIL">
+        <div class="shell edito">
+          <div class="edito__t">
+            <p class="t-label t-quiet code">03 — Detail</p>
+          </div>
+          <div class="edito__c">
+            {c.blocks.map((b) => (
+              <div class="bloc">
+                <h2 class="t-h2">{b.title}</h2>
+                <p class="t-body t-quiet bloc__p mesure">{b.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section class="section ask" data-rail-section="ENQUIRY">
+      <div class="shell ask__in">
+        <div>
+          <p class="t-label t-quiet code">04 — Enquiry</p>
+          <p class="t-h1 ask__line">{c.cta}</p>
+        </div>
+        <div class="actes">
+          <a class="act" href="/contact/">Contact us</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section onward" data-sol="wash" data-rail-section={label.toUpperCase()}>
+      <nav class="shell" aria-label={`Our other ${label.toLowerCase()}`}>
+        <p class="t-label t-quiet code onward__h">Our other {label.toLowerCase()}</p>
+        <div class="cartes cartes--3">
+          {others.map((o) => (
+            <a class="carte" href={`/${folder}/${o.slug}/`}>
+              <h2 class="t-h3">{o.name}</h2>
+            </a>
           ))}
         </div>
-      )}
-
-      {/* Le bouton se tenait a sept cents pixels de la phrase qu'il sert : les
-          deux bouts d'une ligne que rien ne relie, exactement le defaut deja
-          corrige sur les en-tetes de section. Il vient sous elle. */}
-      <section class="ask">
-        <p class="t-h2 ask__line">{c.cta}</p>
-        <a class="act" href="/contact/">Contact us</a>
-      </section>
-
-      <nav class="onward" aria-label={`Our other ${label.toLowerCase()}`}>
-        <p class="t-label t-quiet onward__h">Our other {label.toLowerCase()}</p>
-        <ul class="onward__l">
-          {others.map((o) => (
-            <li><a href={`/${folder}/${o.slug}/`}><span class="onward__n">{o.name}</span></a></li>
-          ))}
-        </ul>
       </nav>
-    </div>
+    </section>
   </article>
 </Base>
 
 <style>
-  /* --------------------------------------------------------------- tête -- */
-  .tete { padding-block: var(--s-section) var(--s-block); }
-  .crumb { display: flex; gap: 8px; }
+  .tete__in { display: grid; gap: 24px; align-items: end; }
+  @media (min-width: 900px) {
+    .tete__in { grid-template-columns: 8fr 4fr; }
+    .tete__sens { justify-self: end; padding-bottom: .6em; }
+  }
+  .crumb { display: flex; gap: 10px; }
   .crumb a { text-decoration: none; }
   .crumb a:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .tete__h { margin-top: 10px; }
-  .duo { display: grid; gap: var(--s-block) var(--col-gap); align-items: start; }
-  @media (min-width: 860px) { .duo { grid-template-columns: auto 1fr; } }
-  .duo .intro__lead { max-width: 34ch; }
+  .tete__h { margin-top: 20px; }
 
-  /* --------------------------------------------------- chapeau et specs --
-     Les specifications etaient enfermees dans la colonne de droite d'une
-     grille 7/5, soit deux colonnes de 228px : « Passed coffee exports /
-     since 2002 » se coupait pour rien. Une feuille de specifications se lit
-     en travers de la page. Le chapeau prend sa mesure et les specs courent
-     sous lui, sur trois colonnes. */
-  /* L'ecart se pose sur le texte, pas sur la figure : un style scope d'Astro
-     n'atteint pas le balisage d'un composant enfant, et la marge posee sur la
-     figure du composant Photo ne s'appliquait donc a rien — le chapeau collait
-     au bas de l'image. */
-  .carte { margin-top: var(--s-section); display: grid;
-           gap: var(--s-block) var(--col-gap); align-items: start; }
-  @media (min-width: 900px) { .carte { grid-template-columns: 5fr 7fr; } }
-  .intro__lead { font-size: var(--t-h2); line-height: var(--lh-h2);
-                 font-stretch: var(--wd-text); font-weight: var(--w-text);
-                 margin: 0; max-width: 30ch; }
-  .duo .intro__lead { max-width: 34ch; }
-  .facts { margin: 0; }
-  @media (min-width: 900px) { .facts { grid-template-columns: repeat(2, 1fr); } }
+  .intro__lead { max-width: 44ch; }
+  .intro .edito__c { gap: var(--pile); }
 
-  /* ------------------------------------------------------------ prose --- */
-  /* Quatre ecarts de 120px qui se suivaient donnaient un rythme de metronome.
-     Le palier long marque les changements de registre — de la fiche au texte,
-     du texte a l'appel — et le court relie ce qui va ensemble. */
-  .prose { display: grid; gap: var(--s-block) var(--col-gap); padding-top: var(--s-band); }
-  @media (min-width: 900px) { .prose { grid-template-columns: 1fr 1fr; } }
-  .prose__h { font-size: var(--t-h3); line-height: var(--lh-h3);
-              font-stretch: var(--wd-text); font-weight: var(--w-display);
-              margin-bottom: 6px; }
-  .prose p { color: var(--muted); }
+  .specs__head { margin-bottom: var(--pile); }
+  .specs__l { margin: -1px 0 0; }
 
-  /* -------------------------------------------------------------- ask --- */
-  .ask { margin-top: var(--s-band); display: grid; gap: var(--s-block);
-         justify-items: start; }
-  .ask__line { margin: 0; max-width: 26ch; }
+  .bloc { display: grid; gap: 12px; }
 
-  /* ----------------------------------------------------------- onward --- */
-  /* Trois noms etales sur trois colonnes de 1210px, c'etait une grille pour
-     une grille. Ils se posent les uns a cote des autres, a leur largeur, et
-     passent a la ligne quand il y en a neuf. */
-  .onward { margin-top: var(--s-section); margin-bottom: var(--s-band); }
-  .onward__h { margin-bottom: var(--s-block); }
-  .onward__l { list-style: none; margin: 0; padding: 0;
-               display: flex; flex-wrap: wrap; gap: 16px var(--s-section); }
-  .onward a { display: block; text-decoration: none; width: fit-content; }
-  .onward__n { font-size: var(--t-h3); line-height: var(--lh-h3);
-               font-stretch: var(--wd-text); font-weight: var(--w-display); }
-  .onward a:hover .onward__n { text-decoration: underline; text-underline-offset: 5px;
-                          text-decoration-thickness: 1px; }
+  .ask__in { display: grid; gap: var(--pile); align-items: end; }
+  @media (min-width: 900px) { .ask__in { grid-template-columns: 7fr 4fr; } }
+  .ask__line { margin-top: 18px; max-width: 22ch; }
+
+  .onward__h { margin-bottom: var(--pile); }
 </style>

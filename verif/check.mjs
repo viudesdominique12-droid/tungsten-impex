@@ -4,14 +4,15 @@
        node verif/check.mjs [url]        (défaut http://localhost:4321/)
 
    Contrôle, sur le rendu et non dans le code :
-     · la police est bien Archivo, pas un repli Helvetica
-     · wdth 118 et wdth 66 sont visiblement différentes
-     · trois couleurs au maximum à l'écran
+     · les trois familles sont chargées, aucun repli système
+     · un titre n'est pas le texte courant agrandi : ce n'est pas la même police
+     · le répertoire de sections tient — deux voisines ne se ressemblent jamais,
+       une section nuit revient au moins toutes les trois sections
+     · aucun titre au-delà de --step-4 : les crans géants ne servent pas de
+       remplissage
      · aucune image n'est affichée au-delà de sa taille réelle
-     · aucune image plus étroite que la colonne de texte
-     · aucune ombre portée
-     · les pages import sont bien sur fond sombre
-     · contraste AA dans les deux valeurs de fond
+     · aucune ombre portée, aucun filet coloré
+     · contraste AA sur les sols clairs comme sur les sols nuit
 
    Playwright et pas `chrome --headless --screenshot` : sans émulation
    d'appareil, Chrome met en page à une largeur bien plus grande puis recadre.
@@ -65,22 +66,33 @@ const browser = await chromium.launch();
 
   console.log('\nACCUEIL 1440x900');
 
+  /* TROIS FAMILLES, ET LE TITRE N'EST PAS LE CORPS AGRANDI.
+
+     C'etait tout le probleme de la version precedente : une seule police, donc
+     rien pour distinguer un titre d'un paragraphe sinon la taille — d'ou les
+     titres demesures que le client a vus comme du remplissage. Une serif pour
+     les titres, une grotesque pour le texte, une mono pour les micro-libelles :
+     la hierarchie tient sans qu'aucun cran ait a grossir. */
   const t = await page.evaluate(() => {
-    const cs = (el) => getComputedStyle(el);
-    const hero = document.querySelector('.t-display span, .t-h1');
+    const prem = (el) => getComputedStyle(el).fontFamily.split(',')[0].replace(/["']/g, '');
+    const titre = document.querySelector('h1');
     const label = document.querySelector('.t-label');
     return {
-      archivo: document.fonts.check('800 60px Archivo'),
-      bodyFamily: cs(document.body).fontFamily.split(',')[0].replace(/["']/g, ''),
-      heroStretch: cs(hero).fontStretch,
-      labelStretch: cs(label).fontStretch,
-      heroW: Math.round(hero.getBoundingClientRect().width),
+      fraunces: document.fonts.check('520 60px Fraunces'),
+      instrument: document.fonts.check('400 17px "Instrument Sans"'),
+      mono: document.fonts.check('400 11px "Plex Mono"'),
+      bodyFamily: prem(document.body),
+      titreFamily: prem(titre),
+      labelFamily: prem(label),
     };
   });
-  check('Archivo chargée', t.archivo);
-  check('aucun repli Helvetica', t.bodyFamily === 'Archivo', t.bodyFamily);
-  check('axe wdth appliqué', t.heroStretch !== t.labelStretch,
-        `titre ${t.heroStretch} vs libellé ${t.labelStretch}`);
+  check('Fraunces chargée', t.fraunces);
+  check('Instrument Sans chargée', t.instrument);
+  check('Plex Mono chargée', t.mono);
+  check('aucun repli système', t.bodyFamily === 'Instrument Sans', t.bodyFamily);
+  check('le titre n est pas le corps agrandi', t.titreFamily !== t.bodyFamily,
+        `${t.titreFamily} vs ${t.bodyFamily}`);
+  check('le micro-libelle est en mono', t.labelFamily === 'Plex Mono', t.labelFamily);
 
   /* §10 — aucune ombre portée nulle part. */
   const shadows = await page.evaluate(() =>
@@ -150,6 +162,13 @@ const browser = await chromium.launch();
       total: imgs.length,
       filters: [...new Set(imgs.map((i) => getComputedStyle(i).filter))],
       radii: [...new Set(imgs.map((i) => getComputedStyle(i).borderRadius))],
+      // Les images en colonne portent la goutte ; les bandes pleine largeur,
+      // qui touchent les deux bords, n'en portent pas. Ce sont deux regles, et
+      // il faut les mesurer separement.
+      colonne: [...new Set([...document.querySelectorAll('.media img')]
+                  .map((i) => getComputedStyle(i).borderRadius))],
+      bandes: [...new Set([...document.querySelectorAll('.pleine img')]
+                  .map((i) => getComputedStyle(i).borderRadius))],
       // Ni agrandissement, ni dimension manquante dans le HTML.
       agrandies: imgs.filter((i) => i.naturalWidth
                     && i.getBoundingClientRect().width > i.naturalWidth + 1)
@@ -160,7 +179,14 @@ const browser = await chromium.launch();
   });
   check('étalonnage unique sur les images', media.filters.length <= 1,
         `${media.total} image(s), ${media.filters.length} filtre(s)`);
-  check('angles vifs sur les images', media.radii.every((r) => parseFloat(r) === 0), media.radii.join(' '));
+  /* Le rayon en goutte : trois coins ronds, un coin vif. Les bandes photo
+     pleine largeur n'en prennent pas — elles touchent les deux bords. */
+  const goutte = media.colonne.every((r) => new Set(r.split(' ')).size > 1);
+  check('le rayon en goutte sur les images en colonne', goutte,
+        media.colonne.length ? media.colonne.join(' | ') : 'aucune image en colonne ici');
+  check('aucun rayon sur les bandes pleine largeur',
+        media.bandes.every((r) => parseFloat(r) === 0),
+        media.bandes.join(' | ') || 'aucune bande ici');
   check('aucune image agrandie', media.agrandies.length === 0, media.agrandies.join(' '));
   check('dimensions dans le HTML', media.sansDim.length === 0, media.sansDim.join(' '));
 
@@ -228,63 +254,94 @@ const browser = await chromium.launch();
                 `faces ${forme.faces.map((x) => x.pos).join('+')}` : 'panneau absent');
 
 
-  /* LA DEMANDE DU CLIENT, MESUREE. « I meant a color pattern of blue and
-     white, not make the entire background blue. » Sa reference porte 10,3 %
-     de bleu ; notre accueil en portait 34,3 % et nos fiches import 34,2 %
-     pour 0,3 % de blanc. Le bleu ne doit plus jamais depasser l'echelle de
-     l'accent : on plafonne a 15 %, avec de la marge sous sa reference. */
-  const teintes = await page.evaluate(() => {
-    const W = innerWidth, total = document.documentElement.scrollHeight * W;
-    let bleu = 0, blanc = 0;
-    for (const el of document.querySelectorAll('body *')) {
-      const v = getComputedStyle(el).backgroundColor;
-      const n = (v.match(/[\d.]+/g) || []).map(Number);
-      if (n.length < 3 || (n.length > 3 && n[3] < 0.5)) continue;
-      const r = el.getBoundingClientRect(), s = r.width * r.height;
-      if (s < 100) continue;
-      if (n[0] > 200 && n[1] > 200 && n[2] > 195) blanc += s;
-      else if (n[2] - n[0] > 45) bleu += s;
-    }
-    return { bleu: (bleu / total) * 100, blanc: (blanc / total) * 100 };
-  });
-  check('le bleu reste a l echelle de l accent', teintes.bleu <= 20,
-        `${teintes.bleu.toFixed(1)} % — avant le lavis : 34,3 % ; reference du client : 10,3 %`);
-  check('le blanc domine', teintes.blanc >= 25, `${teintes.blanc.toFixed(1)} % de blanc`);
+  /* LE REPERTOIRE DE SECTIONS, MESURE.
 
-  await page.screenshot({ path: `${OUT}/home.png`, fullPage: true });
+     La demande precedente du client — « a color pattern of blue and white, not
+     make the entire background blue » — se controlait par une part de surface
+     bleue plafonnee. Elle ne dit plus rien du site actuel : ce qu'il reproche
+     maintenant, c'est qu'il est « vide et rempli a la fois », faute de paliers
+     intermediaires. La famille nuit N'EST PAS le bleu d'aplat d'avant, c'est le
+     rythme ; la plafonner reviendrait a redemander le defaut qu'on corrige.
 
-  /* La bascule a disparu : le corridor entrant est une bande permanente.
-     On verifie que la bande peint bien la nuit et qu'elle tient AA dessus. */
-  const band = await page.evaluate(() => {
-    // On vise l'attribut, pas la classe : la classe de mise en page a change
-    // quand l'accueil est passe en sections nommees, et le controle a casse
-    // alors que la bande, elle, etait toujours la.
-    const el = document.querySelector('main section[data-flow="in"]');
+     Ce qui se mesure desormais, c'est le repertoire lui-meme. Chaque section
+     declare son type — A heros, B bande de donnees, C ruban, D bande photo,
+     E editorial, F cartes, G citation, H index — et trois proprietes doivent
+     tenir : jamais deux voisines du meme type, une section nuit au moins
+     toutes les trois, et au moins cinq types distincts sur la page. */
+  const rep = await page.evaluate(() =>
+    [...document.querySelectorAll('main [data-type]')].map((el) => ({
+      type: el.dataset.type,
+      sol: el.dataset.sol || 'clair',
+    })));
+
+  const voisines = rep.filter((x, i) => i > 0 && rep[i - 1].type === x.type)
+                      .map((x) => x.type);
+  check('deux sections voisines ne se ressemblent jamais', voisines.length === 0,
+        `${rep.length} sections : ${rep.map((x) => x.type).join(' ')}`);
+
+  const types = new Set(rep.map((x) => x.type));
+  check('au moins cinq types de section', types.size >= 5,
+        `${types.size} types — ${[...types].join(' ')}`);
+
+  /* Le plus long intervalle sans sol sombre. Le ruban en accent compte : c'est
+     une bande soutenue pleine largeur, elle coupe la suite claire comme le
+     ferait une nuit. */
+  let ecart = 0, pire = 0;
+  for (const x of rep) {
+    if (x.sol === 'nuit' || x.sol === 'nuit-2' || x.sol === 'accent') ecart = 0;
+    else pire = Math.max(pire, ++ecart);
+  }
+  check('une section sombre au moins toutes les trois', pire <= 3,
+        `plus long intervalle clair : ${pire} sections`);
+
+  const sombres = rep.filter((x) => x.sol === 'nuit' || x.sol === 'nuit-2').length;
+  check('la page porte des sections nuit', sombres >= 2, `${sombres} sections nuit`);
+
+  /* --step-4 et --step-5 sont reserves a un contenu qui merite cette taille.
+     Le cran 5 (jusqu'a 6,8rem, soit 109px) n'est employe nulle part : le titre
+     d'accueil fait deux phrases entieres, il occuperait plus d'un ecran. Aucun
+     texte de la page ne doit donc depasser le cran 4, plafonne a 67px. */
+  const geants = await page.evaluate(() =>
+    [...document.querySelectorAll('body *')]
+      .filter((el) => el.children.length === 0 && el.textContent.trim()
+                      && parseFloat(getComputedStyle(el).fontSize) > 70)
+      .map((el) => `${el.tagName} ${Math.round(parseFloat(getComputedStyle(el).fontSize))}px`));
+  check('aucun titre au-dela du cran 4', geants.length === 0, geants.slice(0, 3).join(' | '));
+
+  /* Contraste AA sur les sols nuit, ou vit maintenant une section sur trois. */
+  const nuit = await page.evaluate(() => {
+    const el = document.querySelector('main [data-sol="nuit"]');
     if (!el) return null;
     const s = getComputedStyle(el);
     const q = el.querySelector('.t-quiet');
     return { bg: s.backgroundColor, fg: s.color,
-             muted: q ? getComputedStyle(q).color : s.color,
-             top: Math.round(el.getBoundingClientRect().top + scrollY),
-             h: Math.round(el.getBoundingClientRect().height) };
+             muted: q ? getComputedStyle(q).color : s.color };
   });
-  check('la bande entrante existe', !!band);
-  if (band) {
-    /* La bande entrante ne porte plus un aplat sature mais un lavis : un bleu
-       a 5 % sur le papier, qui se lit dans la famille du blanc. Le texte y
-       revient a l'encre. */
-    const w = parse(band.bg);
-    check('la bande porte le lavis, pas l aplat',
-          w[0] > 200 && w[1] > 200 && w[2] > 200 && w[2] > w[0], band.bg);
-    const cIn = ratio(flat(parse(band.fg), w), w);
-    const mIn = ratio(flat(parse(band.muted), w), w);
-    check('AA encre / lavis', cIn >= 4.5, cIn.toFixed(2));
-    check('AA muted / lavis', mIn >= 4.5, mIn.toFixed(2));
-    check('la bande fait sa hauteur', band.h > 400, `${band.h}px`);
-    await page.evaluate((y) => scrollTo(0, y - 40), band.top);
-    await page.waitForTimeout(300);
-    await page.screenshot({ path: `${OUT}/home-in.png` });
+  check('une section nuit existe', !!nuit);
+  if (nuit) {
+    const b = parse(nuit.bg);
+    const cN = ratio(flat(parse(nuit.fg), b), b);
+    const mN = ratio(flat(parse(nuit.muted), b), b);
+    check('AA encre / nuit', cN >= 4.5, cN.toFixed(2));
+    check('AA muted / nuit', mN >= 4.5, mN.toFixed(2));
   }
+
+  await page.screenshot({ path: `${OUT}/home.png`, fullPage: true });
+
+  /* Le corridor entrant n'est plus un fond : depuis la refonte, la direction
+     d'une marchandise se lit au fil d'Ariane et au code de section, pas a la
+     valeur du papier. Le controle porte donc sur le ruban, qui est le seul
+     element pleine largeur du haut de page et le seul qui bouge en continu. */
+  const ruban = await page.evaluate(() => {
+    const el = document.querySelector('[data-type="C"] .ruban__piste');
+    if (!el) return null;
+    const s = getComputedStyle(el);
+    return { anim: s.animationName, duree: s.animationDuration,
+             lots: el.children.length, large: Math.round(el.getBoundingClientRect().width) };
+  });
+  check('le ruban defile', !!ruban && ruban.anim === 'defile' && ruban.lots === 2,
+        ruban ? `${ruban.anim}, ${ruban.duree}, ${ruban.lots} lots, ${ruban.large}px` : 'absent');
+
   await ctx.close();
 }
 
@@ -310,21 +367,21 @@ const browser = await chromium.launch();
      cinquante et une cibles de moins de 44px par page — le numero du bandeau
      en faisait 20, le bouton Menu 27. Consequence directe du retrait des
      filets : en enlevant les traits j'avais enleve les rembourrages qui
-     allaient avec. 44px est le minimum d'Apple comme de Google.
+     allaient avec. 48px est un cran au-dessus du minimum d'Apple et de Google.
      Et sous 16px, un champ de saisie fait zoomer iOS tout seul. */
   const doigt = await page.evaluate(() => {
     const petites = [];
     for (const el of document.querySelectorAll('a[href], button, input, select, textarea')) {
       const r = el.getBoundingClientRect();
       if (r.width === 0 || r.height === 0) continue;
-      if (r.height < 44) petites.push(`${el.tagName.toLowerCase()}.${String(el.className).split(' ')[0] || '?'} ${Math.round(r.height)}px`);
+      if (r.height < 48) petites.push(`${el.tagName.toLowerCase()}.${String(el.className).split(' ')[0] || '?'} ${Math.round(r.height)}px`);
     }
     const zoom = [...document.querySelectorAll('input, select, textarea')]
       .filter((el) => parseFloat(getComputedStyle(el).fontSize) < 16)
       .map((el) => el.id || el.name);
     return { petites: [...new Set(petites)], zoom };
   });
-  check('toutes les cibles font 44px', doigt.petites.length === 0,
+  check('toutes les cibles font 48px', doigt.petites.length === 0,
         doigt.petites.slice(0, 4).join(' | '));
   check('aucun champ ne fait zoomer iOS', doigt.zoom.length === 0, doigt.zoom.join(' '));
   await page.screenshot({ path: `${OUT}/home-mobile.png`, fullPage: true });
@@ -351,17 +408,27 @@ const browser = await chromium.launch();
       muted: q ? getComputedStyle(q).color : b.color,
       over: document.documentElement.scrollWidth - document.documentElement.clientWidth,
       titre: document.querySelector('h1')?.textContent?.trim() ?? '',
-      mono: [...document.querySelectorAll('*')].some((e) => /mono/i.test(getComputedStyle(e).fontFamily)),
+      sens: document.querySelector('.tete__sens')?.textContent?.trim() ?? '',
+      mono: [...document.querySelectorAll('.t-label')]
+              .some((e) => /plex mono/i.test(getComputedStyle(e).fontFamily)),
     };
   });
   const rgbBg = parse(r.bg);
-  check('page import sur le lavis', rgbBg[0] > 200 && rgbBg[2] > rgbBg[0], r.bg);
-  check('AA encre / lavis', ratio(flat(parse(r.fg), rgbBg), rgbBg) >= 4.5, ratio(flat(parse(r.fg), rgbBg), rgbBg).toFixed(2));
+  /* La direction ne se lit plus a la valeur du papier — les dix fiches import
+     etaient un aplat de bout en bout, et c'est ce que le client appelait
+     « heavy on the eyes ». Elle est ecrite : au fil d'Ariane, et au code de
+     section de la tete. */
+  check('le corps de la fiche est sur le sol clair', rgbBg[0] > 200, r.bg);
+  check('la fiche dit sa direction', /into ethiopia/i.test(r.sens), r.sens);
+  check('AA encre / sol clair', ratio(flat(parse(r.fg), rgbBg), rgbBg) >= 4.5, ratio(flat(parse(r.fg), rgbBg), rgbBg).toFixed(2));
   const mDark = ratio(flat(parse(r.muted), rgbBg), rgbBg);
-  check('AA muted / lavis', mDark >= 4.5, mDark.toFixed(2));
+  check('AA muted / sol clair', mDark >= 4.5, mDark.toFixed(2));
   check('la fiche s’ouvre en typographie', r.titre.length > 0, r.titre);
   check('aucun débordement horizontal', r.over === 0, `${r.over}px`);
-  check('aucune monospace', !r.mono);
+  /* La mono n'est plus un accident : elle porte tous les micro-libelles du
+     site. Le controle est donc inverse — c'est son ABSENCE qui serait un
+     defaut. */
+  check('les micro-libelles sont en mono', r.mono);
 
   await page.screenshot({ path: `${OUT}/import.png` });
   await ctx.close();
@@ -385,7 +452,7 @@ const browser = await chromium.launch();
 BALAYAGE — ${routes.length} pages`);
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
-  const over = [], vign = [], filet = [];
+  const over = [], vign = [], filet = [], sombre = [];
   for (const r of routes) {
     await page.goto(new URL(r, TARGET).href, { waitUntil: 'networkidle' });
     await page.evaluate(async () => {
@@ -395,6 +462,30 @@ BALAYAGE — ${routes.length} pages`);
     });
     const m = await page.evaluate(() => ({
       o: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      /* La nuit donne le rythme, elle ne tient pas le sol. Sur la premiere
+         version de cette refonte, les deux plus hautes sections de l'accueil
+         etaient sombres et la page montait a 59 % de surface peinte en nuit :
+         plus un rythme, un fond — precisement ce que le client avait deja
+         refuse quand il etait bleu. Le pied de page en pese deja un cinquieme
+         a lui seul, d'ou le plafond a la moitie.
+         Ce qui est cache ne peint pas : le menu plein ecran et la barre
+         d'appel couvrent chacun une fenetre entiere, en permanence. */
+      n: (() => {
+        const total = document.documentElement.scrollHeight * innerWidth;
+        let nuit = 0;
+        for (const el of document.querySelectorAll('body *')) {
+          const c = getComputedStyle(el);
+          if (c.visibility === 'hidden' || c.display === 'none' || el.hidden) continue;
+          if (c.position === 'fixed') continue;
+          const v = (c.backgroundColor.match(/[\d.]+/g) || []).map(Number);
+          if (v.length < 3 || (v.length > 3 && v[3] < 0.5)) continue;
+          if (v[0] < 90 && v[1] < 90 && v[2] < 130) {
+            const r = el.getBoundingClientRect();
+            if (r.width * r.height >= 100) nuit += r.width * r.height;
+          }
+        }
+        return Math.round((nuit / total) * 100);
+      })(),
       // §5 — deux tailles d'image seulement : la bande et la pleine colonne.
       // Sous 360px sur un ecran de 1440, c'est une vignette.
       // Aucune image affichee au-dela de sa taille reelle, sur aucune page.
@@ -429,10 +520,13 @@ BALAYAGE — ${routes.length} pages`);
     if (m.o !== 0) over.push(`${r} (${m.o}px)`);
     if (m.p.length) vign.push(`${r} ${m.p.join(' ')}`);
     if (m.f.length) filet.push(`${r} ${m.f.join(' ')}`);
+    if (m.n > 50) sombre.push(`${r} ${m.n} %`);
   }
   check('aucun debordement sur aucune page', over.length === 0, over.join(', '));
   check('aucune image agrandie sur aucune page', vign.length === 0, vign.join(' | '));
   check('aucun filet colore sur aucune page', filet.length === 0, filet.join(' | '));
+  check('la nuit rythme, elle ne tient pas le sol', sombre.length === 0,
+        sombre.slice(0, 4).join(' | ') || 'aucune page au-dela de 50 %');
   await ctx.close();
 }
 

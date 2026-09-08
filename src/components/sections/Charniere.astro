@@ -1,16 +1,37 @@
 ---
-/* La charniere : les cartons de medicaments palettises. L'image n'aere pas,
-   elle annonce — c'est exactement la marchandise de la section qui suit. */
-import Photo from '../Photo.astro';
+/* D — la bande photo pleine largeur.
+
+   Bord a bord, hauteur bornee, legende en mono en bas a gauche sur un degrade
+   limite au tiers inferieur. La meme photographie etait auparavant une figure
+   calee dans la colonne de texte, a la taille de son fichier : elle passait
+   pour une illustration de rapport. Pleine largeur, elle annonce — c'est
+   exactement la marchandise de la section qui suit.
+*/
+import { Picture } from 'astro:assets';
+import { photo } from '../../lib/photos.js';
+
+const m = photo('img/company/pharma-warehouse.jpg');
+/* Aucune variante plus large que la source : c'est la regle du site, et elle
+   est verifiee au build par verif/photos-diag.mjs. */
+const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (m?.width ?? 0));
 ---
 
-<div class="shell hinge">
-  <Photo src="img/company/pharma-warehouse.jpg"
-         alt="Palletised medicine cartons in the Tungsten store, Addis Ababa"
-         caption="Palletised medicine cartons in the Tungsten store, Dembel City Center." />
-</div>
-
-<style>
-  /* La legende venait mourir a trente-six pixels de la section suivante. */
-  .hinge { padding-bottom: var(--s-section); }
-</style>
+{m && (
+  <figure class="pleine" data-type="D" data-rail-section="THE STORE">
+    <Picture
+      src={m}
+      alt="Palletised medicine cartons in the Tungsten store, Addis Ababa"
+      formats={['avif']}
+      fallbackFormat="webp"
+      widths={largeurs.length ? largeurs : [m.width]}
+      sizes="100vw"
+      loading="lazy"
+      decoding="async"
+    />
+    <figcaption>
+      <span class="shell t-label">
+        Palletised medicine cartons in the Tungsten store, Dembel City Center.
+      </span>
+    </figcaption>
+  </figure>
+)}
