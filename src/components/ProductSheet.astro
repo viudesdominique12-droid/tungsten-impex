@@ -55,18 +55,23 @@ const petite = !!img && img.width <= 700;
         <Photo src={product.photo} alt={product.name} eager />
       )}
 
-      {!petite && <p class="intro__lead">{c.lead}</p>}
-
-      {c.facts.length > 0 && (
-        <dl class="facts">
-          {c.facts.map((f) => (
-            <div>
-              <dt class="t-note t-quiet">{f.label}</dt>
-              <dd>{f.value}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
+      {/* Le chapeau et les specifications se tiennent : c'est la meme chose,
+          la phrase qui vend la ligne et les chiffres qui l'etayent. Separes,
+          le chapeau laissait 610px de vide a sa droite et un ecart de 120px
+          les separait. Ensemble, ils remplissent la bande. */}
+      <div class="carte">
+        {!petite && <p class="intro__lead">{c.lead}</p>}
+        {c.facts.length > 0 && (
+          <dl class="facts">
+            {c.facts.map((f) => (
+              <div>
+                <dt class="t-note t-quiet">{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+      </div>
 
       {c.blocks.length > 0 && (
         <div class="prose">
@@ -79,11 +84,12 @@ const petite = !!img && img.width <= 700;
         </div>
       )}
 
+      {/* Le bouton se tenait a sept cents pixels de la phrase qu'il sert : les
+          deux bouts d'une ligne que rien ne relie, exactement le defaut deja
+          corrige sur les en-tetes de section. Il vient sous elle. */}
       <section class="ask">
         <p class="t-h2 ask__line">{c.cta}</p>
-        <div class="ask__act">
-          <a class="act" href="/contact/">Contact us</a>
-        </div>
+        <a class="act" href="/contact/">Contact us</a>
       </section>
 
       <nav class="onward" aria-label={`Our other ${label.toLowerCase()}`}>
@@ -119,14 +125,20 @@ const petite = !!img && img.width <= 700;
      n'atteint pas le balisage d'un composant enfant, et la marge posee sur la
      figure du composant Photo ne s'appliquait donc a rien — le chapeau collait
      au bas de l'image. */
+  .carte { margin-top: var(--s-section); display: grid;
+           gap: var(--s-block) var(--col-gap); align-items: start; }
+  @media (min-width: 900px) { .carte { grid-template-columns: 5fr 7fr; } }
   .intro__lead { font-size: var(--t-h2); line-height: var(--lh-h2);
                  font-stretch: var(--wd-text); font-weight: var(--w-text);
-                 margin: var(--s-section) 0 0; max-width: 34ch; }
-  .duo .intro__lead { margin-top: 0; }
-  .facts { margin-top: var(--s-band); }
-  @media (min-width: 900px) { .facts { grid-template-columns: repeat(3, 1fr); } }
+                 margin: 0; max-width: 30ch; }
+  .duo .intro__lead { max-width: 34ch; }
+  .facts { margin: 0; }
+  @media (min-width: 900px) { .facts { grid-template-columns: repeat(2, 1fr); } }
 
   /* ------------------------------------------------------------ prose --- */
+  /* Quatre ecarts de 120px qui se suivaient donnaient un rythme de metronome.
+     Le palier long marque les changements de registre — de la fiche au texte,
+     du texte a l'appel — et le court relie ce qui va ensemble. */
   .prose { display: grid; gap: var(--s-block) var(--col-gap); padding-top: var(--s-band); }
   @media (min-width: 900px) { .prose { grid-template-columns: 1fr 1fr; } }
   .prose__h { font-size: var(--t-h3); line-height: var(--lh-h3);
@@ -135,19 +147,18 @@ const petite = !!img && img.width <= 700;
   .prose p { color: var(--muted); }
 
   /* -------------------------------------------------------------- ask --- */
-  .ask { margin-top: var(--s-band); display: flex; flex-wrap: wrap;
-         gap: 20px 44px; align-items: end; justify-content: space-between; }
+  .ask { margin-top: var(--s-band); display: grid; gap: var(--s-block);
+         justify-items: start; }
   .ask__line { margin: 0; max-width: 26ch; }
-  .ask__act { display: flex; flex-wrap: wrap; gap: 12px; }
 
   /* ----------------------------------------------------------- onward --- */
-  .onward { margin-top: var(--s-band); margin-bottom: var(--s-band); }
+  /* Trois noms etales sur trois colonnes de 1210px, c'etait une grille pour
+     une grille. Ils se posent les uns a cote des autres, a leur largeur, et
+     passent a la ligne quand il y en a neuf. */
+  .onward { margin-top: var(--s-section); margin-bottom: var(--s-band); }
   .onward__h { margin-bottom: var(--s-block); }
-  .onward__l { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
-  @media (min-width: 760px) {
-    .onward__l { grid-template-columns: repeat(3, 1fr);
-                 gap: 18px var(--col-gap); }
-  }
+  .onward__l { list-style: none; margin: 0; padding: 0;
+               display: flex; flex-wrap: wrap; gap: 16px var(--s-section); }
   .onward a { display: block; text-decoration: none; width: fit-content; }
   .onward__n { font-size: var(--t-h3); line-height: var(--lh-h3);
                font-stretch: var(--wd-text); font-weight: var(--w-display); }
