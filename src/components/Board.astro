@@ -81,9 +81,11 @@ const faces = [items[0], items[1] ?? items[0]];
        Mais on ne peut pas non plus le laisser tourner sous le curseur : on
        cliquerait sur autre chose que ce qu'on lit. Le compromis est le
        mouvement, pas la presence. Tant que le pointeur BOUGE sur le panneau,
-       la bascule est repoussee de deux secondes ; des qu'il s'immobilise, elle
-       reprend. Un lecteur actif le tient ; un curseur oublie ne le tue pas. */
-    const CADENCE = 2000, PREMIERE = 1200, REPOUSSE = 2000;
+       la bascule est repoussee ; des qu'il s'immobilise, elle reprend. Un
+       lecteur actif le tient ; un curseur oublie ne le tue pas. Le delai de
+       repousse reste plus long que la cadence : sous le curseur on veut lire,
+       pas compter les bascules. */
+    const CADENCE = 1500, PREMIERE = 1000, REPOUSSE = 1800;
     let i = 0, tour = 0, t = null, gele = false, jusqua = 0;
     const calme = matchMedia('(prefers-reduced-motion: reduce)');
 
