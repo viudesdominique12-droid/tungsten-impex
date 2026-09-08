@@ -1,0 +1,152 @@
+---
+/* ---------------------------------------------------------------------------
+   Le tableau de départs.
+
+   Le premier écran était vide à droite du titre. On ne remplit pas un vide
+   avec de la décoration : un cube qui tourne, un champ de particules ou une
+   forme WebGL sont la signature la plus reconnaissable d'une page générée, et
+   ils ne disent rien de la maison. Ce qui bouge ici, c'est le métier lui-même.
+
+   Quatorze marchandises réelles défilent, une par une, avec leur direction et
+   leur chiffre. Le panneau bascule sur l'axe X, comme un tableau à volets —
+   la langue visuelle native du fret — et il CHANGE DE FOND avec la direction :
+   lavis d'encre quand la marchandise sort, aplat bleu quand elle entre. Le
+   système de couleur du site s'explique donc tout seul, en trois secondes,
+   avant même qu'on ait défilé.
+
+   Les deux faces sont écrites par Astro, et le script ne remplace que du
+   texte. Écrire le HTML depuis le script paraissait plus court, mais les
+   styles d'un composant Astro sont portés par un attribut de portée que le
+   balisage injecté n'a pas : dès la première bascule, la ligne de fait
+   ressortait en « ProductEthiopian white Humera sesame seed », sans grille ni
+   hiérarchie. Le balisage vient donc du serveur, une fois, et ne bouge plus.
+
+   Poids : aucune bibliothèque, deux transformations CSS, une trentaine de
+   lignes de script. Le survol et le focus arrêtent la rotation ; le panneau
+   est un lien vers la fiche affichée ; sans mouvement demandé, il ne tourne
+   pas du tout et montre la première ligne.
+   --------------------------------------------------------------------------- */
+const { items } = Astro.props;
+const faces = [items[0], items[1] ?? items[0]];
+---
+
+<div class="board" id="board">
+  <a class="board__card" id="board-card" href={items[0].href} data-dir={items[0].flow}>
+    {faces.map((it, n) => (
+      <span class:list={['board__face', n === 1 && 'board__face--b']} data-flow={it.flow}>
+        <span class="t-note board__dir">{it.dir}</span>
+        <span class="t-h1 board__n">{it.name}</span>
+        <span class="board__f" hidden={!it.factLabel}>
+          <span class="t-note t-quiet board__fl">{it.factLabel}</span>
+          <b class="t-body board__fv">{it.factValue}</b>
+        </span>
+      </span>
+    ))}
+  </a>
+</div>
+
+<script is:inline define:vars={{ items }}>
+  (() => {
+    const board = document.getElementById('board');
+    const card = document.getElementById('board-card');
+    if (!board || !card || items.length < 2) return;
+
+    const faces = [...card.querySelectorAll('.board__face')].map((el) => ({
+      el,
+      dir: el.querySelector('.board__dir'),
+      nom: el.querySelector('.board__n'),
+      bloc: el.querySelector('.board__f'),
+      etiq: el.querySelector('.board__fl'),
+      val: el.querySelector('.board__fv'),
+    }));
+
+    /* On ne remplace que du texte : le balisage et sa portée de style restent
+       ceux qu'Astro a écrits. */
+    const peindre = (f, it) => {
+      f.el.dataset.flow = it.flow;
+      f.dir.textContent = it.dir;
+      f.nom.textContent = it.name;
+      f.etiq.textContent = it.factLabel || '';
+      f.val.textContent = it.factValue || '';
+      f.bloc.hidden = !it.factLabel;
+    };
+
+    let i = 0, tour = 0, timer = null, arrete = false;
+    const calme = matchMedia('(prefers-reduced-motion: reduce)');
+
+    const suivant = () => {
+      if (arrete || calme.matches) return;
+      i = (i + 1) % items.length;
+      tour += 180;
+      peindre(faces[tour % 360 === 180 ? 1 : 0], items[i]);
+      card.style.transform = `rotateX(${tour}deg)`;
+      card.dataset.dir = items[i].flow;
+      card.setAttribute('href', items[i].href);
+    };
+
+    const lancer = () => { clearInterval(timer); if (!calme.matches) timer = setInterval(suivant, 3600); };
+    const stopper = () => clearInterval(timer);
+
+    board.addEventListener('pointerenter', () => { arrete = true; stopper(); });
+    board.addEventListener('pointerleave', () => { arrete = false; lancer(); });
+    card.addEventListener('focus', () => { arrete = true; stopper(); });
+    card.addEventListener('blur', () => { arrete = false; lancer(); });
+    document.addEventListener('visibilitychange', () => (document.hidden ? stopper() : lancer()));
+
+    /* L'inclinaison suit le pointeur : c'est ce qui donne au panneau une
+       épaisseur plutôt qu'une animation plaquée. Elle est portée par le
+       conteneur, pas par la carte, sinon elle entrerait en conflit avec la
+       bascule. Cinq degrés au maximum : au-delà, c'est un gadget. */
+    if (!calme.matches && matchMedia('(hover: hover)').matches) {
+      board.addEventListener('pointermove', (e) => {
+        const r = board.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        board.style.setProperty('--ty', `${(-y * 5).toFixed(2)}deg`);
+        board.style.setProperty('--tx', `${(x * 5).toFixed(2)}deg`);
+      });
+      board.addEventListener('pointerleave', () => {
+        board.style.setProperty('--ty', '0deg');
+        board.style.setProperty('--tx', '0deg');
+      });
+    }
+
+    lancer();
+  })();
+</script>
+
+<style>
+  .board { perspective: 1400px; --ty: 0deg; --tx: 0deg; }
+  .board__card {
+    display: block; position: relative; height: 260px;
+    transform-style: preserve-3d; text-decoration: none;
+    transform: rotateX(var(--ty)) rotateY(var(--tx));
+    transition: transform var(--turn) var(--ease-in-out);
+  }
+  .board__face {
+    position: absolute; inset: 0; backface-visibility: hidden;
+    display: grid; align-content: space-between;
+    padding: 24px 26px; overflow: hidden;
+  }
+  /* La face sortante n'avait aucun fond : le panneau disparaissait sur les
+     exports et ne revenait qu'en bleu — un clignotement, pas une bascule. Elle
+     prend un lavis d'encre, dérivé par opacité comme tous les gris du site.
+     L'attribut ne vit que sur les faces : posé sur la carte, `[data-flow='in']`
+     peignait la carte entière et redéfinissait --hair pour ses deux faces. */
+  .board__face[data-flow='out'] { background: var(--hair); }
+  .board__face--b { transform: rotateX(180deg); }
+
+  .board__dir { display: block; }
+  .board__n { display: block; align-self: center; text-wrap: balance; }
+  .board__f { display: grid; gap: 2px; }
+  .board__fv { font-weight: var(--w-text); }
+
+  @media (max-width: 899px) {
+    .board__card { height: 220px; }
+    .board__face { padding: 20px 22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .board__card { transition: none; }
+  }
+</style>

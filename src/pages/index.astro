@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
 import copy from '../data/copy.json';
 import Photo from '../components/Photo.astro';
+import Board from '../components/Board.astro';
 
 /* Le fait porte par chaque entrée est désigné nommément dans copy.json (clé
    « mark »). L'heuristique précédente — le plus court qui contient un chiffre —
@@ -17,6 +18,27 @@ const row = (p, folder) => ({ ...p, folder, lead: copy[p.slug]?.lead ?? '', fact
 const out = site.exports.map((p) => row(p, 'export'));
 const inn = site.imports.map((p) => row(p, 'import'));
 const c = site.company;
+
+/* Le manifeste du tableau de départs : les quatorze marchandises réelles, les
+   sortantes réparties parmi les entrantes pour que la bascule alterne les deux
+   fonds au lieu d'enchaîner dix bleus. Rien d'inventé ; les mêmes noms et les
+   mêmes chiffres que les registres plus bas. */
+const carte = (p) => ({
+  name: p.name,
+  href: `/${p.folder}/${p.slug}/`,
+  flow: p.folder === 'export' ? 'out' : 'in',
+  dir: p.folder === 'export' ? 'Export' : 'Import',
+  factLabel: p.fact?.label ?? '',
+  factValue: p.fact?.value ?? '',
+});
+const pas = Math.ceil(inn.length / out.length);
+let oi = 0;
+const manifeste = [];
+inn.forEach((p, n) => {
+  if (n % pas === 0 && oi < out.length) manifeste.push(carte(out[oi++]));
+  manifeste.push(carte(p));
+});
+while (oi < out.length) manifeste.push(carte(out[oi++]));
 ---
 
 <Base
@@ -25,11 +47,12 @@ const c = site.company;
 >
   {/* 1 — PREMIER ÉCRAN. Le titre, et rien dessous : ni bouton, ni chapeau. */}
   <section class="hero">
-    <div class="shell">
+    <div class="shell hero__in">
       <h1 class="t-display hero__h">
         <span class="line"><span>We export Ethiopian oilseeds and pulses.</span></span>
         <span class="line"><span>We import medicines, vehicles and materials.</span></span>
       </h1>
+      <div class="hero__board"><Board items={manifeste} /></div>
     </div>
   </section>
 
@@ -114,7 +137,23 @@ const c = site.company;
 
 <style>
   /* --- 1. premier écran --- */
-  .hero { padding-block: var(--s-section) var(--s-band); }
+  /* Sur un ecran etroit le titre occupe deja toute la vue : 96px de reserve
+     au-dessus repoussaient le panneau a 67px du bord bas, un liseré que
+     personne ne remarque. A 48px il en depasse pres de 150 — assez pour etre
+     lu comme une invitation a defiler. */
+  .hero { padding-block: var(--s-block) var(--s-band); }
+  @media (min-width: 900px) { .hero { padding-block: var(--s-section) var(--s-band); } }
+  /* Le tableau ne se met pas A COTE du titre : a 76px celui-ci reclame 900px
+     de mesure pour tenir en quatre lignes, et il n'en restait que 260 pour le
+     panneau — le titre partait en sept lignes au drapeau casse. Le panneau
+     descend donc en bas a droite, sur la diagonale, la ou le vide etait. Le
+     titre garde sa coupe. */
+  .hero__in { display: grid; gap: var(--s-block); }
+  @media (min-width: 900px) {
+    .hero__in { grid-template-columns: repeat(12, 1fr); }
+    .hero__h { grid-column: 1 / 10; }
+    .hero__board { grid-column: 7 / 13; }
+  }
   .hero__h { display: grid; gap: 0; }
   /* Révélation par masque, jamais de fondu : l'opacité fabrique un gris qui
      n'est dans aucune charte. */

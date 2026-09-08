@@ -173,6 +173,20 @@ const browser = await chromium.launch();
   const mLight = ratio(flat(parse(con.muted), parse(con.bg)), parse(con.bg));
   check('AA muted / fond clair', mLight >= 4.5, mLight.toFixed(2));
 
+  /* Le tableau de departs : il doit reellement tourner, et les deux fonds
+     doivent apparaitre. Un panneau qui ne tourne pas est une image fixe qui
+     coute du script pour rien. */
+  const t0 = await page.evaluate(() => document.getElementById('board-card')?.getAttribute('href'));
+  await page.waitForTimeout(4200);
+  const t1 = await page.evaluate(() => {
+    const c = document.getElementById('board-card');
+    return { href: c?.getAttribute('href'),
+             fonds: [...document.querySelectorAll('.board__face')]
+                      .map((f) => getComputedStyle(f).backgroundColor) };
+  });
+  check('le tableau de departs tourne', !!t0 && t0 !== t1.href, `${t0} -> ${t1.href}`);
+  check('les deux fonds du tableau', new Set(t1.fonds).size === 2, t1.fonds.join(' / '));
+
   await page.screenshot({ path: `${OUT}/home.png`, fullPage: true });
 
   /* La bascule a disparu : le corridor entrant est une bande permanente.

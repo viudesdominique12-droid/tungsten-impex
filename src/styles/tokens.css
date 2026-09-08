@@ -49,7 +49,7 @@
   --col-gap: 24px;
 
   /* ---- typographie : sept paliers, aucun doublon -------------------- */
-  --t-display: 40px;  --lh-display: 44px;   /* H1 accueil UNIQUEMENT */
+  --t-display: 36px;  --lh-display: 40px;   /* H1 accueil UNIQUEMENT */
   --t-h1:      32px;  --lh-h1:      36px;
   --t-h2:      26px;  --lh-h2:      32px;
   --t-lead:    20px;  --lh-lead:    28px;
@@ -72,6 +72,7 @@
   --hover: 150ms;
   --in: 300ms;
   --out: 140ms;
+  --turn: 720ms;   /* la bascule du tableau de departs */
 
   --radius: 0;
 }
