@@ -58,6 +58,10 @@ for (const { route, fichier } of pages) {
   for (const m of h.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) css += m[1] + '\n';
   corps = corps.replace(/<style[^>]*>[\s\S]*?<\/style>/g, '');
 
+  /* Les <source> du <picture> pointent vers des fichiers separes : la maquette
+     n'en a pas. On les retire et on garde le <img> de secours, qu'on encode. */
+  corps = corps.replace(/<source[ ][^>]*>/g, '');
+
   /* Une seule variante par image : la plus large demandee. Le srcset et le
      sizes disparaissent avec elle. */
   corps = corps.replace(/<img\b[^>]*>/g, (tag) => {
@@ -151,6 +155,17 @@ ${css}
 })();
 </script>
 `;
+
+/* Garde-fou. La derniere fois, un echappement perdu avait laisse les <source>
+   du <picture> en place : ils pointaient vers des fichiers absents, le
+   navigateur les preferait au <img>, et la maquette est partie sans une seule
+   image. Le compilateur verifie donc son propre resultat. */
+const restants = (sortie.match(/<source/g) || []).length;
+const nonEncodees = (sortie.match(/<img[^>]*src=\\"\/_astro/g) || []).length;
+if (restants || nonEncodees) {
+  console.error(`ARRET : ${restants} <source> restants, ${nonEncodees} images non encodees.`);
+  process.exit(1);
+}
 
 writeFileSync('verif/maquette.html', sortie);
 const ko = Math.round(Buffer.byteLength(sortie) / 1024);

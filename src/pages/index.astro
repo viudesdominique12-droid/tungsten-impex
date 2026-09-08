@@ -79,16 +79,14 @@ while (oi < out.length) manifeste.push(carte(out[oi++]));
       <div class="reg--wide">
         {out.map((p) => (
           <a class="ent" href={`/${p.folder}/${p.slug}/`}>
-            <div>
-              <h3 class="t-h2 ent__n">{p.name}</h3>
-              {p.fact && (
-                <p class="ent__f">
-                  <span class="t-note t-quiet">{p.fact.label}</span>
-                  <b class="t-body">{p.fact.value}</b>
-                </p>
-              )}
-            </div>
+            <h3 class="t-h2 ent__n">{p.name}</h3>
             <p class="t-lead ent__d">{p.lead}</p>
+            {p.fact && (
+              <p class="ent__f">
+                <span class="t-note t-quiet">{p.fact.label}</span>
+                <b class="t-body">{p.fact.value}</b>
+              </p>
+            )}
           </a>
         ))}
       </div>

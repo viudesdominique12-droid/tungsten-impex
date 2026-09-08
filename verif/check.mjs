@@ -281,6 +281,28 @@ const browser = await chromium.launch();
   }));
   check('largeur de rendu', m.vw <= 400, `${m.vw}px`);
   check('aucun débordement horizontal', m.over === 0, `${m.over}px`);
+
+  /* AU DOIGT, PAS AU CURSEUR. Audit mesure avant correction : de quarante a
+     cinquante et une cibles de moins de 44px par page — le numero du bandeau
+     en faisait 20, le bouton Menu 27. Consequence directe du retrait des
+     filets : en enlevant les traits j'avais enleve les rembourrages qui
+     allaient avec. 44px est le minimum d'Apple comme de Google.
+     Et sous 16px, un champ de saisie fait zoomer iOS tout seul. */
+  const doigt = await page.evaluate(() => {
+    const petites = [];
+    for (const el of document.querySelectorAll('a[href], button, input, select, textarea')) {
+      const r = el.getBoundingClientRect();
+      if (r.width === 0 || r.height === 0) continue;
+      if (r.height < 44) petites.push(`${el.tagName.toLowerCase()}.${String(el.className).split(' ')[0] || '?'} ${Math.round(r.height)}px`);
+    }
+    const zoom = [...document.querySelectorAll('input, select, textarea')]
+      .filter((el) => parseFloat(getComputedStyle(el).fontSize) < 16)
+      .map((el) => el.id || el.name);
+    return { petites: [...new Set(petites)], zoom };
+  });
+  check('toutes les cibles font 44px', doigt.petites.length === 0,
+        doigt.petites.slice(0, 4).join(' | '));
+  check('aucun champ ne fait zoomer iOS', doigt.zoom.length === 0, doigt.zoom.join(' '));
   await page.screenshot({ path: `${OUT}/home-mobile.png`, fullPage: true });
   await ctx.close();
 }

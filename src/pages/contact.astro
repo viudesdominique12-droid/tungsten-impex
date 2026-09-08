@@ -53,7 +53,14 @@ const socials = c.socials.filter((s) => s.url);
         </div>
       </dl>
 
-      <iframe class="map" src={osm} title="Map showing Dembel City Center, Africa Avenue, Addis Ababa" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      {/* La carte pesait 1 862 Ko sur un iPhone, contre 101 a 193 pour toutes
+        les autres pages du site : les tuiles d'OpenStreetMap se chargeaient
+        des que le cadre approchait de l'ecran. Elle ne se charge donc plus
+        qu'a la demande. Sans script, le bouton reste un lien vers la carte
+        en ligne — la page ne perd rien. */}
+    <div class="map" id="map" data-osm={osm}>
+      <a class="act map__go" id="map-go" href={maps} rel="noopener">Show the map</a>
+    </div>
     </div>
   </section>
 
@@ -76,6 +83,25 @@ const socials = c.socials.filter((s) => s.url);
          text-decoration-thickness: 1px; }
   .fields dd .lnk + .lnk { margin-left: 18px; }
 
-  .map { width: 100%; height: 420px; border: 0; display: block; }
+  .map { width: 100%; height: 420px; border: 0; display: grid; place-items: center;
+         background: var(--hair); }
+  .map iframe { width: 100%; height: 100%; border: 0; display: block; }
   .bande { margin-top: var(--s-section); margin-bottom: var(--s-section); }
 </style>
+
+<script is:inline>
+  (() => {
+    const boite = document.getElementById('map');
+    const bouton = document.getElementById('map-go');
+    if (!boite || !bouton) return;
+    bouton.addEventListener('click', (e) => {
+      e.preventDefault();
+      const f = document.createElement('iframe');
+      f.src = boite.dataset.osm;
+      f.title = 'Map showing Dembel City Center, Africa Avenue, Addis Ababa';
+      f.referrerPolicy = 'no-referrer-when-downgrade';
+      f.loading = 'eager';
+      boite.replaceChildren(f);
+    });
+  })();
+</script>

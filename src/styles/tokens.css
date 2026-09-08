@@ -275,10 +275,31 @@ p, li, dd { text-wrap: pretty; }
 .reg--index { display: grid; gap: var(--s-block) var(--col-gap); }
 @media (min-width: 900px) { .reg--index { grid-template-columns: 1fr 1fr; } }
 
+/* Empile, l'ordre est celui de la lecture : nom, description, chiffre. Le
+   balisage suivait l'autre ordre parce que le bureau met le nom et le chiffre
+   dans la meme colonne — et sur un telephone le chiffre passait AVANT la
+   description. Le placement par zones remet les deux colonnes a leur place
+   sans toucher a l'ordre du document. */
 .ent { display: grid; gap: 8px var(--col-gap); align-content: start;
        text-decoration: none; }
-.reg--wide .ent { gap: 14px var(--col-gap); }
-@media (min-width: 900px) { .reg--wide .ent { grid-template-columns: 4fr 8fr; } }
+.reg--wide .ent { gap: 12px var(--col-gap); }
+@media (min-width: 900px) {
+  .reg--wide .ent {
+    grid-template-columns: 4fr 8fr;
+    grid-template-areas: 'nom  texte'
+                         'fait texte';
+    align-content: start;
+  }
+  .reg--wide .ent__n { grid-area: nom; }
+  .reg--wide .ent__d { grid-area: texte; }
+  .reg--wide .ent__f { grid-area: fait; }
+}
+/* Sur un telephone la description du registre large descend au corps courant :
+   a 20px dans une colonne de 342px elle ne tenait que vingt-quatre signes par
+   ligne, et la page d'accueil montait a 7655px. */
+@media (max-width: 899px) {
+  .reg--wide .ent__d { font-size: var(--t-body); line-height: var(--lh-body); }
+}
 
 /* Le seul geste au survol : le nom se souligne. C'est l'usage du lien, pas
    un trait de decor — et il n'existe que sous le curseur. */
@@ -313,6 +334,36 @@ p, li, dd { text-wrap: pretty; }
 @media (min-width: 620px) { .facts { grid-template-columns: repeat(2, 1fr); } }
 .facts > div { display: grid; gap: 2px; align-content: start; }
 .facts dt, .facts dd { margin: 0; }
+
+/* ------------------------------------------------- au doigt, pas au curseur -
+   Audit mesure : de quarante a cinquante et une cibles de moins de 44px par
+   page — le numero du bandeau en faisait 20, le bouton Menu 27, les liens du
+   pied et du menu guere plus. C'est la consequence directe du retrait des
+   filets : en enlevant les traits j'avais enleve les rembourrages qui allaient
+   avec, et les liens s'etaient reduits a la hauteur de leur ligne.
+
+   Sur un ecran tactile chaque lien reprend donc 44px de haut — le minimum
+   d'Apple comme de Google. L'ecart qui les separe diminue d'autant, pour que
+   la page ne s'allonge pas : c'est la zone de contact qui grandit, pas le
+   rythme qui se defait. Rien ne change a la souris. */
+@media (pointer: coarse) {
+  .util__in a, .menu, .mark, .nav__x,
+  .nav__main a, .nav__grp li a, .nav__foot a, .nav__head,
+  .ftr a, .ftr__end a,
+  .orient__links a, .onward a, .lnk, .crumb a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .nav__x { min-width: 44px; justify-content: center; }
+  .nav__main { gap: 0; }
+  .nav__grp ul { gap: 0; }
+  .ftr ul { gap: 0; }
+  .orient__links { gap: 4px; }
+  .onward__l { gap: 0; }
+  .memb__list { gap: 0 var(--col-gap); }
+  .memb__list li { min-height: 44px; display: flex; align-items: center; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   :root { --in: 0s; --out: 0s; --hover: 0s; }
