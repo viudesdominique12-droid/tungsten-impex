@@ -103,12 +103,14 @@ const browser = await chromium.launch();
     for (const el of document.querySelectorAll('body *')) {
       if (el.getBoundingClientRect().right < 0) continue;
       const s = getComputedStyle(el);
-      for (const [k, w] of [['borderTopColor', s.borderTopWidth],
-                            ['borderBottomColor', s.borderBottomWidth],
-                            ['borderLeftColor', s.borderLeftWidth],
-                            ['borderRightColor', s.borderRightWidth]]) {
-        if (parseFloat(w) > 0 && bleu(s[k])) out.push(el.tagName + '.' + (el.className || '') + ' ' + k);
-      }
+      const cotes = [['borderTopColor', s.borderTopWidth],
+                     ['borderBottomColor', s.borderBottomWidth],
+                     ['borderLeftColor', s.borderLeftWidth],
+                     ['borderRightColor', s.borderRightWidth]];
+      const peints = cotes.filter(([, w]) => parseFloat(w) > 0);
+      if (peints.length <= 2)
+        for (const [k] of peints)
+          if (bleu(s[k])) out.push(el.tagName + '.' + (el.className || '') + ' ' + k);
       if (s.textDecorationLine !== 'none' && bleu(s.textDecorationColor)
           && s.textDecorationColor !== s.color)
         out.push(el.tagName + '.' + (el.className || '') + ' underline');
@@ -205,6 +207,29 @@ const browser = await chromium.launch();
         `${liens.size} lignes vues en 18 s`);
   check('les deux fonds du tableau', vus.size >= 2, [...vus].join(' / '));
 
+  /* LA DEMANDE DU CLIENT, MESUREE. « I meant a color pattern of blue and
+     white, not make the entire background blue. » Sa reference porte 10,3 %
+     de bleu ; notre accueil en portait 34,3 % et nos fiches import 34,2 %
+     pour 0,3 % de blanc. Le bleu ne doit plus jamais depasser l'echelle de
+     l'accent : on plafonne a 15 %, avec de la marge sous sa reference. */
+  const teintes = await page.evaluate(() => {
+    const W = innerWidth, total = document.documentElement.scrollHeight * W;
+    let bleu = 0, blanc = 0;
+    for (const el of document.querySelectorAll('body *')) {
+      const v = getComputedStyle(el).backgroundColor;
+      const n = (v.match(/[\d.]+/g) || []).map(Number);
+      if (n.length < 3 || (n.length > 3 && n[3] < 0.5)) continue;
+      const r = el.getBoundingClientRect(), s = r.width * r.height;
+      if (s < 100) continue;
+      if (n[0] > 200 && n[1] > 200 && n[2] > 195) blanc += s;
+      else if (n[2] - n[0] > 45) bleu += s;
+    }
+    return { bleu: (bleu / total) * 100, blanc: (blanc / total) * 100 };
+  });
+  check('le bleu reste a l echelle de l accent', teintes.bleu <= 20,
+        `${teintes.bleu.toFixed(1)} % — avant le lavis : 34,3 % ; reference du client : 10,3 %`);
+  check('le blanc domine', teintes.blanc >= 25, `${teintes.blanc.toFixed(1)} % de blanc`);
+
   await page.screenshot({ path: `${OUT}/home.png`, fullPage: true });
 
   /* La bascule a disparu : le corridor entrant est une bande permanente.
@@ -221,11 +246,16 @@ const browser = await chromium.launch();
   });
   check('la bande entrante existe', !!band);
   if (band) {
-    check('la bande peint l aplat bleu', parse(band.bg)[0] < 40 && parse(band.bg)[2] > 40, band.bg);
-    const cIn = ratio(flat(parse(band.fg), parse(band.bg)), parse(band.bg));
-    const mIn = ratio(flat(parse(band.muted), parse(band.bg)), parse(band.bg));
-    check('AA papier / aplat bleu', cIn >= 4.5, cIn.toFixed(2));
-    check('AA muted / aplat bleu', mIn >= 4.5, mIn.toFixed(2));
+    /* La bande entrante ne porte plus un aplat sature mais un lavis : un bleu
+       a 5 % sur le papier, qui se lit dans la famille du blanc. Le texte y
+       revient a l'encre. */
+    const w = parse(band.bg);
+    check('la bande porte le lavis, pas l aplat',
+          w[0] > 200 && w[1] > 200 && w[2] > 200 && w[2] > w[0], band.bg);
+    const cIn = ratio(flat(parse(band.fg), w), w);
+    const mIn = ratio(flat(parse(band.muted), w), w);
+    check('AA encre / lavis', cIn >= 4.5, cIn.toFixed(2));
+    check('AA muted / lavis', mIn >= 4.5, mIn.toFixed(2));
     check('la bande fait sa hauteur', band.h > 400, `${band.h}px`);
     await page.evaluate((y) => scrollTo(0, y - 40), band.top);
     await page.waitForTimeout(300);
@@ -279,10 +309,10 @@ const browser = await chromium.launch();
     };
   });
   const rgbBg = parse(r.bg);
-  check('page import sur l’aplat bleu', rgbBg[2] - rgbBg[0] > 60, r.bg);
-  check('AA texte / aplat bleu', ratio(flat(parse(r.fg), rgbBg), rgbBg) >= 4.5, ratio(flat(parse(r.fg), rgbBg), rgbBg).toFixed(2));
+  check('page import sur le lavis', rgbBg[0] > 200 && rgbBg[2] > rgbBg[0], r.bg);
+  check('AA encre / lavis', ratio(flat(parse(r.fg), rgbBg), rgbBg) >= 4.5, ratio(flat(parse(r.fg), rgbBg), rgbBg).toFixed(2));
   const mDark = ratio(flat(parse(r.muted), rgbBg), rgbBg);
-  check('AA muted / aplat bleu', mDark >= 4.5, mDark.toFixed(2));
+  check('AA muted / lavis', mDark >= 4.5, mDark.toFixed(2));
   check('la fiche s’ouvre en typographie', r.titre.length > 0, r.titre);
   check('aucun débordement horizontal', r.over === 0, `${r.over}px`);
   check('aucune monospace', !r.mono);
@@ -333,11 +363,16 @@ BALAYAGE — ${routes.length} pages`);
         for (const el of document.querySelectorAll('body *')) {
           if (el.getBoundingClientRect().right < 0) continue;
           const c = getComputedStyle(el);
-          for (const [k, w] of [['borderTopColor', c.borderTopWidth],
-                                ['borderBottomColor', c.borderBottomWidth],
-                                ['borderLeftColor', c.borderLeftWidth],
-                                ['borderRightColor', c.borderRightWidth]])
-            if (parseFloat(w) > 0 && bleu(c[k])) out.push(el.tagName + '.' + (el.className || ''));
+          const cotes = [['borderTopColor', c.borderTopWidth],
+                         ['borderBottomColor', c.borderBottomWidth],
+                         ['borderLeftColor', c.borderLeftWidth],
+                         ['borderRightColor', c.borderRightWidth]];
+          // Un filet est un trait sur UN SEUL cote. Une bordure sur les quatre
+          // est la forme d'un objet — un bouton, un champ — pas un separateur.
+          const peints = cotes.filter(([, w]) => parseFloat(w) > 0);
+          if (peints.length <= 2)
+            for (const [k] of peints)
+              if (bleu(c[k])) out.push(el.tagName + '.' + (el.className || ''));
           if (c.textDecorationLine !== 'none' && bleu(c.textDecorationColor)
               && c.textDecorationColor !== c.color)
             out.push(el.tagName + '.' + (el.className || '') + ':underline');

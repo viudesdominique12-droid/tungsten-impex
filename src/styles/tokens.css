@@ -34,14 +34,26 @@
      d'accent colore sous un en-tete est un tic de gabarit, pas une marque.
      Tous les gris sont derives par opacite ; aucun hexadecimal de gris. */
   --paper: #f2f5f9;
-  --ink:   #0a1a33;
+  /* Le fonce du site de reference du client, releve sur sa page : rgb(10,27,60).
+     Le notre etait a rgb(10,26,51) — neuf unites de bleu en moins, invisibles
+     dans un texte mais lisibles sur un pied de page entier. On adopte le sien :
+     le pied se lit alors comme du bleu profond, ce qui va dans le sens de
+     « blue and white », et le texte ne bouge pas (15,53 contre 15,89). */
+  --ink:   #0a1b3c;
   --blue:  #1b3fa6;
+  /* Le lavis : le bleu de la maison a 5 % sur le papier, exactement le geste
+     du site de reference du client, qui emploie rgba(27,63,166,.05) sur
+     301 000 px2. Compose une fois ici plutot que laisse en rgba : l'en-tete
+     collant peint var(--bg), et un rgba empile sur le fond du corps donnerait
+     une valeur differente — une bande claire en haut de chaque fiche import.
+       .05 x (27,63,166) + .95 x (242,245,249) = (231, 236, 245) */
+  --wash: #e7ecf5;
 
   --bg: var(--paper);
   --fg: var(--ink);
-  --rule:  rgba(10, 26, 51, .14);
-  --hair:  rgba(10, 26, 51, .07);
-  --muted: rgba(10, 26, 51, .70);   /* 6,22 — AA large */
+  --rule:  rgba(10, 27, 60, .14);
+  --hair:  rgba(10, 27, 60, .07);
+  --muted: rgba(10, 27, 60, .70);   /* 6,11 — AA */
 
   /* ---- grille : une seule pour toutes les pages --------------------- */
   --shell: 1360px;
@@ -93,9 +105,33 @@
   }
 }
 
-/* L'aplat bleu : la moitie importee du negoce. Papier sur bleu = 8,31 ;
-   le gris de service a 74 % = 5,31. Les deux passent AA largement. */
+/* LA MOITIE IMPORTEE : un lavis, plus un aplat.
+
+   Mesure faite sur le site de reference du client et sur le notre :
+   sa reference porte 10,3 % de bleu, notre accueil 34,3 %, et nos dix fiches
+   import 34,2 % de bleu pour 0,3 % de blanc — la page entiere etait un aplat
+   sature. « Heavy on the eyes », et il a raison.
+
+   Sa reference met le bleu ailleurs : un pied de page fonce, des boutons, de
+   petits panneaux teintes, et le corps blanc de bout en bout. Le bleu y est
+   une encre POSEE SUR du blanc, jamais un fond. J'avais fait l'inverse, pour
+   que la couleur porte le sens import/export apres le retrait des filets.
+   L'idee tenait ; elle coutait trop cher aux yeux sur dix pages.
+
+   Le fond passe donc au lavis, le texte revient a l'encre, et c'est le TITRE
+   qui prend le bleu. La distinction survit, en murmure. */
 [data-flow='in'] {
+  background-color: var(--wash);
+  --bg: var(--wash);
+  /* le texte, les reglures et le gris de service restent ceux du papier */
+}
+[data-flow='in'] .reg__head h2,
+[data-flow='in'] .tete__h { color: var(--blue); }
+
+/* L'APLAT BLEU, reduit a l'echelle d'accent de la reference : le bandeau de
+   tete, et la face entrante du tableau de departs. Papier sur bleu = 8,32 ;
+   le gris de service a 74 % = 5,31. */
+[data-ground='blue'] {
   background-color: var(--blue);
   color: var(--paper);
 
@@ -106,7 +142,8 @@
   --muted: rgba(242, 245, 249, .74);
 }
 
-/* L'aplat d'encre : le chassis. Bandeau utilitaire et pied de page. */
+/* L'APLAT D'ENCRE : le pied de page. La reference emploie rgb(10,27,60) au
+   meme endroit — a neuf unites de notre encre, l'oeil ne les separe pas. */
 [data-ground='ink'] {
   background-color: var(--ink);
   color: var(--paper);
@@ -124,7 +161,7 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background-color: #f2f5f9;
-  color: #0a1a33;
+  color: #0a1b3c;
   font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
   font-size: var(--t-body);
   line-height: var(--lh-body);
@@ -132,7 +169,7 @@ body {
   font-stretch: var(--wd-text);
   -webkit-font-smoothing: antialiased;
 }
-body[data-flow='in'] { background-color: #1b3fa6; color: #f2f5f9; }
+body[data-flow='in'] { background-color: #e7ecf5; }
 
 img { display: block; max-width: 100%; border-radius: var(--radius); }
 a { color: inherit; }
@@ -210,13 +247,13 @@ p, li, dd { text-wrap: pretty; }
   font-family: inherit; font-size: var(--t-label); line-height: 1;
   font-stretch: var(--wd-label); font-weight: var(--w-label);
   letter-spacing: var(--tr-label); text-transform: uppercase;
-  text-decoration: none; border: 1px solid var(--fg);
-  background: var(--fg); color: var(--bg);
+  text-decoration: none; border: 1px solid var(--blue);
+  background: var(--blue); color: var(--paper);
   transition: background-color var(--hover) linear, color var(--hover) linear;
 }
-.act:hover { background: transparent; color: var(--fg); }
-.act--line { background: transparent; color: var(--fg); }
-.act--line:hover { background: var(--fg); color: var(--bg); }
+.act:hover { background: transparent; color: var(--blue); }
+.act--line { background: transparent; color: var(--blue); }
+.act--line:hover { background: var(--blue); color: var(--paper); }
 
 /* ------------------------------------------------------- les registres ---
    Il n'y a plus un seul filet de separation sur ce site. Une liste dont

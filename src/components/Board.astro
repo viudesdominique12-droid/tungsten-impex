@@ -12,7 +12,8 @@
    la langue visuelle native du fret — et il CHANGE DE FOND avec la direction :
    lavis d'encre quand la marchandise sort, aplat bleu quand elle entre. Le
    système de couleur du site s'explique donc tout seul, en trois secondes,
-   avant même qu'on ait défilé.
+   avant même qu'on ait défilé — et depuis que la section Imports est passée
+   au lavis, cette face bleue est le seul aplat soutenu de l'accueil.
 
    Les deux faces sont écrites par Astro, et le script ne remplace que du
    texte. Écrire le HTML depuis le script paraissait plus court, mais les
@@ -32,7 +33,8 @@ const faces = [items[0], items[1] ?? items[0]];
 <div class="board" id="board">
   <a class="board__card" id="board-card" href={items[0].href} data-dir={items[0].flow}>
     {faces.map((it, n) => (
-      <span class:list={['board__face', n === 1 && 'board__face--b']} data-flow={it.flow}>
+      <span class:list={['board__face', n === 1 && 'board__face--b']}
+            data-ground={it.flow === 'in' ? 'blue' : undefined}>
         <span class="t-note board__dir">{it.dir}</span>
         <span class="t-h1 board__n">{it.name}</span>
         <span class="board__f" hidden={!it.factLabel}>
@@ -62,7 +64,11 @@ const faces = [items[0], items[1] ?? items[0]];
     /* On ne remplace que du texte : le balisage et sa portée de style restent
        ceux qu'Astro a écrits. */
     const peindre = (f, it) => {
-      f.el.dataset.flow = it.flow;
+      // La face entrante garde l'aplat bleu plein : c'est le seul accent fort
+      // de l'accueil depuis que la section Imports est passee au lavis, et
+      // c'est l'echelle a laquelle la reference emploie sa couleur.
+      if (it.flow === 'in') f.el.dataset.ground = 'blue';
+      else delete f.el.dataset.ground;
       f.dir.textContent = it.dir;
       f.nom.textContent = it.name;
       f.etiq.textContent = it.factLabel || '';
@@ -159,7 +165,7 @@ const faces = [items[0], items[1] ?? items[0]];
      prend un lavis d'encre, dérivé par opacité comme tous les gris du site.
      L'attribut ne vit que sur les faces : posé sur la carte, `[data-flow='in']`
      peignait la carte entière et redéfinissait --hair pour ses deux faces. */
-  .board__face[data-flow='out'] { background: var(--hair); }
+  .board__face:not([data-ground]) { background: rgba(10, 27, 60, .07); }
   .board__face--b { transform: rotateX(180deg); }
 
   .board__dir { display: block; }

@@ -1,10 +1,10 @@
 {
   "electric-vehicles": {
-    "lead": "Tungsten imports the BYD Yuan Up, a battery electric SUV offered in three trims with 301 to 401 km of combined range.",
+    "lead": "Tungsten imports two BYD battery electric models: the Yuan Up, offered in three trims with 301 to 401 km of combined range, and the 2025 Tang L.",
     "facts": [
       {
-        "label": "Vehicle",
-        "value": "BYD Yuan Up, battery electric SUV"
+        "label": "Vehicles",
+        "value": "BYD Yuan Up and BYD Tang L (2025)"
       },
       {
         "label": "Combined range",
@@ -25,7 +25,7 @@
     ],
     "blocks": [
       {
-        "title": "The vehicle",
+        "title": "The Yuan Up",
         "body": "A battery electric SUV launched on 26 March 2024, sold in three trims: 301 km Lingxian, 401 km Lingxian and 401 km Chaoyue. Five seats; 4,310 by 1,830 by 1,675 mm, on a 2,620 mm wheelbase."
       },
       {
@@ -35,6 +35,10 @@
       {
         "title": "Performance",
         "body": "An AC permanent magnet synchronous motor rated 70 kW and 180 Nm, or 130 kW and 290 Nm on the 401 km trims. Acceleration from 0 to 100 km/h takes 12 seconds, or 7.9 seconds on the higher-powered trims."
+      },
+      {
+        "title": "The Tang L",
+        "body": "A 2025 BYD battery electric model, imported alongside the Yuan Up. Trims, range and battery specifications are confirmed on enquiry."
       },
       {
         "title": "The manufacturer",
