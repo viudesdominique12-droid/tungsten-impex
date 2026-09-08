@@ -45,14 +45,24 @@ while (oi < out.length) manifeste.push(carte(out[oi++]));
   title="Tungsten Import Export — Addis Ababa"
   description="We export Ethiopian oilseeds and pulses, and import medicines, vehicles and materials into Ethiopia. Trading from Addis Ababa since 2007."
 >
-  {/* 1 — PREMIER ÉCRAN. Le titre, et rien dessous : ni bouton, ni chapeau. */}
+  {/* 1 — PREMIER ÉCRAN. La déclaration et le tableau à gauche, la marchandise
+        à droite jusqu'au bord. Une maison de négoce montre ce qu'elle négocie
+        avant de parler d'elle ; la seule photographie de l'accueil était
+        enterrée à deux mille pixels de haut, et le premier écran ne portait
+        qu'un titre. */}
   <section class="hero">
     <div class="shell hero__in">
-      <h1 class="t-display hero__h">
-        <span class="line"><span>We export Ethiopian oilseeds and pulses.</span></span>
-        <span class="line"><span>We import medicines, vehicles and materials.</span></span>
-      </h1>
-      <div class="hero__board"><Board items={manifeste} /></div>
+      <div class="hero__say">
+        <h1 class="t-display hero__h">
+          <span class="line"><span>We export Ethiopian oilseeds and pulses.</span></span>
+          <span class="line"><span>We import medicines, vehicles and materials.</span></span>
+        </h1>
+        <div class="hero__board"><Board items={manifeste} /></div>
+      </div>
+      <div class="hero__img">
+        <Photo src="img/company/contact.jpg" eager
+               alt="Pulses and oilseeds sorted by variety" />
+      </div>
     </div>
   </section>
 
@@ -85,9 +95,12 @@ while (oi < out.length) manifeste.push(carte(out[oi++]));
     </div>
   </section>
 
-  {/* La charnière. Une seule image sur l'accueil, et c'est la marchandise. */}
+  {/* La charnière : les cartons de médicaments palettisés. L'image ne sert
+      plus de respiration, elle annonce ce qui suit — c'est exactement la
+      marchandise du champ bleu qui s'ouvre en dessous. */}
   <div class="shell">
-    <Photo src="img/company/contact.jpg" alt="Pulses and oilseeds sorted by variety" />
+    <Photo src="img/company/pharma-warehouse.jpg"
+           alt="Palletised medicine cartons in the Tungsten store, Addis Ababa" />
   </div>
 
   {/* 3 — LES DIX IMPORTS. Ils ne se présentent pas, ils s'indexent : deux
@@ -143,16 +156,22 @@ while (oi < out.length) manifeste.push(carte(out[oi++]));
      lu comme une invitation a defiler. */
   .hero { padding-block: var(--s-block) var(--s-band); }
   @media (min-width: 900px) { .hero { padding-block: var(--s-section) var(--s-band); } }
-  /* Le tableau ne se met pas A COTE du titre : a 76px celui-ci reclame 900px
-     de mesure pour tenir en quatre lignes, et il n'en restait que 260 pour le
-     panneau — le titre partait en sept lignes au drapeau casse. Le panneau
-     descend donc en bas a droite, sur la diagonale, la ou le vide etait. Le
-     titre garde sa coupe. */
+  /* Deux colonnes : la parole a gauche, la marchandise a droite. L'image
+     deborde dans la gouttiere droite pour venir au bord du chassis — sans
+     `vw`, qui compte la barre de defilement et fabrique un debordement. */
   .hero__in { display: grid; gap: var(--s-block); }
+  .hero__say { display: grid; gap: var(--s-block); align-content: start; }
   @media (min-width: 900px) {
-    .hero__in { grid-template-columns: repeat(12, 1fr); }
-    .hero__h { grid-column: 1 / 10; }
-    .hero__board { grid-column: 7 / 13; }
+    /* Les deux colonnes s'alignent par le haut, et l'image descend de la
+       distance qui separe le haut de la boite du titre de sa ligne de
+       capitale : sans ce decalage optique les deux bords sont a vingt-six
+       pixels l'un de l'autre, assez pour se voir, pas assez pour etre un
+       choix. */
+    .hero__in { grid-template-columns: 1.35fr 1fr; align-items: start;
+                gap: var(--s-block); }
+    .hero__img { margin-top: .1em; font-size: var(--t-display); }
+    .hero__img > * { font-size: var(--t-body); }
+    .hero__img { margin-right: calc(-1 * var(--gutter)); }
   }
   .hero__h { display: grid; gap: 0; }
   /* Révélation par masque, jamais de fondu : l'opacité fabrique un gris qui

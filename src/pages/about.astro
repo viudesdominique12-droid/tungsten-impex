@@ -16,10 +16,8 @@ const c = site.company;
     </div>
   </section>
 
-  {/* §5 — une bande pleine largeur, bord a bord, comme respiration. */}
   <div class="shell bande">
-    <Photo src="img/company/pharma-warehouse.jpg" eager
-           alt="Palletised medicine cartons in the Tungsten store, Addis Ababa" />
+    <Photo src="img/company/office-floor.jpg" eager alt="The Tungsten office floor" />
   </div>
 
   <section class="letter">
@@ -36,25 +34,27 @@ const c = site.company;
     </div>
   </section>
 
+  {/* Le texte parle d'une zone de quarantaine ; la photographie en montrait
+      une autre. Elle montre maintenant celle-la. */}
   <section class="premises">
-    <div class="shell">
-      <h2 class="t-h2">Africa Avenue, Addis Ababa</h2>
-      <p class="premises__p">Offices, a licensed pharmaceutical store and a quarantine area, on the 4th floor of Dembel City Center.</p>
-    </div>
-  </section>
+    <div class="shell premises__in">
+      <Photo src="img/company/quarantine.jpg"
+             alt="The quarantine area on the 4th floor of Dembel City Center" />
+      {/* Le portrait fait 533px de haut ; deux lignes de texte ne le tiennent
+          pas en regard. Tout ce qui concerne les locaux — l'adresse, ce qu'on
+          y trouve, et les registres ou la maison est inscrite — se met donc
+          dans la meme colonne. */}
+      <div>
+        <h2 class="t-h2">Africa Avenue, Addis Ababa</h2>
+        <p class="premises__p">Offices, a licensed pharmaceutical store and a quarantine area, on the 4th floor of Dembel City Center.</p>
 
-  <div class="shell bande">
-    <Photo src="img/company/office-floor.jpg" alt="The Tungsten office floor" />
-  </div>
-
-  <section class="memb">
-    <div class="shell">
-      <h2 class="t-h2 memb__h">Registered with</h2>
-      <ul class="memb__list">
-        {["EPOSPEA","Ethiopian Chamber of Commerce","Ministry of Revenue","National Bank of Ethiopia","Ministry of Trade"].map((m) => (
-          <li class="t-body">{m}</li>
-        ))}
-      </ul>
+        <h2 class="t-h2 memb__h">Registered with</h2>
+        <ul class="memb__list">
+          {["EPOSPEA","Ethiopian Chamber of Commerce","Ministry of Revenue","National Bank of Ethiopia","Ministry of Trade"].map((m) => (
+            <li class="t-body">{m}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   </section>
 </Base>
@@ -76,14 +76,14 @@ const c = site.company;
   .letter__sign b { font-stretch: var(--wd-text); font-weight: var(--w-display);
                     font-size: var(--t-h3); }
 
-  .premises { padding-top: var(--s-band); }
-  .premises__p { margin-top: 14px; color: var(--muted); }
+  .premises { padding-block: var(--s-band); }
+  .premises__in { display: grid; gap: var(--s-block); align-items: start; }
+  @media (min-width: 860px) { .premises__in { grid-template-columns: auto 1fr; } }
+  .premises__p { margin-top: 14px; color: var(--muted); max-width: 46ch; }
 
   .bande { margin-top: var(--s-section); }
 
-  .memb { padding-top: var(--s-band); }
-  .memb__h { margin-bottom: var(--s-block); }
+  .memb__h { margin-top: var(--s-section); margin-bottom: var(--s-block); }
   .memb__list { list-style: none; margin: 0; padding: 0;
                 display: grid; gap: 10px var(--col-gap); }
-  @media (min-width: 700px) { .memb__list { grid-template-columns: repeat(2, 1fr); } }
 </style>

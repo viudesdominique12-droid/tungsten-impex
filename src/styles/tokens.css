@@ -79,7 +79,7 @@
 
 @media (min-width: 900px) {
   :root {
-    --t-display: clamp(48px, 5.6vw, 76px);  --lh-display: 1;
+    --t-display: clamp(40px, 3.9vw, 52px);  --lh-display: 1.06;
     --t-h1:   44px;  --lh-h1:   48px;
     --t-h2:   30px;  --lh-h2:   40px;
     --t-lead: 22px;  --lh-lead: 32px;
@@ -165,9 +165,15 @@ p { margin: 0; }
 
 /* ------------------------------------------------------ typographie ----- */
 
+/* 76px reclamaient 900px de mesure : le titre occupait alors toute la largeur
+   utile et il ne restait, pour tout le reste du premier ecran, qu'un panneau
+   de 260px. Mesure faite : 45 % de la vue etait peinte, et l'essentiel de ce
+   chiffre etait le cadre du titre, lui-meme de l'air. Un titre de studio, pas
+   une page de negoce. A 58px il tient en 600px, et la photographie de la
+   marchandise prend la moitie droite. */
 .t-display { font-size: var(--t-display); line-height: var(--lh-display);
              font-stretch: var(--wd-display); font-weight: var(--w-display);
-             letter-spacing: var(--tr-display); max-width: 21ch; }
+             letter-spacing: var(--tr-display); max-width: 23ch; }
 .t-h1 { font-size: var(--t-h1); line-height: var(--lh-h1);
         font-stretch: var(--wd-display); font-weight: var(--w-display);
         letter-spacing: var(--tr-display); text-wrap: balance; }
