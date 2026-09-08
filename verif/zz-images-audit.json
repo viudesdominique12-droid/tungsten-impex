@@ -1,0 +1,1420 @@
+{
+ "maq": {
+  "/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 70471,
+     "alt": "Palletised medicine cartons in the Tungsten store, Addis Aba",
+     "nw": 1024,
+     "nh": 576,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1080",
+     "attrH": "608",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": {
+      "capLeft": 0,
+      "capW": 1440,
+      "shellLeft": 80,
+      "shellW": 1280,
+      "hasShell": true,
+      "shellDisplay": "block"
+     }
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/about/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 42483,
+     "alt": "The Tungsten office floor",
+     "nw": 1024,
+     "nh": 768,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1080",
+     "attrH": "810",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": {
+      "capLeft": 0,
+      "capW": 1440,
+      "shellLeft": 80,
+      "shellW": 1280,
+      "hasShell": true,
+      "shellDisplay": "block"
+     }
+    },
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 71027,
+     "alt": "At the Tungsten office in Addis Ababa",
+     "nw": 1080,
+     "nh": 810,
+     "complete": true,
+     "dw": 429.6,
+     "dh": 322.2,
+     "left": 112,
+     "right": 542,
+     "attrW": "1080",
+     "attrH": "810",
+     "objectFit": "fill",
+     "figClass": "media media--plate letter__img",
+     "pleine": false,
+     "cap": null
+    },
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 24279,
+     "alt": "The quarantine area on the 4th floor of Dembel City Center",
+     "nw": 400,
+     "nh": 533,
+     "complete": true,
+     "dw": 400,
+     "dh": 533,
+     "left": 112,
+     "right": 512,
+     "attrW": "810",
+     "attrH": "1080",
+     "objectFit": "fill",
+     "figClass": "media media--portrait",
+     "pleine": false,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/contact/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 52975,
+     "alt": "Offices at Dembel City Center",
+     "nw": 1024,
+     "nh": 768,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1080",
+     "attrH": "810",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": {
+      "capLeft": 0,
+      "capW": 1440,
+      "shellLeft": 80,
+      "shellW": 1280,
+      "hasShell": true,
+      "shellDisplay": "block"
+     }
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/export/niger-seed-noug/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 107615,
+     "alt": "Niger Seed (Noug)",
+     "nw": 1440,
+     "nh": 523,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1600",
+     "attrH": "581",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/export/red-kidney-beans/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 87695,
+     "alt": "Red Kidney Beans",
+     "nw": 600,
+     "nh": 400,
+     "complete": true,
+     "dw": 600,
+     "dh": 400,
+     "left": 576,
+     "right": 1176,
+     "attrW": "600",
+     "attrH": "400",
+     "objectFit": "fill",
+     "figClass": "media media--plate",
+     "pleine": false,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/export/sesame-seed/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 110915,
+     "alt": "Sesame Seed",
+     "nw": 1440,
+     "nh": 523,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1600",
+     "attrH": "581",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/export/soya-bean/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 39051,
+     "alt": "Soya Bean",
+     "nw": 640,
+     "nh": 425,
+     "complete": true,
+     "dw": 640,
+     "dh": 425,
+     "left": 576,
+     "right": 1216,
+     "attrW": "640",
+     "attrH": "425",
+     "objectFit": "fill",
+     "figClass": "media media--plate",
+     "pleine": false,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/building-glass/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 155639,
+     "alt": "Building Glass",
+     "nw": 1440,
+     "nh": 523,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1600",
+     "attrH": "581",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/calcium-hypochlorite/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 69355,
+     "alt": "Calcium Hypochlorite",
+     "nw": 400,
+     "nh": 331,
+     "complete": true,
+     "dw": 400,
+     "dh": 331,
+     "left": 576,
+     "right": 976,
+     "attrW": "400",
+     "attrH": "331",
+     "objectFit": "fill",
+     "figClass": "media media--plate",
+     "pleine": false,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/ceramics/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 108151,
+     "alt": "Ceramics",
+     "nw": 1440,
+     "nh": 523,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1600",
+     "attrH": "581",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/electric-vehicles/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 49951,
+     "alt": "Electric Vehicles",
+     "nw": 1024,
+     "nh": 518,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1200",
+     "attrH": "607",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/elevator-and-escalator/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 188667,
+     "alt": "Elevator & Escalator",
+     "nw": 1440,
+     "nh": 976,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1536",
+     "attrH": "1041",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/human-medicine/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 63183,
+     "alt": "Human Medicine",
+     "nw": 1024,
+     "nh": 576,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1280",
+     "attrH": "720",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/medical-equipment/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 83387,
+     "alt": "Medical Equipment",
+     "nw": 1440,
+     "nh": 785,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1500",
+     "attrH": "818",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/plastic-raw-materials/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 89551,
+     "alt": "Plastic Raw Materials",
+     "nw": 1440,
+     "nh": 523,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1600",
+     "attrH": "581",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/solar-lanterns/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 147363,
+     "alt": "Solar Lanterns",
+     "nw": 1000,
+     "nh": 752,
+     "complete": true,
+     "dw": 751.8,
+     "dh": 565.4,
+     "left": 576,
+     "right": 1328,
+     "attrW": "1000",
+     "attrH": "752",
+     "objectFit": "fill",
+     "figClass": "media media--plate",
+     "pleine": false,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/stationery-materials/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 28247,
+     "alt": "Stationery Materials",
+     "nw": 500,
+     "nh": 290,
+     "complete": true,
+     "dw": 500,
+     "dh": 290,
+     "left": 576,
+     "right": 1076,
+     "attrW": "500",
+     "attrH": "290",
+     "objectFit": "fill",
+     "figClass": "media media--plate",
+     "pleine": false,
+     "cap": null
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/training/": {
+   "url": "file:///C:/Users/Hamza%20Abdoulkader/Desktop/site%20de%20chaps/verif/maquette.html",
+   "imgs": [
+    {
+     "srcKind": "data:image/webp;base64",
+     "srcLen": 35191,
+     "alt": "A member of the Tungsten team at work",
+     "nw": 640,
+     "nh": 871,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "720",
+     "attrH": "980",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": {
+      "capLeft": 0,
+      "capW": 1440,
+      "shellLeft": 80,
+      "shellW": 1280,
+      "hasShell": true,
+      "shellDisplay": "block"
+     }
+    }
+   ],
+   "sources": 0,
+   "srcsets": 0,
+   "astro": [],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  }
+ },
+ "site": {
+  "/": {
+   "url": "http://localhost:4321/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 66,
+     "alt": "Palletised medicine cartons in the Tungsten store, Addis Aba",
+     "nw": 1440,
+     "nh": 810,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1080",
+     "attrH": "608",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": {
+      "capLeft": 0,
+      "capW": 1440,
+      "shellLeft": 80,
+      "shellW": 1280,
+      "hasShell": true,
+      "shellDisplay": "block"
+     }
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "LINK@href=/_astro/index.BFK-BvM3.css",
+    "SOURCE@srcset=/_astro/pharma-warehouse.CCtnSFed_2x1jGX.avif 640w, /_astro/pharma-warehouse.CCtnSFed_1Ots",
+    "IMG@src=/_astro/pharma-warehouse.CCtnSFed_Z1vk0ug.webp",
+    "IMG@srcset=/_astro/pharma-warehouse.CCtnSFed_Z1ITOI.webp 640w, /_astro/pharma-warehouse.CCtnSFed_Z1y1"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/about/": {
+   "url": "http://localhost:4321/about/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 62,
+     "alt": "The Tungsten office floor",
+     "nw": 1440,
+     "nh": 1080,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1080",
+     "attrH": "810",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": {
+      "capLeft": 0,
+      "capW": 1440,
+      "shellLeft": 80,
+      "shellW": 1280,
+      "hasShell": true,
+      "shellDisplay": "block"
+     }
+    },
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 57,
+     "alt": "At the Tungsten office in Addis Ababa",
+     "nw": 1080,
+     "nh": 810,
+     "complete": true,
+     "dw": 429.6,
+     "dh": 322.2,
+     "left": 112,
+     "right": 542,
+     "attrW": "1080",
+     "attrH": "810",
+     "objectFit": "fill",
+     "figClass": "media media--plate letter__img",
+     "pleine": false,
+     "cap": null
+    },
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 60,
+     "alt": "The quarantine area on the 4th floor of Dembel City Center",
+     "nw": 400,
+     "nh": 533,
+     "complete": true,
+     "dw": 400,
+     "dh": 533,
+     "left": 112,
+     "right": 512,
+     "attrW": "810",
+     "attrH": "1080",
+     "objectFit": "fill",
+     "figClass": "media media--portrait",
+     "pleine": false,
+     "cap": null
+    }
+   ],
+   "sources": 3,
+   "srcsets": 6,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/office-floor.CVYjTO0b_jKaEO.avif 640w, /_astro/office-floor.CVYjTO0b_ZxuxUT.avif 1",
+    "IMG@src=/_astro/office-floor.CVYjTO0b_Z2gSAoJ.webp",
+    "IMG@srcset=/_astro/office-floor.CVYjTO0b_ZtwWN9.webp 640w, /_astro/office-floor.CVYjTO0b_ZaI8yd.webp ",
+    "SOURCE@srcset=/_astro/founder.CjpYdusD_Z12MjXA.avif 480w, /_astro/founder.CjpYdusD_Z1GPUaw.avif 720w, /_",
+    "IMG@src=/_astro/founder.CjpYdusD_1mm32A.webp",
+    "IMG@srcset=/_astro/founder.CjpYdusD_1epbzX.webp 480w, /_astro/founder.CjpYdusD_zlAo2.webp 720w, /_ast",
+    "SOURCE@srcset=/_astro/quarantine.BzV36y-S_ZG3Yjw.avif 400w",
+    "IMG@src=/_astro/quarantine.BzV36y-S_ZcyLxr.webp",
+    "IMG@srcset=/_astro/quarantine.BzV36y-S_Zvsl73.webp 400w"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/contact/": {
+   "url": "http://localhost:4321/contact/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 65,
+     "alt": "Offices at Dembel City Center",
+     "nw": 1440,
+     "nh": 1080,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1080",
+     "attrH": "810",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": {
+      "capLeft": 0,
+      "capW": 1440,
+      "shellLeft": 80,
+      "shellW": 1280,
+      "hasShell": true,
+      "shellDisplay": "block"
+     }
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/office-corridor.MlJI_-oz_5J3Fb.avif 640w, /_astro/office-corridor.MlJI_-oz_10O282.",
+    "IMG@src=/_astro/office-corridor.MlJI_-oz_Z2sVtsb.webp",
+    "IMG@srcset=/_astro/office-corridor.MlJI_-oz_Z27ou0u.webp 640w, /_astro/office-corridor.MlJI_-oz_Z1xVc"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/export/niger-seed-noug/": {
+   "url": "http://localhost:4321/export/niger-seed-noug/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 65,
+     "alt": "Niger Seed (Noug)",
+     "nw": 1440,
+     "nh": 523,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1600",
+     "attrH": "581",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/niger-seed-noug.CbBN2SLo_Z1UylB0.avif 640w, /_astro/niger-seed-noug.CbBN2SLo_Zbh7T",
+    "IMG@src=/_astro/niger-seed-noug.CbBN2SLo_S0YAB.webp",
+    "IMG@srcset=/_astro/niger-seed-noug.CbBN2SLo_Vuewg.webp 640w, /_astro/niger-seed-noug.CbBN2SLo_2k9LmD."
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/export/red-kidney-beans/": {
+   "url": "http://localhost:4321/export/red-kidney-beans/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 65,
+     "alt": "Red Kidney Beans",
+     "nw": 600,
+     "nh": 400,
+     "complete": true,
+     "dw": 600,
+     "dh": 400,
+     "left": 576,
+     "right": 1176,
+     "attrW": "600",
+     "attrH": "400",
+     "objectFit": "fill",
+     "figClass": "media media--plate",
+     "pleine": false,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/red-kidney-beans.CivGy50l_Z1JUCJM.avif 480w, /_astro/red-kidney-beans.CivGy50l_7iz",
+    "IMG@src=/_astro/red-kidney-beans.CivGy50l_Z25OWNG.webp",
+    "IMG@srcset=/_astro/red-kidney-beans.CivGy50l_177Wnt.webp 480w, /_astro/red-kidney-beans.CivGy50l_Z25O"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/export/sesame-seed/": {
+   "url": "http://localhost:4321/export/sesame-seed/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 61,
+     "alt": "Sesame Seed",
+     "nw": 1440,
+     "nh": 523,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1600",
+     "attrH": "581",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/sesame-seed.EWpt9zSP_Z1GGMLT.avif 640w, /_astro/sesame-seed.EWpt9zSP_Z12L9Wc.avif ",
+    "IMG@src=/_astro/sesame-seed.EWpt9zSP_MgzL3.webp",
+    "IMG@srcset=/_astro/sesame-seed.EWpt9zSP_Z1oh1g6.webp 640w, /_astro/sesame-seed.EWpt9zSP_Z1Q4iqa.webp "
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/export/soya-bean/": {
+   "url": "http://localhost:4321/export/soya-bean/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 58,
+     "alt": "Soya Bean",
+     "nw": 640,
+     "nh": 425,
+     "complete": true,
+     "dw": 640,
+     "dh": 425,
+     "left": 576,
+     "right": 1216,
+     "attrW": "640",
+     "attrH": "425",
+     "objectFit": "fill",
+     "figClass": "media media--plate",
+     "pleine": false,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/soya-bean.COpLCJ1Z_XjJQb.avif 480w, /_astro/soya-bean.COpLCJ1Z_vDoTP.avif 640w",
+    "IMG@src=/_astro/soya-bean.COpLCJ1Z_4dq12.webp",
+    "IMG@srcset=/_astro/soya-bean.COpLCJ1Z_vSKWn.webp 480w, /_astro/soya-bean.COpLCJ1Z_4dq12.webp 640w"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/building-glass/": {
+   "url": "http://localhost:4321/import/building-glass/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 63,
+     "alt": "Building Glass",
+     "nw": 1440,
+     "nh": 523,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1600",
+     "attrH": "581",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/building-glass.ChFBXeml_Z1Cdwzi.avif 640w, /_astro/building-glass.ChFBXeml_ZCJ96f.",
+    "IMG@src=/_astro/building-glass.ChFBXeml_Z17WLga.webp",
+    "IMG@srcset=/_astro/building-glass.ChFBXeml_ZdvUFO.webp 640w, /_astro/building-glass.ChFBXeml_2ejr21.w"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/calcium-hypochlorite/": {
+   "url": "http://localhost:4321/import/calcium-hypochlorite/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 70,
+     "alt": "Calcium Hypochlorite",
+     "nw": 400,
+     "nh": 331,
+     "complete": true,
+     "dw": 400,
+     "dh": 331,
+     "left": 576,
+     "right": 976,
+     "attrW": "400",
+     "attrH": "331",
+     "objectFit": "fill",
+     "figClass": "media media--plate",
+     "pleine": false,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/calcium-hypochlorite.CgeEdeBn_ZEBWio.avif 400w",
+    "IMG@src=/_astro/calcium-hypochlorite.CgeEdeBn_sXvly.webp",
+    "IMG@srcset=/_astro/calcium-hypochlorite.CgeEdeBn_sXvly.webp 400w"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/ceramics/": {
+   "url": "http://localhost:4321/import/ceramics/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 59,
+     "alt": "Ceramics",
+     "nw": 1440,
+     "nh": 523,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1600",
+     "attrH": "581",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/ceramics.BbMnyzFg_QMuLq.avif 640w, /_astro/ceramics.BbMnyzFg_10UYqY.avif 1024w, /_",
+    "IMG@src=/_astro/ceramics.BbMnyzFg_1TfFUR.webp",
+    "IMG@srcset=/_astro/ceramics.BbMnyzFg_pmvRC.webp 640w, /_astro/ceramics.BbMnyzFg_2kjY2S.webp 1024w, /_"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/electric-vehicles/": {
+   "url": "http://localhost:4321/import/electric-vehicles/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 68,
+     "alt": "Electric Vehicles",
+     "nw": 1440,
+     "nh": 728,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1200",
+     "attrH": "607",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/electric-vehicles.DAvcwDLT_Z1PNQ5g.avif 640w, /_astro/electric-vehicles.DAvcwDLT_Z",
+    "IMG@src=/_astro/electric-vehicles.DAvcwDLT_Z1ULphF.webp",
+    "IMG@srcset=/_astro/electric-vehicles.DAvcwDLT_Z97UAE.webp 640w, /_astro/electric-vehicles.DAvcwDLT_jg"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/elevator-and-escalator/": {
+   "url": "http://localhost:4321/import/elevator-and-escalator/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 73,
+     "alt": "Elevator & Escalator",
+     "nw": 1440,
+     "nh": 976,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1536",
+     "attrH": "1041",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/elevator-and-escalator.BEM2Ssip_Zvhvpt.avif 640w, /_astro/elevator-and-escalator.B",
+    "IMG@src=/_astro/elevator-and-escalator.BEM2Ssip_Z17v9yP.webp",
+    "IMG@srcset=/_astro/elevator-and-escalator.BEM2Ssip_ZStWGg.webp 640w, /_astro/elevator-and-escalator.B"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/human-medicine/": {
+   "url": "http://localhost:4321/import/human-medicine/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 64,
+     "alt": "Human Medicine",
+     "nw": 1440,
+     "nh": 810,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1280",
+     "attrH": "720",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/human-medicine.B87wKlpC_ObI0B.avif 640w, /_astro/human-medicine.B87wKlpC_1fP5Qy.av",
+    "IMG@src=/_astro/human-medicine.B87wKlpC_Z1OjxTt.webp",
+    "IMG@srcset=/_astro/human-medicine.B87wKlpC_2dSjT5.webp 640w, /_astro/human-medicine.B87wKlpC_ZWirO7.w"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/medical-equipment/": {
+   "url": "http://localhost:4321/import/medical-equipment/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 68,
+     "alt": "Medical Equipment",
+     "nw": 1440,
+     "nh": 785,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1500",
+     "attrH": "818",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/medical-equipment.ByqOyjqK_Z1MOJUE.avif 640w, /_astro/medical-equipment.ByqOyjqK_1",
+    "IMG@src=/_astro/medical-equipment.ByqOyjqK_ZNyseQ.webp",
+    "IMG@srcset=/_astro/medical-equipment.ByqOyjqK_Z68Or3.webp 640w, /_astro/medical-equipment.ByqOyjqK_Z1"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/plastic-raw-materials/": {
+   "url": "http://localhost:4321/import/plastic-raw-materials/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 70,
+     "alt": "Plastic Raw Materials",
+     "nw": 1440,
+     "nh": 523,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "1600",
+     "attrH": "581",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/plastic-raw-materials.DFTNtvuY_N0NCf.avif 640w, /_astro/plastic-raw-materials.DFTN",
+    "IMG@src=/_astro/plastic-raw-materials.DFTNtvuY_Z23Ye64.webp",
+    "IMG@srcset=/_astro/plastic-raw-materials.DFTNtvuY_Z19qXMQ.webp 640w, /_astro/plastic-raw-materials.DF"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/solar-lanterns/": {
+   "url": "http://localhost:4321/import/solar-lanterns/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 64,
+     "alt": "Solar Lanterns",
+     "nw": 1000,
+     "nh": 752,
+     "complete": true,
+     "dw": 751.8,
+     "dh": 565.4,
+     "left": 576,
+     "right": 1328,
+     "attrW": "1000",
+     "attrH": "752",
+     "objectFit": "fill",
+     "figClass": "media media--plate",
+     "pleine": false,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/solar-lanterns.Djw4CDUR_Z93J3q.avif 480w, /_astro/solar-lanterns.Djw4CDUR_Zr3sFK.a",
+    "IMG@src=/_astro/solar-lanterns.Djw4CDUR_Z8HGAc.webp",
+    "IMG@srcset=/_astro/solar-lanterns.Djw4CDUR_1fCQP3.webp 480w, /_astro/solar-lanterns.Djw4CDUR_WD8cI.we"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/import/stationery-materials/": {
+   "url": "http://localhost:4321/import/stationery-materials/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 71,
+     "alt": "Stationery Materials",
+     "nw": 500,
+     "nh": 290,
+     "complete": true,
+     "dw": 500,
+     "dh": 290,
+     "left": 576,
+     "right": 1076,
+     "attrW": "500",
+     "attrH": "290",
+     "objectFit": "fill",
+     "figClass": "media media--plate",
+     "pleine": false,
+     "cap": null
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/stationery-materials.CGK-kVUw_ZzmVWi.avif 480w, /_astro/stationery-materials.CGK-k",
+    "IMG@src=/_astro/stationery-materials.CGK-kVUw_Z141xjT.webp",
+    "IMG@srcset=/_astro/stationery-materials.CGK-kVUw_ydvGE.webp 480w, /_astro/stationery-materials.CGK-kV"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  },
+  "/training/": {
+   "url": "http://localhost:4321/training/",
+   "imgs": [
+    {
+     "srcKind": "http://localhost:4321/",
+     "srcLen": 58,
+     "alt": "A member of the Tungsten team at work",
+     "nw": 1440,
+     "nh": 1959,
+     "complete": true,
+     "dw": 1440,
+     "dh": 495,
+     "left": 0,
+     "right": 1440,
+     "attrW": "720",
+     "attrH": "980",
+     "objectFit": "cover",
+     "figClass": "pleine",
+     "pleine": true,
+     "cap": {
+      "capLeft": 0,
+      "capW": 1440,
+      "shellLeft": 80,
+      "shellW": 1280,
+      "hasShell": true,
+      "shellDisplay": "block"
+     }
+    }
+   ],
+   "sources": 1,
+   "srcsets": 2,
+   "astro": [
+    "LINK@href=/_astro/_slug_.fRnSoxrn.css",
+    "SOURCE@srcset=/_astro/team-desk.YuZEkcOd_M8qwo.avif 640w",
+    "IMG@src=/_astro/team-desk.YuZEkcOd_10ErGG.webp",
+    "IMG@srcset=/_astro/team-desk.YuZEkcOd_kHrCA.webp 640w"
+   ],
+   "shell": {
+    "left": 80,
+    "w": 1280
+   },
+   "vw": 1440,
+   "vh": 900,
+   "docW": 1440
+  }
+ },
+ "erreurs": []
+}

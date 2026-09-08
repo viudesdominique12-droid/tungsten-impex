@@ -51,8 +51,21 @@ for (const { fichier } of pages) {
 let css = '';
 for (const f of feuilles) css += readFileSync(join(DIST, f), 'utf8') + '\n';
 console.log(`${feuilles.size} feuille(s) de style inlinees`);
-css = css.replace(/url\((["']?)([^)"']*archivo-var\.woff2)\1\)/g,
-  (_, __, u) => `url(${dataURI(u.replace(/^\//, ''), 'font/woff2')})`);
+/* Toutes les fontes, et non une seule nommee en dur. Cette ligne ne
+   connaissait qu'archivo-var.woff2 ; la refonte en charge quatre — Fraunces
+   droit et italique, Instrument Sans, Plex Mono — et la maquette serait partie
+   sans une seule, c'est-a-dire en Georgia et en Helvetica. Or toute la
+   hierarchie de cette refonte repose sur ces trois familles : le client aurait
+   ouvert le lien sur le defaut qu'on venait justement de corriger.
+
+   Le compilateur prend donc ce que la feuille demande, quoi qu'elle demande. */
+const fontes = new Set();
+css = css.replace(/url\((["']?)([^)"']*[.]woff2)\1\)/g, (_, __, u) => {
+  fontes.add(u);
+  return `url(${dataURI(u.replace(/^\//, ''), 'font/woff2')})`;
+});
+console.log(`${fontes.size} fonte(s) inlinees : ` +
+            [...fontes].map((f) => f.split('/').pop()).join(', '));
 
 /* ---- 3. une page -> {titre, attributs du body, balisage} ----------------- */
 let posees = 0, images = 0;
@@ -96,12 +109,18 @@ for (const { route, fichier } of pages) {
       .replace(/\sloading="lazy"/, '');
   });
 
-  /* La carte OpenStreetMap est un cadre distant : la politique de securite
-     d'une page publiee le bloque. On le remplace par ce qu'il servait a dire,
-     plutot que de laisser un cadre vide. */
-  corps = corps.replace(/<iframe\b[^>]*class="map"[^>]*><\/iframe>/g,
-    '<p class="t-note t-quiet" style="padding:24px 0">Carte interactive : ' +
-    'active sur le site livré, désactivée dans cette maquette partagée.</p>');
+  /* La carte OpenStreetMap est un cadre distant, et la politique de securite
+     d'une page publiee le bloque. Sur le site, ce cadre n'existe pas tant
+     qu'on n'a pas clique : c'est un script qui l'insere. Il suffit donc de lui
+     retirer sa prise — sans id="map", le script s'arrete a sa premiere ligne et
+     le bouton redevient ce qu'il est sans JavaScript : un lien vers la carte en
+     ligne. La maquette montre alors exactement l'etat que le site montre avant
+     le clic, au lieu d'un cadre vide.
+
+     L'ancienne regle visait <iframe class="map">, un balisage qui n'existe plus
+     dans le document servi depuis que la carte est differee : elle ne
+     remplacait donc plus rien. */
+  corps = corps.replace(/(<div class="map")\s+id="map"/g, '$1');
 
   routes[route] = { titre, attrs, corps };
   posees++;
@@ -126,9 +145,13 @@ ${css}
     const p = R[route] || R['/'];
     minuteries.forEach((id) => { clearInterval(id); clearTimeout(id); }); minuteries = [];
     document.title = p.titre;
-    document.body.removeAttribute('data-flow');
-    const f = /data-flow="([^"]+)"/.exec(p.attrs);
-    if (f) document.body.setAttribute('data-flow', f[1]);
+    // Les attributs du corps sont recopies tels quels, quels qu'ils soient.
+    // La version precedente ne connaissait que data-flow, un attribut que la
+    // refonte a retire : coder un nom en dur, c'est se preparer a le perdre.
+    for (const a of [...document.body.attributes])
+      if (a.name !== 'class') document.body.removeAttribute(a.name);
+    for (const m of p.attrs.matchAll(/([a-zA-Z-]+)="([^"]*)"/g))
+      document.body.setAttribute(m[1], m[2]);
     app.innerHTML = p.corps;
 
     // Les scripts insérés par innerHTML ne s'exécutent pas : on les recrée,
@@ -174,9 +197,19 @@ ${css}
 const feuillesOubliees = (sortie.match(/rel=.stylesheet/g) || []).length;
 const restants = (sortie.match(/<source/g) || []).length;
 const nonEncodees = (sortie.match(/<img[^>]*src=\\"\/_astro/g) || []).length;
-if (restants || nonEncodees || feuillesOubliees) {
+/* Toute reference a un fichier que la maquette n'emporte pas. Une fonte
+   oubliee ne casse rien de VISIBLE au compilateur — la page s'affiche, en
+   Georgia — et c'est exactement le genre de defaut qui part chez le client
+   sans que personne le voie partir. Deux fois deja. */
+const fontesPerdues = (sortie.match(/url\([^)]*[.]woff2/g) || []).length;
+const nbFontFace = (sortie.match(/@font-face/g) || []).length;
+const carteVive = (sortie.match(/id="map"/g) || []).length;
+if (restants || nonEncodees || feuillesOubliees || fontesPerdues
+    || nbFontFace < 4 || carteVive) {
   console.error(`ARRET : ${restants} <source> restants, ${nonEncodees} images non encodees, ` +
-                `${feuillesOubliees} feuille(s) de style laissee(s) en lien externe.`);
+                `${feuillesOubliees} feuille(s) de style en lien externe, ` +
+                `${fontesPerdues} fonte(s) non encodee(s), ${nbFontFace} @font-face (4 attendues), ` +
+                `${carteVive} carte(s) encore branchee(s).`);
   process.exit(1);
 }
 
