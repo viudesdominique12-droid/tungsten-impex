@@ -34,12 +34,23 @@ const pages = [];
   }
 })('');
 
-/* ---- 2. la feuille de style, fonte comprise ------------------------------ */
-const premier = readFileSync(join(DIST, pages[0].fichier), 'utf8');
-let css = '';
-for (const m of premier.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"[^>]*>/g)) {
-  css += readFileSync(join(DIST, m[1]), 'utf8') + '\n';
+/* ---- 2. les feuilles de style, fonte comprise ----------------------------
+   TOUTES les pages, pas la premiere trouvee. Astro emet une feuille par
+   ensemble de composants : depuis que l'accueil a ses propres sections, il
+   reference une seconde feuille que lui seul porte. Le compilateur lisait
+   `pages[0]`, qui se trouvait etre /about/, et la maquette est donc partie
+   sans un seul style de section — le tableau de departs s'y affichait a plat,
+   en deux blocs de texte superposes, tandis que le site, lui, etait juste. */
+const feuilles = new Set();
+for (const { fichier } of pages) {
+  const h = readFileSync(join(DIST, fichier), 'utf8');
+  for (const m of h.matchAll(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"[^>]*>/g)) {
+    feuilles.add(m[1]);
+  }
 }
+let css = '';
+for (const f of feuilles) css += readFileSync(join(DIST, f), 'utf8') + '\n';
+console.log(`${feuilles.size} feuille(s) de style inlinees`);
 css = css.replace(/url\((["']?)([^)"']*archivo-var\.woff2)\1\)/g,
   (_, __, u) => `url(${dataURI(u.replace(/^\//, ''), 'font/woff2')})`);
 
@@ -160,10 +171,12 @@ ${css}
    du <picture> en place : ils pointaient vers des fichiers absents, le
    navigateur les preferait au <img>, et la maquette est partie sans une seule
    image. Le compilateur verifie donc son propre resultat. */
+const feuillesOubliees = (sortie.match(/rel=.stylesheet/g) || []).length;
 const restants = (sortie.match(/<source/g) || []).length;
 const nonEncodees = (sortie.match(/<img[^>]*src=\\"\/_astro/g) || []).length;
-if (restants || nonEncodees) {
-  console.error(`ARRET : ${restants} <source> restants, ${nonEncodees} images non encodees.`);
+if (restants || nonEncodees || feuillesOubliees) {
+  console.error(`ARRET : ${restants} <source> restants, ${nonEncodees} images non encodees, ` +
+                `${feuillesOubliees} feuille(s) de style laissee(s) en lien externe.`);
   process.exit(1);
 }
 

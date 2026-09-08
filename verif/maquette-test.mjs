@@ -9,7 +9,7 @@ p.on('console', (m) => { if (m.type() === 'error') err.push(m.text()); });
 
 /* Le document est publie tel quel dans un corps fourni par l'hote : on le
    reproduit a l'identique, sans doctype ni <head> propres. */
-await p.setContent(`<!doctype html><html><head><meta charset="utf-8"></head><body>${html}</body></html>`,
+await p.setContent(`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body>${html}</body></html>`,
                    { waitUntil: 'load' });
 await p.waitForTimeout(1200);
 
@@ -34,6 +34,24 @@ const t0 = await p.evaluate(() => document.getElementById('board-card')?.getAttr
 await p.waitForTimeout(4200);
 const t1 = await p.evaluate(() => document.getElementById('board-card')?.getAttribute('href'));
 console.log(`tableau   : ${t0} -> ${t1}  ${t0 !== t1 ? 'tourne' : 'IMMOBILE'}`);
+
+/* La forme, pas seulement le comportement. La maquette est partie une fois
+   avec un tableau a plat — faces statiques, aucune perspective — parce que sa
+   feuille de style manquait. Elle tournait pourtant, et changeait de fond. */
+const forme = await p.evaluate(() => {
+  const c = document.getElementById('board-card');
+  if (!c) return null;
+  const r = c.getBoundingClientRect();
+  return { h: Math.round(r.height), style3d: getComputedStyle(c).transformStyle,
+           persp: getComputedStyle(c.parentElement).perspective,
+           faces: [...document.querySelectorAll('.board__face')]
+                    .map((x) => getComputedStyle(x).position) };
+});
+const bonne = forme && forme.h >= 200 && forme.style3d === 'preserve-3d' &&
+              forme.persp !== 'none' && forme.faces.every((x) => x === 'absolute');
+console.log(`forme     : ${bonne ? 'juste' : 'CASSEE'}  ` +
+            `${forme ? forme.h + 'px, ' + forme.style3d + ', perspective ' + forme.persp : 'absent'}`);
+if (!bonne) { console.error('ARRET : le tableau est a plat dans la maquette.'); process.exit(1); }
 
 /* navigation vers une fiche import */
 await p.evaluate(() => [...document.querySelectorAll('a')]

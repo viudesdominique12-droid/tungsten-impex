@@ -207,6 +207,27 @@ const browser = await chromium.launch();
         `${liens.size} lignes vues en 18 s`);
   check('les deux fonds du tableau', vus.size >= 2, [...vus].join(' / '));
 
+  const forme = await page.evaluate(() => {
+    const c = document.getElementById('board-card');
+    if (!c) return null;
+    const r = c.getBoundingClientRect();
+    const f = [...document.querySelectorAll('.board__face')].map((x) => {
+      const s = getComputedStyle(x);
+      return { pos: s.position, back: s.backfaceVisibility };
+    });
+    return { h: Math.round(r.height), w: Math.round(r.width),
+             style3d: getComputedStyle(c).transformStyle,
+             persp: getComputedStyle(c.parentElement).perspective,
+             faces: f };
+  });
+  check('le tableau a une forme, pas seulement un comportement',
+        !!forme && forme.h >= 200 && forme.style3d === 'preserve-3d' &&
+        forme.persp !== 'none' && forme.faces.every((x) => x.pos === 'absolute'
+                                                        && x.back === 'hidden'),
+        forme ? `${forme.w}x${forme.h}, ${forme.style3d}, perspective ${forme.persp}, ` +
+                `faces ${forme.faces.map((x) => x.pos).join('+')}` : 'panneau absent');
+
+
   /* LA DEMANDE DU CLIENT, MESUREE. « I meant a color pattern of blue and
      white, not make the entire background blue. » Sa reference porte 10,3 %
      de bleu ; notre accueil en portait 34,3 % et nos fiches import 34,2 %

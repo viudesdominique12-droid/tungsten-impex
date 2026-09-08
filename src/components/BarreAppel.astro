@@ -23,6 +23,21 @@ const c = site.company;
     const rendre = () => { b.hidden = !(passeHero && !piedVu); };
 
     const hero = document.querySelector('.hero') || document.querySelector('main > *');
+
+    /* L'etat se calcule tout de suite, il ne s'attend pas. Le premier verdict
+       d'un IntersectionObserver arrive apres coup, et quand le balisage vient
+       d'etre insere il peut le rendre sur un element pas encore mis en page :
+       la barre apparaissait alors une fraction de seconde par-dessus le
+       premier ecran, avant de se corriger. */
+    const visible = (el) => {
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      return r.top < innerHeight && r.bottom > 0;
+    };
+    passeHero = !visible(hero);
+    piedVu = visible(pied);
+    rendre();
+
     if (hero) new IntersectionObserver(([e]) => { passeHero = !e.isIntersecting; rendre(); },
       { rootMargin: '0px' }).observe(hero);
     if (pied) new IntersectionObserver(([e]) => { piedVu = e.isIntersecting; rendre(); },
