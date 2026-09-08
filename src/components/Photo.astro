@@ -18,7 +18,7 @@
 import { Image } from 'astro:assets';
 import { photo, cadre, largeurs } from '../lib/photos.js';
 
-const { src, alt, max = 1600, eager = false, class: extra = '' } = Astro.props;
+const { src, alt, caption, max = 1600, eager = false, class: extra = '' } = Astro.props;
 const m = photo(src);
 const forme = m ? cadre(m) : null;
 
@@ -37,5 +37,14 @@ const plafond = Math.min(m?.width ?? 0, forme === 'portrait' ? 400 : max);
       loading={eager ? 'eager' : 'lazy'}
       decoding="async"
     />
+    {caption && <figcaption class="t-note t-quiet media__cap">{caption}</figcaption>}
   </figure>
 )}
+
+<style is:global>
+  /* Une photographie documentaire se legende : cela dit ce qu'on regarde et
+     cela donne une base au bloc, dont la largeur est celle du fichier et non
+     celle de la colonne. Les images de tete et les photos produit n'en
+     prennent pas — le titre au-dessus les nomme deja. */
+  .media__cap { margin-top: 10px; max-width: 46ch; }
+</style>

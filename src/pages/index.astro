@@ -79,9 +79,8 @@ while (oi < out.length) manifeste.push(carte(out[oi++]));
       <div class="reg--wide">
         {out.map((p) => (
           <a class="ent" href={`/${p.folder}/${p.slug}/`}>
-            <h3 class="t-h2 ent__n">{p.name}</h3>
             <div>
-              <p class="t-lead ent__d">{p.lead}</p>
+              <h3 class="t-h2 ent__n">{p.name}</h3>
               {p.fact && (
                 <p class="ent__f">
                   <span class="t-note t-quiet">{p.fact.label}</span>
@@ -89,6 +88,7 @@ while (oi < out.length) manifeste.push(carte(out[oi++]));
                 </p>
               )}
             </div>
+            <p class="t-lead ent__d">{p.lead}</p>
           </a>
         ))}
       </div>
@@ -98,9 +98,10 @@ while (oi < out.length) manifeste.push(carte(out[oi++]));
   {/* La charnière : les cartons de médicaments palettisés. L'image ne sert
       plus de respiration, elle annonce ce qui suit — c'est exactement la
       marchandise du champ bleu qui s'ouvre en dessous. */}
-  <div class="shell">
+  <div class="shell hinge">
     <Photo src="img/company/pharma-warehouse.jpg"
-           alt="Palletised medicine cartons in the Tungsten store, Addis Ababa" />
+           alt="Palletised medicine cartons in the Tungsten store, Addis Ababa"
+           caption="Palletised medicine cartons in the Tungsten store, Dembel City Center." />
   </div>
 
   {/* 3 — LES DIX IMPORTS. Ils ne se présentent pas, ils s'indexent : deux
@@ -186,13 +187,16 @@ while (oi < out.length) manifeste.push(carte(out[oi++]));
   }
 
   /* --- 2 et 3. les deux registres --- */
-  .reg-out { padding-block: 0 var(--s-band); }
+  .reg-out { padding-block: 0 var(--s-section); }
+  /* La legende venait mourir a trente-six pixels de l'aplat bleu. Le bloc
+     image porte sa propre base. */
+  .hinge { padding-bottom: var(--s-section); }
   .reg-in  { padding-block: var(--s-band); }
 
   /* L'en-tête était composé « nom à gauche, compte à 1200px à droite », et ces
      deux bouts ne tenaient ensemble que par le filet qui les reliait. Empilés
      sur l'axe de gauche, ils tiennent seuls et le filet devient inutile. */
-  .reg__head { margin-bottom: var(--s-section); }
+  .reg__head { margin-bottom: var(--s-block); }
   .reg__head p { margin-top: 6px; }
 
   /* --- 4. clôture --- */

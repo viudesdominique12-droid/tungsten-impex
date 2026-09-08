@@ -31,7 +31,7 @@
    --------------------------------------------------------------------------- */
 
 import sharp from 'sharp';
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, readFileSync } from 'node:fs';
 
 /* Les interieurs, y compris ceux en reserve : la serie doit etre prete
    entiere le jour ou le client en demande une autre. */
@@ -41,13 +41,34 @@ const SERIE = [
   'records.jpg', 'team-desk.jpg',
 ];
 
+/* Recadrages declares un par un, avec leur raison. La regle du site reste
+   « on ne recadre jamais pour faire entrer une image dans un gabarit » : ce
+   sont deux gestes differents. Ici on ne suit aucune maquette, on retire ce
+   qui ne sert pas la photographie. Et jamais d'agrandissement : la largeur
+   native est conservee. */
+const CADRAGE = {
+  // Le tiers superieur est un plafond nu. Affichee en pleine largeur, la photo
+  // montrait surtout ce vide ; recadree, elle montre les palettes, les cartons
+  // et la ligne imprimee « YOUR PARTNER FOR QUALITY MEDICINES ».
+  'pharma-warehouse.jpg': { left: 0, top: 202, width: 1080, height: 608 },
+  // Meme defaut a la verticale : un mur blanc occupait le tiers haut.
+  'team-desk.jpg': { left: 0, top: 300, width: 720, height: 980 },
+};
+
 const LO = 4, HI = 250;      // points cibles
 const FORCE = 0.7;           // force de l'extension de niveaux
 const borne = (v, min, max) => Math.min(max, Math.max(min, v));
 const pct = (a, p) => a[Math.min(a.length - 1, Math.floor(a.length * p))];
 
-async function mesurer(chemin) {
-  const { data } = await sharp(chemin).resize(200, null, { fit: 'inside' })
+/* La source, recadree s'il y a lieu. Tout part de la : la mesure comme la
+   correction, sinon on etalonne un histogramme qu'on ne publiera pas. */
+const source = (f) => {
+  const s = sharp(`originaux/${f}`);
+  return CADRAGE[f] ? s.extract(CADRAGE[f]) : s;
+};
+
+async function mesurer(entree) {
+  const { data } = await sharp(entree).resize(200, null, { fit: 'inside' })
     .removeAlpha().raw().toBuffer({ resolveWithObject: true });
   const ch = [[], [], []];
   let lum = 0, sat = 0, n = 0;
@@ -72,25 +93,22 @@ const mediane = (a) => [...a].sort((x, y) => x - y)[Math.floor(a.length / 2)];
 
 /* --- 1. mesurer la serie entiere pour en tirer ses propres cibles -------- */
 const avant = {};
-for (const f of SERIE) avant[f] = await mesurer(`originaux/${f}`);
+for (const f of SERIE) avant[f] = await mesurer(await source(f).toBuffer());
 
 const cibleLum = mediane(SERIE.map((f) => avant[f].lum));
 const cibleSat = Math.max(0.24, mediane(SERIE.map((f) => avant[f].sat)));
 console.log(`cibles de la serie : luminance ${cibleLum.toFixed(0)}, saturation ${cibleSat.toFixed(2)}\n`);
 
 /* --- 2. corriger ---------------------------------------------------------- */
-for (const f of SERIE) {
-  const m = avant[f];
+/* On ne choisit plus la methode sur un seuil. Un seuil est un pari : celui de
+   12 marchait jusqu'a ce qu'un recadrage fasse passer team-desk a 12,3 et que
+   le correcteur par canal lui fabrique une dominante de 20 qu'elle n'avait
+   pas. On applique donc les DEUX corrections, on mesure les deux resultats, et
+   on garde celle qui reduit reellement l'ecart de point blanc. Une regle qui
+   se verifie elle-meme ne peut pas se tromper de diagnostic. */
+const ecartDe = (m) => Math.max(...m.p99) - Math.min(...m.p99);
 
-  /* On ne corrige une dominante que la ou on en mesure une. L'extension par
-     canal est un correcteur de dominante ; appliquee a une image deja neutre
-     elle en FABRIQUE une, parce qu'elle prend pour un dereglage ce qui est le
-     sujet. Constate : team-desk, dont le point noir est 39/74/39 — des murs et
-     un bureau creme, pas une dominante — passait d'un ecart de 7 a 22.
-     Au-dessous du seuil, l'extension est neutre : meme gain sur les trois
-     canaux, calcule sur la moyenne. Elle ne rend alors que du contraste. */
-  const ecart = Math.max(...m.p99) - Math.min(...m.p99);
-  const parCanal = ecart >= 12;
+const niveaux = (m, parCanal) => {
   const a = [], b = [];
   const moyP1 = (m.p1[0] + m.p1[1] + m.p1[2]) / 3;
   const moyP99 = (m.p99[0] + m.p99[1] + m.p99[2]) / 3;
@@ -101,22 +119,32 @@ for (const f of SERIE) {
     a.push(borne(1 + FORCE * (s - 1), 0.9, 1.4));
     b.push(borne(FORCE * (LO - lo * s), -40, 40));
   }
+  return { a, b };
+};
 
-  // luminance apres extension, estimee sur le canal vert qui pese le plus
-  const lumApres = m.lum * ((a[0] + a[1] + a[2]) / 3) + (b[0] + b[1] + b[2]) / 3;
-  const clarte = borne(cibleLum / Math.max(1, lumApres), 0.86, 1.08);
-  const saturation = borne(cibleSat / Math.max(0.01, m.sat), 1.0, 1.25);
+const choix = {};
+for (const f of SERIE) {
+  const m = avant[f];
+  const essais = [];
+  for (const parCanal of [false, true]) {
+    const { a, b } = niveaux(m, parCanal);
+    const lumApres = m.lum * ((a[0] + a[1] + a[2]) / 3) + (b[0] + b[1] + b[2]) / 3;
+    const clarte = borne(cibleLum / Math.max(1, lumApres), 0.86, 1.08);
+    const saturation = borne(cibleSat / Math.max(0.01, m.sat), 1.0, 1.25);
+    const buf = await source(f).linear(a, b).modulate({ brightness: clarte, saturation })
+      .jpeg({ quality: 92, chromaSubsampling: '4:4:4' }).toBuffer();
+    essais.push({ parCanal, a, b, clarte, saturation, buf, ecart: ecartDe(await mesurer(buf)) });
+  }
+  // a egalite on prefere le neutre : il ne touche pas a l'equilibre des canaux
+  const garde = essais[1].ecart < essais[0].ecart - 1 ? essais[1] : essais[0];
+  writeFileSync(`src/img/company/${f}`, garde.buf);
+  choix[f] = garde;
 
-  const sortie = await sharp(`originaux/${f}`)
-    .linear(a, b)
-    .modulate({ brightness: clarte, saturation })
-    .jpeg({ quality: 92, chromaSubsampling: '4:4:4' })
-    .toBuffer();
-  writeFileSync(`src/img/company/${f}`, sortie);
-
-  console.log(`${f.padEnd(24)} ${parCanal ? 'par canal' : '  neutre '} gains ${a.map((v) => v.toFixed(2)).join('/')}` +
-              `  offsets ${b.map((v) => Math.round(v)).join('/')}` +
-              `  clarte ${clarte.toFixed(2)}  saturation ${saturation.toFixed(2)}`);
+  console.log(`${f.padEnd(24)}${CADRAGE[f] ? ' recadre ' : '         '}` +
+              `${garde.parCanal ? 'par canal' : '  neutre '}` +
+              `  ecart ${ecartDe(m)} -> ${garde.ecart}` +
+              `  (l'autre methode : ${essais[garde.parCanal ? 0 : 1].ecart})` +
+              `  clarte ${garde.clarte.toFixed(2)}  saturation ${garde.saturation.toFixed(2)}`);
 }
 
 /* --- 3. verifier que la serie a bien converge ---------------------------- */
@@ -124,7 +152,7 @@ console.log('\n' + 'fichier'.padEnd(24) + 'ecart de point blanc      luminance  
 let ecartAvantMax = 0, ecartApresMax = 0;
 const lumApres = [], lumAvant = [];
 for (const f of SERIE) {
-  const ap = await mesurer(`src/img/company/${f}`);
+  const ap = await mesurer(readFileSync(`src/img/company/${f}`));
   const eA = Math.max(...avant[f].p99) - Math.min(...avant[f].p99);
   const eB = Math.max(...ap.p99) - Math.min(...ap.p99);
   ecartAvantMax = Math.max(ecartAvantMax, eA);

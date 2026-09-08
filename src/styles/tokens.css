@@ -61,10 +61,14 @@
   --wd-label: 68%;  --wd-text: 100%;  --wd-display: 120%;
   --tr-label: .06em;  --tr-text: 0;  --tr-display: -.015em;
 
-  /* ---- rythme : base 4, trois espacements de section ---------------- */
-  --s-block: 48px;
-  --s-section: 96px;
-  --s-band: 160px;
+  /* ---- rythme : base 4, trois espacements de section ----------------
+     Resserre de 25 %. En retirant les filets je les avais remplaces par des
+     ecarts enormes — 96px entre deux produits, 160px entre deux sections —
+     et la page etait devenue une suite d'ilots. Un catalogue de negoce est
+     dense : la respiration est dans les marges, pas entre chaque ligne. */
+  --s-block: 36px;
+  --s-section: 72px;
+  --s-band: 120px;
 
   /* ---- mouvement : deux courbes, quatre durees ---------------------- */
   --ease-out: cubic-bezier(.25, 1, .5, 1);
@@ -223,6 +227,10 @@ p, li, dd { text-wrap: pretty; }
    s'INDEXENT, sur deux colonnes serrees. Sortir le meme gabarit pour les deux
    etait une economie de code, jamais une decision de mise en page. */
 
+/* Le nom seul a gauche laissait un rectangle vide sous lui pendant que la
+   description courait sur trois lignes a droite. Le fait remonte donc dans la
+   colonne de gauche : les deux portent du contenu, et l'ecart entre deux
+   entrees peut redescendre. */
 .reg--wide  { display: grid; gap: var(--s-section); }
 .reg--index { display: grid; gap: var(--s-block) var(--col-gap); }
 @media (min-width: 900px) { .reg--index { grid-template-columns: 1fr 1fr; } }
