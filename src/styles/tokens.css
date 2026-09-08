@@ -41,7 +41,7 @@
   --fg: var(--ink);
   --rule:  rgba(10, 26, 51, .14);
   --hair:  rgba(10, 26, 51, .07);
-  --muted: rgba(10, 26, 51, .62);   /* 4,78 — AA */
+  --muted: rgba(10, 26, 51, .70);   /* 6,22 — AA large */
 
   /* ---- grille : une seule pour toutes les pages --------------------- */
   --shell: 1360px;
@@ -107,7 +107,7 @@
   --fg: var(--paper);
   --rule:  rgba(242, 245, 249, .20);
   --hair:  rgba(242, 245, 249, .09);
-  --muted: rgba(242, 245, 249, .68);
+  --muted: rgba(242, 245, 249, .74);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -166,7 +166,7 @@ p { margin: 0; }
 
 .t-display { font-size: var(--t-display); line-height: var(--lh-display);
              font-stretch: var(--wd-display); font-weight: var(--w-display);
-             letter-spacing: var(--tr-display); text-wrap: balance; }
+             letter-spacing: var(--tr-display); max-width: 21ch; }
 .t-h1 { font-size: var(--t-h1); line-height: var(--lh-h1);
         font-stretch: var(--wd-display); font-weight: var(--w-display);
         letter-spacing: var(--tr-display); text-wrap: balance; }
@@ -204,23 +204,36 @@ p, li, dd { text-wrap: pretty; }
 .act--line { background: transparent; color: var(--fg); }
 .act--line:hover { background: var(--fg); color: var(--bg); }
 
-/* Une ligne de registre. Un seul gabarit, rempli quatorze fois. */
-.reg { border-top: 1px solid var(--rule); }
-.row {
-  display: grid; gap: 6px var(--col-gap); align-items: baseline;
-  padding-block: 32px; border-bottom: 1px solid var(--rule);
-  text-decoration: none;
-  transition: border-color var(--hover) linear;
-}
-.row__d { color: var(--muted); }
-@media (min-width: 900px) {
-  .row { grid-template-columns: repeat(12, 1fr); }
-  .row__n { grid-column: 1 / 5; }
-  .row__d { grid-column: 5 / 10; }
-  .row__f { grid-column: 10 / 13; text-align: right; }
-}
-.row__v { font-variant-numeric: tabular-nums; display: block; }
-.row:hover { border-bottom-color: var(--fg); }
+/* ------------------------------------------------------- les registres ---
+   Il n'y a plus un seul filet de separation sur ce site. Une liste dont
+   chaque ligne est soulignee est un tableau qui se fait passer pour une
+   liste ; c'est le reflexe par defaut, pas une decision. Ce qui separe ici,
+   c'est l'ecart — l'espace entre deux entrees vaut plusieurs fois celui qui
+   regne a l'interieur d'une entree — l'axe de gauche, et l'echelle.
+
+   Et les deux registres cessent d'etre le meme objet. Quatre lignes d'export
+   se PRESENTENT, chacune a la place d'un titre ; dix categories d'import
+   s'INDEXENT, sur deux colonnes serrees. Sortir le meme gabarit pour les deux
+   etait une economie de code, jamais une decision de mise en page. */
+
+.reg--wide  { display: grid; gap: var(--s-section); }
+.reg--index { display: grid; gap: var(--s-block) var(--col-gap); }
+@media (min-width: 900px) { .reg--index { grid-template-columns: 1fr 1fr; } }
+
+.ent { display: grid; gap: 8px var(--col-gap); align-content: start;
+       text-decoration: none; }
+.reg--wide .ent { gap: 14px var(--col-gap); }
+@media (min-width: 900px) { .reg--wide .ent { grid-template-columns: 4fr 8fr; } }
+
+/* Le seul geste au survol : le nom se souligne. C'est l'usage du lien, pas
+   un trait de decor — et il n'existe que sous le curseur. */
+.ent:hover .ent__n { text-decoration: underline; text-underline-offset: 5px;
+                     text-decoration-thickness: 1px; }
+.ent__d { color: var(--muted); }
+/* Le fait doit se detacher de la description, sinon il se lit comme la
+   derniere phrase du paragraphe. */
+.ent__f { margin-top: 14px; }
+.ent__f b { font-weight: var(--w-text); display: block; }
 
 /* Images. Une seule regle gouverne les trois cadres : AUCUNE image n'est
    jamais affichee au-dela de sa largeur native. Le pipeline la garantit au
@@ -237,13 +250,14 @@ p, li, dd { text-wrap: pretty; }
    rien a rogner. Le format affiche est celui du fichier. */
 .media--plate, .media--portrait { max-width: min(100%, var(--nat)); }
 
-/* Tableau de faits : filets horizontaux seuls, aucun fond alterne. */
-.facts { margin: 0; border-top: 1px solid var(--rule); }
-.facts > div { display: flex; flex-wrap: wrap; gap: 4px 24px;
-               justify-content: space-between; align-items: baseline;
-               padding-block: 12px; border-bottom: 1px solid var(--rule); }
-.facts dt { margin: 0; }
-.facts dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+/* Les specifications. Le tableau regle a disparu, et avec lui le ferrage a
+   droite : aligner a droite une valeur qui est une phrase — « Laminated,
+   tempered, wired » — promet une comparaison chiffree que rien ne tient. Tout
+   part de l'axe de gauche, l'intitule au-dessus de sa valeur. */
+.facts { margin: 0; display: grid; gap: var(--s-block) var(--col-gap); }
+@media (min-width: 620px) { .facts { grid-template-columns: repeat(2, 1fr); } }
+.facts > div { display: grid; gap: 2px; align-content: start; }
+.facts dt, .facts dd { margin: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   :root { --in: 0s; --out: 0s; --hover: 0s; }

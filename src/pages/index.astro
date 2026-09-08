@@ -4,12 +4,10 @@ import site from '../data/site.json';
 import copy from '../data/copy.json';
 import Photo from '../components/Photo.astro';
 
-/* Le fait porte en colonne de droite est designe nommement dans copy.json
-   (cle "mark"). L'heuristique precedente — le plus court qui contient un
-   chiffre — remontait le numero de telephone pour trois lignes et repetait
-   "More than 20 years" a l'identique sur deux autres. Un registre dont la
-   colonne de droite melange des specifications et un numero de standard se
-   lit comme une sortie de machine. Le choix est editorial. */
+/* Le fait porte par chaque entrée est désigné nommément dans copy.json (clé
+   « mark »). L'heuristique précédente — le plus court qui contient un chiffre —
+   remontait le numéro de téléphone pour trois lignes et répétait « More than
+   20 years » à l'identique sur deux autres. Le choix est éditorial. */
 const pick = (slug) => {
   const e = copy[slug];
   return e?.facts?.find((f) => f.label === e.mark) ?? null;
@@ -25,9 +23,7 @@ const c = site.company;
   title="Tungsten Import Export — Addis Ababa"
   description="We export Ethiopian oilseeds and pulses, and import medicines, vehicles and materials into Ethiopia. Trading from Addis Ababa since 2007."
 >
-  {/* 1 — PREMIER ECRAN. Le titre, et rien dessous : ni bouton, ni chapeau.
-        La premiere ligne du registre affleure, ce qui dit qu'il y a un
-        document sous le titre. */}
+  {/* 1 — PREMIER ÉCRAN. Le titre, et rien dessous : ni bouton, ni chapeau. */}
   <section class="hero">
     <div class="shell">
       <h1 class="t-display hero__h">
@@ -37,56 +33,60 @@ const c = site.company;
     </div>
   </section>
 
-  {/* 2 — REGISTRE SORTANT, sur le papier. */}
+  {/* 2 — LES QUATRE EXPORTS. Ils se présentent : chacun tient la place d'un
+        titre, le nom à gauche sur l'axe, la description en regard. Rien ne les
+        sépare qu'un intervalle trois fois plus grand que celui qui règne à
+        l'intérieur d'une entrée. C'est l'écart qui sépare, pas un trait. */}
   <section class="reg-out" id="exports">
     <div class="shell">
       <header class="reg__head">
-        <h2 class="t-h2">Exports</h2>
+        <h2 class="t-h1">Exports</h2>
         <p class="t-note t-quiet">{out.length} products</p>
       </header>
-      <div class="reg">
+      <div class="reg--wide">
         {out.map((p) => (
-          <a class="row" href={`/${p.folder}/${p.slug}/`}>
-            <span class="t-h3 row__n">{p.name}</span>
-            <span class="t-body row__d">{p.lead}</span>
-            {p.fact && (
-              <span class="row__f">
-                <span class="t-body row__v">{p.fact.value}</span>
-                <span class="t-label t-quiet">{p.fact.label}</span>
-              </span>
-            )}
+          <a class="ent" href={`/${p.folder}/${p.slug}/`}>
+            <h3 class="t-h2 ent__n">{p.name}</h3>
+            <div>
+              <p class="t-lead ent__d">{p.lead}</p>
+              {p.fact && (
+                <p class="ent__f">
+                  <span class="t-note t-quiet">{p.fact.label}</span>
+                  <b class="t-body">{p.fact.value}</b>
+                </p>
+              )}
+            </div>
           </a>
         ))}
       </div>
     </div>
   </section>
 
-  {/* La charniere. Une seule image sur l'accueil, et c'est la marchandise :
-        les legumineuses triees par variete, vues de dessus. Sa grille rime
-        avec le registre qu'elle referme. Quatorze vignettes de produits
-        auraient fait une grille de cartes — ce qu'on cherche a eviter. */}
+  {/* La charnière. Une seule image sur l'accueil, et c'est la marchandise. */}
   <div class="shell">
     <Photo src="img/company/contact.jpg" alt="Pulses and oilseeds sorted by variety" />
   </div>
 
-  {/* 3 — REGISTRE ENTRANT, meme composant, sur la nuit. La page descend du
-        papier vers la nuit : c'est le sens de circulation, litteralement. */}
+  {/* 3 — LES DIX IMPORTS. Ils ne se présentent pas, ils s'indexent : deux
+        colonnes serrées, un cran de corps en dessous des exports. Quatre
+        choses et dix choses ne sont pas le même objet ; leur appliquer le
+        même gabarit était une économie de code, pas une décision. */}
   <section class="reg-in" id="imports" data-flow="in">
     <div class="shell">
       <header class="reg__head">
-        <h2 class="t-h2">Imports</h2>
+        <h2 class="t-h1">Imports</h2>
         <p class="t-note t-quiet">{inn.length} categories</p>
       </header>
-      <div class="reg">
+      <div class="reg--index">
         {inn.map((p) => (
-          <a class="row" href={`/${p.folder}/${p.slug}/`}>
-            <span class="t-h3 row__n">{p.name}</span>
-            <span class="t-body row__d">{p.lead}</span>
+          <a class="ent" href={`/${p.folder}/${p.slug}/`}>
+            <h3 class="t-h3 ent__n">{p.name}</h3>
+            <p class="t-body ent__d">{p.lead}</p>
             {p.fact && (
-              <span class="row__f">
-                <span class="t-body row__v">{p.fact.value}</span>
-                <span class="t-label t-quiet">{p.fact.label}</span>
-              </span>
+              <p class="ent__f">
+                <span class="t-note t-quiet">{p.fact.label}</span>
+                <b class="t-body">{p.fact.value}</b>
+              </p>
             )}
           </a>
         ))}
@@ -94,13 +94,7 @@ const c = site.company;
     </div>
   </section>
 
-  {/* 4 — CLOTURE. Il y avait ici une bande de chiffres cles : 2007 et 30,
-        composes au palier d'affichage. C'est la figure la plus usee du
-        gabarit d'entreprise, et j'etais deja passe de quatre chiffres a deux
-        pour la meme raison — le bout de ce raisonnement est zero. Les deux
-        durees vivent la ou elles ont un sens : 2007 est imprime dans le
-        bandeau de tete de chaque page, les trente annees du fondateur sont
-        dans sa lettre, a un lien d'ici. */}
+  {/* 4 — CLÔTURE. */}
   <section class="orient">
     <div class="shell g g--d">
       <div>
@@ -109,20 +103,20 @@ const c = site.company;
         </p>
         <p class="t-body t-quiet orient__h">{c.hours.weekdays}</p>
       </div>
-      <div class="orient__links">
+      <nav class="orient__links" aria-label="Elsewhere">
         <a class="t-h2" href="/about/">Read the founder&rsquo;s letter</a>
         <a class="t-h2" href="/contact/">Contact us</a>
         <a class="t-h2" href="/training/">Book to train with us</a>
-      </div>
+      </nav>
     </div>
   </section>
 </Base>
 
 <style>
-  /* --- 1. premier ecran --- */
-  .hero { padding-block: var(--s-section) var(--s-section); }
+  /* --- 1. premier écran --- */
+  .hero { padding-block: var(--s-section) var(--s-band); }
   .hero__h { display: grid; gap: 0; }
-  /* Revelation par masque, jamais de fondu : l'opacite fabrique un gris qui
+  /* Révélation par masque, jamais de fondu : l'opacité fabrique un gris qui
      n'est dans aucune charte. */
   .line { display: block; overflow: hidden; padding-bottom: .04em; }
   .line > span { display: block; transform: translateY(100%);
@@ -133,20 +127,23 @@ const c = site.company;
     .line > span { transform: none; animation: none; }
   }
 
-  /* --- 2 et 3. les deux registres, un seul gabarit --- */
+  /* --- 2 et 3. les deux registres --- */
   .reg-out { padding-block: 0 var(--s-band); }
-  .reg-in  { padding-block: var(--s-section); }
-    .reg__head { display: flex; align-items: baseline; justify-content: space-between;
-               gap: var(--col-gap); padding-bottom: 14px;
-               border-bottom: 2px solid var(--fg); margin-bottom: var(--s-block); }
+  .reg-in  { padding-block: var(--s-band); }
 
+  /* L'en-tête était composé « nom à gauche, compte à 1200px à droite », et ces
+     deux bouts ne tenaient ensemble que par le filet qui les reliait. Empilés
+     sur l'axe de gauche, ils tiennent seuls et le filet devient inutile. */
+  .reg__head { margin-bottom: var(--s-section); }
+  .reg__head p { margin-top: 6px; }
 
-  /* --- 4. cloture --- */
+  /* --- 4. clôture --- */
   .orient { padding-block: var(--s-band); }
   .orient__h { margin-top: 16px; }
-  .orient__links { display: grid; gap: 16px; align-content: start; }
-  .orient__links a { text-decoration: none; border-bottom: 1px solid var(--rule);
-                     padding-bottom: 8px; width: fit-content;
-                     transition: border-color var(--hover) linear; }
-  .orient__links a:hover { border-bottom-color: var(--fg); }
+  .orient__links { display: grid; gap: 20px; align-content: start;
+                   justify-items: start; }
+  .orient__links a { text-decoration: none; }
+  .orient__links a:hover { text-decoration: underline;
+                           text-underline-offset: 6px;
+                           text-decoration-thickness: 1px; }
 </style>

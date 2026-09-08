@@ -60,28 +60,30 @@ const c = site.company;
 </Base>
 
 <style>
-  .top { padding-block: clamp(30px, 4.5vw, 62px) clamp(24px, 3.5vw, 44px); }
+  .top { padding-block: var(--s-section) var(--s-block); }
   .top__h { margin-top: 12px; max-width: 18ch; }
 
-  .letter { padding-top: clamp(36px, 5vw, 72px); }
-  .letter__in { display: grid; gap: clamp(24px, 3.5vw, 48px); align-items: start; }
+  .letter { padding-top: var(--s-band); }
+  .letter__in { display: grid; gap: var(--s-block) var(--col-gap); align-items: start; }
     /* 340px faisait une vignette : la charte n'admet que deux tailles d'image,
      la bande et la pleine colonne. Le portrait prend sa colonne. */
   @media (min-width: 860px) { .letter__in { grid-template-columns: 5fr 7fr; } }
   .letter__img { margin: 0; }
-  .letter__first { font-size: clamp(1.15rem, 1.8vw, 1.4rem); line-height: 1.45; margin: 12px 0 .8em; }
+  .letter__first { font-size: var(--t-lead); line-height: var(--lh-lead);
+                   margin: 12px 0 20px; }
   .letter__p { color: var(--muted); }
-  .letter__sign { display: grid; gap: 3px; margin-top: 22px; padding-top: 14px;
-                  border-top: 1px solid var(--rule); max-width: none; }
-  .letter__sign b { font-stretch: 106%; font-weight: 720; font-size: 1.05rem; }
+  .letter__sign { display: grid; gap: 3px; margin-top: var(--s-block); }
+  .letter__sign b { font-stretch: var(--wd-text); font-weight: var(--w-display);
+                    font-size: var(--t-h3); }
 
-  .premises { padding-top: clamp(40px, 5.5vw, 78px); }
+  .premises { padding-top: var(--s-band); }
   .premises__p { margin-top: 14px; color: var(--muted); }
 
   .bande { margin-top: var(--s-section); }
 
-  .memb { padding-top: clamp(40px, 5.5vw, 78px); }
-  .memb__h { margin-bottom: 18px; }
-  .memb__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
-  .memb__list li { padding-block: 14px; border-bottom: 1px solid var(--rule); }
+  .memb { padding-top: var(--s-band); }
+  .memb__h { margin-bottom: var(--s-block); }
+  .memb__list { list-style: none; margin: 0; padding: 0;
+                display: grid; gap: 10px var(--col-gap); }
+  @media (min-width: 700px) { .memb__list { grid-template-columns: repeat(2, 1fr); } }
 </style>

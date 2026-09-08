@@ -52,23 +52,21 @@ const petite = !!img && img.width <= 700;
           <p class="intro__lead">{c.lead}</p>
         </div>
       ) : (
-        <Photo src={product.photo} alt={product.name} eager class="tete__img" />
+        <Photo src={product.photo} alt={product.name} eager />
       )}
 
-      <div class="intro">
-        {!petite && <p class="intro__lead">{c.lead}</p>}
+      {!petite && <p class="intro__lead">{c.lead}</p>}
 
-        {c.facts.length > 0 && (
-          <dl class:list={['facts', petite && 'facts--large']}>
-            {c.facts.map((f) => (
-              <div>
-                <dt class="t-label t-quiet">{f.label}</dt>
-                <dd>{f.value}</dd>
-              </div>
-            ))}
-          </dl>
-        )}
-      </div>
+      {c.facts.length > 0 && (
+        <dl class="facts">
+          {c.facts.map((f) => (
+            <div>
+              <dt class="t-note t-quiet">{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
 
       {c.blocks.length > 0 && (
         <div class="prose">
@@ -107,27 +105,29 @@ const petite = !!img && img.width <= 700;
   .crumb a { text-decoration: none; }
   .crumb a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .tete__h { margin-top: 10px; }
-  .tete__img { margin-bottom: var(--s-block); }
   .duo { display: grid; gap: var(--s-block) var(--col-gap); align-items: start; }
   @media (min-width: 860px) { .duo { grid-template-columns: auto 1fr; } }
   .duo .intro__lead { max-width: 34ch; }
 
-  /* ------------------------------------------------------------ intro --- */
-  .intro { display: grid; gap: var(--s-block) var(--col-gap);
-           padding-top: var(--s-block); align-items: start; }
-  @media (min-width: 880px) { .intro { grid-template-columns: 7fr 5fr; } }
-  /* Quand le chapeau est deja parti en vis-a-vis, le tableau de faits prend
-     toute la largeur : deux colonnes de faits plutot qu'une colonne vide. */
-  @media (min-width: 880px) {
-    .facts--large { grid-column: 1 / -1; columns: 2; column-gap: var(--s-block); }
-    .facts--large > div { break-inside: avoid; }
-  }
+  /* --------------------------------------------------- chapeau et specs --
+     Les specifications etaient enfermees dans la colonne de droite d'une
+     grille 7/5, soit deux colonnes de 228px : « Passed coffee exports /
+     since 2002 » se coupait pour rien. Une feuille de specifications se lit
+     en travers de la page. Le chapeau prend sa mesure et les specs courent
+     sous lui, sur trois colonnes. */
+  /* L'ecart se pose sur le texte, pas sur la figure : un style scope d'Astro
+     n'atteint pas le balisage d'un composant enfant, et la marge posee sur la
+     figure du composant Photo ne s'appliquait donc a rien — le chapeau collait
+     au bas de l'image. */
   .intro__lead { font-size: var(--t-h2); line-height: var(--lh-h2);
                  font-stretch: var(--wd-text); font-weight: var(--w-text);
-                 margin: 0; max-width: 30ch; }
+                 margin: var(--s-section) 0 0; max-width: 34ch; }
+  .duo .intro__lead { margin-top: 0; }
+  .facts { margin-top: var(--s-band); }
+  @media (min-width: 900px) { .facts { grid-template-columns: repeat(3, 1fr); } }
 
   /* ------------------------------------------------------------ prose --- */
-  .prose { display: grid; gap: var(--s-block) var(--col-gap); padding-top: var(--s-section); }
+  .prose { display: grid; gap: var(--s-block) var(--col-gap); padding-top: var(--s-band); }
   @media (min-width: 900px) { .prose { grid-template-columns: 1fr 1fr; } }
   .prose__h { font-size: var(--t-h3); line-height: var(--lh-h3);
               font-stretch: var(--wd-text); font-weight: var(--w-display);
@@ -135,25 +135,22 @@ const petite = !!img && img.width <= 700;
   .prose p { color: var(--muted); }
 
   /* -------------------------------------------------------------- ask --- */
-  .ask { margin-top: var(--s-section); padding-top: 24px;
-         border-top: 2px solid var(--fg);
-         display: flex; flex-wrap: wrap; gap: 20px 44px;
-         align-items: end; justify-content: space-between; }
+  .ask { margin-top: var(--s-band); display: flex; flex-wrap: wrap;
+         gap: 20px 44px; align-items: end; justify-content: space-between; }
   .ask__line { margin: 0; max-width: 26ch; }
   .ask__act { display: flex; flex-wrap: wrap; gap: 12px; }
 
   /* ----------------------------------------------------------- onward --- */
-  .onward { margin-top: var(--s-section); margin-bottom: var(--s-band); }
-  .onward__h { padding-bottom: 14px; border-bottom: 2px solid var(--fg); }
-  .onward__l { list-style: none; margin: 0; padding: 0; display: grid; }
+  .onward { margin-top: var(--s-band); margin-bottom: var(--s-band); }
+  .onward__h { margin-bottom: var(--s-block); }
+  .onward__l { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
   @media (min-width: 760px) {
-    .onward__l { grid-template-columns: repeat(3, 1fr); column-gap: var(--col-gap); }
+    .onward__l { grid-template-columns: repeat(3, 1fr);
+                 gap: 18px var(--col-gap); }
   }
-  .onward a { display: block; padding: 16px 0; text-decoration: none;
-              border-bottom: 1px solid var(--rule); }
+  .onward a { display: block; text-decoration: none; width: fit-content; }
   .onward__n { font-size: var(--t-h3); line-height: var(--lh-h3);
-               font-stretch: var(--wd-text); font-weight: var(--w-display);
-               border-bottom: 2px solid transparent; justify-self: start;
-               transition: border-color var(--hover) linear; }
-  .onward a:hover .onward__n { border-bottom-color: var(--fg); }
+               font-stretch: var(--wd-text); font-weight: var(--w-display); }
+  .onward a:hover .onward__n { text-decoration: underline; text-underline-offset: 5px;
+                          text-decoration-thickness: 1px; }
 </style>
