@@ -22,9 +22,8 @@
    hiérarchie. Le balisage vient donc du serveur, une fois, et ne bouge plus.
 
    Poids : aucune bibliothèque, deux transformations CSS, une trentaine de
-   lignes de script. Le survol et le focus arrêtent la rotation ; le panneau
-   est un lien vers la fiche affichée ; sans mouvement demandé, il ne tourne
-   pas du tout et montre la première ligne.
+   lignes de script. Le panneau est un lien vers la fiche affichée ; sans
+   mouvement demandé, il ne tourne pas du tout et montre la première ligne.
    --------------------------------------------------------------------------- */
 const { items } = Astro.props;
 const faces = [items[0], items[1] ?? items[0]];
@@ -71,11 +70,25 @@ const faces = [items[0], items[1] ?? items[0]];
       f.bloc.hidden = !it.factLabel;
     };
 
-    let i = 0, tour = 0, timer = null, arrete = false;
+    /* Le survol N'ARRETE PAS la rotation, il la repousse.
+
+       La premiere version arretait tout sur pointerenter. Le panneau occupe le
+       centre du premier ecran — c'est exactement la qu'on pose sa souris — et
+       un curseur simplement gare le figeait indefiniment : il avait l'air
+       casse. Reproduit a l'essai : curseur dessus, gele ; curseur ailleurs,
+       tourne.
+
+       Mais on ne peut pas non plus le laisser tourner sous le curseur : on
+       cliquerait sur autre chose que ce qu'on lit. Le compromis est le
+       mouvement, pas la presence. Tant que le pointeur BOUGE sur le panneau,
+       la bascule est repoussee de deux secondes et demie ; des qu'il
+       s'immobilise, elle reprend. Un lecteur actif le tient ; un curseur oublie
+       ne le tue pas. */
+    const CADENCE = 3200, PREMIERE = 1600, REPOUSSE = 2500;
+    let i = 0, tour = 0, t = null, gele = false, jusqua = 0;
     const calme = matchMedia('(prefers-reduced-motion: reduce)');
 
-    const suivant = () => {
-      if (arrete || calme.matches) return;
+    const tourner = () => {
       i = (i + 1) % items.length;
       tour += 180;
       peindre(faces[tour % 360 === 180 ? 1 : 0], items[i]);
@@ -84,14 +97,24 @@ const faces = [items[0], items[1] ?? items[0]];
       card.setAttribute('href', items[i].href);
     };
 
-    const lancer = () => { clearInterval(timer); if (!calme.matches) timer = setInterval(suivant, 3600); };
-    const stopper = () => clearInterval(timer);
+    const battre = () => {
+      // La boucle meurt d'elle-meme si le panneau quitte le document : c'est ce
+      // qui evite qu'une maquette a page unique en accumule une par visite.
+      if (!card.isConnected || calme.matches) return;
+      const reste = jusqua - Date.now();
+      if (gele || reste > 0) { t = setTimeout(battre, gele ? 400 : reste); return; }
+      tourner();
+      t = setTimeout(battre, CADENCE);
+    };
 
-    board.addEventListener('pointerenter', () => { arrete = true; stopper(); });
-    board.addEventListener('pointerleave', () => { arrete = false; lancer(); });
-    card.addEventListener('focus', () => { arrete = true; stopper(); });
-    card.addEventListener('blur', () => { arrete = false; lancer(); });
-    document.addEventListener('visibilitychange', () => (document.hidden ? stopper() : lancer()));
+    const repousser = () => { jusqua = Date.now() + REPOUSSE; };
+    board.addEventListener('pointermove', repousser);
+
+    // Au clavier, en revanche, on arrete franchement : on ne lit pas une cible
+    // qui se derobe.
+    card.addEventListener('focus', () => { gele = true; });
+    card.addEventListener('blur', () => { gele = false; });
+    document.addEventListener('visibilitychange', () => { gele = document.hidden; });
 
     /* L'inclinaison suit le pointeur : c'est ce qui donne au panneau une
        épaisseur plutôt qu'une animation plaquée. Elle est portée par le
@@ -111,7 +134,9 @@ const faces = [items[0], items[1] ?? items[0]];
       });
     }
 
-    lancer();
+    // La premiere bascule vient plus tot que les suivantes : qui arrive sur la
+    // page doit voir le panneau bouger avant de decider qu'il est fixe.
+    if (!calme.matches) t = setTimeout(battre, PREMIERE);
   })();
 </script>
 

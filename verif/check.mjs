@@ -173,19 +173,37 @@ const browser = await chromium.launch();
   const mLight = ratio(flat(parse(con.muted), parse(con.bg)), parse(con.bg));
   check('AA muted / fond clair', mLight >= 4.5, mLight.toFixed(2));
 
-  /* Le tableau de departs : il doit reellement tourner, et les deux fonds
-     doivent apparaitre. Un panneau qui ne tourne pas est une image fixe qui
-     coute du script pour rien. */
-  const t0 = await page.evaluate(() => document.getElementById('board-card')?.getAttribute('href'));
-  await page.waitForTimeout(4200);
-  const t1 = await page.evaluate(() => {
-    const c = document.getElementById('board-card');
-    return { href: c?.getAttribute('href'),
-             fonds: [...document.querySelectorAll('.board__face')]
-                      .map((f) => getComputedStyle(f).backgroundColor) };
+  /* Le tableau de departs. Trois proprietes, relevees sur une meme fenetre :
+     il tourne ; il tourne meme sous un curseur immobile — la premiere version
+     le figeait au survol et il avait l'air casse, alors qu'il occupe le centre
+     du premier ecran ; et les deux fonds apparaissent. Ce dernier point ne se
+     mesure pas a un instant : le manifeste enchaine parfois trois imports. */
+  const bb = await page.evaluate(() => {
+    const r = document.getElementById('board').getBoundingClientRect();
+    return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
   });
-  check('le tableau de departs tourne', !!t0 && t0 !== t1.href, `${t0} -> ${t1.href}`);
-  check('les deux fonds du tableau', new Set(t1.fonds).size === 2, t1.fonds.join(' / '));
+  await page.mouse.move(bb.x, bb.y);        // curseur pose, puis immobile
+  await page.waitForTimeout(300);
+
+  const vus = new Set();
+  const liens = new Set();
+  for (let k = 0; k < 26; k++) {
+    const e = await page.evaluate(() => {
+      const c = document.getElementById('board-card');
+      const f = [...document.querySelectorAll('.board__face')]
+        .find((x) => x.getBoundingClientRect().height > 0 && !x.className.includes('--b')
+                     || x.className.includes('--b'));
+      return { href: c.getAttribute('href'),
+               fonds: [...document.querySelectorAll('.board__face')]
+                        .map((x) => getComputedStyle(x).backgroundColor) };
+    });
+    liens.add(e.href); e.fonds.forEach((f) => vus.add(f));
+    await page.waitForTimeout(700);
+  }
+  await page.mouse.move(4, 4);
+  check('le tableau tourne sous un curseur immobile', liens.size >= 3,
+        `${liens.size} lignes vues en 18 s`);
+  check('les deux fonds du tableau', vus.size >= 2, [...vus].join(' / '));
 
   await page.screenshot({ path: `${OUT}/home.png`, fullPage: true });
 

@@ -109,7 +109,7 @@ ${css}
 
   const poser = (route, ancre) => {
     const p = R[route] || R['/'];
-    minuteries.forEach(clearInterval); minuteries = [];
+    minuteries.forEach((id) => { clearInterval(id); clearTimeout(id); }); minuteries = [];
     document.title = p.titre;
     document.body.removeAttribute('data-flow');
     const f = /data-flow="([^"]+)"/.exec(p.attrs);
@@ -118,8 +118,9 @@ ${css}
 
     // Les scripts insérés par innerHTML ne s'exécutent pas : on les recrée,
     // et on retient leurs minuteries pour les arrêter à la navigation suivante.
-    const vraiInterval = window.setInterval;
+    const vraiInterval = window.setInterval, vraiTimeout = window.setTimeout;
     window.setInterval = (...a) => { const id = vraiInterval(...a); minuteries.push(id); return id; };
+    window.setTimeout = (...a) => { const id = vraiTimeout(...a); minuteries.push(id); return id; };
     for (const vieux of [...app.querySelectorAll('script')]) {
       const s = document.createElement('script');
       // Enferme dans une portee de fonction : les scripts d'Astro declarent
@@ -129,7 +130,7 @@ ${css}
       s.textContent = '(function(){' + NL + vieux.textContent + NL + '})();';
       vieux.replaceWith(s);
     }
-    window.setInterval = vraiInterval;
+    window.setInterval = vraiInterval; window.setTimeout = vraiTimeout;
 
     const cible = ancre && document.getElementById(ancre);
     if (cible) cible.scrollIntoView();
