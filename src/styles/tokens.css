@@ -32,6 +32,14 @@
    familles, quatre fichiers, 127 Ko — l'Archivo qu'elles remplacent en pesait
    90 a lui seul.
 
+   Les fichiers vivent dans src/fonts/ et non dans public/, et les chemins
+   ci-dessous sont RELATIFS. Ce n'est pas un detail de rangement : un chemin
+   absolu (/fonts/...) n'est jamais reecrit, et il pointe a cote des qu'un site
+   n'est pas servi a la racine d'un domaine — ce qui est le cas de toute page
+   de projet GitHub, servie sous /nom-du-depot/. En relatif, le compilateur
+   resout lui-meme l'adresse finale, ajoute l'empreinte de contenu qui permet
+   de mettre la fonte en cache pour toujours, et le site devient deplacable.
+
    Fraunces porte les titres. C'est une serif a contraste variable, et c'est
    elle qui distingue un titre d'un paragraphe autrement que par la taille.
    C'etait tout le probleme des titres precedents : meme dessin que le corps,
@@ -42,7 +50,7 @@
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
-  src: url('/fonts/fraunces-var.woff2') format('woff2-variations');
+  src: url('../fonts/fraunces-var.woff2') format('woff2-variations');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
                  U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
                  U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
@@ -52,7 +60,7 @@
   font-style: italic;
   font-display: swap;
   font-weight: 100 900;
-  src: url('/fonts/fraunces-var-italic.woff2') format('woff2-variations');
+  src: url('../fonts/fraunces-var-italic.woff2') format('woff2-variations');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
                  U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
                  U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
@@ -62,7 +70,7 @@
   font-style: normal;
   font-display: swap;
   font-weight: 400 700;
-  src: url('/fonts/instrument-sans-var.woff2') format('woff2-variations');
+  src: url('../fonts/instrument-sans-var.woff2') format('woff2-variations');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
                  U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
                  U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
@@ -72,7 +80,7 @@
   font-style: normal;
   font-display: swap;
   font-weight: 400;
-  src: url('/fonts/plex-mono.woff2') format('woff2');
+  src: url('../fonts/plex-mono.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
                  U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
                  U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;

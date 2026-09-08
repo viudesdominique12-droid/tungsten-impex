@@ -11,11 +11,12 @@
 */
 import site from '../data/site.json';
 const c = site.company;
+import { lien } from '../lib/lien.js';
 ---
 
 <div class="barre" id="barre" data-sol="nuit" hidden>
   <a class="act barre__a" href={`tel:${c.phoneHref}`}>Call</a>
-  <a class="act act--line barre__a" href="/contact/">Contact us</a>
+  <a class="act act--line barre__a" href={lien('/contact/')}>Contact us</a>
 </div>
 
 <script is:inline>

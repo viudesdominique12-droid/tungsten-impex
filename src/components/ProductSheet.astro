@@ -34,6 +34,7 @@ const img = photo(product.photo);
    source, la photo reste dans sa colonne a sa taille reelle. */
 const pleine = !!img && img.width >= 1200;
 const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (img?.width ?? 0));
+import { lien } from '../lib/lien.js';
 ---
 
 <Base title={`${product.name} — Tungsten Import Export`} description={c.lead} rail={label.toUpperCase()}>
@@ -42,9 +43,9 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (img?.width ?? 0));
       <div class="shell tete__in">
         <div>
           <nav class="crumb t-label t-quiet" aria-label="Breadcrumb">
-            <a href="/">Tungsten</a>
+            <a href={lien('/')}>Tungsten</a>
             <span aria-hidden="true">/</span>
-            <a href={`/#${label.toLowerCase()}`}>{label}</a>
+            <a href={lien(`/#${label.toLowerCase()}`)}>{label}</a>
           </nav>
           <h1 class="t-display tete__h">{product.name}</h1>
         </div>
@@ -116,7 +117,7 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (img?.width ?? 0));
           <p class="t-h1 ask__line">{c.cta}</p>
         </div>
         <div class="actes">
-          <a class="act" href="/contact/">Contact us</a>
+          <a class="act" href={lien('/contact/')}>Contact us</a>
         </div>
       </div>
     </section>
@@ -126,7 +127,7 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (img?.width ?? 0));
         <p class="t-label t-quiet code onward__h">Our other {label.toLowerCase()}</p>
         <div class="cartes cartes--3">
           {others.map((o) => (
-            <a class="carte" href={`/${folder}/${o.slug}/`}>
+            <a class="carte" href={lien(`/${folder}/${o.slug}/`)}>
               <h2 class="t-h3">{o.name}</h2>
             </a>
           ))}

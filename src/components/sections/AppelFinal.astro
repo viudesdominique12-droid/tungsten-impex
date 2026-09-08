@@ -16,6 +16,7 @@ const lignes = [
   { label: 'City',    valeur: `${c.address.city}, ${c.address.country}` },
   { label: 'Hours',   valeur: c.hours.weekdays },
 ];
+import { lien } from '../../lib/lien.js';
 ---
 
 <section class="fin section" data-type="B" data-rail-section="CONTACT">
@@ -25,7 +26,7 @@ const lignes = [
       <h2 class="t-h1 fin__h">{a.titre}</h2>
       <p class="t-lead fin__p">{a.corps}</p>
       <div class="actes fin__act">
-        <a class="act" href="/contact/">Contact us</a>
+        <a class="act" href={lien('/contact/')}>Contact us</a>
         <a class="act act--line" href={`tel:${c.phoneHref}`}>{c.phone}</a>
       </div>
     </div>

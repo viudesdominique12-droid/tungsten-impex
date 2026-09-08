@@ -4,10 +4,24 @@ import site from '../data/site.json';
 import BarreAppel from '../components/BarreAppel.astro';
 import Rail from '../components/Rail.astro';
 
+import { lien } from '../lib/lien.js';
+
+/* Les quatre fontes sont importees, pas ecrites en dur. Le compilateur rend
+   leur adresse finale — empreinte de contenu comprise, et prefixe du
+   sous-chemin quand le site n'est pas publie a la racine. Un href="/fonts/..."
+   ecrit a la main pointe a cote des la premiere page de projet. */
+import fraunces from '../fonts/fraunces-var.woff2?url';
+import frauncesItal from '../fonts/fraunces-var-italic.woff2?url';
+import instrument from '../fonts/instrument-sans-var.woff2?url';
+import mono from '../fonts/plex-mono.woff2?url';
+
 const { title, description, rail = 'TUNGSTEN' } = Astro.props;
 const c = site.company;
 const here = Astro.url.pathname;
-const cur = (h) => (here === h ? 'page' : undefined);
+/* La page courante se compare a l'adresse PUBLIEE, pas au chemin nu : sous un
+   sous-chemin, `here` vaut /nom-du-depot/about/ et la comparaison brute ne
+   trouvait jamais rien — le menu perdait sa marque de page courante. */
+const cur = (h) => (here === lien(h) ? 'page' : undefined);
 ---
 
 <!doctype html>
@@ -21,10 +35,9 @@ const cur = (h) => (here === h ? 'page' : undefined);
   {/* Auto-hebergees et prechargees. Sans elles, toute la hierarchie
       s'effondre en Helvetica et il ne reste que la taille pour distinguer un
       titre d'un paragraphe — le defaut exact que cette refonte corrige. */}
-  <link rel="preload" href="/fonts/fraunces-var.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/fonts/fraunces-var-italic.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/fonts/instrument-sans-var.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/fonts/plex-mono.woff2" as="font" type="font/woff2" crossorigin />
+  {[fraunces, frauncesItal, instrument, mono].map((f) => (
+    <link rel="preload" href={f} as="font" type="font/woff2" crossorigin />
+  ))}
 
   <meta name="theme-color" content="#0A1B3C" />
 </head>
@@ -47,7 +60,7 @@ const cur = (h) => (here === h ? 'page' : undefined);
 
     <header class="hdr" id="hdr">
       <div class="shell hdr__in">
-        <a class="mark" href="/">
+        <a class="mark" href={lien('/')}>
           <strong>Tungsten</strong>
           <span class="t-label t-quiet">Import Export</span>
         </a>
@@ -62,31 +75,31 @@ const cur = (h) => (here === h ? 'page' : undefined);
 
   <div class="nav" id="nav" data-open="false" data-sol="nuit" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menu">
     <div class="shell nav__bar">
-      <a class="mark" href="/"><strong>Tungsten</strong><span class="t-label t-quiet">Import Export</span></a>
+      <a class="mark" href={lien('/')}><strong>Tungsten</strong><span class="t-label t-quiet">Import Export</span></a>
       <button class="nav__x" id="nav-close" type="button" aria-label="Close menu">&times;</button>
     </div>
     <div class="nav__body">
       <div class="shell nav__grid">
         <nav class="nav__main" aria-label="Main">
-          <a href="/about/" aria-current={cur('/about/')}>About us</a>
-          <a href="/training/" aria-current={cur('/training/')}>Book to train with us</a>
-          <a href="/contact/" aria-current={cur('/contact/')}>Contact us</a>
+          <a href={lien('/about/')} aria-current={cur('/about/')}>About us</a>
+          <a href={lien('/training/')} aria-current={cur('/training/')}>Book to train with us</a>
+          <a href={lien('/contact/')} aria-current={cur('/contact/')}>Contact us</a>
         </nav>
 
         <div class="nav__grp">
-          <a class="nav__head" href="/#exports"><b>Exports</b><span class="t-label t-quiet">{site.exports.length} products</span></a>
+          <a class="nav__head" href={lien('/#exports')}><b>Exports</b><span class="t-label t-quiet">{site.exports.length} products</span></a>
           <ul>
             {site.exports.map((p) => (
-              <li><a href={`/export/${p.slug}/`} aria-current={cur(`/export/${p.slug}/`)}>{p.name}</a></li>
+              <li><a href={lien(`/export/${p.slug}/`)} aria-current={cur(`/export/${p.slug}/`)}>{p.name}</a></li>
             ))}
           </ul>
         </div>
 
         <div class="nav__grp">
-          <a class="nav__head" href="/#imports"><b>Imports</b><span class="t-label t-quiet">{site.imports.length} categories</span></a>
+          <a class="nav__head" href={lien('/#imports')}><b>Imports</b><span class="t-label t-quiet">{site.imports.length} categories</span></a>
           <ul>
             {site.imports.map((p) => (
-              <li><a href={`/import/${p.slug}/`} aria-current={cur(`/import/${p.slug}/`)}>{p.name}</a></li>
+              <li><a href={lien(`/import/${p.slug}/`)} aria-current={cur(`/import/${p.slug}/`)}>{p.name}</a></li>
             ))}
           </ul>
         </div>
@@ -112,18 +125,18 @@ const cur = (h) => (here === h ? 'page' : undefined);
       </div>
       <div>
         <p class="t-label t-quiet ftr__h">Exports</p>
-        <ul>{site.exports.map((p) => <li><a href={`/export/${p.slug}/`}>{p.name}</a></li>)}</ul>
+        <ul>{site.exports.map((p) => <li><a href={lien(`/export/${p.slug}/`)}>{p.name}</a></li>)}</ul>
       </div>
       <div>
         <p class="t-label t-quiet ftr__h">Imports</p>
-        <ul>{site.imports.map((p) => <li><a href={`/import/${p.slug}/`}>{p.name}</a></li>)}</ul>
+        <ul>{site.imports.map((p) => <li><a href={lien(`/import/${p.slug}/`)}>{p.name}</a></li>)}</ul>
       </div>
       <div>
         <p class="t-label t-quiet ftr__h">Company</p>
         <ul>
-          <li><a href="/about/">About us</a></li>
-          <li><a href="/training/">Training</a></li>
-          <li><a href="/contact/">Contact us</a></li>
+          <li><a href={lien('/about/')}>About us</a></li>
+          <li><a href={lien('/training/')}>Training</a></li>
+          <li><a href={lien('/contact/')}>Contact us</a></li>
         </ul>
       </div>
     </div>

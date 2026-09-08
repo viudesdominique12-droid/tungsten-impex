@@ -6,6 +6,7 @@
    sur deux autres. Le choix est editorial, pas automatique. */
 import site from '../data/site.json';
 import copy from '../data/copy.json';
+import { lien } from './lien.js';
 
 const fait = (slug) => {
   const e = copy[slug];
@@ -21,7 +22,11 @@ export const entrants = site.imports.map((p) => ligne(p, 'import'));
    dix bleus. */
 const carte = (p) => ({
   name: p.name,
-  href: `/${p.folder}/${p.slug}/`,
+  /* Le tableau de departs fabrique ses adresses ici, et il les fabriquait en
+     dur : c'est le seul lien du site que la conversion en `lien()` avait
+     manque, parce qu'il ne ressemble pas a un href dans un gabarit. Sous un
+     sous-chemin, le panneau du premier ecran menait donc a une page absente. */
+  href: lien(`/${p.folder}/${p.slug}/`),
   flow: p.folder === 'export' ? 'out' : 'in',
   dir: p.folder === 'export' ? 'Export' : 'Import',
   factLabel: p.fact?.label ?? '',

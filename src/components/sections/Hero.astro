@@ -15,6 +15,7 @@
 import Photo from '../Photo.astro';
 import Board from '../Board.astro';
 import { manifeste } from '../../lib/registre.js';
+import { lien } from '../../lib/lien.js';
 ---
 
 <section class="hero section" data-type="A" data-sol="nuit" data-premier data-rail-section="ADDIS ABABA">
@@ -28,7 +29,7 @@ import { manifeste } from '../../lib/registre.js';
       </h1>
 
       <div class="actes hero__act">
-        <a class="act" href="/contact/">Contact us</a>
+        <a class="act" href={lien('/contact/')}>Contact us</a>
         <a class="act act--line" href="#exports">Exports</a>
       </div>
     </div>

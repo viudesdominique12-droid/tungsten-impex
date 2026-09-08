@@ -1,133 +1,121 @@
-# Tungsten Import Export — site
+# Tungsten Import Export
 
-Site statique. Aucune dépendance, aucun `npm install`. On ouvre `index.html`
-et ça marche.
+Site de la maison de négoce Tungsten Import Export, Addis-Abeba. Dix-huit pages
+statiques, construites avec [Astro](https://astro.build). Aucun framework
+d'interface, aucun JavaScript de bibliothèque : ce qui bouge tient en une
+poignée de lignes écrites à la main.
+
+**Le dossier de reprise est [`REPRISE.md`](REPRISE.md)** — le client, le
+contenu, le système visuel, ce qui attend une réponse, et les pièges qui ont
+déjà coûté du temps. Commencez par là.
+
+---
+
+## Démarrer
+
+```bash
+npm install
+npm run dev        # http://localhost:4321
+```
+
+| Commande | Ce qu'elle fait |
+|---|---|
+| `npm run dev` | serveur de développement |
+| `npm run build` | construit les 18 pages dans `dist/` |
+| `npm run preview` | sert `dist/` sur le port 4321 |
+| `npm run verif` | **la vérification complète** — voir plus bas |
+| `node outils/bundle.mjs` | compile le site en un fichier unique, partageable |
 
 ## Modifier le contenu
 
-Deux fichiers, et deux seulement :
+Trois fichiers, et trois seulement. Aucun texte n'est écrit dans un composant.
 
 | Fichier | Contient |
 |---|---|
-| `src/catalog.mjs` | l'identité : coordonnées, réseaux, lettre du fondateur, les 14 produits avec leur **couleur** et leur photo |
-| `src/copy.json` | le **texte** des 14 fiches produits |
+| `src/data/site.json` | coordonnées, horaires, lettre du fondateur, programme de formation, les 14 produits |
+| `src/data/copy.json` | le texte des 14 fiches produits : chapeau, spécifications, blocs, appel |
+| `src/data/home.json` | les sections de l'accueil : manifeste, réassurance, process, FAQ, appel final |
 
-Après toute modification :
+`home.json` porte une clé **`aConfirmer`** : la liste des affirmations rédigées
+d'après l'usage courant du négoce mais **jamais confirmées par le client**. Le
+process et trois questions sur sept en font partie. C'est cette liste qu'on lui
+envoie.
 
-```bash
-node src/build.mjs
-```
+## Le système visuel
 
-Les 20 pages sont réécrites. **Ne jamais modifier les `.html` à la main** — ils
-sont écrasés à chaque build.
+Huit types de section, alternés de sorte que deux voisines ne se ressemblent
+jamais — héros nuit, bande de données, ruban défilant, bande photo pleine
+largeur, éditorial à titre collant, grille de cartes, citation, index à filets.
+Trois familles de police : Fraunces pour les titres, Instrument Sans pour le
+texte, IBM Plex Mono pour les micro-libellés.
 
-## Le système de couleurs
+Tout est décrit, avec les raisons, dans `src/styles/tokens.css` et dans
+[`REPRISE.md`](REPRISE.md) §6.
 
-C'est la pièce maîtresse. La méthode vient de zaziwe-labs : **aucune neutre
-n'est vraiment neutre.** Le fond n'est pas blanc, l'encre n'est pas noire, le
-gris secondaire n'est pas gris — tout est teinté vers la couleur du produit.
+**Deux règles se vérifient toutes seules** et font échouer `npm run verif` :
+deux sections voisines ne peuvent pas porter le même type, et aucune page ne
+peut dépasser 50 % de surface sombre.
 
-Dans `src/catalog.mjs`, un produit ne déclare qu'**une seule couleur** :
+## Les images
 
-```js
-{ slug: 'solar-lanterns', name: 'Solar Lanterns', accent: '#D97A0F', hero: false }
-```
+Une règle, et elle est absolue : **on n'agrandit jamais au-delà de 1,4×**. Le
+pipeline ne fabrique aucune variante plus large que la source, `--nat` borne la
+largeur affichée, et les bandes pleine largeur se centrent plutôt que de
+s'étirer. Sous 1 024 px de source, pas de bande du tout.
 
-`src/color.mjs` en dérive quinze jetons — fond, surface, lavis, filet,
-sourdine, encre, trois tons de nuit, et trois variantes d'accent garanties
-lisibles. Résultat concret :
+Les fontes vivent dans `src/fonts/` et non dans `public/` : les chemins doivent
+être **relatifs** pour que le compilateur les résolve. Un chemin absolu pointe à
+côté dès que le site n'est pas servi à la racine.
 
-| | ascenseurs `#5C6672` | lanternes solaires `#D97A0F` |
-|---|---|---|
-| fond | `#f6f6f7` gris porcelaine | `#f9f6f3` crème chaud |
-| encre | `#1b1d20` noir froid | `#2d1e0d` brun-noir chaud |
-| sourdine | `#5c6066` gris acier | `#7c6346` gris-brun |
+## Publication
 
-La page entière change de température, pas seulement un bouton.
+### GitHub Pages
 
-**Vérifier la méthode** — la formule, nourrie du bleu de zaziwe-labs, doit
-retrouver la palette de zaziwe-labs :
+`.github/workflows/pages.yml` construit et publie à chaque poussée sur `master`.
+Le sous-chemin est **calculé depuis le nom du dépôt** : `/nom-du-depot/` pour
+une page de projet, `/` pour une page de compte (`compte.github.io`). Une étape
+du flux échoue si une seule adresse est restée à la racine.
 
-```bash
-node -e "const{family,hexToRgb}=await import('./src/color.mjs');const Z={accent:'#1B3FA6',bg:'#F2F5F9',ink:'#0A1A33',muted:'#45597A'};const g=family(Z.accent);const d=(a,b)=>{const[x,y]=[hexToRgb(a),hexToRgb(b)];return Math.round(Math.hypot(x[0]-y[0],x[1]-y[1],x[2]-y[2]))};for(const k of ['bg','ink','muted'])console.log(k,Z[k],g[k],'ecart',d(Z[k],g[k]))"
-```
+Pour activer : *Settings → Pages → Source: **GitHub Actions***.
 
-Les écarts doivent rester sous 10 (sur 441).
+Toute adresse interne passe par `lien()` (`src/lib/lien.js`). N'écrivez jamais
+`href="/about/"` en dur — le site doit rester déplaçable.
 
-### Choisir une couleur
-
-Prenez celle qui vous plaît. Les couleurs trop claires pour porter du texte
-blanc sont **assombries automatiquement** le long de leur propre teinte
-jusqu'à passer le seuil d'accessibilité WCAG — vous n'avez pas à y penser.
-
-Seule contrainte : gardez au moins ~12° d'écart de teinte avec les produits
-voisins, ou compensez par la saturation. Pour contrôler :
+### La maquette en un fichier
 
 ```bash
-node -e "const{family,contrast,rgbToHsl,hexToRgb}=await import('./src/color.mjs');const{imports,exports_}=await import('./src/catalog.mjs');for(const p of [...imports,...exports_]){const[h]=rgbToHsl(hexToRgb(p.accent));const f=family(p.accent);console.log(p.name.padEnd(24),'H'+Math.round(h),'blanc/accent',contrast('#fff',f.strong).toFixed(1),'encre/fond',contrast(f.ink,f.bg).toFixed(1))}"
+npm run build && node outils/bundle.mjs
 ```
 
-## Les photos
+Produit deux formes des mêmes morceaux :
 
-`assets/img/products/` — les 14 photos produits, **récupérées de votre propre
-site** puis recompressées (5,6 Mo → 2 Mo).
+- `verif/maquette.html` — le fragment, pour une publication qui fournit
+  elle-même son enveloppe ;
+- `verif/maquette-autonome.html` — le document complet, pour ouvrir le fichier
+  ou le poser sur n'importe quel hébergeur.
 
-Le champ `hero` décide du traitement :
+Les 18 pages, toutes les images et les quatre fontes en data URI, un routeur de
+vingt lignes. Aucune dépendance réseau.
 
-- `hero: true` — photo assez grande (≥ 1100 px) → bandeau pleine largeur
-- `hero: false` — photo plus petite → panneau encadré, à sa taille réelle
+> **Construisez la maquette à la racine**, sans `BASE_PATH` : le routeur indexe
+> ses routes par leur chemin nu.
 
-C'est ce qui évite qu'une image de 400 px soit étirée et floue en pleine
-largeur. Si vous remplacez une photo par une plus grande, passez `hero` à
-`true`.
-
-`assets/img/company/` — vos photos : bureaux, entrepôt, quarantaine, fondateur.
-
-## Structure
-
-```
-index.html · about.html · imports.html · exports.html
-training.html · contact.html
-imports/*.html   10 fiches   (générées)
-exports/*.html    4 fiches   (générées)
-
-assets/css/site.css   une seule feuille
-assets/js/site.js     menu pop-up, apparitions, formulaire
-src/catalog.mjs       ← identité, couleurs, photos
-src/copy.json         ← textes des fiches
-src/color.mjs         ← la dérivation des couleurs
-src/build.mjs         ← le générateur
-photos-originaux/     vos originaux, intacts. Ne pas publier.
-```
-
-## Ajouter un produit
-
-Un objet dans `imports` ou `exports_` de `src/catalog.mjs`, une entrée dans
-`src/copy.json`, une photo dans `assets/img/products/<slug>.jpg`, puis le
-build. Le produit apparaît tout seul dans le menu pop-up, le registre, le pied
-de page et la navigation précédent/suivant.
-
-## Le formulaire de formation
-
-Sans serveur, il ouvre la messagerie du visiteur avec l'e-mail déjà rédigé.
-Pour collecter les inscriptions automatiquement, mettez l'adresse d'un service
-de formulaire (Formspree, Netlify Forms) dans `ENDPOINT`, en haut de
-`assets/js/site.js`. Le repli par e-mail devient alors le chemin d'erreur.
-
-## Réseaux sociaux
-
-`company.socials` dans `src/catalog.mjs`. Une entrée dont l'`url` est vide est
-ignorée partout. Renseignez-la et le lien apparaît dans le pied de page et sur
-la page Contact. WhatsApp est déjà branché sur le numéro de l'entreprise.
-
-## Mise en ligne
-
-N'importe quel hébergeur statique — Netlify, Vercel, GitHub Pages, Cloudflare
-Pages, ou FTP. Envoyez tout **sauf** `src/`, `photos-originaux/`, `.staging/`,
-`.claude/` et `README.md`.
-
-Aperçu local :
+## La vérification
 
 ```bash
-npx serve .
+npm run build
+npm run preview &     # le port 4321 doit répondre
+npm run verif
 ```
+
+Enchaîne huit contrôles et s'arrête au premier qui échoue : polices, répertoire
+de sections, sols, images, contraste AA composé sur fond clair **et** sur fond
+nuit, cibles tactiles de 48 px, débordement horizontal, liens, clavier et piège
+de focus, poids sur iPhone 12 et Android 360, et le tableau de départs — sa
+**forme**, pas seulement son comportement.
+
+Ce qui n'est **pas** couvert est écrit à la fin de la sortie. Lisez-le.
+
+> **La règle qui gouverne ce dossier** : quand un contrôle passe alors que la
+> chose est visiblement fausse, c'est le contrôle qu'il faut réparer. Trois
+> défauts sont déjà partis chez le client sous des contrôles au vert.

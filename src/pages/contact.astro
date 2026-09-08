@@ -19,6 +19,7 @@ const socials = c.socials.filter((s) => s.url);
 
 const couloir = photo('img/company/office-corridor.jpg');
 const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (couloir?.width ?? 0));
+import { lien } from '../lib/lien.js';
 ---
 
 <Base
@@ -91,7 +92,7 @@ const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (couloir?.width ?? 0
         <div class="index__l">
           <span class="t-label index__n">06</span>
           <dt class="t-h3 index__t">Training</dt>
-          <dd class="t-body index__c"><a class="lnk" href="/training/">Book a place on the next intake</a></dd>
+          <dd class="t-body index__c"><a class="lnk" href={lien('/training/')}>Book a place on the next intake</a></dd>
         </div>
       </dl>
     </div>

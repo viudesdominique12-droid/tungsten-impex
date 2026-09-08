@@ -1,0 +1,92 @@
+# -----------------------------------------------------------------------------
+# Publication sur GitHub Pages.
+#
+# Le site est construit puis deploye a chaque poussee sur master. Rien n'est
+# commite dans le depot : dist/ reste ignore, l'artefact est fabrique ici.
+#
+# LE SOUS-CHEMIN EST CALCULE, PAS ECRIT EN DUR. Une page de projet est servie
+# sous /nom-du-depot/, une page de compte a la racine. Se tromper ne casse pas
+# le build : les dix-huit pages s'affichent, et chaque lien renvoie vers une
+# adresse qui n'existe pas. Le nom du depot decide, et astro.config.mjs lit
+# BASE_PATH.
+# -----------------------------------------------------------------------------
+name: Publier sur GitHub Pages
+
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Une publication a la fois, et on ne coupe pas celle qui est en cours.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dependances
+        run: npm ci
+
+      - name: Determiner l'adresse de publication
+        id: adresse
+        run: |
+          proprietaire="${GITHUB_REPOSITORY%%/*}"
+          depot="${GITHUB_REPOSITORY#*/}"
+          minuscule="$(echo "$proprietaire" | tr '[:upper:]' '[:lower:]')"
+          if [ "$(echo "$depot" | tr '[:upper:]' '[:lower:]')" = "$minuscule.github.io" ]; then
+            echo "base=/" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=/$depot/" >> "$GITHUB_OUTPUT"
+          fi
+          echo "site=https://$minuscule.github.io" >> "$GITHUB_OUTPUT"
+
+      - name: Construire
+        env:
+          BASE_PATH: ${{ steps.adresse.outputs.base }}
+          SITE_URL: ${{ steps.adresse.outputs.site }}
+        run: npm run build
+
+      # Le filet de securite du sous-chemin. Un lien reste a la racine et le
+      # site part avec une navigation morte, sans qu'aucune etape n'ait echoue.
+      - name: Verifier qu'aucun lien n'est reste a la racine
+        env:
+          BASE_PATH: ${{ steps.adresse.outputs.base }}
+        run: |
+          if [ "$BASE_PATH" = "/" ]; then echo "publie a la racine, rien a verifier"; exit 0; fi
+          restes="$(grep -rhoE '(href|src)="/[^"]*"' dist --include=index.html \
+                    | grep -vE "\"$BASE_PATH" | sort -u || true)"
+          if [ -n "$restes" ]; then
+            echo "ARRET : des adresses pointent hors du sous-chemin $BASE_PATH"
+            echo "$restes"
+            exit 1
+          fi
+          echo "aucune adresse hors du sous-chemin"
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  publier:
+    needs: construire
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - id: deploiement
+        uses: actions/deploy-pages@v4

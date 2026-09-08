@@ -17,6 +17,7 @@
    successifs identiques.
 */
 const { lignes, titre, compte, id, code, forme = 'index', sol, rail } = Astro.props;
+import { lien } from '../../lib/lien.js';
 ---
 
 <section class="reg section" id={id} data-type={forme === 'index' ? 'H' : 'F'} data-sol={sol} data-rail-section={rail ?? titre.toUpperCase()}>
@@ -32,7 +33,7 @@ const { lignes, titre, compte, id, code, forme = 'index', sol, rail } = Astro.pr
     {forme === 'index' ? (
       <div class="index">
         {lignes.map((p, n) => (
-          <a class="index__l" href={`/${p.folder}/${p.slug}/`}>
+          <a class="index__l" href={lien(`/${p.folder}/${p.slug}/`)}>
             <span class="t-label index__n">{String(n + 1).padStart(2, '0')}</span>
             <h3 class="t-h2 index__t">{p.name}</h3>
             <p class="t-body index__c">{p.lead}</p>
@@ -49,7 +50,7 @@ const { lignes, titre, compte, id, code, forme = 'index', sol, rail } = Astro.pr
     ) : (
       <div class="cartes cartes--3">
         {lignes.map((p) => (
-          <a class="carte" href={`/${p.folder}/${p.slug}/`}>
+          <a class="carte" href={lien(`/${p.folder}/${p.slug}/`)}>
             <h3 class="t-h3">{p.name}</h3>
             <p class="t-note t-quiet">{p.lead}</p>
             {p.fact && (
