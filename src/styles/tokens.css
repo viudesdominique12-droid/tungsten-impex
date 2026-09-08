@@ -76,7 +76,10 @@
   --hover: 150ms;
   --in: 300ms;
   --out: 140ms;
-  --turn: 720ms;   /* la bascule du tableau de departs */
+  /* La bascule du tableau. Raccourcie avec la cadence : a 2 s par ligne, une
+     rotation de 720 ms laissait 1,28 s pour lire un nom et un chiffre. A 520
+     elle en laisse 1,48, et le geste paraît plus vif — ce qui est le but. */
+  --turn: 520ms;
 
   --radius: 0;
 }
