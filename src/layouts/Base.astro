@@ -11,10 +11,18 @@ import { lien } from '../lib/lien.js';
    sous-chemin quand le site n'est pas publie a la racine. Un href="/fonts/..."
    ecrit a la main pointe a cote des la premiere page de projet. */
 import { Image } from 'astro:assets';
-/* Le verrou du logo, decoupe par outils/embleme.mjs : masque circulaire, fond
-   transparent. Le mot-symbole, lui, est deja dans l'en-tete en typographie —
-   le repeter en image ferait doublon et pesserait pour rien. */
+/* LE LOGO DU CLIENT, EN DEUX PIECES, decoupees par outils/logo.mjs.
+
+   Son logo est empile : le verrou, puis TUNGSTEN, puis Import Export. Une
+   barre d'en-tete fait 68px de haut, le logo entier n'y tiendrait que sur 44,
+   et « Import Export » y ferait alors 4,7 pixels — mecaniquement illisible.
+   Les deux pieces sont donc posees cote a cote : c'est le meme logo, dans sa
+   version horizontale, celle qui manquait.
+
+   Et le mot-symbole typographique disparait : il disait deja « Tungsten /
+   Import Export », l'artwork le dit aussi. Le garder ferait doublon. */
 import embleme from '../img/company/embleme.png';
+import motSymbole from '../img/company/mot-symbole.png';
 
 import fraunces from '../fonts/fraunces-var.woff2?url';
 import frauncesItal from '../fonts/fraunces-var-italic.woff2?url';
@@ -66,13 +74,11 @@ const cur = (h) => (here === lien(h) ? 'page' : undefined);
 
     <header class="hdr" id="hdr">
       <div class="shell hdr__in">
-        <a class="mark" href={lien('/')}>
-          <Image class="mark__logo" src={embleme} alt="" width={40} height={40}
+        <a class="mark" href={lien('/')} aria-label="Tungsten Import Export">
+          <Image class="mark__verrou" src={embleme} alt="" width={44} height={44}
                  densities={[2]} loading="eager" />
-          <span class="mark__t">
-            <strong>Tungsten</strong>
-            <span class="t-label t-quiet">Import Export</span>
-          </span>
+          <Image class="mark__mot" src={motSymbole} alt="" width={170} height={44}
+                 densities={[2]} loading="eager" />
         </a>
         <button class="menu t-label" id="nav-open" type="button" aria-expanded="false" aria-controls="nav">
           <i aria-hidden="true"></i> Menu
@@ -214,14 +220,20 @@ const cur = (h) => (here === lien(h) ? 'page' : undefined);
     .hdr__in { display: flex; align-items: center; justify-content: space-between;
                gap: 20px; min-height: 68px; }
 
-    /* Le verrou et le mot-symbole cote a cote, le mot-symbole sur deux
-       lignes. La marque etait une colonne ; elle devient une ligne qui porte
-       une colonne. */
-    .mark { display: inline-flex; align-items: center; gap: 11px;
-            text-decoration: none; line-height: 1.02; }
+    /* Le verrou et le mot-symbole cote a cote. La hauteur est donnee au
+       verrou ; le mot suit avec sa propre proportion, jamais deformee. */
+    .mark { display: inline-flex; align-items: center; gap: 12px;
+            text-decoration: none; }
+    .mark__verrou { width: 44px; height: 44px; flex: none; border-radius: 0; }
+    .mark__mot { height: 30px; width: auto; flex: none; border-radius: 0; }
+    @media (max-width: 560px) {
+      .mark { gap: 9px; }
+      .mark__verrou { width: 36px; height: 36px; }
+      .mark__mot { height: 25px; }
+    }
+    /* Le menu plein ecran est sur nuit : le bleu de l'artwork ne s'y detache
+       pas. Il garde le mot-symbole en typographie. */
     .mark__t { display: inline-flex; flex-direction: column; gap: 2px; }
-    .mark__logo { width: 40px; height: 40px; flex: none; border-radius: 0; }
-    @media (max-width: 560px) { .mark__logo { width: 34px; height: 34px; } }
     .mark strong { font-family: var(--font-display); font-weight: 600;
                    font-size: var(--step-1); letter-spacing: -.012em; }
 

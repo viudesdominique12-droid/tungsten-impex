@@ -1,0 +1,730 @@
+[
+ {
+  "format": "pc",
+  "slug": "niger-seed-noug",
+  "route": "/export/niger-seed-noug/",
+  "srcW": 612,
+  "srcH": 407,
+  "affiche": {
+   "w": 543.3,
+   "h": 361.3
+  },
+  "servi": {
+   "w": 612,
+   "h": 407,
+   "url": "http://localhost:4321/_astro/niger-seed-noug.C3c3Jzi8_Z1pQlos.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/niger-seed-noug.C3c3Jzi8_ypbh.avif 400w, /_astro/niger-seed-noug.C3c3Jzi8_Z1pQlos.avif 612w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/niger-seed-noug.C3c3Jzi8_1pg14K.webp 400w, /_astro/niger-seed-noug.C3c3Jzi8_Z19JuY.webp 612w"
+ },
+ {
+  "format": "pc",
+  "slug": "sesame-seed",
+  "route": "/export/sesame-seed/",
+  "srcW": 1254,
+  "srcH": 705,
+  "affiche": {
+   "w": 568,
+   "h": 319.7
+  },
+  "servi": {
+   "w": 620,
+   "h": 349,
+   "url": "http://localhost:4321/_astro/sesame-seed.Dgbx62x8_Z2qxz2y.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/sesame-seed.Dgbx62x8_Z14Ufl2.avif 400w, /_astro/sesame-seed.Dgbx62x8_Z2qxz2y.avif 620w, /_astro/sesame-seed.Dgbx62x8_ZOEOgY.avif 900w, /_astro/sesame-seed.Dgbx62x8_IP7ji.avif 1240w, /_astro/sesame-seed.Dgbx62x8_s8IaI.avif 1254w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/sesame-seed.Dgbx62x8_ZLusOe.webp 400w, /_astro/sesame-seed.Dgbx62x8_Z287MvK.webp 620w, /_astro/sesame-seed.Dgbx62x8_Zwf2Kb.webp 900w, /_astro/sesame-seed.Dgbx62x8_Z4s19F.webp 1240w, /_astro/sesame-seed.Dgbx62x8_Zl9pif.webp 1254w"
+ },
+ {
+  "format": "pc",
+  "slug": "red-kidney-beans",
+  "route": "/export/red-kidney-beans/",
+  "srcW": 447,
+  "srcH": 447,
+  "affiche": {
+   "w": 361.3,
+   "h": 361.3
+  },
+  "servi": {
+   "w": 447,
+   "h": 447,
+   "url": "http://localhost:4321/_astro/red-kidney-beans.D-nNV5ax_170HN.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/red-kidney-beans.D-nNV5ax_Z21zXlQ.avif 400w, /_astro/red-kidney-beans.D-nNV5ax_170HN.avif 447w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/red-kidney-beans.D-nNV5ax_PsBLp.webp 400w, /_astro/red-kidney-beans.D-nNV5ax_Z2c1wWR.webp 447w"
+ },
+ {
+  "format": "pc",
+  "slug": "soya-bean",
+  "route": "/export/soya-bean/",
+  "srcW": 588,
+  "srcH": 393,
+  "affiche": {
+   "w": 540.6,
+   "h": 361.3
+  },
+  "servi": {
+   "w": 588,
+   "h": 393,
+   "url": "http://localhost:4321/_astro/soya-bean.DrBnocDs_2spSeu.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/soya-bean.DrBnocDs_ERvtR.avif 400w, /_astro/soya-bean.DrBnocDs_2spSeu.avif 588w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/soya-bean.DrBnocDs_drwA4.webp 400w, /_astro/soya-bean.DrBnocDs_20YTkG.webp 588w"
+ },
+ {
+  "format": "pc",
+  "slug": "electric-vehicles",
+  "route": "/import/electric-vehicles/",
+  "srcW": 588,
+  "srcH": 393,
+  "affiche": {
+   "w": 540.6,
+   "h": 361.3
+  },
+  "servi": {
+   "w": 588,
+   "h": 393,
+   "url": "http://localhost:4321/_astro/electric-vehicles.RKuj-txB_V1rpP.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/electric-vehicles.RKuj-txB_cENh.avif 400w, /_astro/electric-vehicles.RKuj-txB_V1rpP.avif 588w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/electric-vehicles.RKuj-txB_2vDz5w.webp 400w, /_astro/electric-vehicles.RKuj-txB_Z1CIM6Q.webp 588w"
+ },
+ {
+  "format": "pc",
+  "slug": "medical-equipment",
+  "route": "/import/medical-equipment/",
+  "srcW": 588,
+  "srcH": 330,
+  "affiche": {
+   "w": 568,
+   "h": 318.8
+  },
+  "servi": {
+   "w": 588,
+   "h": 330,
+   "url": "http://localhost:4321/_astro/medical-equipment.cpRN9Fxq_Z1G7i1V.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/medical-equipment.cpRN9Fxq_Zq49iK.avif 400w, /_astro/medical-equipment.cpRN9Fxq_Z1G7i1V.avif 588w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/medical-equipment.cpRN9Fxq_25mJXu.webp 400w, /_astro/medical-equipment.cpRN9Fxq_OjBfj.webp 588w"
+ },
+ {
+  "format": "pc",
+  "slug": "human-medicine",
+  "route": "/import/human-medicine/",
+  "srcW": 588,
+  "srcH": 516,
+  "affiche": {
+   "w": 411.7,
+   "h": 361.3
+  },
+  "servi": {
+   "w": 588,
+   "h": 516,
+   "url": "http://localhost:4321/_astro/human-medicine.ISoKcOvj_Z2dCkiy.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/human-medicine.ISoKcOvj_1fSqgb.avif 400w, /_astro/human-medicine.ISoKcOvj_Z2dCkiy.avif 588w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/human-medicine.ISoKcOvj_1CEPCR.webp 400w, /_astro/human-medicine.ISoKcOvj_Z1PPTUR.webp 588w"
+ },
+ {
+  "format": "pc",
+  "slug": "building-glass",
+  "route": "/import/building-glass/",
+  "srcW": 452,
+  "srcH": 678,
+  "affiche": {
+   "w": 240.9,
+   "h": 361.3
+  },
+  "servi": {
+   "w": 452,
+   "h": 678,
+   "url": "http://localhost:4321/_astro/building-glass.lW3K5fIN_23ke3J.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/building-glass.lW3K5fIN_1e7r3J.avif 400w, /_astro/building-glass.lW3K5fIN_23ke3J.avif 452w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/building-glass.lW3K5fIN_1ASQqq.webp 400w, /_astro/building-glass.lW3K5fIN_2q6Dqq.webp 452w"
+ },
+ {
+  "format": "pc",
+  "slug": "elevator-and-escalator",
+  "route": "/import/elevator-and-escalator/",
+  "srcW": 588,
+  "srcH": 414,
+  "affiche": {
+   "w": 513.2,
+   "h": 361.3
+  },
+  "servi": {
+   "w": 588,
+   "h": 414,
+   "url": "http://localhost:4321/_astro/elevator-and-escalator.D-5mwWCu_Z2nU3po.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/elevator-and-escalator.D-5mwWCu_2rbDQQ.avif 400w, /_astro/elevator-and-escalator.D-5mwWCu_Z2nU3po.avif 588w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/elevator-and-escalator.D-5mwWCu_tIQqK.webp 400w, /_astro/elevator-and-escalator.D-5mwWCu_IOhXr.webp 588w"
+ },
+ {
+  "format": "pc",
+  "slug": "calcium-hypochlorite",
+  "route": "/import/calcium-hypochlorite/",
+  "srcW": 1600,
+  "srcH": 1099,
+  "affiche": {
+   "w": 525.9,
+   "h": 361.3
+  },
+  "servi": {
+   "w": 620,
+   "h": 426,
+   "url": "http://localhost:4321/_astro/calcium-hypochlorite.9cgC57qZ_Z1pU8CD.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/calcium-hypochlorite.9cgC57qZ_Z16Kmos.avif 400w, /_astro/calcium-hypochlorite.9cgC57qZ_Z1pU8CD.avif 620w, /_astro/calcium-hypochlorite.9cgC57qZ_Z11x54t.avif 900w, /_astro/calcium-hypochlorite.9cgC57qZ_ZHbz8K.avif 1240w, /_astro/calcium-hypochlorite.9cgC57qZ_Z15FAcW.avif 1600w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/calcium-hypochlorite.9cgC57qZ_20XXYn.webp 400w, /_astro/calcium-hypochlorite.9cgC57qZ_1GOcKc.webp 620w, /_astro/calcium-hypochlorite.9cgC57qZ_26cgjm.webp 900w, /_astro/calcium-hypochlorite.9cgC57qZ_ZnUrzA.webp 1240w, /_astro/calcium-hypochlorite.9cgC57qZ_Z1sS2tJ.webp 1600w"
+ },
+ {
+  "format": "pc",
+  "slug": "plastic-raw-materials",
+  "route": "/import/plastic-raw-materials/",
+  "srcW": 588,
+  "srcH": 390,
+  "affiche": {
+   "w": 544.8,
+   "h": 361.3
+  },
+  "servi": {
+   "w": 588,
+   "h": 390,
+   "url": "http://localhost:4321/_astro/plastic-raw-materials.DZaQ2jZ7_9uiEt.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/plastic-raw-materials.DZaQ2jZ7_Z1yjYoM.avif 400w, /_astro/plastic-raw-materials.DZaQ2jZ7_9uiEt.avif 588w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/plastic-raw-materials.DZaQ2jZ7_Z1MbqOQ.webp 400w, /_astro/plastic-raw-materials.DZaQ2jZ7_Z4m8KA.webp 588w"
+ },
+ {
+  "format": "pc",
+  "slug": "solar-lanterns",
+  "route": "/import/solar-lanterns/",
+  "srcW": 447,
+  "srcH": 447,
+  "affiche": {
+   "w": 361.3,
+   "h": 361.3
+  },
+  "servi": {
+   "w": 447,
+   "h": 447,
+   "url": "http://localhost:4321/_astro/solar-lanterns.DSZKvExg_ZyxvGM.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/solar-lanterns.DSZKvExg_Ze25jG.avif 400w, /_astro/solar-lanterns.DSZKvExg_ZyxvGM.avif 447w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/solar-lanterns.DSZKvExg_8Jk30.webp 400w, /_astro/solar-lanterns.DSZKvExg_ZbL6k6.webp 447w"
+ },
+ {
+  "format": "pc",
+  "slug": "stationery-materials",
+  "route": "/import/stationery-materials/",
+  "srcW": 612,
+  "srcH": 408,
+  "affiche": {
+   "w": 542,
+   "h": 361.3
+  },
+  "servi": {
+   "w": 612,
+   "h": 408,
+   "url": "http://localhost:4321/_astro/stationery-materials.Dr2ls7dw_1nqJ97.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/stationery-materials.Dr2ls7dw_Z1j8IbO.avif 400w, /_astro/stationery-materials.Dr2ls7dw_1nqJ97.avif 612w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/stationery-materials.Dr2ls7dw_ZaxfwR.webp 400w, /_astro/stationery-materials.Dr2ls7dw_2w2cN4.webp 612w"
+ },
+ {
+  "format": "pc",
+  "slug": "ceramics",
+  "route": "/import/ceramics/",
+  "srcW": 516,
+  "srcH": 387,
+  "affiche": {
+   "w": 481.8,
+   "h": 361.3
+  },
+  "servi": {
+   "w": 516,
+   "h": 387,
+   "url": "http://localhost:4321/_astro/ceramics.DfkMV4AI_Z1RQH7o.avif"
+  },
+  "dpr": 1,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/ceramics.DfkMV4AI_1fmxc0.avif 400w, /_astro/ceramics.DfkMV4AI_Z1RQH7o.avif 516w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/ceramics.DfkMV4AI_Z1xC53n.webp 400w, /_astro/ceramics.DfkMV4AI_okNra.webp 516w"
+ },
+ {
+  "format": "tel",
+  "slug": "niger-seed-noug",
+  "route": "/export/niger-seed-noug/",
+  "srcW": 612,
+  "srcH": 407,
+  "affiche": {
+   "w": 308.7,
+   "h": 205.3
+  },
+  "servi": {
+   "w": 612,
+   "h": 407,
+   "url": "http://localhost:4321/_astro/niger-seed-noug.C3c3Jzi8_Z1pQlos.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/niger-seed-noug.C3c3Jzi8_ypbh.avif 400w, /_astro/niger-seed-noug.C3c3Jzi8_Z1pQlos.avif 612w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/niger-seed-noug.C3c3Jzi8_1pg14K.webp 400w, /_astro/niger-seed-noug.C3c3Jzi8_Z19JuY.webp 612w"
+ },
+ {
+  "format": "tel",
+  "slug": "sesame-seed",
+  "route": "/export/sesame-seed/",
+  "srcW": 1254,
+  "srcH": 705,
+  "affiche": {
+   "w": 322,
+   "h": 181
+  },
+  "servi": {
+   "w": 900,
+   "h": 506,
+   "url": "http://localhost:4321/_astro/sesame-seed.Dgbx62x8_ZOEOgY.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/sesame-seed.Dgbx62x8_Z14Ufl2.avif 400w, /_astro/sesame-seed.Dgbx62x8_Z2qxz2y.avif 620w, /_astro/sesame-seed.Dgbx62x8_ZOEOgY.avif 900w, /_astro/sesame-seed.Dgbx62x8_IP7ji.avif 1240w, /_astro/sesame-seed.Dgbx62x8_s8IaI.avif 1254w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/sesame-seed.Dgbx62x8_ZLusOe.webp 400w, /_astro/sesame-seed.Dgbx62x8_Z287MvK.webp 620w, /_astro/sesame-seed.Dgbx62x8_Zwf2Kb.webp 900w, /_astro/sesame-seed.Dgbx62x8_Z4s19F.webp 1240w, /_astro/sesame-seed.Dgbx62x8_Zl9pif.webp 1254w"
+ },
+ {
+  "format": "tel",
+  "slug": "red-kidney-beans",
+  "route": "/export/red-kidney-beans/",
+  "srcW": 447,
+  "srcH": 447,
+  "affiche": {
+   "w": 205.3,
+   "h": 205.3
+  },
+  "servi": {
+   "w": 447,
+   "h": 447,
+   "url": "http://localhost:4321/_astro/red-kidney-beans.D-nNV5ax_170HN.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/red-kidney-beans.D-nNV5ax_Z21zXlQ.avif 400w, /_astro/red-kidney-beans.D-nNV5ax_170HN.avif 447w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/red-kidney-beans.D-nNV5ax_PsBLp.webp 400w, /_astro/red-kidney-beans.D-nNV5ax_Z2c1wWR.webp 447w"
+ },
+ {
+  "format": "tel",
+  "slug": "soya-bean",
+  "route": "/export/soya-bean/",
+  "srcW": 588,
+  "srcH": 393,
+  "affiche": {
+   "w": 307.2,
+   "h": 205.3
+  },
+  "servi": {
+   "w": 588,
+   "h": 393,
+   "url": "http://localhost:4321/_astro/soya-bean.DrBnocDs_2spSeu.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/soya-bean.DrBnocDs_ERvtR.avif 400w, /_astro/soya-bean.DrBnocDs_2spSeu.avif 588w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/soya-bean.DrBnocDs_drwA4.webp 400w, /_astro/soya-bean.DrBnocDs_20YTkG.webp 588w"
+ },
+ {
+  "format": "tel",
+  "slug": "electric-vehicles",
+  "route": "/import/electric-vehicles/",
+  "srcW": 588,
+  "srcH": 393,
+  "affiche": {
+   "w": 307.2,
+   "h": 205.3
+  },
+  "servi": {
+   "w": 588,
+   "h": 393,
+   "url": "http://localhost:4321/_astro/electric-vehicles.RKuj-txB_V1rpP.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/electric-vehicles.RKuj-txB_cENh.avif 400w, /_astro/electric-vehicles.RKuj-txB_V1rpP.avif 588w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/electric-vehicles.RKuj-txB_2vDz5w.webp 400w, /_astro/electric-vehicles.RKuj-txB_Z1CIM6Q.webp 588w"
+ },
+ {
+  "format": "tel",
+  "slug": "medical-equipment",
+  "route": "/import/medical-equipment/",
+  "srcW": 588,
+  "srcH": 330,
+  "affiche": {
+   "w": 322,
+   "h": 180.7
+  },
+  "servi": {
+   "w": 588,
+   "h": 330,
+   "url": "http://localhost:4321/_astro/medical-equipment.cpRN9Fxq_Z1G7i1V.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/medical-equipment.cpRN9Fxq_Zq49iK.avif 400w, /_astro/medical-equipment.cpRN9Fxq_Z1G7i1V.avif 588w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/medical-equipment.cpRN9Fxq_25mJXu.webp 400w, /_astro/medical-equipment.cpRN9Fxq_OjBfj.webp 588w"
+ },
+ {
+  "format": "tel",
+  "slug": "human-medicine",
+  "route": "/import/human-medicine/",
+  "srcW": 588,
+  "srcH": 516,
+  "affiche": {
+   "w": 234,
+   "h": 205.3
+  },
+  "servi": {
+   "w": 588,
+   "h": 516,
+   "url": "http://localhost:4321/_astro/human-medicine.ISoKcOvj_Z2dCkiy.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/human-medicine.ISoKcOvj_1fSqgb.avif 400w, /_astro/human-medicine.ISoKcOvj_Z2dCkiy.avif 588w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/human-medicine.ISoKcOvj_1CEPCR.webp 400w, /_astro/human-medicine.ISoKcOvj_Z1PPTUR.webp 588w"
+ },
+ {
+  "format": "tel",
+  "slug": "building-glass",
+  "route": "/import/building-glass/",
+  "srcW": 452,
+  "srcH": 678,
+  "affiche": {
+   "w": 136.9,
+   "h": 205.3
+  },
+  "servi": {
+   "w": 452,
+   "h": 678,
+   "url": "http://localhost:4321/_astro/building-glass.lW3K5fIN_23ke3J.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/building-glass.lW3K5fIN_1e7r3J.avif 400w, /_astro/building-glass.lW3K5fIN_23ke3J.avif 452w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/building-glass.lW3K5fIN_1ASQqq.webp 400w, /_astro/building-glass.lW3K5fIN_2q6Dqq.webp 452w"
+ },
+ {
+  "format": "tel",
+  "slug": "elevator-and-escalator",
+  "route": "/import/elevator-and-escalator/",
+  "srcW": 588,
+  "srcH": 414,
+  "affiche": {
+   "w": 291.6,
+   "h": 205.3
+  },
+  "servi": {
+   "w": 588,
+   "h": 414,
+   "url": "http://localhost:4321/_astro/elevator-and-escalator.D-5mwWCu_Z2nU3po.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/elevator-and-escalator.D-5mwWCu_2rbDQQ.avif 400w, /_astro/elevator-and-escalator.D-5mwWCu_Z2nU3po.avif 588w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/elevator-and-escalator.D-5mwWCu_tIQqK.webp 400w, /_astro/elevator-and-escalator.D-5mwWCu_IOhXr.webp 588w"
+ },
+ {
+  "format": "tel",
+  "slug": "calcium-hypochlorite",
+  "route": "/import/calcium-hypochlorite/",
+  "srcW": 1600,
+  "srcH": 1099,
+  "affiche": {
+   "w": 299,
+   "h": 205.3
+  },
+  "servi": {
+   "w": 900,
+   "h": 618,
+   "url": "http://localhost:4321/_astro/calcium-hypochlorite.9cgC57qZ_Z11x54t.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/calcium-hypochlorite.9cgC57qZ_Z16Kmos.avif 400w, /_astro/calcium-hypochlorite.9cgC57qZ_Z1pU8CD.avif 620w, /_astro/calcium-hypochlorite.9cgC57qZ_Z11x54t.avif 900w, /_astro/calcium-hypochlorite.9cgC57qZ_ZHbz8K.avif 1240w, /_astro/calcium-hypochlorite.9cgC57qZ_Z15FAcW.avif 1600w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/calcium-hypochlorite.9cgC57qZ_20XXYn.webp 400w, /_astro/calcium-hypochlorite.9cgC57qZ_1GOcKc.webp 620w, /_astro/calcium-hypochlorite.9cgC57qZ_26cgjm.webp 900w, /_astro/calcium-hypochlorite.9cgC57qZ_ZnUrzA.webp 1240w, /_astro/calcium-hypochlorite.9cgC57qZ_Z1sS2tJ.webp 1600w"
+ },
+ {
+  "format": "tel",
+  "slug": "plastic-raw-materials",
+  "route": "/import/plastic-raw-materials/",
+  "srcW": 588,
+  "srcH": 390,
+  "affiche": {
+   "w": 309.6,
+   "h": 205.3
+  },
+  "servi": {
+   "w": 588,
+   "h": 390,
+   "url": "http://localhost:4321/_astro/plastic-raw-materials.DZaQ2jZ7_9uiEt.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/plastic-raw-materials.DZaQ2jZ7_Z1yjYoM.avif 400w, /_astro/plastic-raw-materials.DZaQ2jZ7_9uiEt.avif 588w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/plastic-raw-materials.DZaQ2jZ7_Z1MbqOQ.webp 400w, /_astro/plastic-raw-materials.DZaQ2jZ7_Z4m8KA.webp 588w"
+ },
+ {
+  "format": "tel",
+  "slug": "solar-lanterns",
+  "route": "/import/solar-lanterns/",
+  "srcW": 447,
+  "srcH": 447,
+  "affiche": {
+   "w": 205.3,
+   "h": 205.3
+  },
+  "servi": {
+   "w": 447,
+   "h": 447,
+   "url": "http://localhost:4321/_astro/solar-lanterns.DSZKvExg_ZyxvGM.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/solar-lanterns.DSZKvExg_Ze25jG.avif 400w, /_astro/solar-lanterns.DSZKvExg_ZyxvGM.avif 447w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/solar-lanterns.DSZKvExg_8Jk30.webp 400w, /_astro/solar-lanterns.DSZKvExg_ZbL6k6.webp 447w"
+ },
+ {
+  "format": "tel",
+  "slug": "stationery-materials",
+  "route": "/import/stationery-materials/",
+  "srcW": 612,
+  "srcH": 408,
+  "affiche": {
+   "w": 308,
+   "h": 205.3
+  },
+  "servi": {
+   "w": 612,
+   "h": 408,
+   "url": "http://localhost:4321/_astro/stationery-materials.Dr2ls7dw_1nqJ97.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/stationery-materials.Dr2ls7dw_Z1j8IbO.avif 400w, /_astro/stationery-materials.Dr2ls7dw_1nqJ97.avif 612w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/stationery-materials.Dr2ls7dw_ZaxfwR.webp 400w, /_astro/stationery-materials.Dr2ls7dw_2w2cN4.webp 612w"
+ },
+ {
+  "format": "tel",
+  "slug": "ceramics",
+  "route": "/import/ceramics/",
+  "srcW": 516,
+  "srcH": 387,
+  "affiche": {
+   "w": 273.8,
+   "h": 205.3
+  },
+  "servi": {
+   "w": 516,
+   "h": 387,
+   "url": "http://localhost:4321/_astro/ceramics.DfkMV4AI_Z1RQH7o.avif"
+  },
+  "dpr": 2,
+  "srcs": [
+   {
+    "type": "image/avif",
+    "srcset": "/_astro/ceramics.DfkMV4AI_1fmxc0.avif 400w, /_astro/ceramics.DfkMV4AI_Z1RQH7o.avif 516w",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+   }
+  ],
+  "imgSizes": "(max-width: 900px) 92vw, 620px",
+  "imgSrcset": "/_astro/ceramics.DfkMV4AI_Z1xC53n.webp 400w, /_astro/ceramics.DfkMV4AI_okNra.webp 516w"
+ }
+]

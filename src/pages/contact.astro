@@ -11,6 +11,7 @@ import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
 import { Picture } from 'astro:assets';
 import { photo } from '../lib/photos.js';
+import { largeurs } from '../lib/largeurs.js';
 
 const c = site.company;
 const maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(c.mapQuery);
@@ -18,7 +19,7 @@ const osm = `https://www.openstreetmap.org/export/embed.html?bbox=${c.mapBbox}&l
 const socials = c.socials.filter((s) => s.url);
 
 const couloir = photo('img/company/office-corridor.jpg');
-const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (couloir?.width ?? 0));
+const jeu = largeurs(couloir, [640, 1024, 1440, 1920]);
 import { lien } from '../lib/lien.js';
 ---
 
@@ -44,7 +45,7 @@ import { lien } from '../lib/lien.js';
     <figure class="pleine" data-type="D" data-rail-section="DEMBEL CITY CENTER"
             style={`--nat: ${couloir.width}px`}>
       <Picture src={couloir} alt="Offices at Dembel City Center" formats={['avif']}
-               fallbackFormat="webp" widths={largeurs.length ? largeurs : [couloir.width]}
+               fallbackFormat="webp" widths={jeu}
                sizes="100vw" loading="eager" decoding="async" />
       <figcaption>
         <span class="shell t-label">Offices at Dembel City Center, Africa Avenue.</span>

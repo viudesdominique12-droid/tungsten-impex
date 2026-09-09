@@ -12,10 +12,11 @@ import site from '../data/site.json';
 import Photo from '../components/Photo.astro';
 import { Picture } from 'astro:assets';
 import { photo } from '../lib/photos.js';
+import { largeurs } from '../lib/largeurs.js';
 
 const c = site.company;
 const plateau = photo('img/company/office-floor.jpg');
-const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (plateau?.width ?? 0));
+const jeu = largeurs(plateau, [640, 1024, 1440, 1920]);
 
 const registres = [
   'EPOSPEA',
@@ -44,7 +45,7 @@ const registres = [
     <figure class="pleine" data-type="D" data-rail-section="THE PREMISES"
             style={`--nat: ${plateau.width}px`}>
       <Picture src={plateau} alt="The Tungsten office floor" formats={['avif']}
-               fallbackFormat="webp" widths={largeurs.length ? largeurs : [plateau.width]}
+               fallbackFormat="webp" widths={jeu}
                sizes="100vw" loading="eager" decoding="async" />
       <figcaption>
         <span class="shell t-label">The office floor on the 4th floor of Dembel City Center.</span>

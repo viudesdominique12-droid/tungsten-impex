@@ -1,0 +1,1122 @@
+[
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 543.3,
+   "h": 361.3,
+   "ratioAffiche": 1.5037,
+   "natW": 620,
+   "natH": 412,
+   "ratioNat": 1.5049,
+   "src": "niger-seed-noug.C3c3Jzi8_ypbh.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -24.7,
+   "dy": 0
+  },
+  "route": "/export/niger-seed-noug/",
+  "slug": "niger-seed-noug",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 568,
+   "h": 319.7,
+   "ratioAffiche": 1.7765,
+   "natW": 620,
+   "natH": 349,
+   "ratioNat": 1.7765,
+   "src": "sesame-seed.Dgbx62x8_Z2qxz2y.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": 0,
+   "dy": -41.6
+  },
+  "route": "/export/sesame-seed/",
+  "slug": "sesame-seed",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 361.3,
+   "h": 361.3,
+   "ratioAffiche": 1,
+   "natW": 620,
+   "natH": 620,
+   "ratioNat": 1,
+   "src": "red-kidney-beans.D-nNV5ax_Z21zXlQ.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -206.7,
+   "dy": 0
+  },
+  "route": "/export/red-kidney-beans/",
+  "slug": "red-kidney-beans",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 541.3,
+   "h": 361.3,
+   "ratioAffiche": 1.4981,
+   "natW": 620,
+   "natH": 413,
+   "ratioNat": 1.5012,
+   "src": "soya-bean.DrBnocDs_ERvtR.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -26.7,
+   "dy": 0
+  },
+  "route": "/export/soya-bean/",
+  "slug": "soya-bean",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 541.3,
+   "h": 361.3,
+   "ratioAffiche": 1.4981,
+   "natW": 620,
+   "natH": 413,
+   "ratioNat": 1.5012,
+   "src": "electric-vehicles.RKuj-txB_cENh.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -26.7,
+   "dy": 0
+  },
+  "route": "/import/electric-vehicles/",
+  "slug": "electric-vehicles",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 568,
+   "h": 318.1,
+   "ratioAffiche": 1.7857,
+   "natW": 620,
+   "natH": 347,
+   "ratioNat": 1.7867,
+   "src": "medical-equipment.cpRN9Fxq_Zq49iK.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": 0,
+   "dy": -43.3
+  },
+  "route": "/import/medical-equipment/",
+  "slug": "medical-equipment",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 411.8,
+   "h": 361.3,
+   "ratioAffiche": 1.1396,
+   "natW": 620,
+   "natH": 544,
+   "ratioNat": 1.1397,
+   "src": "human-medicine.ISoKcOvj_1fSqgb.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -156.2,
+   "dy": 0
+  },
+  "route": "/import/human-medicine/",
+  "slug": "human-medicine",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 240.9,
+   "h": 361.3,
+   "ratioAffiche": 0.6666,
+   "natW": 620,
+   "natH": 930,
+   "ratioNat": 0.6667,
+   "src": "building-glass.lW3K5fIN_1e7r3J.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -327.1,
+   "dy": 0
+  },
+  "route": "/import/building-glass/",
+  "slug": "building-glass",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 512.5,
+   "h": 361.3,
+   "ratioAffiche": 1.4184,
+   "natW": 620,
+   "natH": 437,
+   "ratioNat": 1.4188,
+   "src": "elevator-and-escalator.D-5mwWCu_2rbDQQ.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -55.5,
+   "dy": 0
+  },
+  "route": "/import/elevator-and-escalator/",
+  "slug": "elevator-and-escalator",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 525.9,
+   "h": 361.3,
+   "ratioAffiche": 1.4554,
+   "natW": 620,
+   "natH": 426,
+   "ratioNat": 1.4554,
+   "src": "calcium-hypochlorite.9cgC57qZ_Z1pU8CD.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -42.1,
+   "dy": 0
+  },
+  "route": "/import/calcium-hypochlorite/",
+  "slug": "calcium-hypochlorite",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 545.4,
+   "h": 361.3,
+   "ratioAffiche": 1.5094,
+   "natW": 620,
+   "natH": 410,
+   "ratioNat": 1.5122,
+   "src": "plastic-raw-materials.DZaQ2jZ7_Z1yjYoM.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -22.6,
+   "dy": 0
+  },
+  "route": "/import/plastic-raw-materials/",
+  "slug": "plastic-raw-materials",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 361.3,
+   "h": 361.3,
+   "ratioAffiche": 1,
+   "natW": 620,
+   "natH": 620,
+   "ratioNat": 1,
+   "src": "solar-lanterns.DSZKvExg_Ze25jG.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -206.7,
+   "dy": 0
+  },
+  "route": "/import/solar-lanterns/",
+  "slug": "solar-lanterns",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 541.3,
+   "h": 361.3,
+   "ratioAffiche": 1.4981,
+   "natW": 620,
+   "natH": 413,
+   "ratioNat": 1.5012,
+   "src": "stationery-materials.Dr2ls7dw_Z1j8IbO.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -26.7,
+   "dy": 0
+  },
+  "route": "/import/stationery-materials/",
+  "slug": "stationery-materials",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 620,
+   "h": 413.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 568,
+   "h": 361.3
+  },
+  "pad": {
+   "t": 26,
+   "r": 26,
+   "b": 26,
+   "l": 26
+  },
+  "img": {
+   "w": 481.8,
+   "h": 361.3,
+   "ratioAffiche": 1.3333,
+   "natW": 620,
+   "natH": 465,
+   "ratioNat": 1.3333,
+   "src": "ceramics.DfkMV4AI_1fmxc0.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -86.2,
+   "dy": 0
+  },
+  "route": "/import/ceramics/",
+  "slug": "ceramics",
+  "format": "pc"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 308.8,
+   "h": 205.3,
+   "ratioAffiche": 1.5037,
+   "natW": 358,
+   "natH": 238,
+   "ratioNat": 1.5042,
+   "src": "niger-seed-noug.C3c3Jzi8_ypbh.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -13.3,
+   "dy": 0
+  },
+  "route": "/export/niger-seed-noug/",
+  "slug": "niger-seed-noug",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 322,
+   "h": 181,
+   "ratioAffiche": 1.7786,
+   "natW": 358,
+   "natH": 201,
+   "ratioNat": 1.7811,
+   "src": "sesame-seed.Dgbx62x8_ZOEOgY.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": 0,
+   "dy": -24.3
+  },
+  "route": "/export/sesame-seed/",
+  "slug": "sesame-seed",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 205.3,
+   "h": 205.3,
+   "ratioAffiche": 1,
+   "natW": 358,
+   "natH": 358,
+   "ratioNat": 1,
+   "src": "red-kidney-beans.D-nNV5ax_Z21zXlQ.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -116.7,
+   "dy": 0
+  },
+  "route": "/export/red-kidney-beans/",
+  "slug": "red-kidney-beans",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 307.6,
+   "h": 205.3,
+   "ratioAffiche": 1.4981,
+   "natW": 358,
+   "natH": 239,
+   "ratioNat": 1.4979,
+   "src": "soya-bean.DrBnocDs_ERvtR.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -14.4,
+   "dy": 0
+  },
+  "route": "/export/soya-bean/",
+  "slug": "soya-bean",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 307.6,
+   "h": 205.3,
+   "ratioAffiche": 1.4981,
+   "natW": 358,
+   "natH": 239,
+   "ratioNat": 1.4979,
+   "src": "electric-vehicles.RKuj-txB_cENh.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -14.4,
+   "dy": 0
+  },
+  "route": "/import/electric-vehicles/",
+  "slug": "electric-vehicles",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 322,
+   "h": 180.3,
+   "ratioAffiche": 1.7857,
+   "natW": 358,
+   "natH": 200,
+   "ratioNat": 1.79,
+   "src": "medical-equipment.cpRN9Fxq_Zq49iK.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": 0,
+   "dy": -25
+  },
+  "route": "/import/medical-equipment/",
+  "slug": "medical-equipment",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 234,
+   "h": 205.3,
+   "ratioAffiche": 1.1396,
+   "natW": 358,
+   "natH": 314,
+   "ratioNat": 1.1401,
+   "src": "human-medicine.ISoKcOvj_1fSqgb.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -88,
+   "dy": 0
+  },
+  "route": "/import/human-medicine/",
+  "slug": "human-medicine",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 136.9,
+   "h": 205.3,
+   "ratioAffiche": 0.6666,
+   "natW": 358,
+   "natH": 538,
+   "ratioNat": 0.6654,
+   "src": "building-glass.lW3K5fIN_1e7r3J.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -185.1,
+   "dy": 0
+  },
+  "route": "/import/building-glass/",
+  "slug": "building-glass",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 291.2,
+   "h": 205.3,
+   "ratioAffiche": 1.4184,
+   "natW": 358,
+   "natH": 252,
+   "ratioNat": 1.4206,
+   "src": "elevator-and-escalator.D-5mwWCu_2rbDQQ.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -30.8,
+   "dy": 0
+  },
+  "route": "/import/elevator-and-escalator/",
+  "slug": "elevator-and-escalator",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 299,
+   "h": 205.3,
+   "ratioAffiche": 1.4563,
+   "natW": 358,
+   "natH": 246,
+   "ratioNat": 1.4553,
+   "src": "calcium-hypochlorite.9cgC57qZ_Z11x54t.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -23,
+   "dy": 0
+  },
+  "route": "/import/calcium-hypochlorite/",
+  "slug": "calcium-hypochlorite",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 309.9,
+   "h": 205.3,
+   "ratioAffiche": 1.5094,
+   "natW": 358,
+   "natH": 237,
+   "ratioNat": 1.5105,
+   "src": "plastic-raw-materials.DZaQ2jZ7_Z1yjYoM.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -12.1,
+   "dy": 0
+  },
+  "route": "/import/plastic-raw-materials/",
+  "slug": "plastic-raw-materials",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 205.3,
+   "h": 205.3,
+   "ratioAffiche": 1,
+   "natW": 358,
+   "natH": 358,
+   "ratioNat": 1,
+   "src": "solar-lanterns.DSZKvExg_Ze25jG.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -116.7,
+   "dy": 0
+  },
+  "route": "/import/solar-lanterns/",
+  "slug": "solar-lanterns",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 307.6,
+   "h": 205.3,
+   "ratioAffiche": 1.4981,
+   "natW": 358,
+   "natH": 239,
+   "ratioNat": 1.4979,
+   "src": "stationery-materials.Dr2ls7dw_Z1j8IbO.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -14.4,
+   "dy": 0
+  },
+  "route": "/import/stationery-materials/",
+  "slug": "stationery-materials",
+  "format": "tel"
+ },
+ {
+  "plaque": {
+   "w": 350,
+   "h": 233.3,
+   "ratio": 1.5
+  },
+  "interieur": {
+   "w": 322,
+   "h": 205.3
+  },
+  "pad": {
+   "t": 14,
+   "r": 14,
+   "b": 14,
+   "l": 14
+  },
+  "img": {
+   "w": 273.8,
+   "h": 205.3,
+   "ratioAffiche": 1.3333,
+   "natW": 358,
+   "natH": 269,
+   "ratioNat": 1.3309,
+   "src": "ceramics.DfkMV4AI_1fmxc0.avif",
+   "fit": "fill"
+  },
+  "fond": "rgb(251, 253, 255)",
+  "ombre": "none",
+  "bord": "0px none rgb(10, 26, 51)",
+  "rayon": "22px",
+  "ombreImg": "none",
+  "bordImg": "0px",
+  "debordement": {
+   "dx": -48.2,
+   "dy": 0
+  },
+  "route": "/import/ceramics/",
+  "slug": "ceramics",
+  "format": "tel"
+ }
+]

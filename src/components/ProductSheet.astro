@@ -2,20 +2,17 @@
 /* La fiche produit, passee au repertoire.
 
      A  tete sur nuit : fil d'Ariane, code, nom, chapeau
-     D  bande photo pleine largeur quand le fichier la porte
+     E  editorial : le chapeau, puis LA PLAQUE
      H  index a filets pour les specifications
      E  editorial deux colonnes pour les textes, sur nuit
-        appel, puis les autres lignes de la meme direction
+     F  appel, puis les autres lignes de la meme direction
 
-   La regle des images n'a pas bouge : on n'agrandit jamais. Quatre des
-   quatorze fichiers font moins de 700px de large — ceux-la ne peuvent pas
-   tenir une bande pleine largeur, et ils gardent leur colonne. Le fichier
-   decide de sa mise en page, jamais l'inverse.
+   La plaque est decrite dans tokens.css. Une proportion, une largeur, un fond,
+   pour les quatorze : c'est le cadre qui fait le catalogue, pas les images.
 */
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
 import copy from '../data/copy.json';
-import Photo from './Photo.astro';
 import { Picture } from 'astro:assets';
 import { photo } from '../lib/photos.js';
 
@@ -30,11 +27,25 @@ const sens = flow === 'out' ? 'Out of Ethiopia' : 'Into Ethiopia';
 const others = siblings.filter((sib) => sib.slug !== product.slug);
 
 const img = photo(product.photo);
-/* Une bande pleine largeur reclame de quoi la remplir. En dessous de 1200px de
-   source, la photo reste dans sa colonne a sa taille reelle. */
-const pleine = !!img && img.width >= 1200;
-const largeurs = [640, 1024, 1440, 1920].filter((w) => w <= (img?.width ?? 0));
+/* LA PLAQUE, pour les quatorze, sans exception.
+
+   Deux fiches sur quatorze avaient une bande pleine largeur — celles dont le
+   fichier etait assez grand — et les douze autres une photographie posee dans
+   la colonne, chacune a sa taille. Cette regle-la etait techniquement juste et
+   visuellement fausse : elle faisait dependre la mise en page de la taille du
+   fichier, si bien qu'aucune fiche ne ressemblait a une autre.
+
+   La plaque ne demande rien au fichier. Elle a sa proportion, sa largeur et son
+   fond ; l'image s'y pose entiere, a sa taille reelle si elle est plus petite.
+   Les quatorze fiches se ressemblent enfin, et la bande pleine largeur reste ou
+   elle a un sens : sur les photographies de la maison, qui sont documentaires
+   et assez grandes pour la remplir.
+
+   La plaque fait 620px de large au plus : c'est ce que la plus petite source
+   (447px) supporte sans depasser la limite d'agrandissement du site. */
+const jeu = largeurs(img, [400, 620, 900, 1240]);
 import { lien } from '../lib/lien.js';
+import { largeurs } from '../lib/largeurs.js';
 ---
 
 <Base title={`${product.name} — Tungsten Import Export`} description={c.lead} rail={label.toUpperCase()}>
@@ -53,22 +64,30 @@ import { lien } from '../lib/lien.js';
       </div>
     </header>
 
-    {pleine ? (
-      <figure class="pleine" data-type="D" style={`--nat: ${img.width}px`}>
-        <Picture src={img} alt={product.name} formats={['avif']} fallbackFormat="webp"
-                 widths={largeurs.length ? largeurs : [img.width]} sizes="100vw"
-                 loading="eager" decoding="async" />
-      </figure>
-    ) : null}
+    {/* La marchandise D'ABORD, la phrase en regard.
 
+        Cette section etait un editorial : un libelle seul dans une colonne de
+        gauche vide, et a droite le chapeau puis la photographie sous lui. Sur
+        un ecran de 1440, cela laissait un tiers de la page vide a gauche et
+        reléguait la marchandise en bas a droite — sur une fiche produit, c'est
+        exactement l'inverse de ce qu'on vient voir. La plaque prend la
+        premiere place, la phrase se lit a cote d'elle.
+
+        Au telephone les deux s'empilent, et la phrase passe devant : on lit ce
+        qu'est la ligne, puis on la regarde. */}
     <section class="section intro" data-type="E" data-rail-section="THE LINE">
-      <div class="shell edito">
-        <div class="edito__t">
+      <div class="shell intro__in">
+        {img && (
+          <figure class="plaque intro__img">
+            <Picture src={img} alt={product.name} formats={['avif']} fallbackFormat="webp"
+                     widths={jeu}
+                     sizes="(max-width: 900px) 92vw, 620px"
+                     loading="eager" decoding="async" />
+          </figure>
+        )}
+        <div class="intro__dire">
           <p class="t-label t-quiet code">01 — The line</p>
-        </div>
-        <div class="edito__c">
           <p class="t-lead intro__lead">{c.lead}</p>
-          {!pleine && <Photo src={product.photo} alt={product.name} eager />}
         </div>
       </div>
     </section>
@@ -148,8 +167,16 @@ import { lien } from '../lib/lien.js';
   .crumb a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .tete__h { margin-top: 20px; }
 
-  .intro__lead { max-width: 44ch; }
-  .intro .edito__c { gap: var(--pile); }
+  .intro__in { display: grid; gap: var(--pile) var(--col-gap); align-items: center; }
+  .intro__lead { max-width: 44ch; margin-top: 20px; }
+  @media (min-width: 900px) {
+    .intro__in { grid-template-columns: 620px minmax(0, 1fr); }
+  }
+  /* Au telephone, la phrase avant la photographie : on lit, puis on regarde. */
+  @media (max-width: 899px) {
+    .intro__img { order: 2; }
+    .intro__dire { order: 1; }
+  }
 
   .specs__head { margin-bottom: var(--pile); }
   .specs__l { margin: -1px 0 0; }

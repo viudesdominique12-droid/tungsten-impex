@@ -381,6 +381,24 @@ h1:not([data-sol]) .accent-mot { color: inherit; }
           max-width: calc(var(--nat, 100vw) * 1.4); }
 .pleine img { width: 100%; height: clamp(320px, 55vh, 560px); object-fit: cover;
               border-radius: 0; }
+/* SUR TELEPHONE LA BANDE SUIT UNE PROPORTION, PAS UNE HAUTEUR.
+
+   Mesure faite sur la fiche sesame : cadre de 390x464, source servie de 390px
+   de large. `cover` doit remplir les 464px de haut, ce qui demande 825px
+   d'image — le navigateur en avait recu 390. Deux fois plus petit que
+   necessaire, quatre fois sur un ecran a densite double : c'est du flou, et
+   c'est une partie de ce que le client voyait comme « pas de bonne qualite ».
+
+   La cause n'est pas le fichier, c'est l'attribut `sizes`. Il annonce la
+   largeur du CADRE — 100vw — alors qu'un recadrage en `cover` dans une boite
+   plus haute que l'image en reclame davantage. Plutot que de gonfler `sizes`
+   et de faire telecharger trop, on donne au cadre la proportion des
+   photographies : 4/3, celle de toutes les sources documentaires du site. Le
+   recadrage devient nul, la largeur demandee redevient exactement 100vw, et
+   l'annonce redevient vraie. */
+@media (max-width: 760px) {
+  .pleine img { height: auto; aspect-ratio: 4 / 3; }
+}
 .pleine figcaption {
   position: absolute; inset: auto 0 0 0; margin: 0; color: #EAF1FA;
   padding: clamp(60px, 12vh, 120px) 0 clamp(18px, 3vw, 28px);
@@ -400,6 +418,63 @@ h1:not([data-sol]) .accent-mot { color: inherit; }
   .edito__t { position: sticky; top: clamp(96px, 12vh, 150px); }
 }
 .edito__c { display: grid; gap: var(--pile); }
+
+/* ============================= LA PLAQUE PRODUIT ==========================
+   Un seul cadre pour les quatorze marchandises.
+
+   Le probleme mesure, page par page : la fiche des lanternes montrait un carre
+   de 447px, celle du verre un portrait de 400x600, celle des medicaments un
+   588x516, celle du sesame une bande pleine largeur de 1440. Quatorze fiches,
+   quatorze presentations. Aucune ne se ressemblait, et rien ne disait qu'elles
+   appartenaient au meme catalogue. Le client l'a dit sans detour : « la facon
+   dont tu l'as dispose ne met pas en valeur le travail, c'est moche. »
+
+   Ce n'etait pas la faute des photographies, c'etait la faute du cadre : il
+   n'y en avait pas. Chaque fichier imposait sa taille et sa proportion.
+
+   Trois decisions, et elles tiennent ensemble :
+
+   UNE PROPORTION UNIQUE, 3:2. Le cadre ne change jamais. C'est lui qui fait
+   catalogue, pas les images — elles vont de 0,67 a 1,78 de proportion.
+
+   CONTENIR, ET NON COUVRIR. `cover` recadre : un portrait de facade vitree
+   ramene en 3:2 perd les trois quarts de sa hauteur. Ces photographies-ci sont
+   pour moitie des detoures sur blanc et des gros plans de matiere — on les
+   montre ENTIERES, posees dans le cadre, comme une planche de catalogue.
+
+   UN FOND DE SURFACE. La moitie des fichiers sont detoures sur blanc. Poses
+   sur le bleute du site, leur blanc formait un rectangle dur — une vignette
+   collee. Le fond de la plaque est donc le blanc du site : le detourage s'y
+   fond, et ce qui reste visible est la marchandise.
+
+   ET ON N'AGRANDIT TOUJOURS PAS. L'image garde sa taille reelle si elle est
+   plus petite que la plaque : `max-width`/`max-height` a 100 %, largeur et
+   hauteur en `auto`. La plus petite source fait 447px ; la plaque est bornee a
+   620px, soit 1,39x au pire — sous la limite de 1,4 du site, et le plus
+   souvent bien en dessous puisque l'image ne s'etire pas. */
+.plaque {
+  display: grid; place-items: center; margin: 0;
+  aspect-ratio: 3 / 2;
+  width: 100%; max-width: 620px;
+  padding: clamp(14px, 2vw, 26px);
+  background: var(--surface);
+  border-radius: var(--goutte-carte);
+  overflow: hidden;
+}
+/* `<Picture>` rend un <picture> autour du <img>. C'est LUI qui devenait
+   l'enfant de la grille, et le `max-height: 100%` de l'image se mesurait alors
+   contre un parent sans hauteur definie : la plaque s'etirait au lieu de tenir
+   sa proportion, et la fiche du verre affichait un cadre de 620x930 au lieu de
+   620x413. `display: contents` efface le <picture> de la mise en page et rend
+   l'image directement a la grille. */
+.plaque picture { display: contents; }
+.plaque img {
+  width: auto; height: auto;
+  max-width: 100%; max-height: 100%;
+  min-width: 0; min-height: 0;
+  border-radius: 0;
+}
+.plaque figcaption { display: none; }
 
 /* ========================== F — grille de cartes ==========================
    Fond surface sur le sol de la section, rayon en goutte, aucun encadre,

@@ -192,9 +192,28 @@ const browser = await chromium.launch();
 
   /* Contraste AA sur le fond clair. */
   const con = await page.evaluate(() => {
+/* Un gris de service POSE SUR LE SOL CLAIR, et pas n'importe lequel.
+
+   Ce controle prenait `document.querySelector('.t-quiet')` — le premier du
+   document — et le mesurait contre le fond du corps. Il ne passait que par
+   accident : le premier etait « Import Export » dans l'en-tete, sur le sol
+   clair. Le jour ou l'en-tete est passe au logo en image, le premier est
+   devenu celui du menu plein ecran, qui vit sur nuit : le controle a mesure
+   un gris clair contre un fond clair et annonce 2,23, sur un texte qui est en
+   realite a 6,96 sur SON fond. Un controle qui echoue sur une chose juste est
+   aussi casse qu'un controle qui passe sur une chose fausse.
+
+   On cherche donc un `.t-quiet` visible dont aucun ancetre ne declare de sol :
+   celui-la, et lui seul, est reellement pose sur le papier. */
+const grisSurClair = () => {
+  const el = [...document.querySelectorAll('.t-quiet')].find((e) => {
+    const r = e.getBoundingClientRect();
+    return r.width > 0 && r.height > 0 && !e.closest('[data-sol]') && !e.closest('.nav');
+  });
+  return el ? getComputedStyle(el).color : null;
+};
     const b = getComputedStyle(document.body);
-    const q = document.querySelector('.t-quiet');
-    return { bg: b.backgroundColor, fg: b.color, muted: q ? getComputedStyle(q).color : b.color };
+    return { bg: b.backgroundColor, fg: b.color, muted: grisSurClair() || b.color };
   });
   check('AA encre / fond clair', ratio(flat(parse(con.fg), parse(con.bg)), parse(con.bg)) >= 4.5,
         ratio(flat(parse(con.fg), parse(con.bg)), parse(con.bg)).toFixed(2));
@@ -401,11 +420,30 @@ const browser = await chromium.launch();
 
   console.log('\nFICHE IMPORT (medical-equipment) 1440x900');
   const r = await page.evaluate(() => {
+/* Un gris de service POSE SUR LE SOL CLAIR, et pas n'importe lequel.
+
+   Ce controle prenait `document.querySelector('.t-quiet')` — le premier du
+   document — et le mesurait contre le fond du corps. Il ne passait que par
+   accident : le premier etait « Import Export » dans l'en-tete, sur le sol
+   clair. Le jour ou l'en-tete est passe au logo en image, le premier est
+   devenu celui du menu plein ecran, qui vit sur nuit : le controle a mesure
+   un gris clair contre un fond clair et annonce 2,23, sur un texte qui est en
+   realite a 6,96 sur SON fond. Un controle qui echoue sur une chose juste est
+   aussi casse qu'un controle qui passe sur une chose fausse.
+
+   On cherche donc un `.t-quiet` visible dont aucun ancetre ne declare de sol :
+   celui-la, et lui seul, est reellement pose sur le papier. */
+const grisSurClair = () => {
+  const el = [...document.querySelectorAll('.t-quiet')].find((e) => {
+    const r = e.getBoundingClientRect();
+    return r.width > 0 && r.height > 0 && !e.closest('[data-sol]') && !e.closest('.nav');
+  });
+  return el ? getComputedStyle(el).color : null;
+};
     const b = getComputedStyle(document.body);
-    const q = document.querySelector('.t-quiet');
     return {
       bg: b.backgroundColor, fg: b.color,
-      muted: q ? getComputedStyle(q).color : b.color,
+      muted: grisSurClair() || b.color,
       over: document.documentElement.scrollWidth - document.documentElement.clientWidth,
       titre: document.querySelector('h1')?.textContent?.trim() ?? '',
       sens: document.querySelector('.tete__sens')?.textContent?.trim() ?? '',

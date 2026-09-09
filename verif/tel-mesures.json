@@ -1,0 +1,1882 @@
+[
+ {
+  "route": "/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [],
+  "pleines": [
+   {
+    "boite": [
+     390,
+     292.5
+    ],
+    "img": [
+     390,
+     292.5
+    ],
+    "naturel": [
+     390,
+     219
+    ],
+    "src": "pharma-warehouse.CCtnSFed_1OtsW2.avif",
+    "sizes": "100vw",
+    "densite": 1,
+    "objectFit": "cover"
+   }
+  ],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "ADDIS ABABA",
+    "a": "THE HOUSE",
+    "ecart": 40.3,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE HOUSE",
+    "a": "THE HOUSE",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "nuit"
+   },
+   {
+    "de": "THE HOUSE",
+    "a": "EXPORTS",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "EXPORTS",
+    "a": "IMPORTS",
+    "ecart": 292.5,
+    "solA": "jour",
+    "solB": "jour"
+   },
+   {
+    "de": "IMPORTS",
+    "a": "WHAT STANDS BEHIND",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "nuit"
+   },
+   {
+    "de": "WHAT STANDS BEHIND",
+    "a": "HOW AN ORDER RUNS",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "wash"
+   },
+   {
+    "de": "HOW AN ORDER RUNS",
+    "a": "BEFORE YOU WRITE",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "jour"
+   },
+   {
+    "de": "BEFORE YOU WRITE",
+    "a": "CONTACT",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "jour"
+   }
+  ],
+  "hauteur": 12170,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/about/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [],
+  "pleines": [
+   {
+    "boite": [
+     390,
+     292.5
+    ],
+    "img": [
+     390,
+     292.5
+    ],
+    "naturel": [
+     390,
+     292
+    ],
+    "src": "office-floor.CVYjTO0b_ZxuxUT.avif",
+    "sizes": "100vw",
+    "densite": 1,
+    "objectFit": "cover"
+   }
+  ],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "ABOUT US",
+    "a": "FROM THE FOUNDER",
+    "ecart": 292.5,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "FROM THE FOUNDER",
+    "a": "REGISTERED WITH",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "REGISTERED WITH",
+    "a": "AFRICA AVENUE",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "jour"
+   }
+  ],
+  "hauteur": 4667,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/contact/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [],
+  "pleines": [
+   {
+    "boite": [
+     390,
+     292.5
+    ],
+    "img": [
+     390,
+     292.5
+    ],
+    "naturel": [
+     390,
+     292
+    ],
+    "src": "office-corridor.MlJI_-oz_10O282.avif",
+    "sizes": "100vw",
+    "densite": 1,
+    "objectFit": "cover"
+   }
+  ],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "CONTACT US",
+    "a": "DETAILS",
+    "ecart": 292.5,
+    "solA": "nuit",
+    "solB": "jour"
+   }
+  ],
+  "hauteur": 3730,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/training/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "TRAINING",
+    "a": "THE PROGRAMME",
+    "ecart": 569.9,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE PROGRAMME",
+    "a": "ENROL",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 5115,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/export/niger-seed-noug/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     308.8,
+     205.3
+    ],
+    "naturel": [
+     358,
+     238
+    ],
+    "src": "niger-seed-noug.C3c3Jzi8_ypbh.avif",
+    "occupe": 95.9,
+    "densite": 1.2
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "NIGER SEED (NOUG)",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "EXPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 5113,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/export/sesame-seed/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     322,
+     181
+    ],
+    "naturel": [
+     358,
+     201
+    ],
+    "src": "sesame-seed.Dgbx62x8_ZOEOgY.avif",
+    "occupe": 88.2,
+    "densite": 1.1
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "SESAME SEED",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "EXPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 4655,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/export/red-kidney-beans/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     205.3,
+     205.3
+    ],
+    "naturel": [
+     358,
+     358
+    ],
+    "src": "red-kidney-beans.D-nNV5ax_Z21zXlQ.avif",
+    "occupe": 63.8,
+    "densite": 1.7
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "RED KIDNEY BEANS",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "EXPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 5007,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/export/soya-bean/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     307.6,
+     205.3
+    ],
+    "naturel": [
+     358,
+     239
+    ],
+    "src": "soya-bean.DrBnocDs_ERvtR.avif",
+    "occupe": 95.5,
+    "densite": 1.2
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "SOYA BEAN",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "EXPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 4721,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/import/electric-vehicles/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     307.6,
+     205.3
+    ],
+    "naturel": [
+     358,
+     239
+    ],
+    "src": "electric-vehicles.RKuj-txB_cENh.avif",
+    "occupe": 95.5,
+    "densite": 1.2
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "ELECTRIC VEHICLES",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "IMPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 6115,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/import/medical-equipment/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     322,
+     180.3
+    ],
+    "naturel": [
+     358,
+     200
+    ],
+    "src": "medical-equipment.cpRN9Fxq_Zq49iK.avif",
+    "occupe": 87.8,
+    "densite": 1.1
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "MEDICAL EQUIPMENT",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "IMPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 6170,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/import/human-medicine/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     234,
+     205.3
+    ],
+    "naturel": [
+     358,
+     314
+    ],
+    "src": "human-medicine.ISoKcOvj_1fSqgb.avif",
+    "occupe": 72.7,
+    "densite": 1.5
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "HUMAN MEDICINE",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "IMPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 5986,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/import/building-glass/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     136.9,
+     205.3
+    ],
+    "naturel": [
+     358,
+     538
+    ],
+    "src": "building-glass.lW3K5fIN_1e7r3J.avif",
+    "occupe": 42.5,
+    "densite": 2.6
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "BUILDING GLASS",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "IMPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 5357,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/import/elevator-and-escalator/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     291.2,
+     205.3
+    ],
+    "naturel": [
+     358,
+     252
+    ],
+    "src": "elevator-and-escalator.D-5mwWCu_2rbDQQ.avif",
+    "occupe": 90.4,
+    "densite": 1.2
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "ELEVATOR & ESCALATOR",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "IMPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 5313,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/import/calcium-hypochlorite/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     299,
+     205.3
+    ],
+    "naturel": [
+     358,
+     246
+    ],
+    "src": "calcium-hypochlorite.9cgC57qZ_Z11x54t.avif",
+    "occupe": 92.9,
+    "densite": 1.2
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "CALCIUM HYPOCHLORITE",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "IMPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 5323,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/import/plastic-raw-materials/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [],
+  "pleines": [],
+  "logo": null,
+  "petites": [],
+  "inter": [],
+  "hauteur": 2120,
+  "barre": {
+   "existe": false
+  }
+ },
+ {
+  "route": "/import/solar-lanterns/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     205.3,
+     205.3
+    ],
+    "naturel": [
+     358,
+     358
+    ],
+    "src": "solar-lanterns.DSZKvExg_ZyxvGM.avif",
+    "occupe": 63.8,
+    "densite": 1.7
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "SOLAR LANTERNS",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "IMPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 5260,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/import/stationery-materials/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     308,
+     205.3
+    ],
+    "naturel": [
+     358,
+     239
+    ],
+    "src": "stationery-materials.Dr2ls7dw_1nqJ97.avif",
+    "occupe": 95.6,
+    "densite": 1.2
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "STATIONERY MATERIALS",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "IMPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 5451,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ },
+ {
+  "route": "/import/ceramics/",
+  "deborde": 0,
+  "coupables": [],
+  "plaques": [
+   {
+    "plaque": [
+     350,
+     233.3
+    ],
+    "pad": [
+     14,
+     14
+    ],
+    "dispo": [
+     322,
+     205.3
+    ],
+    "img": [
+     273.8,
+     205.3
+    ],
+    "naturel": [
+     358,
+     269
+    ],
+    "src": "ceramics.DfkMV4AI_Z1RQH7o.avif",
+    "occupe": 85,
+    "densite": 1.3
+   }
+  ],
+  "pleines": [],
+  "logo": {
+   "boite": [
+    141.6,
+    48
+   ],
+   "pieces": [
+    {
+     "alt": "",
+     "css": [
+      36,
+      36
+     ],
+     "naturel": [
+      44,
+      44
+     ],
+     "src": "embleme.DS23VcJW_Z1dkdDc.webp"
+    },
+    {
+     "alt": "",
+     "css": [
+      96.6,
+      25
+     ],
+     "naturel": [
+      170,
+      44
+     ],
+     "src": "mot-symbole.Q-lCJ65D_dWzOH.webp"
+    }
+   ],
+   "texte": ""
+  },
+  "petites": [],
+  "inter": [
+   {
+    "de": "CERAMICS",
+    "a": "THE LINE",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "THE LINE",
+    "a": "SPECIFICATIONS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   },
+   {
+    "de": "SPECIFICATIONS",
+    "a": "DETAIL",
+    "ecart": 0,
+    "solA": "wash",
+    "solB": "nuit"
+   },
+   {
+    "de": "DETAIL",
+    "a": "ENQUIRY",
+    "ecart": 0,
+    "solA": "nuit",
+    "solB": "jour"
+   },
+   {
+    "de": "ENQUIRY",
+    "a": "IMPORTS",
+    "ecart": 0,
+    "solA": "jour",
+    "solB": "wash"
+   }
+  ],
+  "hauteur": 5280,
+  "barre": {
+   "existe": true,
+   "hautHidden": true,
+   "milieu": {
+    "hidden": false,
+    "top": 769,
+    "h": 75
+   },
+   "pied": true
+  }
+ }
+]
