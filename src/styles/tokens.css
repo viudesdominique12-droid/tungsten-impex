@@ -419,6 +419,16 @@ h1:not([data-sol]) .accent-mot { color: inherit; }
 }
 .edito__c { display: grid; gap: var(--pile); }
 
+/* Le point d'arrivee du tableau de departs sur telephone. Il ne prend de
+   place que lorsqu'il porte quelque chose : sur ordinateur le panneau reste
+   dans le heros et cette boite reste vide, donc invisible. */
+.tableau-hote:empty { display: none; }
+.tableau-hote {
+  display: block;
+  padding: var(--pad-section-mob) var(--gutter) 0;
+  width: 100%; max-width: var(--container); margin-inline: auto;
+}
+
 /* ============================= LA PLAQUE PRODUIT ==========================
    Un seul cadre pour les quatorze marchandises.
 

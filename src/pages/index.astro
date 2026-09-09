@@ -58,6 +58,30 @@ import { sortants, entrants } from '../lib/registre.js';
   <BandeDonnees />
   <Manifeste />
 
+  {/* Le point d'arrivee du tableau de departs sur telephone. Vide sur
+      ordinateur, ou le panneau reste dans le heros. Voir Hero.astro. */}
+  <div class="tableau-hote" id="tableau-tel" data-rail-section="ON THE BOARD"></div>
+  <script is:inline>
+    /* Pose ICI, et non en fin de page : un script en ligne s'execute pendant
+       l'analyse du document. A cet instant le heros est deja lu, le point
+       d'arrivee vient d'etre ecrit, et le premier affichage n'a pas encore eu
+       lieu — le panneau est donc deja a sa place quand l'ecran s'allume. Un
+       deplacement fait apres le chargement se verrait sauter. */
+    (() => {
+      const panneau = document.getElementById('tableau');
+      const surTelephone = document.getElementById('tableau-tel');
+      const dansLeHeros = document.getElementById('tableau-bureau');
+      if (!panneau || !surTelephone || !dansLeHeros) return;
+      const petit = matchMedia('(max-width: 899px)');
+      const placer = () => {
+        const hote = petit.matches ? surTelephone : dansLeHeros;
+        if (panneau.parentElement !== hote) hote.appendChild(panneau);
+      };
+      placer();
+      petit.addEventListener('change', placer);
+    })();
+  </script>
+
   <Registre lignes={sortants} titre="Exports" compte={`${sortants.length} products`}
             id="exports" code="03 — Out of Ethiopia" forme="index" rail="EXPORTS" />
 

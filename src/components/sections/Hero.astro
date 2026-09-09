@@ -36,17 +36,31 @@ import { lien } from '../../lib/lien.js';
       </div>
     </div>
 
-    {/* Le panneau portait sa direction — « Export », « Import » — et son
-        chiffre, mais rien ne disait CE QU'IL EST. Retour du client, sur son
-        telephone, ou il tombe sous les deux boutons sans contexte : « why is
-        this here bro? It's looking a little misplaced but I really like the
-        style ». Il n'etait pas mal place, il etait anonyme : une carte qui
-        change de marchandise toutes les secondes et demie, au milieu d'un
-        premier ecran, sans legende. Le micro-libelle le nomme, avec les mots
-        que le site emploie deja ailleurs — quatre produits, dix categories. */}
-    <div class="hero__board">
-      <p class="t-label t-quiet code hero__board-h">Exports &amp; imports &middot; {lignes} lines</p>
-      <Board items={manifeste} />
+    {/* LE TABLEAU DE DEPARTS, ET SES DEUX PLACES.
+
+        Sur ordinateur il est ici, en regard du titre : c'est la composition
+        asymetrique du heros, et le client la trouve juste — « I really like
+        the style ». Sur telephone tout s'empile, et il tombait apres les deux
+        boutons : une carte qui change de marchandise toutes les secondes et
+        demie, accrochee en fin de premier ecran, sans rien avant ni apres a
+        quoi se rattacher. « It's looking a little misplaced. »
+
+        Il ne l'etait pas dans le heros, il l'etait dans la PILE. Sous 900px il
+        va donc se poser juste avant le registre des Exports — la ou le lecteur
+        s'apprete justement a rencontrer les quatorze lignes. Le panneau cesse
+        d'etre l'appendice du premier ecran pour devenir l'ouverture du
+        catalogue.
+
+        Un seul element, deplace, jamais duplique : deux copies voudraient dire
+        deux fois le meme identifiant, et le script du panneau n'en piloterait
+        qu'une. Le deplacement se fait dans index.astro, par un script pose au
+        point d'arrivee — il s'execute pendant l'analyse du document, donc
+        AVANT le premier affichage : rien ne saute a l'ecran. */}
+    <div class="hero__board" id="tableau-bureau">
+      <div class="tableau" id="tableau">
+        <p class="t-label t-quiet code tableau__h">Exports &amp; imports &middot; {lignes} lines</p>
+        <Board items={manifeste} />
+      </div>
     </div>
   </div>
 </section>
@@ -56,7 +70,7 @@ import { lien } from '../../lib/lien.js';
   .hero__say { display: grid; gap: var(--pile); align-content: start; }
   .hero__h { margin-top: 4px; }
   .hero__act { margin-top: 4px; }
-  .hero__board-h { margin-bottom: 14px; }
+  .tableau__h { margin-bottom: 14px; }
 
   @media (min-width: 900px) {
     /* Le blanc est compose : la colonne du tableau est plus etroite que celle

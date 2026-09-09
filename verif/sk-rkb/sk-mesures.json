@@ -1,0 +1,40 @@
+{
+  "pc": {
+    "plaque": {
+      "x": 112,
+      "y": 540.5,
+      "width": 620,
+      "height": 413.328125
+    },
+    "image": {
+      "x": 241.328125,
+      "y": 566.5,
+      "width": 361.328125,
+      "height": 361.328125
+    },
+    "src": "http://localhost:4321/_astro/red-kidney-beans.D-nNV5ax_170HN.avif",
+    "natW": 619,
+    "natH": 619,
+    "fit": "fill",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+  },
+  "tel": {
+    "plaque": {
+      "x": 20,
+      "y": 666.0625,
+      "width": 350,
+      "height": 233.328125
+    },
+    "image": {
+      "x": 92.328125,
+      "y": 680.0625,
+      "width": 205.328125,
+      "height": 205.328125
+    },
+    "src": "http://localhost:4321/_astro/red-kidney-beans.D-nNV5ax_170HN.avif",
+    "natW": 358,
+    "natH": 358,
+    "fit": "fill",
+    "sizes": "(max-width: 900px) 92vw, 620px"
+  }
+}
