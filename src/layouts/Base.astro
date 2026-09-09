@@ -10,6 +10,12 @@ import { lien } from '../lib/lien.js';
    leur adresse finale — empreinte de contenu comprise, et prefixe du
    sous-chemin quand le site n'est pas publie a la racine. Un href="/fonts/..."
    ecrit a la main pointe a cote des la premiere page de projet. */
+import { Image } from 'astro:assets';
+/* Le verrou du logo, decoupe par outils/embleme.mjs : masque circulaire, fond
+   transparent. Le mot-symbole, lui, est deja dans l'en-tete en typographie —
+   le repeter en image ferait doublon et pesserait pour rien. */
+import embleme from '../img/company/embleme.png';
+
 import fraunces from '../fonts/fraunces-var.woff2?url';
 import frauncesItal from '../fonts/fraunces-var-italic.woff2?url';
 import instrument from '../fonts/instrument-sans-var.woff2?url';
@@ -61,8 +67,12 @@ const cur = (h) => (here === lien(h) ? 'page' : undefined);
     <header class="hdr" id="hdr">
       <div class="shell hdr__in">
         <a class="mark" href={lien('/')}>
-          <strong>Tungsten</strong>
-          <span class="t-label t-quiet">Import Export</span>
+          <Image class="mark__logo" src={embleme} alt="" width={40} height={40}
+                 densities={[2]} loading="eager" />
+          <span class="mark__t">
+            <strong>Tungsten</strong>
+            <span class="t-label t-quiet">Import Export</span>
+          </span>
         </a>
         <button class="menu t-label" id="nav-open" type="button" aria-expanded="false" aria-controls="nav">
           <i aria-hidden="true"></i> Menu
@@ -75,7 +85,9 @@ const cur = (h) => (here === lien(h) ? 'page' : undefined);
 
   <div class="nav" id="nav" data-open="false" data-sol="nuit" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menu">
     <div class="shell nav__bar">
-      <a class="mark" href={lien('/')}><strong>Tungsten</strong><span class="t-label t-quiet">Import Export</span></a>
+      {/* Pas de verrou ici : le menu est sur nuit, et un disque bleu sur un
+          bleu profond ne se detache pas. Le mot-symbole suffit. */}
+      <a class="mark" href={lien('/')}><span class="mark__t"><strong>Tungsten</strong><span class="t-label t-quiet">Import Export</span></span></a>
       <button class="nav__x" id="nav-close" type="button" aria-label="Close menu">&times;</button>
     </div>
     <div class="nav__body">
@@ -202,8 +214,14 @@ const cur = (h) => (here === lien(h) ? 'page' : undefined);
     .hdr__in { display: flex; align-items: center; justify-content: space-between;
                gap: 20px; min-height: 68px; }
 
-    .mark { display: inline-flex; flex-direction: column; gap: 2px;
+    /* Le verrou et le mot-symbole cote a cote, le mot-symbole sur deux
+       lignes. La marque etait une colonne ; elle devient une ligne qui porte
+       une colonne. */
+    .mark { display: inline-flex; align-items: center; gap: 11px;
             text-decoration: none; line-height: 1.02; }
+    .mark__t { display: inline-flex; flex-direction: column; gap: 2px; }
+    .mark__logo { width: 40px; height: 40px; flex: none; border-radius: 0; }
+    @media (max-width: 560px) { .mark__logo { width: 34px; height: 34px; } }
     .mark strong { font-family: var(--font-display); font-weight: 600;
                    font-size: var(--step-1); letter-spacing: -.012em; }
 

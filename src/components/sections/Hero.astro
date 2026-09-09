@@ -12,9 +12,11 @@
    « titres demesures qui font semblant d'occuper l'espace ». Le cran au-dessus
    n'existe donc nulle part sur le site, et c'est une decision, pas un oubli.
 */
-import Photo from '../Photo.astro';
 import Board from '../Board.astro';
+import site from '../../data/site.json';
 import { manifeste } from '../../lib/registre.js';
+
+const lignes = site.exports.length + site.imports.length;
 import { lien } from '../../lib/lien.js';
 ---
 
@@ -34,7 +36,18 @@ import { lien } from '../../lib/lien.js';
       </div>
     </div>
 
-    <div class="hero__board"><Board items={manifeste} /></div>
+    {/* Le panneau portait sa direction — « Export », « Import » — et son
+        chiffre, mais rien ne disait CE QU'IL EST. Retour du client, sur son
+        telephone, ou il tombe sous les deux boutons sans contexte : « why is
+        this here bro? It's looking a little misplaced but I really like the
+        style ». Il n'etait pas mal place, il etait anonyme : une carte qui
+        change de marchandise toutes les secondes et demie, au milieu d'un
+        premier ecran, sans legende. Le micro-libelle le nomme, avec les mots
+        que le site emploie deja ailleurs — quatre produits, dix categories. */}
+    <div class="hero__board">
+      <p class="t-label t-quiet code hero__board-h">Exports &amp; imports &middot; {lignes} lines</p>
+      <Board items={manifeste} />
+    </div>
   </div>
 </section>
 
@@ -43,6 +56,7 @@ import { lien } from '../../lib/lien.js';
   .hero__say { display: grid; gap: var(--pile); align-content: start; }
   .hero__h { margin-top: 4px; }
   .hero__act { margin-top: 4px; }
+  .hero__board-h { margin-bottom: 14px; }
 
   @media (min-width: 900px) {
     /* Le blanc est compose : la colonne du tableau est plus etroite que celle
