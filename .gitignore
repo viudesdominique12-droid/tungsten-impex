@@ -18,3 +18,40 @@ REPRISE.md
 recherche/
 originaux/
 verif/tungsten-v2.html
+
+# --- verif/ : seule la suite nommee est suivie -------------------------------
+# Les agents d'audit ecrivent leurs sondes dans verif/ — il faut y etre pour
+# importer playwright — et les suppriment ensuite. Entre les deux, un
+# « git add -A » les ramasse : c'est arrive trois fois de suite. Le dossier est
+# donc ferme par defaut, et chaque fichier de la suite est nomme.
+verif/*
+!verif/bureau-tranches.mjs
+!verif/cadence.mjs
+!verif/check.mjs
+!verif/couleur.mjs
+!verif/crop.mjs
+!verif/fold.mjs
+!verif/links.mjs
+!verif/maquette-test.mjs
+!verif/maquette-vue.mjs
+!verif/mob-tranches.mjs
+!verif/mob-vues.mjs
+!verif/mobile.mjs
+!verif/pages.mjs
+!verif/partout.mjs
+!verif/photos-diag.mjs
+!verif/photos.mjs
+!verif/pires.mjs
+!verif/poids.mjs
+!verif/reference.mjs
+!verif/registre.mjs
+!verif/safari-clavier.mjs
+!verif/servi.mjs
+!verif/shot.mjs
+!verif/tableau-calme.mjs
+!verif/tableau-gel.mjs
+!verif/tableau.mjs
+!verif/teinte.mjs
+!verif/titre.mjs
+!verif/tout.mjs
+!verif/vide.mjs
