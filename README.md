@@ -88,6 +88,26 @@ Pour activer : *Settings → Pages → Source: **GitHub Actions***.
 Toute adresse interne passe par `lien()` (`src/lib/lien.js`). N'écrivez jamais
 `href="/about/"` en dur — le site doit rester déplaçable.
 
+### Le QR code, et pourquoi il ne pointe pas sur le site
+
+```bash
+node outils/qr.mjs
+```
+
+Un QR code encode une chaîne **une fois, pour toujours** : imprimé sur une carte
+de visite, il pointera vers cette chaîne jusqu'à la fin de ses jours. Il
+n'encode donc pas l'adresse du site mais celle d'une **page-relais**,
+`src/pages/aller.astro`, dont l'unique travail est de renvoyer ailleurs.
+
+Le jour où la maison prend son propre nom de domaine, on modifie **une ligne** —
+`web.canonique` dans `src/data/site.json` — et tous les QR déjà imprimés suivent
+sans être refaits. `web.relais`, lui, est gravé : il ne change jamais.
+
+Le script **relit son propre résultat** : il décode le QR qu'il vient de
+produire et compare au texte de départ, puis recommence à des tailles réduites
+pour donner la dimension minimale à respecter à l'impression. Sortie dans
+`public/qr/`, donc publiée avec le site.
+
 ### La maquette en un fichier
 
 ```bash

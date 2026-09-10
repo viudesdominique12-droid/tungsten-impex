@@ -1,4 +1,10 @@
 {
+  "_web": "L'adresse-relais est GRAVEE : c'est elle que porte le QR code imprime, et elle ne doit JAMAIS changer. La canonique, elle, est celle vers laquelle le relais renvoie — c'est la seule ligne a modifier le jour ou la maison prend son propre nom de domaine. Le QR deja imprime continuera de fonctionner.",
+  "web": {
+    "relais": "https://viudesdominique12-droid.github.io/tungsten-impex/aller/",
+    "canonique": "https://viudesdominique12-droid.github.io/tungsten-impex/"
+  },
+
   "company": {
     "name": "Tungsten Import Export",
     "founded": 2007,

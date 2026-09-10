@@ -1,0 +1,70 @@
+---
+/* ---------------------------------------------------------------------------
+   L'ADRESSE-RELAIS. C'est elle que porte le QR code imprime.
+
+   Le probleme. Un QR code encode une chaine de caracteres, une fois, pour
+   toujours. Imprimez-le sur une carte de visite, une brochure ou la vitrine du
+   bureau, et il pointera vers cette chaine jusqu'a la fin de ses jours. Le jour
+   ou la maison prend son propre nom de domaine, tous les QR deja imprimes
+   deviennent des impasses.
+
+   La seule facon d'y echapper est de ne PAS encoder l'adresse du site, mais
+   celle d'un relais qu'on garde : une page dont l'unique travail est de
+   renvoyer ailleurs. Le QR pointe ici ; ici pointe vers le site. Le jour du
+   changement, on modifie une ligne dans src/data/site.json — la cle
+   `web.canonique` — et les QR imprimes suivent sans etre refaits.
+
+   Trois renvois, du plus rapide au plus sur, parce qu'un seul ne suffit pas :
+
+     1. l'en-tete `refresh`, lu par le navigateur avant meme le corps de la
+        page — c'est lui qui agit dans la quasi-totalite des cas ;
+     2. un script, qui remplace l'entree dans l'historique au lieu de l'y
+        ajouter : sans `replace`, le bouton Precedent ramenerait ici, qui
+        renverrait la-bas, en boucle ;
+     3. un lien visible, pour le cas ou les deux precedents sont bloques — un
+        lecteur d'ecran, un navigateur d'entreprise verrouille, un mode
+        economie de donnees. Personne ne reste bloque devant une page blanche.
+
+   Elle n'est pas indexable : c'est une porte, pas une page. `noindex` l'exclut
+   des moteurs, et la balise canonique dit lequel des deux compte.
+   --------------------------------------------------------------------------- */
+import site from '../data/site.json';
+const cible = site.web.canonique;
+const c = site.company;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="refresh" content={`0; url=${cible}`} />
+  <title>{c.name}</title>
+  <meta name="robots" content="noindex, follow" />
+  <link rel="canonical" href={cible} />
+  <style>
+    :root { color-scheme: light; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center;
+           background: #0A1B3C; color: #EAF1FA; text-align: center;
+           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+           padding: 24px; }
+    p { margin: 0 0 18px; font-size: 12px; letter-spacing: .12em;
+        text-transform: uppercase; color: #93A7C7; }
+    a { display: inline-block; padding: 15px 30px; border-radius: 999px;
+        background: #1B3FA6; color: #FBFDFF; text-decoration: none;
+        font-size: 16px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <main>
+    <p>{c.name}</p>
+    <a href={cible}>Open the site</a>
+  </main>
+  <script is:inline define:vars={{ cible }}>
+    /* `replace` et non `assign` : sans cela, Precedent ramenerait sur cette
+       page, qui renverrait aussitot vers le site — le visiteur ne pourrait
+       plus revenir en arriere. */
+    location.replace(cible);
+  </script>
+</body>
+</html>
