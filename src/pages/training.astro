@@ -125,8 +125,15 @@ const t = site.training;
   .tete__h { margin-top: 22px; }
   .tete__p { color: var(--gris); }
 
+  /* La photographie etait calee a gauche, avec 848 x 544 px de page vide a sa
+     droite : un fichier de 720px de large dans une colonne de 1280, aligne sur
+     rien. Elle fait 720px et n'a pas le droit de grandir — la regle du site.
+     Elle se centre donc, et le vide devient deux marges egales : une reserve
+     voulue au lieu d'un trou. */
   .portrait { padding-top: var(--pad-section-mob); }
   @media (min-width: 900px) { .portrait { padding-top: var(--pad-section); } }
+  .portrait :global(.media) { margin-inline: auto; width: fit-content; }
+  .portrait :global(.media__cap) { text-align: center; max-width: none; }
 
   .syl__head { margin-bottom: var(--pile); }
   .syl__ligne { display: flex; align-items: baseline; justify-content: space-between;

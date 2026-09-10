@@ -463,7 +463,14 @@ h1:not([data-sol]) .accent-mot { color: inherit; }
    620px, soit 1,39x au pire — sous la limite de 1,4 du site, et le plus
    souvent bien en dessous puisque l'image ne s'etire pas. */
 .plaque {
-  display: grid; place-items: center; margin: 0;
+  /* `margin-inline: auto` ne fait rien dans la grille de la fiche, ou la
+     colonne mesure exactement 620px. En pile — sous 1120px — la colonne est
+     plus large que la plaque, et sans cela la plaque restait calee a gauche
+     avec jusqu'a 300px de vide a sa droite : le trou que le partage a deux
+     colonnes avait, deplace un cran plus bas. */
+  display: grid; place-items: center; margin: 0 auto;
+  /* Repli si personne ne pose la proportion en ligne ; les fiches produit la
+     calculent depuis leur image, bornee entre 1:1 et 3:2. */
   aspect-ratio: 3 / 2;
   width: 100%; max-width: 620px;
   padding: clamp(14px, 2vw, 26px);

@@ -44,6 +44,27 @@ const img = photo(product.photo);
    La plaque fait 620px de large au plus : c'est ce que la plus petite source
    (447px) supporte sans depasser la limite d'agrandissement du site. */
 const jeu = largeurs(img, [400, 620, 900, 1240]);
+
+/* LA PROPORTION DE LA PLAQUE SUIT L'IMAGE, DANS DES BORNES.
+
+   La plaque a d'abord eu une proportion unique, 3:2 pour les quatorze. Le
+   cadre etait enfin le meme partout — et le sujet, lui, ne l'etait pas du
+   tout : contenue dans un cadre plus large qu'elle, une photographie verticale
+   n'occupait que 42 % de la planche. La fiche du verre etait un timbre-poste
+   au milieu d'une grande carte blanche. Mesure sur les quatorze : de 31 % a
+   77 % de remplissage. J'avais uniformise le cadre, pas la planche.
+
+   La proportion suit donc l'image, bornee entre 1:1 et 3:2. La LARGEUR reste
+   la meme pour les quatorze — c'est elle qui tient le rythme de la page — et
+   seule la hauteur bouge, entre 413 et 620px. Le remplissage passe de 31-77 %
+   a 67-100 %.
+
+   Les bornes ne sont pas decoratives : sans la borne haute, une photographie
+   panoramique donnerait une plaque ecrasee ; sans la borne basse, un portrait
+   donnerait une plaque de 930px de haut qui sortirait de l'ecran. */
+const proportion = img
+  ? Math.min(1.5, Math.max(1, img.width / img.height)).toFixed(3)
+  : '1.5';
 import { lien } from '../lib/lien.js';
 import { largeurs } from '../lib/largeurs.js';
 ---
@@ -78,7 +99,7 @@ import { largeurs } from '../lib/largeurs.js';
     <section class="section intro" data-type="E" data-rail-section="THE LINE">
       <div class="shell intro__in">
         {img && (
-          <figure class="plaque intro__img">
+          <figure class="plaque intro__img" style={`aspect-ratio: ${proportion}`}>
             <Picture src={img} alt={product.name} formats={['avif']} fallbackFormat="webp"
                      widths={jeu}
                      sizes="(max-width: 900px) 92vw, 620px"
@@ -169,11 +190,33 @@ import { largeurs } from '../lib/largeurs.js';
 
   .intro__in { display: grid; gap: var(--pile) var(--col-gap); align-items: center; }
   .intro__lead { max-width: 44ch; margin-top: 20px; }
-  @media (min-width: 900px) {
-    .intro__in { grid-template-columns: 620px minmax(0, 1fr); }
+
+  /* LE PARTAGE NE PASSE PLUS A 900px, ET LA PLAQUE N'EST PLUS UNE PISTE FIXE.
+
+     La regle etait `620px minmax(0, 1fr)` des 900px de fenetre. La plaque se
+     servait donc en premier, largeur fixe, et le texte encaissait ce qui
+     restait. Mesure sur les quatorze fiches a 900px : de 13,3 a 17,0 signes par
+     ligne — un ruban de onze a seize lignes de deux mots, plus haut que la
+     photographie a cote de lui, pendant que la plaque tenait 620px pour ne
+     montrer que 377px de marchandise. Le cadre vide etait plus large que toute
+     la colonne de texte.
+
+     Le plus revelateur est la falaise. Sur /import/human-medicine/, un pixel
+     de fenetre renversait la page : 899px donnait quatre lignes de 53,3 signes,
+     900px en donnait seize de 13,3. La mise en page passait de son meilleur cas
+     a son pire cas en franchissant son propre seuil.
+
+     Deux corrections. Le partage attend 1120px — en dessous, la pile du
+     telephone est meilleure que deux colonnes etranglees. Et la plaque devient
+     `minmax(0, 620px)` face a `minmax(30ch, 1fr)` : c'est desormais le TEXTE
+     qui est servi en premier, et la plaque qui cede quelques pixels. Elle en
+     perd entre 1120 et 1280, ce qui ne se voit pas ; le chapeau gagne sa
+     justification, ce qui se voit. */
+  @media (min-width: 1120px) {
+    .intro__in { grid-template-columns: minmax(0, 620px) minmax(30ch, 1fr); }
   }
-  /* Au telephone, la phrase avant la photographie : on lit, puis on regarde. */
-  @media (max-width: 899px) {
+  /* En pile, la phrase avant la photographie : on lit, puis on regarde. */
+  @media (max-width: 1119px) {
     .intro__img { order: 2; }
     .intro__dire { order: 1; }
   }
@@ -183,8 +226,15 @@ import { largeurs } from '../lib/largeurs.js';
 
   .bloc { display: grid; gap: 12px; }
 
+  /* Le bouton etait dans une colonne de 4fr, ce qui le posait a x=902 avec
+     322px de vide a sa droite : aligne sur rien, ni sur le bord du texte ni
+     sur celui de la page. Il se cale desormais sur le bord droit de la
+     colonne — le meme axe que le libelle « Into Ethiopia » de la tete. */
   .ask__in { display: grid; gap: var(--pile); align-items: end; }
-  @media (min-width: 900px) { .ask__in { grid-template-columns: 7fr 4fr; } }
+  @media (min-width: 900px) {
+    .ask__in { grid-template-columns: minmax(0, 1fr) auto; }
+    .ask__in .actes { justify-self: end; }
+  }
   .ask__line { margin-top: 18px; max-width: 22ch; }
 
   .onward__h { margin-bottom: var(--pile); }

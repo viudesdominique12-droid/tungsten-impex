@@ -116,7 +116,10 @@ const registres = [
   .memb__h { margin-top: 18px; }
   .memb__list { list-style: none; margin: -1px 0 0; padding: 0; }
 
-  .premises__in { display: grid; gap: var(--pile) var(--col-gap); align-items: start; }
+  /* `align-items: start` laissait un rectangle vide de 644 x 361 px sous le
+     texte, a droite du portrait : deux lignes en regard d'une photographie de
+     1080px de haut. Le texte se centre sur elle. */
+  .premises__in { display: grid; gap: var(--pile) var(--col-gap); align-items: center; }
   @media (min-width: 860px) { .premises__in { grid-template-columns: 5fr 6fr; } }
   .premises__h { margin-top: 18px; }
   .premises__p { margin-top: 20px; max-width: 40ch; color: var(--gris); }
