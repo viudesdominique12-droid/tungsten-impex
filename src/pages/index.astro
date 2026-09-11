@@ -1,6 +1,6 @@
 ---
 /* ---------------------------------------------------------------------------
-   L'accueil : onze sections, et deux voisines ne se ressemblent jamais.
+   L'accueil : douze sections, et deux voisines ne se ressemblent jamais.
 
    Le client a dit « le site est vide et rempli a la fois ». Ce n'est pas une
    contradiction, c'est un symptome precis : la page n'avait que deux registres
@@ -16,12 +16,19 @@
      3   B  bande de donnees           clair
      4   E  editorial, titre collant   nuit
      5   H  index a filets, Exports    clair
-     6   D  bande photo                image       pleine largeur
-     7   F  grille de cartes, Imports  clair
-     8   E  editorial, Record          nuit
-     9   H  index a filets, Method     clair
-    10   F  grille de cartes, FAQ      clair
-    11      appel de cloture           clair       (puis le pied, nuit)
+     6   F  planche de vignettes       nuit
+     7   D  bande photo                image       pleine largeur
+     8   F  grille de cartes, Imports  clair
+     9   E  editorial, Record          nuit
+    10   H  index a filets, Method     clair
+    11   F  grille de cartes, FAQ      clair
+    12      appel de cloture           clair       (puis le pied, nuit)
+
+   La planche est au sixieme rang et pas au dernier : au dernier, la
+   marchandise n'apparaissait qu'au bout de 90 % de la page. Ici elle tombe au
+   quarante-et-unieme centile, juste avant la bande photo — les deux moments
+   photographiques se suivent au lieu d'etre separes par neuf ecrans, ce qui
+   est exactement ce que fait la reference citee par le client.
 
    Une section sombre revient au moins toutes les trois sections, et pas plus
    souvent : la nuit donne le rythme, elle ne tient pas le sol. Les deux plus
@@ -44,6 +51,7 @@ import Charniere from '../components/sections/Charniere.astro';
 import Reassurance from '../components/sections/Reassurance.astro';
 import Process from '../components/sections/Process.astro';
 import Faq from '../components/sections/Faq.astro';
+import Planche from '../components/sections/Planche.astro';
 import AppelFinal from '../components/sections/AppelFinal.astro';
 import { sortants, entrants } from '../lib/registre.js';
 ---
@@ -85,6 +93,8 @@ import { sortants, entrants } from '../lib/registre.js';
 
   <Registre lignes={sortants} titre="Exports" compte={`${sortants.length} products`}
             id="exports" code="03 — Out of Ethiopia" forme="index" rail="EXPORTS" />
+
+  <Planche />
 
   <Charniere />
 
