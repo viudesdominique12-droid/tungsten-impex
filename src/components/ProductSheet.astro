@@ -43,7 +43,11 @@ const img = photo(product.photo);
 
    La plaque fait 620px de large au plus : c'est ce que la plus petite source
    (447px) supporte sans depasser la limite d'agrandissement du site. */
-const jeu = largeurs(img, [400, 620, 900, 1240]);
+/* Le palier de 1024 n'est pas decoratif : la boite utile fait 322px CSS, soit
+   966px sur un ecran a densite 3. Sans lui, l'echelle saute de 900 — trop
+   petit — a 1240, et les deux gros fichiers se faisaient servir 28 % de
+   pixels que le cadre ne peut pas montrer. */
+const jeu = largeurs(img, [400, 620, 900, 1024, 1240]);
 
 /* LA PROPORTION DE LA PLAQUE SUIT L'IMAGE, DANS DES BORNES.
 
@@ -62,8 +66,20 @@ const jeu = largeurs(img, [400, 620, 900, 1240]);
    Les bornes ne sont pas decoratives : sans la borne haute, une photographie
    panoramique donnerait une plaque ecrasee ; sans la borne basse, un portrait
    donnerait une plaque de 930px de haut qui sortirait de l'ecran. */
+/* LA BORNE HAUTE MORDAIT SUR TROIS FICHES, ET POUR RIEN.
+
+   A 1,5, trois fichiers plus panoramiques que cela recevaient une plaque plus
+   haute qu'eux : sesame-seed et medical-equipment sont a 1,78, ceramics a
+   1,64. Mesure sur ordinateur : 620x413 de plaque pour 568x320 d'image, soit
+   71 % de remplissage et 93px de plaque vide. Le maximum du catalogue est
+   1,782 : porter la borne a 1,8 ne fait pas qu'elle cesse de mordre sur ces
+   trois-la, elle cesse de mordre tout court.
+
+   La borne basse reste a 1. Ce qui tient la ressemblance des quatorze fiches,
+   c'est la LARGEUR — 620px pour toutes — et elle ne bouge pas ; seule la
+   hauteur suit desormais le fichier, ce qu'elle aurait toujours du faire. */
 const proportion = img
-  ? Math.min(1.5, Math.max(1, img.width / img.height)).toFixed(3)
+  ? Math.min(1.8, Math.max(1, img.width / img.height)).toFixed(3)
   : '1.5';
 import { lien } from '../lib/lien.js';
 import { largeurs } from '../lib/largeurs.js';
@@ -99,10 +115,16 @@ import { largeurs } from '../lib/largeurs.js';
     <section class="section intro" data-type="E" data-rail-section="THE LINE">
       <div class="shell intro__in">
         {img && (
-          <figure class="plaque intro__img" style={`aspect-ratio: ${proportion}`}>
+          <figure class="plaque intro__img" style={`--prop: ${proportion}`}>
             <Picture src={img} alt={product.name} formats={['avif']} fallbackFormat="webp"
                      widths={jeu}
-                     sizes="(max-width: 900px) 92vw, 620px"
+                     {/* La declaration annoncait 92vw. La boite utile n'en fait que
+                         82,6 : la gouttiere du shell prend 20px de chaque cote et le
+                         rembourrage de la plaque 14px. Consequence mesuree sur les deux
+                         gros fichiers, une variante de 1240px servie pour un cadre qui
+                         en demande 966 et 927 — 28 et 34 % de pixels que le cadre ne
+                         peut pas montrer. On annonce donc la boite, pas la fenetre. */}
+                     sizes="(max-width: 700px) calc(100vw - 68px), (max-width: 1119px) min(568px, calc(100vw - 116px)), 568px"
                      loading="eager" decoding="async" />
           </figure>
         )}
@@ -224,7 +246,9 @@ import { largeurs } from '../lib/largeurs.js';
   .specs__head { margin-bottom: var(--pile); }
   .specs__l { margin: -1px 0 0; }
 
-  .bloc { display: grid; gap: 12px; }
+  /* `min-width: 0` : sans lui, cet enfant de grille garde son plancher
+     min-content et deborde sa colonne des que le visiteur zoome. */
+  .bloc { display: grid; gap: 12px; min-width: 0; }
 
   /* Le bouton etait dans une colonne de 4fr, ce qui le posait a x=902 avec
      322px de vide a sa droite : aligne sur rien, ni sur le bord du texte ni

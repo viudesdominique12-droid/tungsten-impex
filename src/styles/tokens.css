@@ -396,8 +396,18 @@ h1:not([data-sol]) .accent-mot { color: inherit; }
    photographies : 4/3, celle de toutes les sources documentaires du site. Le
    recadrage devient nul, la largeur demandee redevient exactement 100vw, et
    l'annonce redevient vraie. */
+/* CORRECTION DE CETTE CORRECTION : « toutes les sources documentaires sont en
+   4/3 » etait vrai pour deux bandes sur trois, et faux pour celle que le
+   client voit en premier. pharma-warehouse.jpg fait 1080x608, soit 1,776.
+   Dans un cadre de 390x293 (4/3), `cover` met l'image a l'echelle de la
+   HAUTEUR : largeur reellement peinte 520px, un quart coupe sur les cotes, et
+   1560 pixels d'ecran demandes a un fichier qui en a 1080 — 1,44x, quand le
+   calcul par la boite annoncait 1,08x. Le cadre prend donc la proportion de
+   SA source, et le 4/3 ne reste que comme repli. Mesure apres coup : coupe
+   25 % -> 0 %, manque 1,44x -> 1,08x ; les deux bandes deja en 4/3 ne bougent
+   pas. La bande d'accueil perd 73px de hauteur sur iPhone, et c'est le prix. */
 @media (max-width: 760px) {
-  .pleine img { height: auto; aspect-ratio: 4 / 3; }
+  .pleine img { height: auto; aspect-ratio: var(--rap, 4 / 3); }
 }
 .pleine figcaption {
   position: absolute; inset: auto 0 0 0; margin: 0; color: #EAF1FA;
@@ -412,12 +422,14 @@ h1:not([data-sol]) .accent-mot { color: inherit; }
 /* ========================= E — editorial deux colonnes ====================
    Titre de section collant a gauche, contenu qui defile a droite. Le mouvement
    vient de la mise en page, pas d'une animation. */
-.edito { display: grid; gap: var(--pile) var(--col-gap); align-items: start; }
+.edito { display: grid; gap: var(--pile) var(--col-gap); align-items: start; min-width: 0; }
 @media (min-width: 900px) {
   .edito { grid-template-columns: 4fr 7fr; }
   .edito__t { position: sticky; top: clamp(96px, 12vh, 150px); }
 }
-.edito__c { display: grid; gap: var(--pile); }
+.edito__c { display: grid; gap: var(--pile); min-width: 0; }
+/* Sans cela, la colonne garde un plancher min-content de 193px et la fiche
+   du calcium deborde encore de 18px a 195px de fenetre. */
 
 /* Le point d'arrivee du tableau de departs sur telephone. Il ne prend de
    place que lorsqu'il porte quelque chose : sur ordinateur le panneau reste
@@ -469,10 +481,24 @@ h1:not([data-sol]) .accent-mot { color: inherit; }
      avec jusqu'a 300px de vide a sa droite : le trou que le partage a deux
      colonnes avait, deplace un cran plus bas. */
   display: grid; place-items: center; margin: 0 auto;
-  /* Repli si personne ne pose la proportion en ligne ; les fiches produit la
-     calculent depuis leur image, bornee entre 1:1 et 3:2. */
-  aspect-ratio: 3 / 2;
-  width: 100%; max-width: 620px;
+  /* `content-box`, et ce n'est pas un detail de style. `aspect-ratio`
+     s'applique par defaut a la boite de BORDURE : le rembourrage est alors
+     soustrait d'une boite qui porte deja la proportion, et la boite utile
+     ressort plus plate que l'image. Mesure sur sesame-seed, ordinateur :
+     plaque 620x349 en proportion 1,778, boite utile 568x297 en proportion
+     1,91 — l'image devenait limitee par la hauteur et tombait a 527px de
+     large au lieu de 568, avec 41px de vide lateral. En content-box la
+     proportion porte sur la boite utile : l'image la remplit exactement, et
+     la plaque retrouve ses 620px une fois le rembourrage ajoute. */
+  box-sizing: content-box;
+  /* La proportion arrive par --prop, pose en ligne par la fiche depuis son
+     image. Elle ne peut PAS etre posee en ligne directement : un style en
+     ligne bat toutes les regles de la feuille, y compris celles des media
+     queries — l'`aspect-ratio: auto` du bloc telephone plus bas etait donc
+     ecrase, et trois fiches gardaient jusqu'a 25px de hauteur morte. Mesure
+     faite : sesame-seed 24px, medical-equipment 25px, ceramics 9px. */
+  aspect-ratio: var(--prop, 3 / 2);
+  width: 100%; max-width: 568px;   /* + 2 x 26px de rembourrage = 620px */
   padding: clamp(14px, 2vw, 26px);
   background: var(--surface);
   border-radius: var(--goutte-carte);
@@ -492,6 +518,28 @@ h1:not([data-sol]) .accent-mot { color: inherit; }
   border-radius: 0;
 }
 .plaque figcaption { display: none; }
+
+/* --------------------------- SUR TELEPHONE, LA PLAQUE EPOUSE SON IMAGE ----
+   La plaque tient une boite calculee alors que l'image a deja sa forme. Le
+   vide qui en resulte n'est pas theorique, il se compte : sur les quatorze
+   fiches, a 390px de large, 186,4px de largeur et 57,6px de hauteur de plaque
+   vide. Le pire cas etait le verre — corrige a la source par un recadrage —
+   mais trois fiches gardent une hauteur morte parce que leur fichier est a
+   1,78 et que la proportion est bornee a 1,5 : medical-equipment 24,6px,
+   sesame-seed 24,3px, ceramics 8,7px.
+
+   Sur un grand ecran la boite calculee sert : c'est elle qui fait que les
+   quatorze fiches se ressemblent. Sur un telephone il n'y a qu'une fiche a
+   l'ecran, il n'y a donc rien a faire ressembler — et le vide, lui, se voit.
+
+   Le plafond de 620px reste indispensable : sans lui, mesure a 760px de
+   fenetre, la figure passe a 720px et l'image a 689,6px CSS, loin au-dela de
+   ce que les fichiers peuvent porter. */
+@media (max-width: 760px) {
+  .plaque { width: fit-content; max-width: 620px; aspect-ratio: auto;
+            box-sizing: border-box; }
+  .plaque img { max-height: none; }
+}
 
 /* ========================== F — grille de cartes ==========================
    Fond surface sur le sol de la section, rayon en goutte, aucun encadre,
@@ -546,6 +594,31 @@ a.carte:hover { transform: translateY(-3px); }
 .index__c { grid-area: corps; color: var(--gris); max-width: 52ch; }
 .index__f { grid-area: fait; margin-top: 12px; }
 .index__f b { display: block; font-weight: 400; }
+
+/* ------------------------------------------- LE ZOOM DE PAGE A 200 % ------
+   Safari iOS et Chrome Android ont un reglage « Zoom de page » qui, sur un
+   telephone de 390pt, ramene la fenetre CSS a 195px. WCAG 1.4.10 demande que
+   la page se recompose sans defilement lateral jusqu'a 320px ; en dessous,
+   c'est un reglage que de vrais lecteurs utilisent tous les jours.
+
+   Mesure a 195px, document.scrollWidth - clientWidth :
+     /contact/ 80px | /training/ 71px | calcium-hypochlorite 65px
+     / 43px | red-kidney-beans 22px | /about/ 20px
+
+   La cause n'est PAS la grille. L'hypothese evidente — passer .index__l de
+   `2.6rem 1fr` a `2.6rem minmax(0, 1fr)` — a ete testee et ne change pas un
+   pixel. Ce qui deborde, ce sont des MOTS : « Calcium Hypochlorite » en
+   --step-4 fait 65px de plus que la colonne, « Oilseeds and pulses export
+   procedures » 71px, « Africa Avenue, Dembel City Center » 80px. Un titre ne
+   se coupe pas par defaut, et a 195px il n'y a plus de place pour ne pas se
+   couper.
+
+   `anywhere` et non `break-word` : seul `anywhere` reduit aussi la largeur
+   min-content, donc seul lui empeche la colonne de pousser la page. */
+.t-display, .t-h1, .t-h2, .t-h3,
+.t-lead, .t-body, .t-note,
+.index__t, .index__c, .index__f,
+.crumb a, .lnk { overflow-wrap: anywhere; }
 a.index__l .index__t { transition: color 160ms var(--ease-pipette); }
 a.index__l:hover .index__t { color: var(--accent); }
 [data-sol='nuit'] a.index__l:hover .index__t,

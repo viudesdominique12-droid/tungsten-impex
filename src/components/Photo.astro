@@ -56,10 +56,16 @@ const plafond = Math.min(m?.width ?? 0, forme === 'portrait' ? 400 : max);
    d'annoncer la largeur du CADRE — c'est ce qu'il doit annoncer ; c'est le
    navigateur qui multiplie par la densite et choisit la variante. */
 const plafondFichier = Math.min(m?.width ?? 0, plafond * 3);
+
+/* --rap, pose sur la figure, porte la proportion REELLE du fichier. La bande
+   pleine largeur s'en sert sur telephone au lieu d'un 4/3 suppose : voir
+   .pleine dans tokens.css. Sans elle, une source panoramique se faisait
+   couper un quart de sa largeur par le recadrage en `cover`. */
 ---
 
 {m && (
-  <figure class:list={['media', `media--${forme}`, extra]} style={`--nat: ${plafond}px`}>
+  <figure class:list={['media', `media--${forme}`, extra]}
+          style={`--nat: ${plafond}px; --rap: ${m.width} / ${m.height}`}>
     <Picture
       src={m}
       alt={alt}

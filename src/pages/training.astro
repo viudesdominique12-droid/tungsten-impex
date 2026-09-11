@@ -164,7 +164,11 @@ const t = site.training;
     font-family: var(--font-body); font-size: var(--step-0); color: var(--encre);
     background: var(--surface); border: 0;
     border-radius: var(--goutte-carte);
-    padding: 14px 16px; width: 100%; }
+    /* `min-width: 0` : sans lui un champ garde son plancher min-content —
+       mesure a 203px dans une colonne de 155px — et pousse toute la page
+       lateralement des que le visiteur zoome. Voir le bloc sur le zoom de
+       page dans tokens.css. */
+    padding: 14px 16px; width: 100%; min-width: 0; }
   .f textarea { resize: vertical; min-height: 120px; }
   .f input::placeholder, .f textarea::placeholder { color: var(--gris); }
   .f input:focus, .f select:focus, .f textarea:focus {

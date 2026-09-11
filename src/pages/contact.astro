@@ -44,7 +44,7 @@ import { lien } from '../lib/lien.js';
 
   {couloir && (
     <figure class="pleine" data-type="D" data-rail-section="DEMBEL CITY CENTER"
-            style={`--nat: ${couloir.width}px`}>
+            style={`--nat: ${couloir.width}px; --rap: ${couloir.width} / ${couloir.height}`}>
       <Picture src={couloir} alt="Offices at Dembel City Center" formats={['avif']}
                fallbackFormat="webp" widths={jeu}
                sizes="100vw" loading="eager" decoding="async" />
