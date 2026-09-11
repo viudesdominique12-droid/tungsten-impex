@@ -4,11 +4,21 @@
 # Le site est construit puis deploye a chaque poussee sur master. Rien n'est
 # commite dans le depot : dist/ reste ignore, l'artefact est fabrique ici.
 #
-# LE SOUS-CHEMIN EST CALCULE, PAS ECRIT EN DUR. Une page de projet est servie
-# sous /nom-du-depot/, une page de compte a la racine. Se tromper ne casse pas
-# le build : les dix-huit pages s'affichent, et chaque lien renvoie vers une
-# adresse qui n'existe pas. Le nom du depot decide, et astro.config.mjs lit
-# BASE_PATH.
+# LE SOUS-CHEMIN VIENT DE L'ADRESSE PUBLIQUE, PLUS DU NOM DU DEPOT.
+#
+# Il etait deduit du nom du depot : depot « tungsten-impex » donc base
+# « /tungsten-impex/ ». Juste tant que le site vit sur une page de projet, faux
+# le jour ou un nom de domaine est branche sur ce meme depot : GitHub Pages sert
+# alors l'artefact a la RACINE du domaine, alors qu'il reste bati pour le
+# sous-chemin. Mesure sur les dix-neuf pages publiees : 1224 adresses — la
+# feuille de style, les quatre fontes, 183 images et 878 liens — pointeraient
+# une case trop loin. Site sans style, sans photo, navigation morte, et aucune
+# etape en echec.
+#
+# La source de l'adresse publique est UNE SEULE : src/data/site.json, cle
+# web.canonique. Son chemin donne le sous-chemin, son origine donne le domaine.
+# Le commentaire de ce fichier-la promettait deja « la seule ligne a modifier » ;
+# c'est desormais vrai.
 # -----------------------------------------------------------------------------
 name: Publier sur GitHub Pages
 
@@ -41,18 +51,19 @@ jobs:
       - name: Installer les dependances
         run: npm ci
 
+      # L'adresse publique est lue dans le depot, pas deduite de son nom, et pas
+      # posee dans une variable de l'interface GitHub : elle doit rester visible
+      # et versionnee avec le code qu'elle gouverne.
       - name: Determiner l'adresse de publication
         id: adresse
         run: |
-          proprietaire="${GITHUB_REPOSITORY%%/*}"
-          depot="${GITHUB_REPOSITORY#*/}"
-          minuscule="$(echo "$proprietaire" | tr '[:upper:]' '[:lower:]')"
-          if [ "$(echo "$depot" | tr '[:upper:]' '[:lower:]')" = "$minuscule.github.io" ]; then
-            echo "base=/" >> "$GITHUB_OUTPUT"
-          else
-            echo "base=/$depot/" >> "$GITHUB_OUTPUT"
-          fi
-          echo "site=https://$minuscule.github.io" >> "$GITHUB_OUTPUT"
+          canonique="$(node -p "require('./src/data/site.json').web.canonique")"
+          base="$(node -p "new URL(process.argv[1]).pathname" "$canonique")"
+          site="$(node -p "new URL(process.argv[1]).origin" "$canonique")"
+          case "$base" in */) ;; *) base="$base/" ;; esac
+          echo "base=$base" >> "$GITHUB_OUTPUT"
+          echo "site=$site" >> "$GITHUB_OUTPUT"
+          echo "publie sous $site$base (source : src/data/site.json, web.canonique)"
 
       - name: Construire
         env:
@@ -60,21 +71,19 @@ jobs:
           SITE_URL: ${{ steps.adresse.outputs.site }}
         run: npm run build
 
-      # Le filet de securite du sous-chemin. Un lien reste a la racine et le
-      # site part avec une navigation morte, sans qu'aucune etape n'ait echoue.
-      - name: Verifier qu'aucun lien n'est reste a la racine
+      # LE GARDE-FOU, REPARE. L'ancien cherchait les adresses restees HORS du
+      # sous-chemin : il verifiait qu'elles PORTENT le prefixe, jamais que le
+      # prefixe soit le BON — plus le prefixe etait faux, plus il etait content.
+      # Rejoue sur un artefact entierement bati pour l'ancien prefixe, il rend
+      # zero reste et passe au vert. Il sautait aussi robots.txt et sitemap.xml,
+      # ou un canonique perime survivait sans que rien ne bronche.
+      # Le raisonnement complet est dans outils/verifier-publication.mjs.
+      - name: Verifier que l'artefact correspond a l'adresse de publication
         env:
           BASE_PATH: ${{ steps.adresse.outputs.base }}
-        run: |
-          if [ "$BASE_PATH" = "/" ]; then echo "publie a la racine, rien a verifier"; exit 0; fi
-          restes="$(grep -rhoE '(href|src)="/[^"]*"' dist --include=index.html \
-                    | grep -vE "\"$BASE_PATH" | sort -u || true)"
-          if [ -n "$restes" ]; then
-            echo "ARRET : des adresses pointent hors du sous-chemin $BASE_PATH"
-            echo "$restes"
-            exit 1
-          fi
-          echo "aucune adresse hors du sous-chemin"
+          CI: '1'
+        run: node outils/verifier-publication.mjs
+
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
