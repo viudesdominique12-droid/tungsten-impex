@@ -68,6 +68,37 @@ const t = site.training;
         <h2 class="t-h1 form__h">Tell us how to reach you</h2>
       </header>
 
+      {/* SANS SCRIPT, UN ENVOI FUYAIT LES COORDONNEES DANS L'ADRESSE.
+
+          Ce formulaire n'a ni action ni method : c'est le script qui compose un
+          mailto. Mesure faite, Chromium avec JavaScript desactive : un clic sur
+          « Send my enquiry » rechargeait /training/?name=...&email=...&phone=...
+          — sept champs, 161 caracteres, dont le nom, l'adresse et le telephone
+          en clair dans la barre d'adresse, dans l'historique du navigateur et
+          dans le journal de l'hebergeur. Rien ne partait, et le message de
+          repli ne s'affichait pas : il n'est ecrit que par le script.
+
+          method="post" a ete essaye et ecarte : l'hebergement est statique et
+          repond 405 sur une page nginx nue, sans le nom de la maison.
+
+          Le bloc <noscript> ci-dessous retire donc le formulaire de la page
+          quand le script ne tourne pas, et met a la place les deux chemins qui
+          fonctionnent toujours. Ce qui n'existe pas ne peut pas fuir. */}
+      <noscript>
+        <style is:inline set:html="#enrol{display:none}"></style>
+        <div class="sansjs">
+          <p class="t-lead">This form needs JavaScript to open your mail app.</p>
+          <p class="t-body">
+            It is off in your browser, so write to us directly — we answer the
+            same way:
+          </p>
+          <p class="t-body sansjs__deux">
+            <a class="lnk" href={`mailto:${c.email}`}>{c.email}</a>
+            <a class="lnk" href={`tel:${c.phoneHref}`}>{c.phone}</a>
+          </p>
+        </div>
+      </noscript>
+
       <form class="form" id="enrol" data-email={c.email} novalidate>
         <div class="row">
           <p class="t-label t-quiet">Who you are</p>
@@ -170,6 +201,9 @@ const t = site.training;
        page dans tokens.css. */
     padding: 14px 16px; width: 100%; min-width: 0; }
   .f textarea { resize: vertical; min-height: 120px; }
+  .sansjs { display: grid; gap: 14px; max-width: 46ch; }
+  .sansjs__deux { display: flex; flex-wrap: wrap; gap: 10px 26px; }
+  .sansjs__deux a { min-height: 44px; display: inline-flex; align-items: center; }
   .f input::placeholder, .f textarea::placeholder { color: var(--gris); }
   .f input:focus, .f select:focus, .f textarea:focus {
     outline: 2px solid currentColor; outline-offset: 0; }

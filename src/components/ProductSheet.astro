@@ -126,7 +126,7 @@ import { largeurs } from '../lib/largeurs.js';
       <div class="shell intro__in">
         {img && (
           <figure class="plaque intro__img" style={`--prop: ${proportion}`}>
-            <Picture src={img} alt={product.name} formats={['avif']} fallbackFormat="webp"
+            <Picture src={img} alt={product.alt ?? product.name} formats={['avif']} fallbackFormat="webp"
                      widths={jeu}
                      {/* La declaration annoncait 92vw. La boite utile n'en fait que
                          82,6 : la gouttiere du shell prend 20px de chaque cote et le
@@ -154,7 +154,7 @@ import { largeurs } from '../lib/largeurs.js';
               dix-huit n'offraient jamais. */}
           {second && (
             <Photo src={product.photo2}
-                   alt={`Another of the ${product.name.toLowerCase()} Tungsten imports`}
+                   alt="A grey electric SUV, larger and seven-seat, on a plain studio floor"
                    class="intro__second" />
           )}
         </div>

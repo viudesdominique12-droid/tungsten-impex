@@ -1,0 +1,100 @@
+---
+/* ---------------------------------------------------------------------------
+   LA PAGE QU'ON VOIT QUAND ON S'EST TROMPE D'ADRESSE.
+
+   Il n'y en avait pas. Mesure faite sur le site publie : une adresse fautive
+   d'une seule lettre — /export/sesam-seed/ — rendait la page 404 de GitHub,
+   9 379 octets, cinq liens dont AUCUN ne ramene sur le site : la racine du
+   compte, githubstatus.com, l'aide de GitHub et un compte X. Le seul lien qui
+   ressemblait a « accueil » menait a une adresse qui repond elle aussi 404.
+   Le mot « Tungsten » n'y figurait pas une seule fois ; le mot « GitHub »,
+   trois fois.
+
+   Autrement dit : un acheteur qui recopie mal une adresse lue sur une carte de
+   visite quittait la maison sans savoir qu'il y etait entre.
+
+   Astro tire de ce fichier un dist/404.html, que GitHub Pages sert
+   automatiquement — comme Netlify, Vercel, Cloudflare Pages et S3. La
+   reparation vaut donc aussi bien avant qu'apres le demenagement sur le nom de
+   domaine.
+
+   Tous les liens passent par lien() : sous un sous-chemin, une page d'erreur
+   dont les liens sont eux-memes faux serait une plaisanterie.
+   --------------------------------------------------------------------------- */
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+import { lien } from '../lib/lien.js';
+import { sortants, entrants } from '../lib/registre.js';
+
+const c = site.company;
+---
+
+<Base
+  title="Page not found — Tungsten Import Export"
+  description="That address does not exist on this site. Here is the way back."
+  rail="NOT FOUND"
+>
+  <section class="tete section" data-type="A" data-sol="nuit" data-premier data-rail-section="NOT FOUND">
+    <div class="shell">
+      <p class="t-label t-quiet code">Error 404</p>
+      <h1 class="t-display perdu__h">That page isn’t here.</h1>
+      <p class="t-lead t-quiet perdu__p">
+        The address you followed doesn’t exist on this site — most often a typed
+        letter out of place. Everything we trade is one tap away.
+      </p>
+      <div class="actes perdu__act">
+        <a class="act" href={lien('/')}>Back to the home page</a>
+        <a class="act act--line" href={lien('/contact/')}>Contact us</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-type="H" data-sol="wash" data-rail-section="EVERYTHING WE MOVE">
+    <div class="shell">
+      <header class="perdu__head">
+        <p class="t-label t-quiet code">01 — Everything we move</p>
+        <h2 class="t-h1 perdu__h2">The fourteen lines</h2>
+      </header>
+      <div class="perdu__cols">
+        <nav aria-label="Exports">
+          <p class="t-label t-quiet code perdu__lab">Out of Ethiopia</p>
+          <ul class="perdu__liste">
+            {sortants.map((p) => (
+              <li><a class="lnk" href={lien(`/${p.folder}/${p.slug}/`)}>{p.name}</a></li>
+            ))}
+          </ul>
+        </nav>
+        <nav aria-label="Imports">
+          <p class="t-label t-quiet code perdu__lab">Into Ethiopia</p>
+          <ul class="perdu__liste">
+            {entrants.map((p) => (
+              <li><a class="lnk" href={lien(`/${p.folder}/${p.slug}/`)}>{p.name}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+      <p class="t-body perdu__tel">
+        Or call <a class="lnk" href={`tel:${c.phoneHref}`}>{c.phone}</a>,
+        or write to <a class="lnk" href={`mailto:${c.email}`}>{c.email}</a>.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .perdu__h { margin-top: 20px; }
+  .perdu__p { margin-top: 22px; max-width: 46ch; }
+  .perdu__act { margin-top: var(--pile); }
+  .perdu__head { margin-bottom: var(--pile); }
+  .perdu__h2 { margin-top: 18px; }
+  .perdu__cols { display: grid; gap: var(--pile) var(--col-gap); }
+  @media (min-width: 760px) { .perdu__cols { grid-template-columns: 1fr 1fr; } }
+  .perdu__lab { margin-bottom: 16px; }
+  .perdu__liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  /* Les liens d'une page d'erreur se touchent au doigt comme les autres : la
+     cible minimale du site est de 44px, et c'est ici qu'on en a le plus besoin. */
+  .perdu__liste a { display: inline-block; min-height: 44px; line-height: 44px; }
+  .lnk { text-decoration: underline; text-underline-offset: 4px;
+         text-decoration-thickness: 1px; }
+  .perdu__tel { margin-top: var(--pile); color: var(--gris); }
+</style>

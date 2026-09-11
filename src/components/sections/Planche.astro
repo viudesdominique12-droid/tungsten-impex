@@ -63,10 +63,14 @@ const PALIERS = [200, 340, 520, 700];
     </header>
 
     <div class="planche__grille">
-      {lignes.map((p) => (
+      {/* alt="" et non le nom : le nom est deja le texte du lien, juste en
+      dessous. Avec les deux, l'arbre d'accessibilite donnait « Niger Seed
+      (Noug) Niger Seed (Noug) » sur les quatorze — mesure, pas suppose. Ici
+      l'image illustre un lien deja nomme : elle est decorative. */}
+  {lignes.map((p) => (
         <a class="vign" href={lien(`/${p.folder}/${p.slug}/`)}>
           <div class="vign__img" style={`aspect-ratio: ${p.img.width} / ${p.img.height}`}>
-            <Picture src={p.img} alt={p.name} formats={['avif']} fallbackFormat="webp"
+            <Picture src={p.img} alt="" formats={['avif']} fallbackFormat="webp"
                      widths={largeurs(p.img, PALIERS)}
                      sizes="(max-width: 619px) calc(50vw - 27px), (max-width: 999px) calc(33vw - 25px), 240px"
                      loading="lazy" decoding="async" />

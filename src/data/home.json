@@ -42,7 +42,7 @@
       { "titre": "You tell us what you need", "corps": "Destination market, volume, and any specification or standard you work to. For imports, the make and model; for exports, the grade and the packing." },
       { "titre": "We confirm and quote", "corps": "Availability, price and lead time in writing, with the incoterm the quotation is based on." },
       { "titre": "Papers first", "corps": "Export and import documentation, certificates of origin and analysis, and trade references on request — before anything moves." },
-      { "titre": "Shipment", "corps": "We book the shipment and keep you told where the consignment is." },
+      { "titre": "Shipment", "corps": "We book the shipment and keep you posted on where the consignment is." },
       { "titre": "Clearance and delivery", "corps": "Customs handled at the Ethiopian end, and delivery to the site you name." }
     ]
   },
@@ -54,7 +54,7 @@
       { "q": "Can I order a single carton, or is there a minimum?", "r": "On the medicine lines, from a single carton to a full container.", "source": "verifie" },
       { "q": "How fast do you deliver inside Ethiopia?", "r": "Within 24 hours in Addis Ababa, and 48 to 72 hours to regional centres.", "source": "verifie" },
       { "q": "Are the medicines you import certified?", "r": "They come from more than 100 manufacturers, all WHO-GMP certified, and cover anti-infectives through to oncology, vaccines and over-the-counter lines.", "source": "verifie" },
-      { "q": "Do you publish grades and specifications for the export lines?", "r": "No. Grade, moisture, packing and shipment terms are agreed on enquiry, against your own market's requirements. Ask for a current sample before committing.", "source": "verifie" },
+      { "q": "Do you publish grades and specifications for the export lines?", "r": "No. Grade, moisture, packing and shipment terms are agreed on enquiry, against your own market’s requirements. Ask for a current sample before committing.", "source": "verifie" },
       { "q": "Can you send a sample before I commit?", "r": "Yes, on the export lines. Tell us the market you are selling into so the sample matches what you will be judged on.", "source": "brouillon" },
       { "q": "Which documents do you provide?", "r": "Commercial invoice, packing list, certificate of origin and certificate of analysis where the line calls for one. Ask for anything else your buyer or your customs authority requires.", "source": "brouillon" },
       { "q": "Do you handle customs clearance?", "r": "At the Ethiopian end, yes. At the destination, we supply the documents your own broker will need.", "source": "brouillon" }

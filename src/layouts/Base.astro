@@ -135,7 +135,13 @@ const cur = (h) => (here === lien(h) ? 'page' : undefined);
         addressLocality: c.address.city,
         addressCountry: c.address.country,
       },
-      openingHours: 'Mo-Fr 08:00-17:00',
+      /* L'horaire lisible par une machine etait ECRIT EN DUR ici, donc sans
+         lien avec la phrase affichee sur la page de contact : corriger l'une
+         ne corrigeait pas l'autre, et elles ont derive. Une seule source
+         desormais, company.hours.machine. Le samedi n'y est volontairement
+         pas declare : il est sur demande, ce n'est pas un horaire d'ouverture,
+         et Google publierait « ouvert le samedi ». */
+      openingHours: c.hours.machine,
       /* sameAs affirme « cette adresse EST cette organisation ». Le LinkedIn
          et le X fournis sont les comptes personnels du directeur general :
          ils s'affichent bien sur la page de contact, mais les declarer ici
