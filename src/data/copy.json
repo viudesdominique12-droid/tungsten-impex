@@ -1,10 +1,10 @@
 {
   "electric-vehicles": {
-    "lead": "Tungsten imports BYD battery electric vehicles — including, but not limited to, the Yuan Up, a compact SUV with 301 to 401 km of range, and the seven-seat Tang L with 600 to 670 km.",
+    "lead": "Tungsten imports battery electric vehicles — including, but not limited to, the BYD Yuan Up, a compact SUV with 301 to 401 km of range, and the seven-seat BYD Tang L with 600 to 670 km. Other makes and models on request.",
     "facts": [
       {
         "label": "Vehicles",
-        "value": "BYD Yuan Up and BYD Tang L, and other models on request"
+        "value": "BYD Yuan Up and BYD Tang L, and other makes and models on request"
       },
       {
         "label": "Range (CLTC)",
@@ -24,7 +24,7 @@
       },
       {
         "label": "Manufacturer",
-        "value": "BYD"
+        "value": "BYD, and other manufacturers on request"
       }
     ],
     "blocks": [
