@@ -5,7 +5,7 @@
     "canonique": "https://viudesdominique12-droid.github.io/tungsten-impex/"
   },
 
-  "_equipe": "Les neuf personnes de la liste fournie par le client, avec leurs numeros ramenes au format international : un 0 de tete ethiopien devient +251, et c'est la seule forme qu'un lien wa.me accepte. L'ordre n'est pas celui de la liste d'origine, qui suivait des matricules : il va du plus general au plus specialise, puisque c'est l'ordre dans lequel un visiteur cherche a qui parler. Un seul numero manquait son 0 de tete dans la source (946402968) et a ete complete. LE TELEGRAMME MANQUE VOLONTAIREMENT : il n'existe pas d'adresse web fiable pour ouvrir une conversation Telegram depuis un numero de telephone, il faut le nom d'utilisateur de chacun. Voir la reponse au client.",
+  "_equipe": "Les personnes de la liste fournie par le client, avec leurs numeros ramenes au format international : un 0 de tete ethiopien devient +251, et c'est la seule forme qu'un lien wa.me accepte. L'ordre n'est pas celui de la liste d'origine, qui suivait des matricules : il va du plus general au plus specialise, puisque c'est l'ordre dans lequel un visiteur cherche a qui parler. Un seul numero manquait son 0 de tete dans la source (946402968) et a ete complete. ELLES ETAIENT NEUF, ELLES SONT HUIT : le 11 septembre 2026 le client a demande de retirer Bethlehem Yeshiwas Ademe, directrice generale adjointe, partie dans une autre maison. Son numero de portable etait publie ; il ne l'est plus. Le compte des personnes affiche sur la page est calcule depuis cette liste, il n'y a donc rien d'autre a mettre a jour. PAS DE TELEGRAMME, ET C'EST TRANCHE : il n'existe pas d'adresse web fiable pour ouvrir une conversation Telegram depuis un numero de telephone, il faut le nom d'utilisateur de chacun. Le client, a qui la question a ete posee, a repondu le 11 septembre 2026 que WhatsApp suffisait. La question ne se repose plus.",
 
   "company": {
     "name": "Tungsten Import Export",
@@ -24,7 +24,6 @@
     "mapMarker": "9.0110,38.7880",
     "equipe": [
       { "nom": "Yeshiwas Ademe Alaba",     "role": "General Manager",                    "mobile": "+251912610248", "fixe": "+251115621530" },
-      { "nom": "Bethlehem Yeshiwas Ademe", "role": "Deputy General Manager",             "mobile": "+251909268680" },
       { "nom": "Noah Yeshiwas Ademe",      "role": "International Trade Manager",        "mobile": "+251934961958" },
       { "nom": "Genet Asefa Geletu",       "role": "Pharmaceutical Technical Manager",   "mobile": "+251913908110", "fixe": "+251115621563" },
       { "nom": "Nesima Abdella Beshir",    "role": "Pharmaceutical Marketing Manager",   "mobile": "+251935426161" },
@@ -33,11 +32,25 @@
       { "nom": "Saliya Boru Abdi",         "role": "Pharmaceutical Store Keeper",        "mobile": "+251946402968" },
       { "nom": "Elsa Yihune",              "role": "Pharmaceutical Store Attendant",     "mobile": "+251913716407" }
     ],
+    "_socials": "TROIS CHOSES A SAVOIR ICI. (1) Le lien Facebook pointait vers UN SEUL BILLET — une adresse en /share/p/ — et non vers la page de la maison ; le client a envoye la bonne, verifiee dans un navigateur : « Tungsten Import and Export, Page - Local business, Addis Ababa ». (2) LinkedIn et X sont les comptes PERSONNELS du directeur general, pas des comptes de la maison. Le client les a donnes comme les reseaux de l'entreprise et ils s'affichent ainsi, ce qui est l'usage pour une maison de cette taille. (3) Mais le balisage JSON-LD d'une Organization affirme, avec sameAs, que l'adresse EST cette organisation. Y poser le profil d'une personne serait une declaration fausse aux moteurs. D'ou le champ porte : la page de contact montre les trois, le balisage ne retient que ce que la maison porte elle-meme. Voir src/layouts/Base.astro.",
     "socials": [
       {
         "id": "facebook",
         "label": "Facebook",
-        "url": "https://www.facebook.com/share/p/1RYNWA1SRW/"
+        "porte": "maison",
+        "url": "https://www.facebook.com/people/Tungsten-Import-and-Export/100057651664361/"
+      },
+      {
+        "id": "linkedin",
+        "label": "LinkedIn",
+        "porte": "personne",
+        "url": "https://www.linkedin.com/in/yeshiwas-alaba-a5792149"
+      },
+      {
+        "id": "x",
+        "label": "X",
+        "porte": "personne",
+        "url": "https://x.com/yeshiwas1ademe"
       }
     ],
     "hours": {

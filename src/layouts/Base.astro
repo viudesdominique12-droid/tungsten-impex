@@ -126,7 +126,12 @@ const cur = (h) => (here === lien(h) ? 'page' : undefined);
         addressCountry: c.address.country,
       },
       openingHours: 'Mo-Fr 08:00-17:00',
-      sameAs: c.socials.filter((x) => x.url).map((x) => x.url),
+      /* sameAs affirme « cette adresse EST cette organisation ». Le LinkedIn
+         et le X fournis sont les comptes personnels du directeur general :
+         ils s'affichent bien sur la page de contact, mais les declarer ici
+         serait dire au moteur qu'une personne est la societe. On ne retient
+         que ce que la maison porte elle-meme. Voir _socials dans site.json. */
+      sameAs: c.socials.filter((x) => x.url && x.porte === 'maison').map((x) => x.url),
       makesOffer: [...site.exports, ...site.imports].map((p) => ({
         '@type': 'Offer',
         itemOffered: { '@type': 'Product', name: p.name, url: absolu(`/${p.direction === 'out' ? 'export' : 'import'}/${p.slug}/`, CANONIQUE) },

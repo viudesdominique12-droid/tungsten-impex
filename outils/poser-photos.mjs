@@ -72,9 +72,43 @@ const SEUIL_BANDE = 1024;
                      entre y=55 et y=67. Couper le haut l'emporte ET retire un
                      plafond qui ne portait rien. La largeur est preservee. */
 const RECADRE = {
-  'red-kidney-beans': { left: 0, top: 110, width: 447, height: 337 },
-  'ceramics':         { left: 0,   top: 72,  width: 516, height: 315 },
+  'red-kidney-beans': { left: 0, top: 110, width: 447, height: 337, pourquoi: 'filigrane KILMORA retire' },
+  'ceramics':         { left: 0, top: 72,  width: 516, height: 315, pourquoi: 'filigrane MY7YLES retire' },
+  'building-glass':   { left: 0, top: 30,  width: 452, height: 452, pourquoi: 'carre, pour remplir la plaque' },
 };
+
+/* ---- ET LE TROISIEME RECADRAGE N'EST PAS UN FILIGRANE -------------------
+   « The dimensions on building glass is a bit off. Zoom it in and expand to
+   fill frame I think. The other dimensions are good. » — le client, 11
+   septembre 2026. Il a vu juste, et il a vu la seule des quatorze qui cloche.
+
+   La source fait 452x678 : un rapport de 0,667, la seule verticale franche du
+   lot. La plaque borne sa proportion entre 1 et 1,5, donc elle se presentait
+   carree et la photographie s'y posait en 215x322 — 56 % de remplissage,
+   contre 71 a 85 % pour les treize autres. Sur telephone cela donnait une
+   bande verticale de 215px avec 135px de blanc a cote, dans un cadre blanc
+   pose sur un sol presque blanc. Le timbre-poste, revenu par la porte des
+   sources verticales.
+
+   POURQUOI COUPER PLUTOT QUE CHANGER LA BORNE. C'etait la premiere piste :
+   laisser la plaque suivre les proportions verticales. Elle ne tient pas. La
+   plaque fait 620px de large sur ordinateur, et c'est cette largeur qui donne
+   au catalogue sa ressemblance ; un rapport de 0,667 y donnerait une plaque de
+   930px de haut, plus haute que la zone de lecture de la plupart des ecrans —
+   l'ecueil que le commentaire de ProductSheet.astro signalait deja. Borner la
+   hauteur ramenerait le letterboxing. Pour cette source-la, « remplir le
+   cadre » ne s'obtient qu'en coupant.
+
+   LE CHOIX DE LA FENETRE. Quatre carres de 452 ont ete rendus et regardes
+   (haut, 30, centre, bas). A 30 : la ligne de toit reste, la courbe de la
+   facade balaie tout le cadre, le ciel tient le coin haut droit, et ce qui
+   part est le verre sombre du rez-de-chaussee plus une bande de ciel vide en
+   haut. Au centre, la ligne de toit est coupee et le bas s'assombrit ; ce
+   n'etait plus un batiment, c'etait un mur.
+
+   La largeur ne bouge pas — 452px avant, 452px apres — donc la fiche continue
+   de s'afficher a la meme taille que les treize autres. Remplissage : 56 % ->
+   100 %. */
 
 /* ---- L'AFFUTAGE, PROPORTIONNE AU SUR-ECHANTILLONNAGE ---------------------
    La plaque montre l'image sur 568px au plus ; un ecran a densite double en
@@ -110,12 +144,12 @@ for (const [slug, fichier] of Object.entries(LIGNES)) {
   console.log(`${slug.padEnd(24)} ${String(avant[0] + 'x' + avant[1]).padStart(10)} -> ` +
               `${String(finales[0] + 'x' + finales[1]).padStart(10)}` +
               `   affute ${SIGMA(finales[0]).toFixed(1)}` +
-              `${r ? '   RECADRE (filigrane retire)' : ''}`);
+              `${r ? '   RECADRE : ' + r.pourquoi : ''}`);
   if (!sec) {
     // rotate() applique l'orientation EXIF avant de la jeter, sinon une photo
     // prise a la verticale se retrouve couchee une fois les metadonnees parties.
     let p = sharp(src).rotate();
-    if (RECADRE[slug]) p = p.extract(RECADRE[slug]);
+    if (r) { const { left, top, width, height } = r; p = p.extract({ left, top, width, height }); }
     // L'affutage vient APRES le recadrage : la largeur qui compte est celle
     // qui sera servie, pas celle du fichier d'origine.
     const large = RECADRE[slug] ? RECADRE[slug].width : apres[0];

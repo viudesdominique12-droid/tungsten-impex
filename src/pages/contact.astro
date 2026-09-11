@@ -83,7 +83,7 @@ import { lien } from '../lib/lien.js';
           <div class="index__l">
             <span class="t-label index__n">04</span>
             <dt class="t-h3 index__t">Socials</dt>
-            <dd class="t-body index__c">{socials.map((s) => <a class="lnk" href={s.url} rel="noopener">{s.label}</a>)}</dd>
+            <dd class="t-body index__c fields__soc">{socials.map((s) => <a class="lnk" href={s.url} rel="noopener">{s.label}</a>)}</dd>
           </div>
         )}
         <div class="index__l">
@@ -111,13 +111,16 @@ import { lien } from '../lib/lien.js';
       l'appel direct. Le numero est ramene au format international dans
       site.json — c'est la seule forme qu'une adresse wa.me accepte.
 
-      LE TELEGRAMME N'EST PAS LA, ET CE N'EST PAS UN OUBLI. Il n'existe pas
-      d'adresse web fiable pour ouvrir une conversation Telegram a partir d'un
-      NUMERO : le lien t.me attend un nom d'utilisateur, et le seul schema qui
-      accepte un numero — tg://resolve?phone= — n'est pas une adresse web et ne
-      s'ouvre pas depuis un site. Il faut donc le nom d'utilisateur Telegram de
-      chaque personne. Poser un lien qui tombe en erreur serait pire que de ne
-      rien poser : le visiteur croirait que la maison ne repond pas.
+      LE TELEGRAMME N'Y SERA PAS, ET LA QUESTION EST CLOSE. Le client l'avait
+      demande a cote de WhatsApp. Il n'existe pas d'adresse web fiable pour
+      ouvrir une conversation Telegram a partir d'un NUMERO : le lien t.me
+      attend un nom d'utilisateur, et le seul schema qui accepte un numero —
+      tg://resolve?phone= — n'est pas une adresse web et ne s'ouvre pas depuis
+      un site. Poser un lien qui tombe en erreur aurait ete pire que de ne rien
+      poser : le visiteur aurait cru que la maison ne repond pas. Il fallait
+      donc le nom d'utilisateur de chaque personne ; le client a repondu « The
+      WhatsApp is enough bud » le 11 septembre 2026. WhatsApp et l'appel
+      direct, et rien de plus.
 
       Une grille de cartes et non un index a filets : la section precedente est
       deja un index, et deux voisines ne se ressemblent jamais. */}
@@ -168,7 +171,12 @@ import { lien } from '../lib/lien.js';
   .fields dt, .fields dd { margin: 0; }
   .lnk { text-decoration: underline; text-underline-offset: 4px;
          text-decoration-thickness: 1px; }
-  .fields dd .lnk + .lnk { margin-left: 18px; }
+  /* Les reseaux etaient un lien ; ils sont trois. La regle d'avant posait une
+     marge a gauche du second lien, ce qui laisse un decalage orphelin des que
+     la ligne se replie — visible des 320px de large. Une rangee souple a ecart
+     se replie proprement, et l'ecart vertical evite que deux lignes de liens
+     souligne se touchent. */
+  .fields__soc { display: flex; flex-wrap: wrap; gap: 8px 18px; }
 
   .equipe__head { margin-bottom: var(--pile); }
   .equipe__ligne { display: flex; align-items: baseline; justify-content: space-between;
