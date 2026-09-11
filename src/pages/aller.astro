@@ -25,6 +25,17 @@
         lecteur d'ecran, un navigateur d'entreprise verrouille, un mode
         economie de donnees. Personne ne reste bloque devant une page blanche.
 
+   LA CONDITION QUI MANQUAIT ICI, ET QU'IL FAUT CONNAITRE AVANT D'IMPRIMER.
+   Le QR ne pointe pas vers cette page en general : il pointe vers son adresse
+   github.io, gravee dans site.json sous web.relais et decodee pour verification
+   par outils/qr.mjs. Elle survit au changement de domaine parce que GitHub
+   redirige lui-meme l'ancienne adresse vers le domaine personnalise — donc a
+   DEUX conditions : que le domaine reste attache a CE depot, et que la
+   publication Pages y reste active. Si la maison quitte GitHub pour un autre
+   hebergeur, ce QR meurt : il faudra alors une redirection 301 depuis l'ancien
+   hote, ou refaire le support imprime. Ce n'est pas une ligne de code, c'est
+   une chose a savoir.
+
    Elle n'est pas indexable : c'est une porte, pas une page. `noindex` l'exclut
    des moteurs, et la balise canonique dit lequel des deux compte.
    --------------------------------------------------------------------------- */
