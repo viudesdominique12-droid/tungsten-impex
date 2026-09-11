@@ -30,6 +30,32 @@ const forme = m ? cadre(m) : null;
 /* Le portrait se borne plus court que la plaque : une photo verticale affichee
    sur toute la colonne occuperait deux ecrans de haut. */
 const plafond = Math.min(m?.width ?? 0, forme === 'portrait' ? 400 : max);
+
+/* LA BORNE D'AFFICHAGE N'EST PAS LA BORNE DU FICHIER.
+
+   `plafond` est une decision de mise en page : ne pas montrer un portrait plus
+   large que 400 pixels CSS. Elle etait juste, et elle servait aussi de plafond
+   au pipeline — si bien qu'on ne fabriquait qu'une seule variante, de 400px de
+   large, pour des fichiers qui en avaient 810 et 720.
+
+   Un pixel CSS n'est pas un pixel d'ecran. Sur le telephone du client, densite
+   3, un cadre de 400 pixels CSS demande 1200 pixels d'ecran. Mesure faite sur
+   les deux portraits du site :
+
+       quarantine.jpg   fichier 810px    servi 400px    demande 1200px   2,63x
+       team-desk.jpg    fichier 720px    servi 400px    demande 1200px   2,63x
+
+   C'etaient les deux images les plus floues du site — plus floues que
+   n'importe quelle photographie produit — et pour rien : les pixels etaient
+   dans le fichier, on ne les demandait pas. Le client a dit « pas de bonne
+   qualite » ; sur ces deux-la, ce n'etait pas la qualite du fichier.
+
+   Le cadre garde donc sa borne en pixels CSS, et le pipeline recoit la sienne,
+   en pixels d'ecran : trois fois le cadre, la densite la plus haute qu'on
+   rencontre sur un telephone, bornee par le fichier. `sizes` continue
+   d'annoncer la largeur du CADRE — c'est ce qu'il doit annoncer ; c'est le
+   navigateur qui multiplie par la densite et choisit la variante. */
+const plafondFichier = Math.min(m?.width ?? 0, plafond * 3);
 ---
 
 {m && (
@@ -39,7 +65,7 @@ const plafond = Math.min(m?.width ?? 0, forme === 'portrait' ? 400 : max);
       alt={alt}
       formats={['avif']}
       fallbackFormat="webp"
-      widths={largeurs(m, plafond)}
+      widths={largeurs(m, plafondFichier)}
       sizes={`(max-width: ${plafond}px) 100vw, ${plafond}px`}
       loading={eager ? 'eager' : 'lazy'}
       decoding="async"
