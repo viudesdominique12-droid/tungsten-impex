@@ -135,7 +135,10 @@ import { largeurs } from '../lib/largeurs.js';
                          en demande 966 et 927 — 28 et 34 % de pixels que le cadre ne
                          peut pas montrer. On annonce donc la boite, pas la fenetre. */}
                      sizes="(max-width: 700px) calc(100vw - 68px), (max-width: 1119px) min(568px, calc(100vw - 116px)), 568px"
-                     loading="eager" decoding="async" />
+                     {/* La plaque est le plus grand element du premier ecran d'une
+                         fiche : sans priorite declaree, la cascade la place derriere
+                         les polices prechargees. */}
+                     loading="eager" fetchpriority="high" decoding="async" />
           </figure>
         )}
         <div class="intro__dire">

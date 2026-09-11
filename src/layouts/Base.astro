@@ -65,8 +65,18 @@ const cur = (h) => (here === lien(h) ? 'page' : undefined);
 
   {/* Auto-hebergees et prechargees. Sans elles, toute la hierarchie
       s'effondre en Helvetica et il ne reste que la taille pour distinguer un
-      titre d'un paragraphe — le defaut exact que cette refonte corrige. */}
-  {[fraunces, frauncesItal, instrument, mono].map((f) => (
+      titre d'un paragraphe — le defaut exact que cette refonte corrige.
+
+      TROIS, ET PLUS QUATRE. L'italique de Fraunces pesait 44,6 ko prechargees
+      sur les DIX-NEUF pages, alors que quinze d'entre elles ne contiennent pas
+      un seul <em> : document.fonts la donnait « unloaded » sur les fiches
+      produit — telechargee, jamais dessinee. Elle garde son @font-face dans
+      tokens.css : les quatre pages qui s'en servent l'obtiennent toujours, en
+      chargement tardif, et le font-display: swap deja pose evite le texte
+      invisible. Mesure a assumer : sur /about/, ou l'italique sert vraiment,
+      elle arrive plus tard qu'avant — c'est le prix, paye par quatre pages,
+      de 44,6 ko rendus aux quinze autres. */}
+  {[fraunces, instrument, mono].map((f) => (
     <link rel="preload" href={f} as="font" type="font/woff2" crossorigin />
   ))}
 

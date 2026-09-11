@@ -22,7 +22,17 @@ export default defineConfig({
   output: 'static',
   site: process.env.SITE_URL || undefined,
   base: process.env.BASE_PATH || '/',
-  build: { inlineStylesheets: 'auto' },
+  /* 'always' et non 'auto'. Sur telephone, au chargement, il n'y a AUCUN script
+     externe et une seule ressource vraiment bloquante : la feuille de style.
+     Bride a 400 kbit/s et 400 ms de latence, le premier affichage passe de
+     1510 a 770 ms sur l'accueil, 1522 -> 694 sur /about/, 1528 -> 732 sur
+     /contact/, 1534 -> 692 sur une fiche — sans un octet de plus sur le fil.
+
+     La contrepartie, mesuree elle aussi : la feuille partagee (4,8 ko gzippes)
+     cesse d'etre mise en cache d'une page a l'autre, ce qui coute +88 ms et
+     +4,4 ko a chaque page suivante. On l'assume : ce site s'ouvre depuis un
+     lien WhatsApp, et la premiere page est presque toujours la seule. */
+  build: { inlineStylesheets: 'always' },
   // Le brief impose moins de 150 Ko de JS sur l'accueil. Pas d'intégration
   // framework : la bascule Out/In est du CSS plus une classe sur <body>.
 });

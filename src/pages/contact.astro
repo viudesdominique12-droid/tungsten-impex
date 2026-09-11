@@ -48,7 +48,7 @@ import { lien } from '../lib/lien.js';
             style={`--nat: ${couloir.width}px; --rap: ${couloir.width} / ${couloir.height}`}>
       <Picture src={couloir} alt="Offices at Dembel City Center" formats={['avif']}
                fallbackFormat="webp" widths={jeu}
-               sizes="100vw" loading="eager" decoding="async" />
+               sizes="100vw" loading="eager" fetchpriority="high" decoding="async" />
       <figcaption>
         <span class="shell t-label">Offices at Dembel City Center, Africa Avenue.</span>
       </figcaption>

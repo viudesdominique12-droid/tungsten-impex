@@ -46,7 +46,7 @@ const registres = [
             style={`--nat: ${plateau.width}px; --rap: ${plateau.width} / ${plateau.height}`}>
       <Picture src={plateau} alt="The Tungsten office floor" formats={['avif']}
                fallbackFormat="webp" widths={jeu}
-               sizes="100vw" loading="eager" decoding="async" />
+               sizes="100vw" loading="eager" fetchpriority="high" decoding="async" />
       <figcaption>
         <span class="shell t-label">The office floor on the 4th floor of Dembel City Center.</span>
       </figcaption>
