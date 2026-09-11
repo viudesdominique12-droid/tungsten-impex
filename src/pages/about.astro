@@ -72,20 +72,38 @@ const registres = [
     </div>
   </section>
 
+  {/* LA LICENCE EST AU MUR, ET LA PHOTOGRAPHIE DORMAIT SUR LE DISQUE.
+
+      Cette section enumerait quatre inscriptions et ne montrait rien. Le
+      client avait envoye la photographie du bureau pharmaceutique, licence
+      EFDA affichee au mur derriere le poste — elle n'etait citee nulle part.
+      Une liste d'inscriptions dit qu'on est en regle ; la photographie le
+      montre, ce qui n'est pas la meme chose pour un acheteur qui ne connait
+      pas la maison.
+
+      C'est aussi l'une des deux images les plus nettes de toute la
+      bibliotheque a la largeur d'une colonne de telephone : 810x1080 pour un
+      cadre de 350px, soit 1,30x a densite 3, quand les fiches produit sont
+      entre 1,58 et 2,16x. Elle coute 23 Ko. */}
   <section class="section" data-type="H" data-sol="wash" data-rail-section="REGISTERED WITH">
-    <div class="shell">
-      <header class="memb__head">
-        <p class="t-label t-quiet code">03 — On record</p>
-        <h2 class="t-h1 memb__h">Registered with</h2>
-      </header>
-      <ol class="index memb__list">
-        {registres.map((m, n) => (
-          <li class="index__l">
-            <span class="t-label index__n">{String(n + 1).padStart(2, '0')}</span>
-            <span class="t-h2 index__t">{m}</span>
-          </li>
-        ))}
-      </ol>
+    <div class="shell memb__in">
+      <div>
+        <header class="memb__head">
+          <p class="t-label t-quiet code">03 — On record</p>
+          <h2 class="t-h1 memb__h">Registered with</h2>
+        </header>
+        <ol class="index memb__list">
+          {registres.map((m, n) => (
+            <li class="index__l">
+              <span class="t-label index__n">{String(n + 1).padStart(2, '0')}</span>
+              <span class="t-h2 index__t">{m}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <Photo src="img/company/efda-office.jpg"
+             alt="The pharmaceutical office, the EFDA licence displayed on the wall"
+             caption="The pharmaceutical office, licence on the wall." />
     </div>
   </section>
 
@@ -112,6 +130,10 @@ const registres = [
   .letter__img img { border-radius: var(--goutte-carte); }
   .letter__sign { display: grid; gap: 6px; margin-top: 12px; }
 
+  /* Le texte d'abord, la photographie en regard — et sur telephone la liste
+     passe devant : on lit ce dont il s'agit, puis on le regarde. */
+  .memb__in { display: grid; gap: var(--pile) var(--col-gap); align-items: center; }
+  @media (min-width: 860px) { .memb__in { grid-template-columns: 6fr 5fr; } }
   .memb__head { margin-bottom: var(--pile); }
   .memb__h { margin-top: 18px; }
   .memb__list { list-style: none; margin: -1px 0 0; padding: 0; }

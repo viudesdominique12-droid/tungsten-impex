@@ -46,6 +46,13 @@ const LIGNES = {
   'ceramics':               'WhatsApp Image 2026-09-08 at 17.19.49 (1).jpeg',
   'calcium-hypochlorite':   'WhatsApp Image 2026-09-09 at 22.56.30 (1).jpeg',
   'stationery-materials':   'WhatsApp Image 2026-09-09 at 22.56.30.jpeg',
+  /* Le quinzieme fichier, et il n'a pas de fiche a lui. La fiche des vehicules
+     nomme DEUX modeles — le Yuan Up et le Tang L — et n'en montrait qu'un. Le
+     client avait envoye les deux ; celui-ci dormait dans photos-originaux
+     depuis le debut. Il est pose comme second visuel de la meme fiche, pas
+     comme plaque : la plaque reste une par fiche, c'est elle qui fait que les
+     quatorze se ressemblent. Voir `photo2` dans site.json. */
+  'electric-vehicles-2':    'WhatsApp Image 2026-09-08 at 17.19.46 (1).jpeg',
 };
 
 /* Le seuil de la bande pleine largeur, repris de ProductSheet.astro. En

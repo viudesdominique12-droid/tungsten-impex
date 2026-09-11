@@ -27,6 +27,15 @@ const sens = flow === 'out' ? 'Out of Ethiopia' : 'Into Ethiopia';
 const others = siblings.filter((sib) => sib.slug !== product.slug);
 
 const img = photo(product.photo);
+/* UN SECOND VISUEL, QUAND LA FICHE EN A UN. La plaque reste une par fiche —
+   c'est elle qui fait que les quatorze se ressemblent — mais rien n'obligeait
+   une fiche qui parle de deux objets a n'en montrer qu'un. Les vehicules
+   nomment le Yuan Up et le Tang L ; la photographie du second dormait dans
+   photos-originaux depuis le debut. Elle se pose dans le bloc « Detail », au
+   cadre documentaire et non en plaque : deux plaques sur une fiche, et le
+   catalogue perdrait sa regle. Les treize autres fiches n'ont pas ce champ et
+   ne changent pas d'un pixel. */
+const second = product.photo2 ? photo(product.photo2) : null;
 /* LA PLAQUE, pour les quatorze, sans exception.
 
    Deux fiches sur quatorze avaient une bande pleine largeur — celles dont le
@@ -81,6 +90,7 @@ const jeu = largeurs(img, [400, 620, 900, 1024, 1240]);
 const proportion = img
   ? Math.min(1.8, Math.max(1, img.width / img.height)).toFixed(3)
   : '1.5';
+import Photo from './Photo.astro';
 import { lien } from '../lib/lien.js';
 import { largeurs } from '../lib/largeurs.js';
 ---
@@ -131,6 +141,19 @@ import { largeurs } from '../lib/largeurs.js';
         <div class="intro__dire">
           <p class="t-label t-quiet code">01 — The line</p>
           <p class="t-lead intro__lead">{c.lead}</p>
+          {/* Le second visuel est ICI et non dans le bloc « Detail », et la
+              raison est mesuree : le bloc Detail est sur sol nuit, et l'y
+              poser faisait passer la part de nuit de la fiche a 52 % — le
+              controle du rythme, plafonne a 50 %, l'a refuse. Sur le sol
+              clair il ne coute rien au rythme, il remplit le blanc sous le
+              chapeau, et il groupe avec la plaque : deux photographies dans
+              une meme fenetre de telephone, ce que dix-sept pages sur
+              dix-huit n'offraient jamais. */}
+          {second && (
+            <Photo src={product.photo2}
+                   alt={`Another of the ${product.name.toLowerCase()} Tungsten imports`}
+                   class="intro__second" />
+          )}
         </div>
       </div>
     </section>
@@ -212,6 +235,7 @@ import { largeurs } from '../lib/largeurs.js';
 
   .intro__in { display: grid; gap: var(--pile) var(--col-gap); align-items: center; }
   .intro__lead { max-width: 44ch; margin-top: 20px; }
+  .intro__second { margin-top: var(--pile); }
 
   /* LE PARTAGE NE PASSE PLUS A 900px, ET LA PLAQUE N'EST PLUS UNE PISTE FIXE.
 

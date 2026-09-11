@@ -10,6 +10,7 @@
 import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
 import { Picture } from 'astro:assets';
+import Photo from '../components/Photo.astro';
 import { photo } from '../lib/photos.js';
 import { largeurs } from '../lib/largeurs.js';
 
@@ -97,6 +98,30 @@ import { lien } from '../lib/lien.js';
           <dd class="t-body index__c"><a class="lnk" href={lien('/training/')}>Book a place on the next intake</a></dd>
         </div>
       </dl>
+
+      {/* LA PREUVE QUE C'EST UNE VRAIE MAISON, ET ELLE DORMAIT SUR LE DISQUE.
+
+          Un acheteur qui ne connait pas Tungsten arrive ici pour decider s'il
+          a affaire a une operation reelle. Il y trouvait une adresse, un
+          numero et des horaires — et une seule photographie sur toute la
+          page, le couloir de l'immeuble.
+
+          Le client avait envoye celle-ci et elle n'etait citee nulle part :
+          les classeurs de dossiers de lot, au magasin, tenus par la personne
+          qui s'en occupe. Pour un importateur pharmaceutique, la tracabilite
+          des lots n'est pas un detail decoratif — c'est ce qui separe une
+          maison en regle d'une autre, et le site l'affirmait en mots sans
+          jamais le montrer.
+
+          C'est aussi, avec celle du bureau EFDA, la photographie la plus
+          nette de la bibliotheque a cette largeur : 810x1080 pour un cadre de
+          350px, soit 1,30x a densite 3, quand les fiches produit sont entre
+          1,58 et 2,16x. Elle coute 23 Ko. */}
+      <div class="fields__preuve">
+        <Photo src="img/company/records.jpg"
+               alt="Batch record files in the Tungsten store, Addis Ababa"
+               caption="Batch records, kept at the store." />
+      </div>
     </div>
   </section>
 
@@ -167,6 +192,10 @@ import { lien } from '../lib/lien.js';
   .tete__h { margin-top: 22px; }
 
   .fields__head { margin-bottom: var(--pile); }
+  /* La photographie ferme la liste plutot que de lui faire face : un index a
+     filets se lit en colonne, et le couper en deux pour loger une image
+     casserait la seule chose qui fait tenir ce type de section. */
+  .fields__preuve { margin-top: var(--pile); }
   .fields { margin: 0; }
   .fields dt, .fields dd { margin: 0; }
   .lnk { text-decoration: underline; text-underline-offset: 4px;

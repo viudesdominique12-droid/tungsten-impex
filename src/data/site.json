@@ -91,6 +91,7 @@
       "name": "Electric Vehicles",
       "direction": "in",
       "photo": "img/products/electric-vehicles.jpg",
+      "photo2": "img/products/electric-vehicles-2.jpg",
       "wide": true
     },
     {
