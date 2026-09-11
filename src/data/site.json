@@ -5,6 +5,8 @@
     "canonique": "https://viudesdominique12-droid.github.io/tungsten-impex/"
   },
 
+  "_equipe": "Les neuf personnes de la liste fournie par le client, avec leurs numeros ramenes au format international : un 0 de tete ethiopien devient +251, et c'est la seule forme qu'un lien wa.me accepte. L'ordre n'est pas celui de la liste d'origine, qui suivait des matricules : il va du plus general au plus specialise, puisque c'est l'ordre dans lequel un visiteur cherche a qui parler. Un seul numero manquait son 0 de tete dans la source (946402968) et a ete complete. LE TELEGRAMME MANQUE VOLONTAIREMENT : il n'existe pas d'adresse web fiable pour ouvrir une conversation Telegram depuis un numero de telephone, il faut le nom d'utilisateur de chacun. Voir la reponse au client.",
+
   "company": {
     "name": "Tungsten Import Export",
     "founded": 2007,
@@ -20,6 +22,17 @@
     "mapQuery": "Dembel City Center, Africa Avenue, Addis Ababa, Ethiopia",
     "mapBbox": "38.7820,9.0060,38.7940,9.0160",
     "mapMarker": "9.0110,38.7880",
+    "equipe": [
+      { "nom": "Yeshiwas Ademe Alaba",     "role": "General Manager",                    "mobile": "+251912610248", "fixe": "+251115621530" },
+      { "nom": "Bethlehem Yeshiwas Ademe", "role": "Deputy General Manager",             "mobile": "+251909268680" },
+      { "nom": "Noah Yeshiwas Ademe",      "role": "International Trade Manager",        "mobile": "+251934961958" },
+      { "nom": "Genet Asefa Geletu",       "role": "Pharmaceutical Technical Manager",   "mobile": "+251913908110", "fixe": "+251115621563" },
+      { "nom": "Nesima Abdella Beshir",    "role": "Pharmaceutical Marketing Manager",   "mobile": "+251935426161" },
+      { "nom": "Yizeshiwal Deneke Abebe",  "role": "Secretary",                          "mobile": "+251961224498" },
+      { "nom": "Mekuria Teka Mamo",        "role": "Pharmaceutical Liaison Officer",     "mobile": "+251911692878" },
+      { "nom": "Saliya Boru Abdi",         "role": "Pharmaceutical Store Keeper",        "mobile": "+251946402968" },
+      { "nom": "Elsa Yihune",              "role": "Pharmaceutical Store Attendant",     "mobile": "+251913716407" }
+    ],
     "socials": [
       {
         "id": "facebook",

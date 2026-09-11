@@ -4,7 +4,7 @@ import site from '../data/site.json';
 import BarreAppel from '../components/BarreAppel.astro';
 import Rail from '../components/Rail.astro';
 
-import { lien } from '../lib/lien.js';
+import { lien, absolu } from '../lib/lien.js';
 
 /* Les quatre fontes sont importees, pas ecrites en dur. Le compilateur rend
    leur adresse finale — empreinte de contenu comprise, et prefixe du
@@ -29,7 +29,24 @@ import frauncesItal from '../fonts/fraunces-var-italic.woff2?url';
 import instrument from '../fonts/instrument-sans-var.woff2?url';
 import mono from '../fonts/plex-mono.woff2?url';
 
-const { title, description, rail = 'TUNGSTEN' } = Astro.props;
+const { title, description, rail = 'TUNGSTEN', schema = false } = Astro.props;
+
+/* L'adresse publique du site vient de site.json — la meme valeur que vise le
+   QR code. Une seule source, donc le canonique, l'Open Graph et le plan du
+   site ne peuvent pas divergernt. */
+const CANONIQUE = site.web.canonique;
+/* Le chemin est d'abord DEBARRASSE du prefixe de publication, puis rendu a
+   absolu() qui le remet. Ecrit plus court — une regex qui retire le premier
+   segment — cela marchait en production et cassait en local, ou il n'y a pas de
+   prefixe : le premier segment retire etait alors le nom de la page elle-meme,
+   et le canonique de /about/ pointait sur la racine du domaine. Le prefixe se
+   demande, il ne se devine pas. */
+const PREFIXE = import.meta.env.BASE_URL || '/';
+const chemin = Astro.url.pathname.startsWith(PREFIXE)
+  ? '/' + Astro.url.pathname.slice(PREFIXE.length)
+  : Astro.url.pathname;
+const ici = absolu(chemin, CANONIQUE);
+const vignette = absolu('/partage.png', CANONIQUE);
 const c = site.company;
 const here = Astro.url.pathname;
 /* La page courante se compare a l'adresse PUBLIEE, pas au chemin nu : sous un
@@ -53,7 +70,69 @@ const cur = (h) => (here === lien(h) ? 'page' : undefined);
     <link rel="preload" href={f} as="font" type="font/woff2" crossorigin />
   ))}
 
+  {/* LE CANONIQUE. Sans lui, une meme page atteinte par deux chemins compte
+      pour deux aux yeux d'un moteur, et l'autorite se divise entre les deux. */}
+  <link rel="canonical" href={ici} />
+
+  {/* LA VIGNETTE DE PARTAGE. C'est par WhatsApp que ce client envoie son site.
+      Sans og:image, WhatsApp, Telegram, LinkedIn et X n'affichent qu'une ligne
+      de texte grise : ni vignette, ni marque, rien qui donne envie d'ouvrir.
+      og:image doit etre une adresse ABSOLUE — un chemin relatif est ignore. */}
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={c.name} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={ici} />
+  <meta property="og:image" content={vignette} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={`${c.name}, ${c.address.city}`} />
+  <meta property="og:locale" content="en" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={vignette} />
+
+  {/* LES ICONES. L'onglet affichait le carre gris par defaut, et /favicon.ico
+      repondait 404. Le .ico pour ce qui ne lit que lui, le PNG pour le reste,
+      l'apple-touch-icon pour « ajouter a l'ecran d'accueil ». */}
+  <link rel="icon" href={lien('/favicon.ico')} sizes="any" />
+  <link rel="icon" type="image/png" href={lien('/icone-32.png')} sizes="32x32" />
+  <link rel="icon" type="image/png" href={lien('/icone-192.png')} sizes="192x192" />
+  <link rel="apple-touch-icon" href={lien('/apple-touch-icon.png')} />
+
   <meta name="theme-color" content="#0A1B3C" />
+
+  {/* LES DONNEES STRUCTUREES, une fois, sur les pages qui portent l'identite.
+      C'est ce qui permet a un moteur de comprendre qu'il a affaire a une
+      entreprise situee quelque part, joignable a telle heure — et non a un
+      texte quelconque. Pour une maison de negoce qu'on doit pouvoir trouver,
+      son absence etait une omission reelle. */}
+  {schema && (
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: c.name,
+      url: CANONIQUE,
+      logo: absolu('/icone-512.png', CANONIQUE),
+      image: vignette,
+      email: c.email,
+      telephone: c.phone,
+      foundingDate: String(c.founded),
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: `${c.address.line1}, ${c.address.line2}`,
+        addressLocality: c.address.city,
+        addressCountry: c.address.country,
+      },
+      openingHours: 'Mo-Fr 08:00-17:00',
+      sameAs: c.socials.filter((x) => x.url).map((x) => x.url),
+      makesOffer: [...site.exports, ...site.imports].map((p) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Product', name: p.name, url: absolu(`/${p.direction === 'out' ? 'export' : 'import'}/${p.slug}/`, CANONIQUE) },
+      })),
+    })} />
+  )}
 </head>
 
 <body>

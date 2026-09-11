@@ -27,6 +27,7 @@ import { lien } from '../lib/lien.js';
   title="Contact us — Tungsten Import Export"
   description={`Tungsten Import Export, ${c.address.line1}, ${c.address.line2}, ${c.address.city}. Phone ${c.phone}.`}
   rail="CONTACT"
+  schema
 >
   <section class="tete section" data-type="A" data-sol="nuit" data-premier data-rail-section="CONTACT US">
     <div class="shell tete__in">
@@ -62,7 +63,7 @@ import { lien } from '../lib/lien.js';
       <dl class="index fields">
         <div class="index__l">
           <span class="t-label index__n">01</span>
-          <dt class="t-h3 index__t">Position</dt>
+          <dt class="t-h3 index__t">Location</dt>
           <dd class="t-body index__c">
             {c.address.line1}<br />{c.address.line2}<br />{c.address.city}, {c.address.country}
             <br /><a class="lnk" href={maps} rel="noopener">Open in Google Maps</a>
@@ -99,6 +100,54 @@ import { lien } from '../lib/lien.js';
     </div>
   </section>
 
+  {/* L'EQUIPE, ET SES DEUX CHEMINS POUR JOINDRE CHACUN.
+
+      Demande du client : « I need all their roles linked with WhatsApp and
+      telegram. Whichever they have. It helps diversify the contact methods
+      when pops not around. » Le besoin est clair : que le visiteur ne dependre
+      pas d'une seule personne.
+
+      Chaque carte porte donc le nom, la fonction, et deux liens : WhatsApp et
+      l'appel direct. Le numero est ramene au format international dans
+      site.json — c'est la seule forme qu'une adresse wa.me accepte.
+
+      LE TELEGRAMME N'EST PAS LA, ET CE N'EST PAS UN OUBLI. Il n'existe pas
+      d'adresse web fiable pour ouvrir une conversation Telegram a partir d'un
+      NUMERO : le lien t.me attend un nom d'utilisateur, et le seul schema qui
+      accepte un numero — tg://resolve?phone= — n'est pas une adresse web et ne
+      s'ouvre pas depuis un site. Il faut donc le nom d'utilisateur Telegram de
+      chaque personne. Poser un lien qui tombe en erreur serait pire que de ne
+      rien poser : le visiteur croirait que la maison ne repond pas.
+
+      Une grille de cartes et non un index a filets : la section precedente est
+      deja un index, et deux voisines ne se ressemblent jamais. */}
+  {c.equipe?.length > 0 && (
+    <section class="section" data-type="F" data-sol="wash" data-rail-section="THE TEAM">
+      <div class="shell">
+        <header class="equipe__head">
+          <p class="t-label t-quiet code">03 — The team</p>
+          <div class="equipe__ligne">
+            <h2 class="t-h1">Who to speak to</h2>
+            <p class="t-label t-quiet">{c.equipe.length} people</p>
+          </div>
+        </header>
+        <div class="cartes cartes--3">
+          {c.equipe.map((m) => (
+            <div class="carte equipe__c">
+              <h3 class="t-h3">{m.nom}</h3>
+              <p class="t-note t-quiet equipe__r">{m.role}</p>
+              <p class="equipe__l">
+                <a class="act act--line equipe__a"
+                   href={`https://wa.me/${m.mobile.replace('+', '')}`} rel="noopener">WhatsApp</a>
+                <a class="act act--line equipe__a" href={`tel:${m.mobile}`}>Call</a>
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
   {/* La carte pesait 1 862 Ko sur un iPhone, contre 101 a 193 pour toutes les
       autres pages : les tuiles d'OpenStreetMap se chargeaient des que le cadre
       approchait de l'ecran. Elle ne se charge donc plus qu'a la demande. Sans
@@ -120,6 +169,17 @@ import { lien } from '../lib/lien.js';
   .lnk { text-decoration: underline; text-underline-offset: 4px;
          text-decoration-thickness: 1px; }
   .fields dd .lnk + .lnk { margin-left: 18px; }
+
+  .equipe__head { margin-bottom: var(--pile); }
+  .equipe__ligne { display: flex; align-items: baseline; justify-content: space-between;
+                   gap: 20px; flex-wrap: wrap; margin-top: 16px; }
+  .equipe__c { gap: 6px; }
+  .equipe__r { margin-bottom: 8px; }
+  /* Deux actions cote a cote dans une carte : elles ne prennent pas la pleine
+     largeur comme les boutons de section, sinon elles s'empileraient et la
+     carte doublerait de hauteur pour rien. */
+  .equipe__l { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+  .equipe__a { width: auto; min-height: 44px; padding: 10px 20px; flex: 1 1 auto; }
 
   .map { width: 100%; height: clamp(320px, 55vh, 520px);
          display: grid; place-items: center; }
