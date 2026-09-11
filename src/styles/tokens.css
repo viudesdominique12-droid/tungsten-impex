@@ -464,10 +464,13 @@ h1:not([data-sol]) .accent-mot { color: inherit; }
    pour moitie des detoures sur blanc et des gros plans de matiere — on les
    montre ENTIERES, posees dans le cadre, comme une planche de catalogue.
 
-   UN FOND DE SURFACE. La moitie des fichiers sont detoures sur blanc. Poses
-   sur le bleute du site, leur blanc formait un rectangle dur — une vignette
-   collee. Le fond de la plaque est donc le blanc du site : le detourage s'y
-   fond, et ce qui reste visible est la marchandise.
+   UN PASSE-PARTOUT BLANC, CERNE D'UN FILET. La raison d'origine ecrite ici
+   etait fausse et se verifiait en une commande : elle disait « la moitie des
+   fichiers sont detoures sur blanc », la mesure du pourtour des quatorze en
+   donne DEUX — solar-lanterns et stationery-materials. Les douze autres ont
+   un pourtour colore. Le detail du raisonnement est avec la regle, plus bas ;
+   ce qu'il faut retenir ici, c'est que le fond blanc seul ne servait a
+   personne, faute d'etre visible, et que c'est le filet qui en fait un objet.
 
    ET ON N'AGRANDIT TOUJOURS PAS. L'image garde sa taille reelle si elle est
    plus petite que la plaque : `max-width`/`max-height` a 100 %, largeur et
@@ -500,7 +503,35 @@ h1:not([data-sol]) .accent-mot { color: inherit; }
   aspect-ratio: var(--prop, 3 / 2);
   width: 100%; max-width: 568px;   /* + 2 x 26px de rembourrage = 620px */
   padding: clamp(14px, 2vw, 26px);
+  /* UN FILET PLUTOT QU'UN FOND BLANC.
+
+     Le fond etait --surface, le blanc du site, pose sur --bg, le bleute du
+     site. Mesure : rgb(251,253,255) contre rgb(242,245,249), soit un rapport
+     de contraste de 1,072:1 — trois pas de luminance par canal. Ce n'etait
+     pas un cadre discret, c'etait un cadre invisible : 28px de largeur et une
+     forme en goutte payes pour une frontiere que personne ne voit.
+
+     Et la raison ecrite pour ce fond etait fausse. Le commentaire disait « la
+     moitie des fichiers sont detoures sur blanc » ; la mesure du pourtour des
+     quatorze (6px sur les quatre bords) en donne DEUX, solar-lanterns et
+     stationery-materials. Les douze autres ont un pourtour colore, de 1,53:1
+     a 9,13:1. Et pour les deux vrais detoures, le fond blanc n'apportait rien
+     non plus : le retirer leur coute huit et neuf centiemes de contraste.
+
+     La correction n'est donc pas de retirer le fond : c'est de lui donner un
+     BORD. Essai fait sans fond, filet seul : la bande de passe-partout prend
+     la couleur du sol et l'on voit deux bords au lieu d'un — le filet, puis
+     l'image. Avec le fond blanc ET le filet, on retrouve ce qu'est vraiment
+     l'objet : un passe-partout blanc, cerne, et la photographie dedans. Le
+     blanc redevient visible parce que le filet le delimite, et les deux
+     fichiers detoures cessent de se dissoudre dedans.
+
+     C'est aussi la langue du site : le filet est un jeton, et le type H est
+     un index a filets. Et la largeur de la marchandise ne bouge pas d'un
+     pixel — le client a valide les dimensions, on ne corrige que ce qu'il ne
+     voyait pas. */
   background: var(--surface);
+  border: 1px solid rgba(10, 26, 51, .18);
   border-radius: var(--goutte-carte);
   overflow: hidden;
 }
@@ -515,6 +546,8 @@ h1:not([data-sol]) .accent-mot { color: inherit; }
   width: auto; height: auto;
   max-width: 100%; max-height: 100%;
   min-width: 0; min-height: 0;
+  /* Angles droits, comme la coupe d'un vrai passe-partout : le rayon en
+     goutte appartient au cadre, la photographie est posee dedans. */
   border-radius: 0;
 }
 .plaque figcaption { display: none; }
